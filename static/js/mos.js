@@ -1,6 +1,6 @@
 'use strict'
 
-var mos = (function() {
+var MOS = (function() {
   var module = {};
 
   return module;
