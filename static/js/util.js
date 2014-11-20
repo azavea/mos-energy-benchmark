@@ -1,6 +1,6 @@
 'use strict'
 
-mos.util = (function() {
+MOS.util = (function() {
   var module = {};
 
   module.seed = function(len, max) {
