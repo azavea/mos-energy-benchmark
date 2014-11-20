@@ -2,9 +2,9 @@
 
 MOS.barchart = (function() {
     var module = {};
-    var data = MOS.util.seed(10);
 
-    module.plot = function() {
+    // data should be an array of numbers you'd like plotted
+    module.plot = function(data) {
         var width = 400,
             barHeight = 20;
 
@@ -33,9 +33,6 @@ MOS.barchart = (function() {
 
     };
 
-
-
 return module;
-
 }());
 
