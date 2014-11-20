@@ -1,6 +1,6 @@
 'use strict'
 
-var util = (function() {
+mos.util = (function() {
   var module = {};
 
   module.seed = function(len, max) {
@@ -11,11 +11,6 @@ var util = (function() {
     return randoms;
   };
 
-  console.log(module.seed());
-
   return module;
-
 }());
-
-
 

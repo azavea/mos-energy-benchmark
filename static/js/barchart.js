@@ -1,8 +1,8 @@
 'use strict'
 
-var barchart = (function() {
+mos.barchart = (function() {
     var module = {};
-    var data = util.seed(10);
+    var data = mos.util.seed(10);
 
     module.plot = function() {
         var width = 400,
@@ -38,6 +38,4 @@ var barchart = (function() {
 return module;
 
 }());
-
-
 
