@@ -1,0 +1,17 @@
+{
+    "browser": true,
+    "camelcase": true,
+    "curly": true,
+    "eqeqeq": true,
+    "quotmark": "single",
+    "undef": true,
+    "unused": true,
+    "strict": true,
+    "trailing": true,
+    "smarttabs": true,
+    "globals": {
+        "$": true,
+        "d3": true,
+        "MOS": true
+    }
+}
