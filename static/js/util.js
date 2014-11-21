@@ -1,9 +1,9 @@
-'use strict'
+'use strict';
 
-MOS.util = (function() {
-  var module = {};
+(function(mos) {
+  mos.util = {};
 
-  module.seed = function(len, max) {
+  mos.util.seed = function(len, max) {
     var len = typeof len === 'undefined' ? 50 : len,
         max = typeof max === 'undefined' ? 100 : max,
         randoms = [];
@@ -11,6 +11,5 @@ MOS.util = (function() {
     return randoms;
   };
 
-  return module;
-}());
+}(MOS));
 

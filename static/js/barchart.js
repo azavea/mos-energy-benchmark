@@ -1,10 +1,10 @@
-'use strict'
+'use strict';
 
-MOS.barchart = (function() {
-    var module = {};
+(function(mos) {
+    mos.barchart = {};
 
     // data should be an array of numbers you'd like plotted
-    module.plot = function(data) {
+    mos.barchart.plot = function(data) {
         var width = 400,
             barHeight = 20;
 
@@ -12,7 +12,7 @@ MOS.barchart = (function() {
             .domain([0, d3.max(data)])
             .range([0, width]);
 
-        var chart = d3.select("svg#bar-chart")
+        var chart = d3.select(mos.config.barchart.domId)
             .attr("width", width)
             .attr("height", barHeight * data.length);
 
@@ -33,6 +33,5 @@ MOS.barchart = (function() {
 
     };
 
-return module;
-}());
+}(MOS));
 
