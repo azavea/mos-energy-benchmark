@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-python -m SimpleHTTPServer 8080
+python -m SimpleHTTPServer 4444
