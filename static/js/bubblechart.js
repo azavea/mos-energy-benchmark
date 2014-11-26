@@ -41,6 +41,7 @@ MOS.BubbleChart = (function(MOS) {
      *  @return none
      */
     BubbleChart.prototype.plot = function(data) {
+        var opts = this.options;
 
         var datumX = function(datum) { return datum[0]; };
         var datumY = function(datum) { return datum[1]; };
@@ -48,15 +49,13 @@ MOS.BubbleChart = (function(MOS) {
 
         var x = d3.scale.linear()
                 .domain([0, d3.max(data, datumX)])
-                .range([this.options.margin + this.options.padding,
-                        this.options.width - this.options.margin -
-                        this.options.padding]);
+                .range([opts.margin + opts.padding,
+                        opts.width - opts.margin - opts.padding]);
 
         var y = d3.scale.linear()
                 .domain([0, d3.max(data, datumY)])
-                .range([this.options.height - this.options.margin -
-                        this.options.padding,
-                        this.options.margin + this.options.padding]);
+                .range([opts.height - opts.margin - opts.padding,
+                        opts.margin + opts.padding]);
 
         var a = d3.scale.linear()
                 .domain([0, d3.max(data, datumA)])
