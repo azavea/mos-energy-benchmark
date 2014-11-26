@@ -9,7 +9,11 @@ $(document).ready(function() {
     });
     barchart.plot(MOS.Util.seed(15, 100));
 
-    var bubblechart = MOS.bubblechart("svg#bubble-chart", 800, 400, 50, 25);
+    var bubblechart = new MOS.BubbleChart({
+        id: 'svg#bubble-chart',
+        width: 800,
+        height: 400
+    });
     var bubbles = [[0,0,10],
                    [1,1,20],
                    [3,3,100],
