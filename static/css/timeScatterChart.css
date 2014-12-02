@@ -1,0 +1,41 @@
+#time-scatter-chart {
+  margin-top: 40px;
+}
+
+#time-scatter-chart .chart {
+  width: 800px;
+  height: 400px;
+}
+
+#time-scatter-chart .controls {
+  margin: 0 20px;
+}
+
+#time-scatter-chart .legend {
+  padding: 5px;
+  font: 10px sans-serif;
+  background: yellow;
+  box-shadow: 2px 2px 1px #888;
+}
+
+#time-scatter-chart .title {
+  font: 13px sans-serif;
+  fill: #000;
+}
+
+#time-scatter-chart circle {
+  stroke-width: 1px;
+  stroke: #111;
+  stroke-opacity: 0.5;
+}
+
+#time-scatter-chart line {
+  fill: #000;
+  stroke: #000;
+  stroke-width: 3px;
+}
+
+#time-scatter-chart text {
+  fill: #000;
+  font: 13px sans-serif;
+}
