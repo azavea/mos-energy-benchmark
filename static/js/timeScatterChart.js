@@ -76,7 +76,11 @@ MOS.TimeScatterChart = (function(MOS) {
         var xIndex = dimensions.indexOf(xAttr);
         var yIndex = dimensions.indexOf(yAttr);
 
+        // Create the svg chart element
+        $(containerId).append('<svg class="chart"></svg>');
+
         // Create the controls
+        // TODO: break out controller creation/logic/event handling into a separate module
         var controlsTemplate = ''
                 + '<div class="controls">'
                 + '  <div class="axis x">'

@@ -5,12 +5,12 @@ $(document).ready(function() {
     'use strict';
 
     // The majority of charts only require current data
-    var currDataPromise = MOS.Data.getCurrentDataPromise();
-    currDataPromise.fail(function(err) {
+    var currData = MOS.Data.getCurrentData();
+    currData.fail(function(err) {
         console.error('Error getting current data: ', err);
     });
-    currDataPromise.done(function(currData) {
-        var rows = currData.rows;
+    currData.done(function(data) {
+        var rows = data.rows;
 
         // TODO: make bar chart use real data
         var barchart = new MOS.BarChart({
@@ -31,12 +31,12 @@ $(document).ready(function() {
     });
 
     // The scatter over time chart requires both previous data and current data
-    var prevDataPromise = MOS.Data.getPreviousDataPromise();
-    prevDataPromise.fail(function(err) {
+    var prevData = MOS.Data.getPreviousData();
+    prevData.fail(function(err) {
         console.error('Error getting previous data: ', err);
     });
 
-    $.when(currDataPromise, prevDataPromise).done(function(currData, prevData) {
+    $.when(currData, prevData).done(function(curr, prev) {
         var timeScatterChart = new MOS.TimeScatterChart({
             containerId: '#time-scatter-chart',
             width: 800,
@@ -54,6 +54,6 @@ $(document).ready(function() {
             currRadius: 10,
             transitionMillis: 500
         });
-        timeScatterChart.plot(MOS.Data.getCombinedData(currData, prevData));
+        timeScatterChart.plot(MOS.Data.getCombinedData(curr, prev));
     });
 });

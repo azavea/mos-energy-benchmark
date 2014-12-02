@@ -3,17 +3,32 @@ MOS.Data = (function(MOS) {
 
     var module = {};
 
-    // Retrieves the current data and returns a promise
-    module.getCurrentDataPromise = function () {
-        return getDataPromise(MOS.Config.data.currQuery);
+    /*
+     *  Retrieves the current data from CartoDB
+     *
+     *  @return jQuery.Deferred object
+     */
+    module.getCurrentData = function () {
+        return makeCartoDBRequest(MOS.Config.data.currQuery);
     };
 
-    // Retrieves the previous data and returns a promise
-    module.getPreviousDataPromise = function () {
-        return getDataPromise(MOS.Config.data.prevQuery);
+    /*
+     *  Retrieves the previous data from CartoDB
+     *
+     *  @return jQuery.Deferred object
+     */
+    module.getPreviousData = function () {
+        return makeCartoDBRequest(MOS.Config.data.prevQuery);
     };
 
-    // Combines the rows, keeps the ones where data exists for both years, and returns an array
+    /*
+     * Combines the rows, keeps the ones where data exists for both years
+     *
+     * @param currData Object returned from CartoDB representing current data
+     *     prevData Object returned from CartoDB representing previous data
+     *
+     * @return Array of merged data
+     */
     module.getCombinedData = function (currData, prevData) {
         var currRows = currData[0].rows;
         var prevRows = prevData[0].rows;
@@ -41,8 +56,8 @@ MOS.Data = (function(MOS) {
         return dataArr;
     };
 
-    // Helper for getting data and returning a promise
-    function getDataPromise(query) {
+    // Helper for getting data from CartoDB and returning a promise
+    function makeCartoDBRequest(query) {
         return $.ajax({
             type: 'GET',
             url: MOS.Config.data.url,
