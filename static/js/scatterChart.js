@@ -1,8 +1,8 @@
-MOS.BubbleChart = (function(MOS) {
+MOS.ScatterChart = (function(MOS) {
     'use strict'
 
     /*
-     * BubbleChart Constructor
+     * ScatterChart Constructor
      * @param options Object
      *      id: the selector passed to d3.select()
      *      width: the total width of the chart
@@ -13,9 +13,9 @@ MOS.BubbleChart = (function(MOS) {
      *               the edge of the axis
      * @return none
      */
-    function BubbleChart(options) {
+    function ScatterChart(options) {
         var defaults = {
-            id: 'mos-bubblechart',
+            id: 'mos-scatterchart',
             margin: 25,
             padding: 25
         };
@@ -36,11 +36,11 @@ MOS.BubbleChart = (function(MOS) {
     }
 
     /*
-     *  Replot the bubble chart with the passed data series
+     *  Replot the scatter chart with the passed data series
      *  @param data Array values to plot [ [x, y, area], [x, y, area], ... ]
      *  @return none
      */
-    BubbleChart.prototype.plot = function(data) {
+    ScatterChart.prototype.plot = function(data) {
         var opts = this.options;
 
         var datumX = function(datum) { return datum[0]; };
@@ -89,5 +89,5 @@ MOS.BubbleChart = (function(MOS) {
         circles.exit().remove();
     };
 
-    return BubbleChart;
+    return ScatterChart;
 }(MOS));

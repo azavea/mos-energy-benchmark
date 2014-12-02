@@ -19,15 +19,15 @@ $(document).ready(function() {
         barchart.plot(MOS.Util.seed(15, 100));
 
         // TODO: make bubble chart use real data
-        var bubblechart = new MOS.BubbleChart({
-            id: 'svg#bubble-chart',
+        var scatterchart = new MOS.ScatterChart({
+            id: 'svg#scatter-chart',
             width: 800,
             height: 400
         });
-        var bubbles = [[0,0,10], [1,1,20], [3,3,100], [1,3,150], [3,1,300]];
-        bubblechart.plot(bubbles);
-        bubbles = [[10,5,100], [20,9,20], [15,7,100], [12,3,150], [11,1,300]];
-        bubblechart.plot(bubbles);
+        var scatter = [[0,0,10], [1,1,20], [3,3,100], [1,3,150], [3,1,300]];
+        scatterchart.plot(scatter);
+        scatter = [[10,5,100], [20,9,20], [15,7,100], [12,3,150], [11,1,300]];
+        scatterchart.plot(scatter);
     });
 
     // The scatter over time chart requires both previous data and current data
