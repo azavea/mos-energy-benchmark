@@ -3,3 +3,8 @@
   fill: none;
   stroke: #666;
 }
+
+#scatter-chart text {
+  fill: #000;
+  font: 13px sans-serif;
+}

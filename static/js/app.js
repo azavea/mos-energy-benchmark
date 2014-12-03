@@ -18,16 +18,21 @@ $(document).ready(function() {
         });
         barchart.plot(MOS.Util.seed(15, 100));
 
-        // TODO: make bubble chart use real data
         var scatterchart = new MOS.ScatterChart({
-            id: 'svg#scatter-chart',
+            id: '#scatter-chart',
             width: 800,
-            height: 400
+            height: 400,
+            pointFillColor: '#14bfd6',
+            pointStrokeColor: '#2e9ec6',
+            margins: {left: 80, right: 10, top: 10, bottom: 30},
+            dimensions: ['eui', 'energystar', 'emissions'],
+            xDefaultDim: 'eui',
+            yDefaultDim: 'emissions',
+            areaDefaultDim: 'energystar',
+            minRadius: 1,
+            maxRadius: 6
         });
-        var scatter = [[0,0,10], [1,1,20], [3,3,100], [1,3,150], [3,1,300]];
-        scatterchart.plot(scatter);
-        scatter = [[10,5,100], [20,9,20], [15,7,100], [12,3,150], [11,1,300]];
-        scatterchart.plot(scatter);
+        scatterchart.plot(rows);
     });
 
     // The scatter over time chart requires both previous data and current data
@@ -41,7 +46,7 @@ $(document).ready(function() {
             containerId: '#time-scatter-chart',
             width: 800,
             height: 400,
-            margins: [20, 20, 20, 100],
+            margins: {top: 20, right: 20, bottom: 20, left: 100},
             labels: MOS.Config.labels,
             dimensions: ['eui', 'energystar', 'emissions'],
             xDefault: 'eui',
@@ -56,4 +61,5 @@ $(document).ready(function() {
         });
         timeScatterChart.plot(MOS.Data.getCombinedData(curr, prev));
     });
+
 });
