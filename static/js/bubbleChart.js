@@ -14,6 +14,8 @@ MOS.BubbleChart = (function(MOS) {
     function BubbleChart(options) {
         var defaults = {
             id: 'mos-bubblechart',
+            width: 400,
+            height: 400,
             padding: 25,
             transitionTime: 500
         };
