@@ -8,6 +8,8 @@ MOS.TimeScatterChart = (function(MOS) {
      *      containerId: String container element selector
      *      width: Int width of the chart
      *      height: Int height of the chart
+     *      margins: object specifying distance from chart to edges of axes.
+     *               Formatted: {left: x1, right: x2, top: y1, bottom: y2}
      *      margins: Array[top, right, bottom, left] margins of the chart
      *      labels: Dictionary lookup dictionary of attribute to label
      *      dimensions: Array[String] the available attributes to be charted
@@ -28,7 +30,7 @@ MOS.TimeScatterChart = (function(MOS) {
             containerId: '#time-scatter-chart',
             width: 800,
             height: 400,
-            margins: [30, 10, 10, 10],
+            margins: {top: 30, right: 10, bottom: 10, left: 10},
             labels: {
                 eui: 'EUI',
                 emissions: 'Emissions',
@@ -61,8 +63,8 @@ MOS.TimeScatterChart = (function(MOS) {
         var yAxisId = containerId + ' .controls .axis.y select';
         var margins = this.options.margins;
         var labels = this.options.labels;
-        var width = this.options.width - margins[1] - margins[3];
-        var height = this.options.height - margins[0] - margins[2];
+        var width = this.options.width - margins.right - margins.left;
+        var height = this.options.height - margins.top - margins.bottom;
         var dimensions = this.options.dimensions;
         var prevColor = this.options.prevColor;
         var currColor = this.options.currColor;
@@ -97,7 +99,7 @@ MOS.TimeScatterChart = (function(MOS) {
         // Create the D3 svg graphic element
         var svg = d3.select(chartId)
                 .append('g')
-                .attr('transform', 'translate(' + margins[3] + ',' + margins[0] + ')');
+                .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')');
 
         // Calculate extents for each dimension
         var extents = _.map(dimensions, function(dimension) {

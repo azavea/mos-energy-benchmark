@@ -18,14 +18,13 @@ $(document).ready(function() {
         });
         barchart.plot(MOS.Util.seed(15, 100));
 
-        // TODO: make bubble chart use real data
         var scatterchart = new MOS.ScatterChart({
             id: '#scatter-chart',
             width: 800,
             height: 400,
             pointFillColor: '#14bfd6',
             pointStrokeColor: '#2e9ec6',
-            margins: {l: 80, r: 10, t: 10, b: 30},
+            margins: {left: 80, right: 10, top: 10, bottom: 30},
             dimensions: ['eui', 'energystar', 'emissions'],
             xDefaultDim: 'eui',
             yDefaultDim: 'emissions',
@@ -47,7 +46,7 @@ $(document).ready(function() {
             containerId: '#time-scatter-chart',
             width: 800,
             height: 400,
-            margins: [20, 20, 20, 100],
+            margins: {top: 20, right: 20, bottom: 20, left: 100},
             labels: MOS.Config.labels,
             dimensions: ['eui', 'energystar', 'emissions'],
             xDefault: 'eui',

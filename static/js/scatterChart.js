@@ -9,9 +9,8 @@ MOS.ScatterChart = (function(MOS) {
      *      height: the total height of the chart
      *      pointFillColor: The color to fill points with
      *      pointStrokeColor: The color to stroke points with
-     *      margin: object specifying distance from chart to edges of axes.
-     *              Formatted: {l: x1, r: x2, t: y1, b: y2} for left, right,
-     *              top, bottom margins respectively.
+     *      margins: object specifying distance from chart to edges of axes.
+     *               Formatted: {left: x1, right: x2, top: y1, bottom: y2}
      *      xDefaultDim: The default dimension to use on the x-axis
      *      yDefaultDim: The default dimension to use on the y-axis
      *      areaDefaultDim: The default dimension to use for scaling point area
@@ -26,7 +25,7 @@ MOS.ScatterChart = (function(MOS) {
             height: 400,
             pointFillColor: '#14bfd6',
             pointStrokeColor: '#2e9ec6',
-            margins: {l: 80, r: 10, t: 10, b: 30},
+            margins: {top: 10, right: 10, bottom: 30, left: 30},
             xDefaultDim: 'eui',
             yDefaultDim: 'emissions',
             areaDefaultDim: 'energystar',
@@ -42,12 +41,12 @@ MOS.ScatterChart = (function(MOS) {
         this.leftaxis = d3.svg.axis().orient('left');
         this.leftaxisg = this.chart.append('g')
                         .attr('class', 'y axis')
-                        .attr('transform', 'translate(' + this.options.margins.l + ',0)');
+                        .attr('transform', 'translate(' + this.options.margins.left + ',0)');
         this.bottomaxis = d3.svg.axis().orient('bottom');
         this.bottomaxisg = this.chart.append('g')
                            .attr('class', 'x axis')
                            .attr('transform', 'translate(0, ' +
-                                       (this.options.height - this.options.margins.b) +
+                                       (this.options.height - this.options.margins.bottom) +
                                        ')');
     }
 
@@ -67,20 +66,20 @@ MOS.ScatterChart = (function(MOS) {
         var datumY = function(datum) { return datum[yDim] < 1 ? 1 : datum[yDim]; };
         // Return the radius of a circle with area of this item
         var datumR = function(datum) {
-            return Math.sqrt(datum[areaDim]/Math.PI);
+            return Math.sqrt(datum[areaDim] / Math.PI);
         };
 
         // Create SVG element inside container
         // Set up scaling and axes
         var x = d3.scale.log()
                 .domain([1, d3.max(data, datumX)])
-                .range([opts.margins.l,
-                        opts.width - opts.margins.r]);
+                .range([opts.margins.left,
+                        opts.width - opts.margins.right]);
 
         var y = d3.scale.log()
                 .domain([1, d3.max(data, datumY)])
-                .range([opts.height - opts.margins.b,
-                        opts.margins.t]);
+                .range([opts.height - opts.margins.bottom,
+                        opts.margins.top]);
 
         var r = d3.scale.linear()
                 .domain([0, d3.max(data, datumR)])
