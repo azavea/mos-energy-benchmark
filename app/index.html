@@ -1,65 +1,59 @@
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-
+<html class="no-js">
   <head>
     <meta charset="utf-8">
-    <title>Energy Use n' Such</title>
-
+    <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <meta charset="utf-8">
-    <link href="css/d3-common.css" media="all" rel="stylesheet" type="text/css">
-    <link href="css/barChart.css" media="all" rel="stylesheet" type="text/css">
-    <link href="css/bubbleChart.css" media="all" rel="stylesheet" type="text/css">
-    <link href="css/scatterChart.css" media="all" rel="stylesheet" type="text/css">
-    <link href="css/timeScatterChart.css" media="all" rel="stylesheet" type="text/css">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
   </head>
-  <body>
+  <body ng-app="mosEnergyBenchmarkApp">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!--Each section can a d3 element-->
-    <section class="view">
-      <svg id="barchart"></svg>
-    </section>
+    <!-- Add your site or application content here -->
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li class="active"><a ng-href="#">Charts</a></li>
+          <li><a ng-href="#">Map</a></li>
+          <li><a ng-href="#">Info</a></li>
+        </ul>
+        <h3 class="text-muted">MOS Energy Benchmark</h3>
+      </div>
 
-    <section id="scatter-chart" class="view">
-    </section>
+      <div ui-view></div>
+    </div>
 
-    <section class="view">
-      <select id="bubble-chart-selector">
-          <option value="eui">EUI</option>
-          <option value="energystar">Energy Star Score</option>
-          <option value="emissions">Building Emissions</option>
-      </select>
-      <svg id="bubble-chart"></svg>
-    </section>
-
-    <section id="time-scatter-chart" class="view">
-    </section>
-
+    <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.0.3/es5-shim.js"></script>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
     <![endif]-->
+    <!-- endbuild -->
 
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/lodash/dist/lodash.min.js"></script>
-    <script src="bower_components/handlebars/handlebars.min.js"></script>
-    <script src="bower_components/d3/d3.min.js"></script>
-    <script src="bower_components/d3-tip/index.js"></script>
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
 
-    <script src="js/mos/mos.js"></script>
-    <script src="js/mos/config.js"></script>
-    <script src="js/mos/util.js"></script>
-    <script src="js/mos/data.js"></script>
-    <script src="js/mos/charts/barChart.js"></script>
-    <script src="js/mos/charts/bubbleChart.js"></script>
-    <script src="js/mos/charts/scatterChart.js"></script>
-    <script src="js/mos/charts/timeScatterChart.js"></script>
-    <script src="js/app.js"></script>
-  </body>
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <!-- endbuild -->
+</body>
 </html>
