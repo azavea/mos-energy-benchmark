@@ -1,0 +1,18 @@
+{
+  "name": "mos-energy-benchmark",
+  "version": "0.0.0",
+  "homepage": "https://github.com/azavea/mos-energy-benchmark",
+  "authors": [
+    "CloudNiner <andrew.fink.11@gmail.com>"
+  ],
+  "description": "mos-energy-benchmark",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
