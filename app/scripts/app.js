@@ -1,16 +1,24 @@
+(function () {
 'use strict';
 
-/**
- * @ngdoc overview
- * @name mosEnergyBenchmarkApp
- * @description
- * # mosEnergyBenchmarkApp
- *
- * Main module of the application.
- */
-angular
-  .module('mosEnergyBenchmarkApp', [
-    'ngAnimate',
-    'ngCookies',
-    'ngMessages'
-  ]);
+    /**
+     * ngInject
+     */
+    function StateConfig($urlRouterProvider) {
+        $urlRouterProvider.otherwise('/');
+    }
+
+    /**
+     * @ngdoc overview
+     * @name mos
+     * @description
+     * # mos
+     *
+     * Main module of the application.
+     */
+    angular
+    .module('mos', [
+        'mos.views.charts'
+    ]).config(StateConfig);
+
+})();

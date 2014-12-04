@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="mosEnergyBenchmarkApp">
+  <body ng-app="mos">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -23,9 +23,9 @@
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li class="active"><a ng-href="#">Charts</a></li>
-          <li><a ng-href="#">Map</a></li>
-          <li><a ng-href="#">Info</a></li>
+          <li class="active"><a ui-sref="charts">Charts</a></li>
+          <li><a ui-sref="map">Map</a></li>
+          <li><a ui-sref="info">Info</a></li>
         </ul>
         <h3 class="text-muted">MOS Energy Benchmark</h3>
       </div>
@@ -51,9 +51,14 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/main.js"></script>
-        <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/cartodb/cartodb-api-config.js"></script>
+    <script src="scripts/cartodb/cartodb-api-service.js"></script>
+
+    <script src="scripts/views/charts/module.js"></script>
+    <script src="scripts/views/charts/charts-controller.js"></script>
+
+    <script src="scripts/app.js"></script>
+    <!-- endbuild -->
 </body>
 </html>
