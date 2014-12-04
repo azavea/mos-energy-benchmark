@@ -13,6 +13,7 @@
     <meta charset="utf-8">
     <link href="static/css/bars.css" media="all" rel="stylesheet" type="text/css">
     <link href="static/css/scatterChart.css" media="all" rel="stylesheet" type="text/css">
+    <link href="static/css/bubbleChart.css" media="all" rel="stylesheet" type="text/css">
     <link href="static/css/d3-common.css" media="all" rel="stylesheet" type="text/css">
     <link href="static/css/timeScatterChart.css" media="all" rel="stylesheet" type="text/css">
   </head>
@@ -27,6 +28,15 @@
     </section>
 
     <section id="scatter-chart" class="view">
+    </section>
+
+    <section class="view">
+      <select id="bubble-chart-selector">
+          <option value="eui">EUI</option>
+          <option value="energystar">Energy Star Score</option>
+          <option value="emissions">Building Emissions</option>
+      </select>
+      <svg id="bubble-chart"></svg>
     </section>
 
     <section id="time-scatter-chart" class="view">
@@ -46,6 +56,7 @@
     <script src="static/js/data.js"></script>
     <script src="static/js/barchart.js"></script>
     <script src="static/js/scatterChart.js"></script>
+    <script src="static/js/bubbleChart.js"></script>
     <script src="static/js/timeScatterChart.js"></script>
     <script src="static/js/app.js"></script>
   </body>

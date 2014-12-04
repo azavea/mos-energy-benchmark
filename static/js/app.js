@@ -35,6 +35,21 @@ $(document).ready(function() {
         scatterchart.plot(rows);
     });
 
+    // Data grouped by building type
+    var bubblechart = new MOS.BubbleChart({
+        id: 'svg#bubble-chart',
+        width: 800,
+        height: 800
+    });
+    var groupedData = MOS.Data.getGroupedData();
+    groupedData.done(function(data) {
+        bubblechart.data(data.rows);
+        bubblechart.plot($('#bubble-chart-selector').val());
+        $('#bubble-chart-selector').change(function () {
+            bubblechart.plot($('#bubble-chart-selector').val());
+        });
+    });
+
     // The scatter over time chart requires both previous data and current data
     var prevData = MOS.Data.getPreviousData();
     prevData.fail(function(err) {

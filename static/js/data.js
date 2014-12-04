@@ -22,6 +22,15 @@ MOS.Data = (function(MOS) {
     };
 
     /*
+     *  Retrieves the grouped data from CartoDB
+     *
+     *  @return jQuery.Deferred object
+     */
+    module.getGroupedData = function () {
+        return makeCartoDBRequest(MOS.Config.data.groupedQuery);
+    };
+
+    /*
      * Combines the rows, keeps the ones where data exists for both years
      *
      * @param currData Object returned from CartoDB representing current data

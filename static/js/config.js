@@ -34,7 +34,16 @@ MOS.Config = (function(MOS) {
             + ', total_ghg AS emissions'
             + ', energy_sta AS energystar'
             + ', site_eui__ AS eui'
+            + ' FROM mos_beb_2013',
+
+        groupedQuery: 'SELECT'
+            + ' city_desig as name'
+            + ', count(*) as count'
+            + ', sum(site_eui__) as eui'
+            + ', avg(energy_sta) as energystar'
+            + ', sum(total_ghg) as emissions'
             + ' FROM mos_beb_2013'
+            + ' GROUP BY city_desig'
     };
 
     return module;
