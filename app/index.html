@@ -11,11 +11,11 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <meta charset="utf-8">
-    <link href="static/css/bars.css" media="all" rel="stylesheet" type="text/css">
-    <link href="static/css/scatterChart.css" media="all" rel="stylesheet" type="text/css">
+    <link href="css/d3-common.css" media="all" rel="stylesheet" type="text/css">
+    <link href="css/bars.css" media="all" rel="stylesheet" type="text/css">
     <link href="static/css/bubbleChart.css" media="all" rel="stylesheet" type="text/css">
-    <link href="static/css/d3-common.css" media="all" rel="stylesheet" type="text/css">
-    <link href="static/css/timeScatterChart.css" media="all" rel="stylesheet" type="text/css">
+    <link href="css/scatterChart.css" media="all" rel="stylesheet" type="text/css">
+    <link href="css/timeScatterChart.css" media="all" rel="stylesheet" type="text/css">
   </head>
   <body>
     <!--[if lt IE 7]>
@@ -46,18 +46,20 @@
       <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.0.3/es5-shim.js"></script>
     <![endif]-->
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.3/d3-tip.min.js"></script>
-    <script src="static/js/mos.js"></script>
-    <script src="static/js/config.js"></script>
-    <script src="static/js/util.js"></script>
-    <script src="static/js/data.js"></script>
-    <script src="static/js/barchart.js"></script>
-    <script src="static/js/scatterChart.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/lodash/dist/lodash.min.js"></script>
+    <script src="bower_components/handlebars/handlebars.min.js"></script>
+    <script src="bower_components/d3/d3.min.js"></script>
+    <script src="bower_components/d3-tip/index.js"></script>
+
+    <script src="js/mos/mos.js"></script>
+    <script src="js/mos/config.js"></script>
+    <script src="js/mos/util.js"></script>
+    <script src="js/mos/data.js"></script>
+    <script src="js/mos/charts/barchart.js"></script>
     <script src="static/js/bubbleChart.js"></script>
-    <script src="static/js/timeScatterChart.js"></script>
-    <script src="static/js/app.js"></script>
+    <script src="js/mos/charts/scatterChart.js"></script>
+    <script src="js/mos/charts/timeScatterChart.js"></script>
+    <script src="js/app.js"></script>
   </body>
 </html>
