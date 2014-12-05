@@ -1,17 +1,11 @@
 (function () {
     'use strict';
 
-    var logData = function (data) {
-        console.log(data);
-    };
-
     /*
      * ngInject
      */
-    function ChartsController($scope, CartoConfig, CartoSQLAPI) {
-        CartoSQLAPI.getCurrentData().then(logData);
-        CartoSQLAPI.getPreviousData().then(logData);
-        CartoSQLAPI.getGroupedData().then(logData);
+    function ChartsController($scope, currentData) {
+        $scope.currentData = currentData.data.rows;
     }
 
     angular.module('mos.views.charts')

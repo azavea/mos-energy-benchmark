@@ -8,7 +8,12 @@
         $stateProvider.state('charts', {
             url: '/',
             templateUrl: 'scripts/views/charts/charts-partial.html',
-            controller: 'ChartsController'
+            controller: 'ChartsController',
+            resolve: /*@ngInject*/ {
+                currentData: function (CartoSQLAPI) {
+                    return CartoSQLAPI.getCurrentData();
+                }
+            }
         });
     }
 
@@ -21,7 +26,8 @@
     angular
       .module('mos.views.charts', [
         'ui.router',
-        'mos.cartodb'
+        'mos.cartodb',
+        'mos.charting'
       ]).config(StateConfig);
 
 })();

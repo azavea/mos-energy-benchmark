@@ -2,7 +2,7 @@
 <html class="no-js">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>MOS - Energy Benchmarking</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -48,6 +48,8 @@
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-messages/angular-messages.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/d3-tip/index.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -55,6 +57,10 @@
     <!-- IMPORTANT: When you add a file here, add it in the same order in karma.conf.js -->
     <script src="scripts/cartodb/cartodb-api-config.js"></script>
     <script src="scripts/cartodb/cartodb-api-service.js"></script>
+
+    <script src="scripts/charting/module.js"></script>
+    <script src="scripts/charting/charting-controller.js"></script>
+    <script src="scripts/charting/scatterplot-directive.js"></script>
 
     <script src="scripts/views/charts/module.js"></script>
     <script src="scripts/views/charts/charts-controller.js"></script>
