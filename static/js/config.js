@@ -23,27 +23,27 @@ MOS.Config = (function(MOS) {
         prevQuery: 'SELECT'
             + ' property_id AS id'
             + ', property_name AS propertyname'
-            + ', total_ghg_emissions_mtco2e::real AS emissions'
+            + ', total_ghg_emissions_mtco2e AS emissions'
             + ', energy_star_score AS energystar'
-            + ', site_eui_kbtu_ft::real AS eui'
+            + ', site_eui_kbtu_ft AS eui'
             + ' FROM mos_beb_2012',
 
         currQuery: 'SELECT'
-            + ' portfolio AS id'
-            + ', property_n AS propertyname'
+            + ' portfolio_bldg_id AS id'
+            + ', property_name AS propertyname'
             + ', total_ghg AS emissions'
-            + ', energy_sta AS energystar'
-            + ', site_eui__ AS eui'
+            + ', energy_star AS energystar'
+            + ', site_eui AS eui'
             + ' FROM mos_beb_2013',
 
         groupedQuery: 'SELECT'
-            + ' city_desig as name'
+            + ' sector as name'
             + ', count(*) as count'
-            + ', sum(site_eui__) as eui'
-            + ', avg(energy_sta) as energystar'
+            + ', sum(site_eui) as eui'
+            + ', avg(energy_star) as energystar'
             + ', sum(total_ghg) as emissions'
             + ' FROM mos_beb_2013'
-            + ' GROUP BY city_desig'
+            + ' GROUP BY sector'
     };
 
     return module;
