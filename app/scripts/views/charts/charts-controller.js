@@ -4,10 +4,10 @@
     /*
      * ngInject
      */
-    function ChartsController($scope, ChartingUtils, currentData, groupedData) {
+    function ChartsController($scope, CartoSQLAPI, ChartingUtils, currentData, groupedData, previousData) {
         $scope.currentData = currentData.data.rows;
         $scope.groupedData = groupedData.data.rows;
-
+        $scope.combinedData = CartoSQLAPI.getCombinedData(currentData.data, previousData.data);
         $scope.seedData = ChartingUtils.seed(20);
     }
 

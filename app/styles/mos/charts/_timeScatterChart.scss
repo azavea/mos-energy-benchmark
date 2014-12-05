@@ -1,41 +1,46 @@
-#time-scatter-chart {
+.mos-time-scatterchart {
   margin-top: 40px;
 }
 
-#time-scatter-chart .chart {
+.mos-time-scatterchart .chart {
   width: 800px;
   height: 400px;
 }
 
-#time-scatter-chart .controls {
+.mos-time-scatterchart .controls {
   margin: 0 20px;
 }
 
-#time-scatter-chart .legend {
+.mos-time-scatterchart .legend {
   padding: 5px;
   font: 10px sans-serif;
   background: yellow;
   box-shadow: 2px 2px 1px #888;
 }
 
-#time-scatter-chart .title {
+.mos-time-scatterchart .title {
   font: 13px sans-serif;
   fill: #000;
 }
 
-#time-scatter-chart circle {
+.mos-time-scatterchart circle {
   stroke-width: 1px;
   stroke: #111;
   stroke-opacity: 0.5;
 }
 
-#time-scatter-chart line {
+.mos-time-scatterchart line {
   fill: #000;
   stroke: #000;
   stroke-width: 3px;
 }
 
-#time-scatter-chart text {
+.mos-time-scatterchart .axis path {
+  fill: none;
+  stroke: #666;
+}
+
+.mos-time-scatterchart text {
   fill: #000;
   font: 13px sans-serif;
 }
