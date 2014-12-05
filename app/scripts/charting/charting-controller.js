@@ -31,11 +31,18 @@
             $scope.config.margin = initializeMargins($attrs.margin);
         };
 
+        // Wrapper for the plot function, called from $scope.$watch
+        $scope.redraw = function (data) {
+            if (data) {
+                $scope.plot(data);
+            }
+        };
+
         // OVERRIDE
         $scope.plot = function () {};
 
         $scope.$watch('data', function (newData) {
-            redraw(newData);
+            $scope.redraw(newData);
         });
 
         /**
@@ -52,13 +59,6 @@
                 margin = {left: margin, top: margin, bottom: margin, right: margin};
             }
             return margin;
-        }
-
-        // Wrapper for the plot function, called from $scope.$watch
-        function redraw(data) {
-            if (data) {
-                $scope.plot(data);
-            }
         }
     }
 

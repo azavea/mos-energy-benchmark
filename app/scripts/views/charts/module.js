@@ -12,6 +12,9 @@
             resolve: /*@ngInject*/ {
                 currentData: function (CartoSQLAPI) {
                     return CartoSQLAPI.getCurrentData();
+                },
+                groupedData: function (CartoSQLAPI) {
+                    return CartoSQLAPI.getGroupedData();
                 }
             }
         });
