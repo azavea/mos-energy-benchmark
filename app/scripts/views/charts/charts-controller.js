@@ -4,8 +4,10 @@
     /*
      * ngInject
      */
-    function ChartsController($scope, ChartingUtils, currentData) {
+    function ChartsController($scope, ChartingUtils, currentData, groupedData) {
         $scope.currentData = currentData.data.rows;
+        $scope.groupedData = groupedData.data.rows;
+
         $scope.seedData = ChartingUtils.seed(20);
     }
 
