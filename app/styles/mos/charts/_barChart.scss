@@ -1,13 +1,10 @@
-rect {
+.mos-barchart rect {
   fill: steelblue;
 }
 
-// TODO: Readd with namespacing - removed because it was interfering with other charts
-/*
-.chart text {
+.mos-barchart text {
   fill: white;
   font: 10px sans-serif;
   text-anchor: end;
 }
-*/
 

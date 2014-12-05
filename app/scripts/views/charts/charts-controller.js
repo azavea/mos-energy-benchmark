@@ -4,8 +4,9 @@
     /*
      * ngInject
      */
-    function ChartsController($scope, currentData) {
+    function ChartsController($scope, ChartingUtils, currentData) {
         $scope.currentData = currentData.data.rows;
+        $scope.seedData = ChartingUtils.seed(20);
     }
 
     angular.module('mos.views.charts')
