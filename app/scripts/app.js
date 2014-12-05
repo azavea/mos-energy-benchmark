@@ -18,7 +18,8 @@
      */
     angular
     .module('mos', [
-        'mos.views.charts'
+        'mos.views.charts',
+        'mos.views.map'
     ]).config(StateConfig);
 
 })();

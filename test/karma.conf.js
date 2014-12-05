@@ -30,6 +30,8 @@ module.exports = function(config) {
       'app/scripts/cartodb/cartodb-api-service.js',
       'app/scripts/views/charts/module.js',
       'app/scripts/views/charts/charts-controller.js',
+      'app/scripts/views/map/module.js',
+      'app/scripts/views/map/map-controller.js',
       'app/scripts/app.js',
 
       'test/mock/**/*.js',
