@@ -23,7 +23,15 @@ module.exports = function(config) {
       'bower_components/angular-animate/angular-animate.js',
       'bower_components/angular-cookies/angular-cookies.js',
       'bower_components/angular-messages/angular-messages.js',
-      'app/scripts/**/*.js',
+      'bower_components/angular-ui-router/release/angular-ui-router.min.js',
+
+      // Add app scripts here, same order as in index.html
+      'app/scripts/cartodb/cartodb-api-config.js',
+      'app/scripts/cartodb/cartodb-api-service.js',
+      'app/scripts/views/charts/module.js',
+      'app/scripts/views/charts/charts-controller.js',
+      'app/scripts/app.js',
+
       'test/mock/**/*.js',
       'test/spec/**/*.js'
     ],

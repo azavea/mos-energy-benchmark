@@ -30,7 +30,7 @@
         <h3 class="text-muted">MOS Energy Benchmark</h3>
       </div>
 
-      <div ui-view></div>
+      <ui-view></ui-view>
     </div>
 
     <!-- build:js(.) scripts/oldieshim.js -->
@@ -52,6 +52,7 @@
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <!-- IMPORTANT: When you add a file here, add it in the same order in karma.conf.js -->
     <script src="scripts/cartodb/cartodb-api-config.js"></script>
     <script src="scripts/cartodb/cartodb-api-service.js"></script>
 
