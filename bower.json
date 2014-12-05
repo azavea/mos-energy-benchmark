@@ -12,7 +12,6 @@
     "angular-ui-router": "~0.2.13",
     "d3": "~3.4.13",
     "d3-tip": "~0.6.6",
-    "angular-leaflet-directive": "^0.7.9",
     "lodash": "~2.4.1"
   },
   "devDependencies": {
