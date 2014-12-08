@@ -35,11 +35,11 @@
             '<div class="controls">',
             '  <div class="axis x">',
             '    X axis',
-            '    <select ng-model="xSeries" ng-options="key as value for (key, value) in selectOptions"></select>',
+            '    <select ng-model="selected.x" ng-options="key as value for (key, value) in selectOptions" ng-change="selectedXChanged()"></select>',
             '  </div>',
             '  <div class="axis y">',
             '    Y axis',
-            '    <select ng-model="ySeries" ng-options="key as value for (key, value) in selectOptions"></select>',
+            '    <select ng-model="selected.y" ng-options="key as value for (key, value) in selectOptions" ng-change="selectedYChanged()"></select>',
             '  </div>',
             '</div>'
         ].join('');
@@ -50,6 +50,7 @@
             id: '@',                // Required
             plotWidth: '@',
             plotHeight: '@',
+
             xSeries: '=?',
             ySeries: '=?',
             prevLabel: '@',
@@ -62,67 +63,98 @@
         };
 
         module.link = function ($scope, element, attrs) {
+
+            // Setup public ($scope) and private variables
             $scope.configure(TimeScatterPlotDefaults);
             var config = $scope.config;
             var margins = config.margin;
+            var width = config.plotWidth - margins.right - margins.left;
+            var height = config.plotHeight - margins.top - margins.bottom;
 
-            $scope.xSeries = config.xDefault;
-            $scope.ySeries = config.yDefault;
             $scope.selectOptions = _.omit(CartoConfig.labels, 'squarefeet');
+            $scope.selected = {};
+            var dimensions = _.keys($scope.selectOptions);
+            $scope.selected.x = config.xDefault;
+            $scope.selected.y = config.yDefault;
 
-            element.addClass(PLOT_CLASS);
-            // Create the D3 svg graphic element
-            svg = d3.select('#' + attrs.id + ' .chart')
-                    .attr('width', config.plotWidth)
-                    .attr('height', config.plotHeight)
-                    .append('g')
-                    .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')');
+            var xAttr = $scope.selected.x;
+            var yAttr = $scope.selected.y;
+            var xIndex = dimensions.indexOf(xAttr);
+            var yIndex = dimensions.indexOf(yAttr);
+            var x = null;
+            var y = null;
+            var xAxis = null;
+            var yAxis = null;
+            var tip = null;
 
-/*
-            $scope.$watch('xSeries', function () {
-                $scope.redraw($scope.data);
-            });
-            $scope.$watch('ySeries', function () {
-                $scope.redraw($scope.data);
-            });
-*/
+            initializeChart();
+
+            // $scope
+
+            $scope.selectedXChanged = function () {
+                xAttr = $scope.selected.x;
+                xIndex = dimensions.indexOf(xAttr);
+                refreshData();
+            };
+
+            $scope.selectedYChanged = function () {
+                yAttr = $scope.selected.y;
+                yIndex = dimensions.indexOf(yAttr);
+                refreshData();
+            };
 
             // Overridden ChartingController method
             $scope.plot = function(data) {
                 console.log('Called time scatter chart plot');
-                var containerId = '#' + attrs.id;
-                var xAxisId = containerId + ' .controls .axis.x select';
-                var yAxisId = containerId + ' .controls .axis.y select';
-                var labels = CartoConfig.labels;
-                var width = config.plotWidth - margins.right - margins.left;
-                var height = config.plotHeight - margins.top - margins.bottom;
-                var dimensions = _.keys($scope.selectOptions);
                 var prevColor = config.prevColor;
                 var currColor = config.currColor;
                 var prevRadius = config.prevRadius;
                 var currRadius = config.currRadius;
-                var prevLabel = config.prevLabel;
-                var currLabel = config.currLabel;
-                var xAttr = $scope.xSeries;
-                var yAttr = $scope.ySeries;
-                var transitionMillis = config.transitionMillis;
-                var xIndex = dimensions.indexOf(xAttr);
-                var yIndex = dimensions.indexOf(yAttr);
 
-                // Calculate extents for each dimension
-                var extents = _.map(dimensions, function(dimension) {
-                    return [0, d3.max(data, function(d) {
-                        return Math.max(d.curr[dimension], d.prev[dimension]);
-                    })];
-                });
+                refreshScale(dimensions);
 
-                // Create scales
-                var x = d3.scale.linear().domain(extents[xIndex]).range([0, width]);
-                var y = d3.scale.linear().domain(extents[yIndex]).range([height, 0]);
+                // Draw the lines connecting the points
+                var circles = svg.selectAll().data(data).enter();
+                circles.append('line')
+                    .attr('class', 'connector')
+                    .attr('x1', function(d) { return x(d.prev[xAttr]); })
+                    .attr('y1', function(d) { return y(d.prev[yAttr]); })
+                    .attr('x2', function(d) { return x(d.curr[xAttr]); })
+                    .attr('y2', function(d) { return y(d.curr[yAttr]); });
+
+                // Draw the current and previous year points
+                drawPoints('curr', currColor, currRadius);
+                drawPoints('prev', prevColor, prevRadius);
+
+                // Helper for drawing points on the chart
+                function drawPoints(objName, color, radius) {
+                    circles.append('circle')
+                        .attr('class', objName)
+                        .attr('fill', function() { return color; })
+                        .attr('cx', function(d) { return x(d[objName][xAttr]); })
+                        .attr('cy', function(d) { return y(d[objName][yAttr]); })
+                        .attr('r', radius)
+                        .on('mouseover', tip.show)
+                        .on('mouseout', tip.hide);
+                }
+            };
+
+            // PRIVATE METHODS
+
+            function initializeChart() {
+                element.addClass(PLOT_CLASS);
+                // Create the D3 svg graphic element
+                svg = d3.select('#' + attrs.id + ' .chart')
+                        .attr('width', config.plotWidth)
+                        .attr('height', config.plotHeight)
+                        .append('g')
+                        .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')');
+                x = d3.scale.linear().range([0, width]);
+                y = d3.scale.linear().range([height, 0]);
 
                 // Create axes
-                var xAxis = d3.svg.axis().scale(x).orient('bottom');
-                var yAxis = d3.svg.axis().scale(y).orient('left');
+                xAxis = d3.svg.axis().scale(x).orient('bottom');
+                yAxis = d3.svg.axis().scale(y).orient('left');
 
                 svg.append('g')
                     .attr('class', 'x axis')
@@ -139,7 +171,7 @@
                     .style('text-anchor', 'end');
 
                 // Add tooltips
-                var tip = d3.tip()
+                tip = d3.tip()
                         .attr('class', 'd3-tip')
                         .offset([-10, 0])
                         .html(function(d) {
@@ -147,42 +179,16 @@
                         });
                 svg.call(tip);
 
-                // Draw the lines connecting the points
-                var circles = svg.selectAll().data(data).enter();
-                circles.append('line')
-                    .attr('class', 'connector')
-                    .attr('x1', function(d) { return x(d.prev[xAttr]); })
-                    .attr('y1', function(d) { return y(d.prev[yAttr]); })
-                    .attr('x2', function(d) { return x(d.curr[xAttr]); })
-                    .attr('y2', function(d) { return y(d.curr[yAttr]); });
+                drawLegend();
+            }
 
-                // Draw the current and previous year points
-                drawPoints('curr', currColor, currRadius);
-                drawPoints('prev', prevColor, prevRadius);
-
-                // Populate dropdowns
-                populateDropdown(xAxisId, xIndex);
-                populateDropdown(yAxisId, yIndex);
-
-                // Monitor x-axis dropdown changes
-/*
-                d3.select(xAxisId).on('change', function() {
-                    var i = this.selectedIndex;
-                    xIndex = i;
-                    xAttr = dimensions[i];
-                    x.domain(extents[i]);
-                    refreshData();
-                });
-
-                // Monitor y-axis dropdown changes
-                d3.select(yAxisId).on('change', function() {
-                    var i = this.selectedIndex;
-                    yIndex = i;
-                    yAttr = dimensions[i];
-                    y.domain(extents[i]);
-                    refreshData();
-                });
-*/
+            function drawLegend() {
+                var prevColor = config.prevColor;
+                var currColor = config.currColor;
+                var prevRadius = config.prevRadius;
+                var currRadius = config.currRadius;
+                var prevLabel = config.prevLabel;
+                var currLabel = config.currLabel;
 
                 // Add a legend
                 var legendData = [
@@ -202,7 +208,8 @@
                         .attr('x', width - 65)
                         .attr('y', 25)
                         .attr('height', 100)
-                        .attr('width', 100);
+                        .attr('width', 100)
+                        .attr('zIndex', 100);
 
                 legend.selectAll('g').data(legendData)
                     .enter()
@@ -222,63 +229,53 @@
                             .attr('width', 100)
                             .text(function(d) { return d.label; });
                     });
+            }
 
-                // Helper for drawing points on the chart
-                function drawPoints(objName, color, radius) {
-                    circles.append('circle')
-                        .attr('class', objName)
-                        .attr('fill', function(d) { return color; })
-                        .attr('cx', function(d) { return x(d[objName][xAttr]); })
-                        .attr('cy', function(d) { return y(d[objName][yAttr]); })
-                        .attr('r', radius)
-                        .on('mouseover', tip.show)
-                        .on('mouseout', tip.hide);
-                }
+            function refreshScale(dimensions) {
+                // Calculate extents for each dimension
+                var extents = _.map(dimensions, function(dimension) {
+                    return [0, d3.max($scope.data, function(d) {
+                        return Math.max(d.curr[dimension], d.prev[dimension]);
+                    })];
+                });
 
-                // Helper for redrawing the data with transitions
-                function refreshData() {
-                    svg.selectAll('circle.curr')
-                        .transition()
-                        .ease('linear')
-                        .duration(transitionMillis)
-                        .attr('cx', function(d) { return x(d.curr[xAttr]); })
-                        .attr('cy', function(d) { return y(d.curr[yAttr]); });
+                // Update scales
+                x.domain(extents[xIndex]);
+                y.domain(extents[yIndex]);
+            }
 
-                    svg.selectAll('circle.prev')
-                        .transition()
-                        .ease('linear')
-                        .duration(transitionMillis)
-                        .attr('cx', function(d) { return x(d.prev[xAttr]); })
-                        .attr('cy', function(d) { return y(d.prev[yAttr]); });
+            // We do not call redraw/plot when the axis changes because we are only shifting
+            //  the drawn points rather than redrawing them entirely
+            function refreshData() {
+                var transitionMillis = config.transitionMillis;
+                refreshScale(dimensions);
 
-                    svg.selectAll('line.connector')
-                        .transition()
-                        .ease('linear')
-                        .duration(transitionMillis)
-                        .attr('x1', function(d) { return x(d.prev[xAttr]); })
-                        .attr('y1', function(d) { return y(d.prev[yAttr]); })
-                        .attr('x2', function(d) { return x(d.curr[xAttr]); })
-                        .attr('y2', function(d) { return y(d.curr[yAttr]); });
+                svg.selectAll('circle.curr')
+                    .transition()
+                    .ease('linear')
+                    .duration(transitionMillis)
+                    .attr('cx', function(d) { return x(d.curr[xAttr]); })
+                    .attr('cy', function(d) { return y(d.curr[yAttr]); });
 
-                    svg.select('.x.axis').call(xAxis);
-                    svg.select('.y.axis').call(yAxis);
-                }
+                svg.selectAll('circle.prev')
+                    .transition()
+                    .ease('linear')
+                    .duration(transitionMillis)
+                    .attr('cx', function(d) { return x(d.prev[xAttr]); })
+                    .attr('cy', function(d) { return y(d.prev[yAttr]); });
 
-                // Helper for populating a dropdown
-                function populateDropdown(dropdownId, selectedValue) {
-                    d3.select(dropdownId)
-                        .selectAll('option')
-                        .data(dimensions)
-                        .enter().append('option')
-                        .attr('value', function(d, i) { return i; })
-                        .text(function(d) { return labels[d]; })
-                        .each(function(d, i) {
-                            if (i === selectedValue) {
-                                d3.select(this).attr('selected', 'yes');
-                            }
-                        });
-                }
-            };
+                svg.selectAll('line.connector')
+                    .transition()
+                    .ease('linear')
+                    .duration(transitionMillis)
+                    .attr('x1', function(d) { return x(d.prev[xAttr]); })
+                    .attr('y1', function(d) { return y(d.prev[yAttr]); })
+                    .attr('x2', function(d) { return x(d.curr[xAttr]); })
+                    .attr('y2', function(d) { return y(d.curr[yAttr]); });
+
+                svg.select('.x.axis').call(xAxis);
+                svg.select('.y.axis').call(yAxis);
+            }
         };
 
         return module;
