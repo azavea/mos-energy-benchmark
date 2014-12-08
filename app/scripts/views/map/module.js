@@ -20,7 +20,8 @@
      */
     angular
       .module('mos.views.map', [
-        'ui.router'
+        'ui.router',
+        'mos.compare'
       ]).config(StateConfig);
 
 })();

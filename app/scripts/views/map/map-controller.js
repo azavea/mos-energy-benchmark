@@ -4,12 +4,11 @@
     /*
      * ngInject
      */
-    function MapController($scope, $timeout, $compile) {
+    function MapController($scope, $compile, BuildingCompare) {
         // temp:  http://azavea-demo.cartodb.com/api/v2/viz/701a2d94-44f2-11e4-bb22-0e10bcd91c2b/viz.json
         // age: http://azavea-demo.cartodb.com/api/v2/viz/d9998c20-7bf6-11e4-b489-0e853d047bba/viz.json
 
         // initialization
-        $scope.compare_selections = [];  // array of up to three selections to compare
         $scope.haveThree = false;
         $scope.popupLoading = true;
 
@@ -21,28 +20,23 @@
                 // shouldn't get here (button is disabled)
                 console.error('Cannot compare more than three items at a time');
             } else {
-                // check to see if we have this one already
-                if ($scope.compare_selections.indexOf($scope.cartodb_id) > -1) {
-                    console.error('already have ' + $scope.cartodb_id + ' in comparison list');
-                } else {
-                    $scope.compare_selections.push($scope.cartodb_id);
-                    $scope.haveThree = $scope.compare_selections.length >=3 ? true : false;
-                }
+                BuildingCompare.add($scope.cartodb_id);
+                $scope.haveThree = BuildingCompare.count() >=3 ? true : false;
             }
         };
 
         var popup_template = ['<span>',
-              '<div ng-show="popupLoading" class="spinner">',
-              '<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>',
-              '</div>',
-              '<div ng-hide="popupLoading"><h4>Address:</h4>',
-              '<p>{{address}}</p>',
-              '<h4>Emissions:</h4>',
-              '<p>{{total_ghg}}</p>',
-              '<h4>ID:</h4>', 
-              '<p>{{cartodb_id}}</p>',
-              '<p><button ng-click="compare()" ng-disabled="haveThree">Compare</button></p>',
-              '</div></span>'].join('');
+          '<div ng-show="popupLoading" class="spinner">',
+          '<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>',
+          '</div>',
+          '<div ng-hide="popupLoading"><h4>Address:</h4>',
+          '<p>{{address}}</p>',
+          '<h4>Emissions:</h4>',
+          '<p>{{total_ghg}}</p>',
+          '<h4>ID:</h4>', 
+          '<p>{{cartodb_id}}</p>',
+          '<p><button ng-click="compare()" ng-disabled="haveThree">Compare</button></p>',
+          '</div></span>'].join('');
 
         var showPopup = function(map, coords) {
             var popup = $compile(popup_template)($scope);
@@ -89,7 +83,7 @@
                     sql.execute(qry, { id: data.cartodb_id})
                         .done(function(data) {
                             var data = data.rows[0];
-                            $scope.cartodb_id = data.cartodb_id;
+                            $scope.cartodb_id = data.cartodb_id.toString();
                             $scope.address = data.geocode_address;
                             $scope.total_ghg = data.total_ghg;
 
