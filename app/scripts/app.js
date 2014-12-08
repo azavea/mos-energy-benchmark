@@ -19,7 +19,8 @@
     angular
     .module('mos', [
         'mos.views.charts',
-        'mos.views.map'
+        'mos.views.map',
+        'mos.views.info'
     ]).config(StateConfig);
 
 })();
