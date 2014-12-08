@@ -21,7 +21,8 @@
         'mos.views.charts',
         'mos.views.map',
         'mos.views.info',
-        'mos.views.detail'
+        'mos.views.detail',
+        'mos.views.compare'
     ]).config(StateConfig);
 
 })();

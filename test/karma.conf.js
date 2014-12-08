@@ -46,6 +46,8 @@ module.exports = function(config) {
       'app/scripts/views/info/info-controller.js',
       'app/scripts/views/detail/module.js',
       'app/scripts/views/detail/detail-controller.js',
+      'app/scripts/views/compare/module.js',
+      'app/scripts/views/compare/compare-controller.js',
       'app/scripts/app.js',
 
       'test/mock/**/*.js',
