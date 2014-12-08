@@ -3,6 +3,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
+@import "custom/variables";
 @import "d3-common";
 
 // MOS Chart Stylings
@@ -26,9 +27,41 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 }
 
 /* Space out content a bit */
-body {
-  padding-top: 20px;
-  padding-bottom: 20px;
+
+html {
+  font-size: 16px;
+}
+
+@media (max-width: 900px) {
+  html { font-size: 15px; }
+}
+
+@media (max-width: 400px) {
+  html { font-size: 13px; }
+}
+
+@media(min-width: 1280px){
+  html {font-size: 18px;}
+}
+
+body{
+  font-family: 'Lato', sans-serif;
+  color: $body;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+h1, h2, h3, h4{
+  font-family: 'Roboto Slab', serif;
+  font-weight: 700;
+}
+
+.container{
+  width: 90%;
+  margin: 0 5% 24px 5%;
+}
+.margin-top{
+  margin-top: 24px!important;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -41,14 +74,15 @@ body {
 
 /* Custom page header */
 .header {
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid $border;
 
   /* Make the masthead heading the same height as the navigation */
   h3 {
     margin-top: 0;
     margin-bottom: 0;
-    line-height: 40px;
-    padding-bottom: 19px;
+    margin-left: 14px;
+    line-height: 60px;
+    display: inline-block!important;
   }
 }
 
@@ -76,25 +110,120 @@ body {
   }
 }
 
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-  .container {
-    max-width: 730px;
+//Navigation
+.nav-pills {
+  > li {
+    float: left;
+
+    // Links rendered as pills
+    > a {
+      border-radius: 0!important;
+      color: $body;
+      line-height: 57px;
+      padding: 0 10px!important;
+      background-color: transparent!important;
+
+      &:hover{
+        border-bottom: solid 3px $active;
+      }
+    }
+    + li {
+      margin-left: 2px;
+    }
+
+    // Active state
+    &.active > a {
+      &,
+      &:hover,
+      &:focus {
+        color: $body;
+        background-color: transparent!important;
+        border-bottom: solid 3px $active;
+      }
+    }
+  }
+}
+
+//Building Type Classes
+.office{
+  background-color: $office;
+}
+.medical-office{
+  background-color: $medical-office;
+}
+.retail{
+  background-color: $retail;
+}
+.data-center{
+  background-color: $data-center;
+}
+.industrial{
+  background-color: $industrial;
+}
+.warehouse{
+  background-color: $warehouse;
+}
+.parking{
+  background-color: $parking;
+}
+.laboratory{
+  background-color: $laboratory;
+}
+.worship{
+  background-color: $worship;
+}
+.municipal{
+  background-color: $municipal;
+}
+.hospital{
+  background-color: $hospital;
+}
+.university{
+  background-color: $university;
+}
+.school{
+  background-color: $school;
+}
+.other{
+  background-color: $other;
+}
+.supermarket{
+  background-color: $supermarket;
+}
+.hotel{
+  background-color: $hotel;
+}
+.multi-family{
+  background-color: $multi-family;
+}
+
+//Buttond
+.btn-ghost {
+  display: inline-block;
+  margin-bottom: 0; // For input.btn
+  font-weight: 300;
+  color: $paper;
+  background: transparent!important;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: o!important;
+  white-space: nowrap;
+
+  i{
+    color: $paper;
+    padding-right: 8px;
   }
 
-  /* Remove the padding we set earlier */
-  .header,
-  .marketing,
-  .footer {
-    padding-left: 0;
-    padding-right: 0;
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    background: rgba(0,0,0,.4);
   }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
+  &:active,
+  &.active {
+    outline: 0;
+    background-image: none;;
   }
 }
