@@ -29,6 +29,7 @@ module.exports = function(config) {
       'bower_components/leaflet/dist/leaflet.js',
       'bower_components/leaflet/dist/leaflet-src.js',
       'bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js',
+      'bower_components/lodash/dist/lodash.compat.js',
 
       // Add app scripts here, same order as in index.html
       'app/scripts/cartodb/cartodb-api-config.js',
@@ -38,6 +39,8 @@ module.exports = function(config) {
       'app/scripts/charting/charting-controller.js',
       'app/scripts/charting/barchart-directive.js',
       'app/scripts/charting/scatterplot-directive.js',
+      'app/scripts/compare/module.js',
+      'app/scripts/compare/compare-service.js',
       'app/scripts/views/charts/module.js',
       'app/scripts/views/charts/charts-controller.js',
       'app/scripts/views/map/module.js',
