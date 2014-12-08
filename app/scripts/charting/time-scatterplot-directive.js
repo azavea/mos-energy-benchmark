@@ -242,6 +242,10 @@
                 // Update scales
                 x.domain(extents[xIndex]);
                 y.domain(extents[yIndex]);
+
+                // Update the axes
+                svg.select('.x.axis').call(xAxis);
+                svg.select('.y.axis').call(yAxis);
             }
 
             // We do not call redraw/plot when the axis changes because we are only shifting
@@ -272,9 +276,6 @@
                     .attr('y1', function(d) { return y(d.prev[yAttr]); })
                     .attr('x2', function(d) { return x(d.curr[xAttr]); })
                     .attr('y2', function(d) { return y(d.curr[yAttr]); });
-
-                svg.select('.x.axis').call(xAxis);
-                svg.select('.y.axis').call(yAxis);
             }
         };
 
