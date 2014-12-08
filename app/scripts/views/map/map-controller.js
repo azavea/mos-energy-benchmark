@@ -31,18 +31,18 @@
             }
         };
 
-        var popup_template = '<span>' +
-              '<div ng-show="popupLoading" class="spinner">' +
-              '<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>' +
-              '</div>' +
-              '<div ng-hide="popupLoading"><h4>Address:</h4>' +
-              '<p>{{address}}</p>' +
-              '<h4>Emissions:</h4>' +
-              '<p>{{total_ghg}}</p>' +
-              '<h4>ID:</h4>' + 
-              '<p>{{cartodb_id}}</p>' +
-              '<p><button ng-click="compare()" ng-disabled="haveThree">Compare</button></p>' +
-              '</div></span>';
+        var popup_template = ['<span>',
+              '<div ng-show="popupLoading" class="spinner">',
+              '<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>',
+              '</div>',
+              '<div ng-hide="popupLoading"><h4>Address:</h4>',
+              '<p>{{address}}</p>',
+              '<h4>Emissions:</h4>',
+              '<p>{{total_ghg}}</p>',
+              '<h4>ID:</h4>', 
+              '<p>{{cartodb_id}}</p>',
+              '<p><button ng-click="compare()" ng-disabled="haveThree">Compare</button></p>',
+              '</div></span>'].join('');
 
         var showPopup = function(map, coords) {
             var popup = $compile(popup_template)($scope);
