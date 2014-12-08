@@ -4,14 +4,24 @@ describe('Controller: mos.views.charts.ChartsController', function () {
     // load the controller's module
     beforeEach(module('mos'));
 
+    var $injector = angular.injector(['mos']);
     var Controller;
     var scope;
+    var ChartingUtils;
+    var currentData = {
+        data: {
+            rows: []
+        }
+    };
 
     // Initialize the controller and a mock scope
     beforeEach(inject(function ($controller, $rootScope) {
         scope = $rootScope.$new();
+        ChartingUtils = $injector.get('ChartingUtils');
         Controller = $controller('ChartsController', {
-            $scope: scope
+            $scope: scope,
+            ChartingUtils: ChartingUtils,
+            currentData: currentData
         });
     }));
 
