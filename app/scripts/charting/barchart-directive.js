@@ -4,7 +4,9 @@
     // Define object config of properties for this chart directive
     var BarChartDefaults = {
         plotWidth: 800,
-        barHeight: 20
+        plotHeight: 400,
+        defaultX: 'age',
+        defaultY: 'sqft',
     };
 
     /**
@@ -15,7 +17,8 @@
         var PLOT_CLASS = 'mos-barchart';
 
         // Private vars
-        var chart = null;
+        var leftAxisG = null;
+        var bottomAxisG = null;
 
         // Begin directive module definition
         var module = {};
@@ -28,41 +31,67 @@
             data: '=',              // Required
             id: '@',                // Required
             plotWidth: '@',
-            barHeight: '@'
+            plotHeight: '@',
+            margin: '&',
         };
 
         module.link = function ($scope, element, attrs) {
             $scope.configure(BarChartDefaults);
 
             var config = $scope.config;
+            config.margin.left = 0;
+
 
             element.addClass(PLOT_CLASS);
-            chart = d3.select('#' + attrs.id + ' .chart')
+            var chart = d3.select('#' + attrs.id + ' .chart')
                     .attr('width', config.plotWidth);
+            var leftAxis = d3.svg.axis().orient('left');
+            var leftAxisG = chart.append('g')
+                .attr('class', 'y axis')
+                .attr('transform', 'translate(' + config.margin.left + ',' + config.margin.top + ')');
+            var bottomAxis = d3.svg.axis().orient('bottom');
+            var bottomAxisG = chart.append('g')
+                .attr('class', 'x axis')
+                .attr('transform', 'translate(' + config.margin.left + ',' + (config.plotHeight - config.margin.bottom) + ')');
+
 
             // Overridden ChartingController method
             $scope.plot = function(data) {
                 var barHeight = config.barHeight;
 
-                chart.attr('height', barHeight * data.length);
-                var x = d3.scale.linear()
-                    .domain([0, d3.max(data)])
-                    .range([0, config.plotWidth]);
+                chart.attr('height', config.plotHeight);
 
-                var bar = chart.selectAll('g')
+                // Axes
+                var x = d3.scale.ordinal()
+                    .domain(data.map(function(d, i) { return i; }))
+                    .rangeRoundBands([0, config.plotWidth-config.margin.left-config.margin.right], 0.05);
+                bottomAxis.scale(x);
+                bottomAxisG.call(bottomAxis);
+
+                var y = d3.scale.linear()
+                    .domain([0, d3.max(data, function(d) { return d; })])
+                    .range([config.plotHeight-config.margin.bottom-config.margin.top, 0]);
+                leftAxis.scale(y);
+                //leftAxisG.call(leftAxis);
+
+                // Tooltips
+                var tip = d3.tip()
+                  .attr('class', 'd3-tip')
+                  .offset([-10, 0])
+                  .html(function(d, i) { return '<span class="propertyName">' + d + '</span>'; });
+                chart.call(tip);
+
+                // Bars
+                var bars = chart.selectAll('bar')
                     .data(data)
-                    .enter().append('g')
-                    .attr('transform', function(d, i) { return 'translate(0,' + i * barHeight + ')'; });
+                    .enter().append('rect')
+                    .attr('transform', function(d, i) { return 'translate(' + (x(i) + config.margin.left) + ',0)'; })
+                    .attr('y', function(d) {return y(d) + config.margin.top; })
+                    .attr('height', function(d) { return config.plotHeight - y(d) - config.margin.top - config.margin.bottom; })
+                    .attr('width', x.rangeBand())
+                    .on('mouseover', tip.show)
+                    .on('mouseout', tip.hide);
 
-                bar.append('rect')
-                    .attr('width', x)
-                    .attr('height', barHeight - 1);
-
-                bar.append('text')
-                  .attr('x', function(d) { return x(d) - 3; })
-                  .attr('y', barHeight / 2)
-                  .attr('dy', '.35em')
-                  .text(function(d) { return d; });
             };
         };
 
