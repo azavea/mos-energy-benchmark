@@ -43,8 +43,8 @@
          * @return Array of merged data
          */
         module.getCombinedData = function (currData, prevData) {
-            var currRows = currData[0].rows;
-            var prevRows = prevData[0].rows;
+            var currRows = currData.rows;
+            var prevRows = prevData.rows;
 
             var data = {};
             var dataArr = [];

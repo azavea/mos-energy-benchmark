@@ -15,6 +15,9 @@
                 },
                 groupedData: function (CartoSQLAPI) {
                     return CartoSQLAPI.getGroupedData();
+                },
+                previousData: function (CartoSQLAPI) {
+                    return CartoSQLAPI.getPreviousData();
                 }
             }
         });
