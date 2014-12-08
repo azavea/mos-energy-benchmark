@@ -11,6 +11,13 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "mos/charts/scatterChart";
 @import "mos/charts/timeScatterChart";
 
+// MOS View Stylings
+@import "mos/views/charts";
+@import "mos/views/map";
+@import "mos/views/info";
+@import "mos/views/detail";
+@import "mos/views/compare";
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
