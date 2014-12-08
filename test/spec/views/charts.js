@@ -21,7 +21,9 @@ describe('Controller: mos.views.charts.ChartsController', function () {
         Controller = $controller('ChartsController', {
             $scope: scope,
             ChartingUtils: ChartingUtils,
-            currentData: currentData
+            currentData: currentData,
+            previousData: currentData,
+            groupedData: currentData
         });
     }));
 
