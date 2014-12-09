@@ -1,3 +1,26 @@
+<div class="filterHeader container-fluid form-inline" role="form">
+    <div class="form-group">
+        <div class="input-group">
+            <label for="searchBox">Search</label>
+            <input id="searchBox" type="text" ng-model="searchText" class="form-control" placeholder="Search me">
+        </div>
+        <div class="input-group">
+            <label for="picker">Filter By</label>
+            <div class="btn-group" dropdown is-open="status.isopen" on-toggle="toggled(open)">
+                <button type="button" class="btn btn-primary dropdown-toggle" 
+                    id="picker" dropdown-toggle>Foo<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 <div ng-show="mapLoading" class="spinner">
     <div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>
 </div>

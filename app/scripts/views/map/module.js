@@ -21,6 +21,7 @@
     angular
       .module('mos.views.map', [
         'ui.router',
+        'ui.bootstrap',
         'mos.compare'
       ]).config(StateConfig);
 

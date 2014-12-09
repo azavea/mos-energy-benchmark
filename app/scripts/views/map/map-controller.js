@@ -15,6 +15,21 @@
         // indicate that map is loading, hang on...
         $scope.mapLoading = true;
 
+        $scope.status = {
+            isopen: false
+        };
+
+        $scope.toggled = function(open) {
+            console.log('Dropdown is now: ', open);
+        };
+
+        $scope.toggleDropdown = function($event) {
+            console.log('toggling happened!');
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.status.isopen = !$scope.status.isopen;
+        };
+
         $scope.compare = function() {
             if ($scope.haveThree) {
                 // shouldn't get here (button is disabled)
@@ -51,6 +66,7 @@
                           {'infowindow': false})
             .done(function(vis, layers) {
                 $scope.mapLoading = false;
+                console.log('done');
                 var nativeMap = vis.getNativeMap();
                 var overlay = layers[1];
 
