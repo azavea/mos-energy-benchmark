@@ -35,13 +35,17 @@
         };
 
         /**
-         * Get building data for a given id
-         * @param  {String} buildingId Building id queried against CartoConfig.uniqueColumn column
+         * Get building data for a given id or array of ids
+         * @param  {String|Array} buildingId Building ids queried against CartoConfig.uniqueColumn column
          * @return {$httpPromise}
          */
         module.getBuildingData = function (buildingId) {
+            var ids = buildingId;
+            if (_.isArray(buildingId)) {
+                ids = buildingId.join(',');
+            }
             return makeCartoDBRequest(CartoConfig.data.detailQuery, {
-                id: buildingId
+                id: ids
             });
         };
 
