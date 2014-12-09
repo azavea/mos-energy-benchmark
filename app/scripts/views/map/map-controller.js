@@ -5,29 +5,51 @@
      * ngInject
      */
     function MapController($scope, $compile, BuildingCompare) {
-        // temp:  http://azavea-demo.cartodb.com/api/v2/viz/701a2d94-44f2-11e4-bb22-0e10bcd91c2b/viz.json
-        // age: http://azavea-demo.cartodb.com/api/v2/viz/d9998c20-7bf6-11e4-b489-0e853d047bba/viz.json
 
         // initialization
+        var FILTER_NONE = 'All types';
+        var vizLayer = null;
+
         $scope.haveThree = false;
         $scope.popupLoading = true;
+        $scope.building_types = [];
+        $scope.filterType = FILTER_NONE;
 
         // indicate that map is loading, hang on...
         $scope.mapLoading = true;
 
-        $scope.status = {
-            isopen: false
+        var filterViz = function() {
+            if (!vizLayer) {
+                console.error('cannot filter; there is no viz!');
+                return;
+            }
+            if ($scope.filterType === FILTER_NONE) {
+                vizLayer.setSQL("select * from mos_beb_2013");
+            } else {
+                vizLayer.setSQL("select * from mos_beb_2013 where primary_property_type ='" + $scope.filterType + "';");
+            }
         };
 
-        $scope.toggled = function(open) {
-            console.log('Dropdown is now: ', open);
+        $scope.filterBy = function(propertyType) {
+            console.log('going to go filter by ' + propertyType);
+            $scope.filterType = propertyType;
+            filterViz();
         };
 
-        $scope.toggleDropdown = function($event) {
-            console.log('toggling happened!');
-            $event.preventDefault();
-            $event.stopPropagation();
-            $scope.status.isopen = !$scope.status.isopen;
+        var getBldgCategories = function() {
+            console.log('going to fetch building categories...');
+            var qry = 'SELECT DISTINCT primary_property_type FROM mos_beb_2013;';
+            var sql = new cartodb.SQL({ user: 'azavea-demo'});
+            sql.execute(qry)
+                .done(function(data) {
+                    console.log('got building categories!');
+                    //console.log(data.rows);
+                    $scope.building_types = [{'primary_property_type': FILTER_NONE}];
+                    $scope.building_types = data.rows;
+                }).error(function(errors) {
+                    // returns a list
+                    console.error('errors fetching property types: ' + errors);
+                });
         };
 
         $scope.compare = function() {
@@ -61,6 +83,9 @@
             }).setLatLng(coords).setContent(popup[0]).openOn(map);
         };
 
+        // fetch building categories
+        getBldgCategories();
+
         // load map visualization
         cartodb.createVis('mymap', 'http://azavea-demo.cartodb.com/api/v2/viz/c5a9af6e-7f12-11e4-8f24-0e018d66dc29/viz.json',
                           {'infowindow': false})
@@ -73,6 +98,9 @@
                 // find the viz layer we want to interact with
                 var sublayer = overlay.getSubLayer(0);
                 sublayer.setInteraction(true);
+
+                // keep track of the visualization layer so we can filter it later
+                vizLayer = sublayer;
 
                 // give user a pointy hand when they hover over a feature
                 sublayer.on('mouseover', function() {
@@ -109,7 +137,7 @@
 
                         }).error(function(errors) {
                             // returns a list
-                            console.error('errors: ' + errors);
+                            console.error('errors fetching property data: ' + errors);
                         });
                 });
             });
