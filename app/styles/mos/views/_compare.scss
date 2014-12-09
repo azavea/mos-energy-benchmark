@@ -58,12 +58,12 @@
     text-align: center;
     height: 60px;
     margin-top: 12px;
-    background-image: url('../img/ic_building.png');
+    background-image: url('../images/ic_building.png');
     background-repeat: no-repeat;
     background-position: center;
 
     @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
-        background-image: url('../img/ic_building@2x.png');
+        background-image: url('../images/ic_building@2x.png');
         background-size: 28px 60px;
     }
 }
