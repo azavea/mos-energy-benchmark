@@ -1,5 +1,20 @@
-#mymap { top:100px; left:0; right:0; bottom:0; position:absolute }
+#mymap { top:150px; left:0; right:0; bottom:0; position:absolute; }
 button[disabled=disabled], button:disabled {color: DarkGray}
+
+#filterHeader {
+    height: 50px;
+}
+
+.form-group,
+.form-group label,
+.form-group input { float:left; display:inline-block;   }
+
+ .form-group { margin-right:5px }
+ .form-group label { line-height:--px; }
+
+ .row .btn {
+    margin-top: 5px;
+}
 
 .spinner {
   margin: 100px auto 0;

@@ -1,3 +1,22 @@
+<div class="filterHeader container-fluid form-inline" role="form">
+    <div class="form-group">
+        <div class="input-group">
+            <label for="searchBox">Search</label>
+            <input id="searchBox" type="text" ng-model="searchText" class="form-control" placeholder="Search me">
+        </div>
+        <div class="input-group">
+            <label for="picker">Filter By</label>
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-primary dropdown-toggle" 
+                    id="picker" dropdown-toggle>{{filterType}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="propertyType in buildingTypes"><a ng-click="filterBy(propertyType.primary_property_type)">{{::propertyType.primary_property_type}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 <div ng-show="mapLoading" class="spinner">
     <div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>
 </div>
