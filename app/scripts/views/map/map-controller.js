@@ -55,31 +55,16 @@
             }).setLatLng(coords).setContent(popup[0]).openOn(nativeMap);
         };
 
-        // callback for service to set building categories
-        var setBldgCategories = function(categories) {
-            $scope.buildingTypes = categories;
-        };
-
-        // callback for service to set feature click query results
-        var setClickedFeature = function(row, coords) {
-            /* jshint camelcase: false */
-            if (row) {
-                $scope.cartodbId = row.cartodb_id.toString();
-                $scope.address = row.geocode_address;
-                $scope.totalGhg = row.total_ghg;
-            } else {
-                $scope.cartodbId = null;
-                $scope.address = null;
-                $scope.totalGhg = null;
-            }
-
-            $scope.popupLoading = false;
-            showPopup(coords);
-            /* jshint camelcase:true */
-        };
-
         // fetch building categories for drop-down
-        MappingService.getBldgCategories(setBldgCategories);
+        MappingService.getBldgCategories()
+            .done(function(data) {
+                $scope.buildingTypes = [{'sector': MappingService.FILTER_NONE}];
+                $scope.buildingTypes = $scope.buildingTypes.concat(data.rows);
+            }).error(function(errors) {
+                // returns a list
+                console.error('errors fetching property types: ' + errors);
+                $scope.buildingTypes = [{'sector': module.FILTER_NONE}];
+            });
 
         // load map visualization
         cartodb.createVis('mymap', 'http://azavea-demo.cartodb.com/api/v2/viz/c5a9af6e-7f12-11e4-8f24-0e018d66dc29/viz.json',
@@ -104,15 +89,30 @@
                     $('.leaflet-container').css('cursor', '-moz-grab');
                 });
 
-                /* jshint camelcase:false */
                 vizLayer.on('featureClick', function(e, latlng, pos, data) {
 
                     // show popup with spinner to indicate it's loading, hang on...
                     $scope.popupLoading = true;
                     showPopup(latlng);
-                    MappingService.featureLookup(setClickedFeature, data.cartodb_id, latlng);
-                });
-                /* jshint camelcase:true */
+                    /* jshint camelcase:false */
+                    MappingService.featureLookup(data.cartodb_id)
+                        .done(function(data) {
+                            var row = data.rows[0];
+                            $scope.cartodbId = row.cartodb_id.toString();
+                            $scope.address = row.geocode_address;
+                            $scope.totalGhg = row.total_ghg;
+                            $scope.popupLoading = false;
+                            showPopup(latlng);
+                        }).error(function(errors) {
+                            // returns a list
+                            console.error('errors fetching property data: ' + errors);
+                            $scope.cartodbId = null;
+                            $scope.address = null;
+                            $scope.totalGhg = null;
+                            $scope.popupLoading = false;
+                        });
+                    });
+                    /* jshint camelcase:false */
             });
     }
 

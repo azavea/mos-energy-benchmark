@@ -8,7 +8,6 @@
         var module = {};
 
         module.FILTER_NONE = 'All types';
-        var buildingTypes = [{'sector': module.FILTER_NONE}];
 
         // TODO: show additional legend of property type with its sector color if color by property type selected
         /*
@@ -30,47 +29,26 @@
         /*
          *  Fetches list of building categories in use
          *
-         *  @param {function} callback Function to send the returned array
+         *  @returns Promise with query results
          */
-        module.getBldgCategories = function(callback) {
-            if (buildingTypes.size > 1) {
-                callback(buildingTypes);
-            }
+        module.getBldgCategories = function() {
             var qry = 'SELECT DISTINCT sector FROM mos_beb_2013;';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
-            sql.execute(qry)
-                .done(function(data) {
-                    buildingTypes = [{'sector': module.FILTER_NONE}];
-                    buildingTypes = buildingTypes.concat(data.rows);
-                    callback(buildingTypes);
-                }).error(function(errors) {
-                    // returns a list
-                    console.error('errors fetching property types: ' + errors);
-                    buildingTypes = [{'sector': module.FILTER_NONE}];
-                    callback(buildingTypes);
-                });
+            return sql.execute(qry);
         };
 
         /*
          *  Fetches details for a selected property
          *
-         * @param {function} callback Function to call with results
          * @param {string} cartodbId Unique ID for record to search for
-         * @param {Leaflet.LatLng} coords Clicked point at which to show the popup
+         * @returns Promise with results in data.rows
          */
-        module.featureLookup = function(callback, cartodbId, coords)  {
+        module.featureLookup = function(cartodbId)  {
             /* jshint camelcase: false */
             var qry = 'SELECT cartodb_id, geocode_address, total_ghg, property_name, ' + 
             'sector FROM mos_beb_2013 where cartodb_id = {{id}}';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
-            sql.execute(qry, { id: cartodbId})
-                .done(function(data) {
-                    callback(data.rows[0], coords);
-                }).error(function(errors) {
-                    // returns a list
-                    console.error('errors fetching property data: ' + errors);
-                    callback(null, coords);
-                });
+            return sql.execute(qry, { id: cartodbId});
             /* jshint camelcase:true */
         };
 
