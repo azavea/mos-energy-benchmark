@@ -31,19 +31,15 @@
         };
 
         $scope.filterBy = function(propertyType) {
-            console.log('going to go filter by ' + propertyType);
             $scope.filterType = propertyType;
             filterViz();
         };
 
         var getBldgCategories = function() {
-            console.log('going to fetch building categories...');
             var qry = 'SELECT DISTINCT primary_property_type FROM mos_beb_2013;';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
             sql.execute(qry)
                 .done(function(data) {
-                    console.log('got building categories!');
-                    //console.log(data.rows);
                     $scope.buildingTypes = [{'primary_property_type': FILTER_NONE}];
                     $scope.buildingTypes = data.rows;
                 }).error(function(errors) {
@@ -67,11 +63,11 @@
           '<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>',
           '</div>',
           '<div ng-hide="popupLoading"><h4>Address:</h4>',
-          '<p>{{address}}</p>',
+          '<p>{{::address}}</p>',
           '<h4>Emissions:</h4>',
-          '<p>{{totalGhg}}</p>',
+          '<p>{{::totalGhg}}</p>',
           '<h4>ID:</h4>', 
-          '<p>{{cartodbId}}</p>',
+          '<p>{{::cartodbId}}</p>',
           '<p><button ng-click="compare()" ng-disabled="haveThree">Compare</button></p>',
           '</div></span>'].join('');
 
@@ -91,7 +87,6 @@
                           {'infowindow': false})
             .done(function(vis, layers) {
                 $scope.mapLoading = false;
-                console.log('done');
                 var nativeMap = vis.getNativeMap();
                 var overlay = layers[1];
 

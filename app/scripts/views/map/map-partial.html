@@ -11,8 +11,7 @@
                     id="picker" dropdown-toggle>{{filterType}} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                    <li><a ng-click="filterBy('All types')">All types</a></li>
-                    <li ng-repeat="property_type in building_types"><a ng-click="filterBy(property_type.primary_property_type)">{{property_type.primary_property_type}}</a></li>
+                    <li ng-repeat="propertyType in buildingTypes"><a ng-click="filterBy(propertyType.primary_property_type)">{{::propertyType.primary_property_type}}</a></li>
                 </ul>
             </div>
         </div>
