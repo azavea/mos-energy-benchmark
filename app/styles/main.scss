@@ -280,6 +280,10 @@ hr{
   background-color: $dark-bg;
   padding: 48px 0;
 
+  strong{
+    color: $paper;
+  }
+
   h4{
     color: $paper;
     opacity: 0.8;
