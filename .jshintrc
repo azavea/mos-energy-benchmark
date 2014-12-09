@@ -19,7 +19,10 @@
     "smarttabs": true,
     "globals": {
         "angular": false,
+        "cartodb": true,
         "d3": true,
+        "L": true,
+        "$": true,
         "_": true
     }
 }
