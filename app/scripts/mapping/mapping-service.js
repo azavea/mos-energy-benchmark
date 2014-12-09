@@ -11,6 +11,7 @@
         var buildingTypes = [{'primary_property_type': module.FILTER_NONE}];
 
         // TODO: show additional legend of property type with its sector color if color by property type selected
+        /*
         var sectorColors = {
             'School  (K-12)': '#A6CEE3',
             'Office': '#1F78B4',
@@ -24,6 +25,7 @@
             'Industrial': '#6A3D9A',
             '': '#DDDDDD'
         };
+        */
 
         /*
          *  Fetches list of building categories in use
@@ -77,10 +79,10 @@
                 console.error('cannot filter; there is no viz!');
                 return;
             }
-            if ($scope.filterType === module.FILTER_NONE) {
+            if (val === module.FILTER_NONE) {
                 viz.setSQL('select * from mos_beb_2013');
             } else {
-                viz.setSQL("select * from mos_beb_2013 where primary_property_type ='" + val + "';");
+                viz.setSQL('select * from mos_beb_2013 where primary_property_type =\'' + val + '\';');
             }
         };
 

@@ -105,7 +105,7 @@
                 });
 
                 /* jshint camelcase:false */
-                vizLayer.on('featureClick', function(e, latlng, pos, data, subLayerIndex) {
+                vizLayer.on('featureClick', function(e, latlng, pos, data) {
 
                     // show popup with spinner to indicate it's loading, hang on...
                     $scope.popupLoading = true;
