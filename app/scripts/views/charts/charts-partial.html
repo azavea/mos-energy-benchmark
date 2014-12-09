@@ -1,8 +1,55 @@
-<mos-time-scatterplot id="time-scatterplot-1"
-                      data="combinedData"
-                      margin="{top: 10, left: 60, right: 10, bottom: 30}">
-                      </mos-time-scatterplot>
-<mos-scatterplot id="scatter-chart-1" data="currentData" plot-width="600"></mos-scatterplot>
-<mos-barchart id="bar-chart-1" data="seedData"></mos-barchart>
-<mos-bubblechart id="bubble-chart-1" data="groupedData"></mos-bubblechart>
+<div class="body-bg">
+    <div class="stats-callout">
+        <div class="row text-center">
+            <div class="jumbo col-md-offset-4 col-md-4">64</div>
+            <div class="col-md-offset-4 col-md-4"><p>Philadelphia’s average ENERGY STAR score.  The national average is 50.</p></div>
+        </div>
+    </div>
 
+    <div class="container space">
+        <div class="row text-center">
+            <h1>Stats By Building Type</h1>
+            <mos-bubblechart id="bubble-chart-1" data="groupedData"></mos-bubblechart>
+        </div>
+    </div>
+
+    <div class="stats-callout">
+        <div class="row text-center">
+            <div class="jumbo col-md-offset-4 col-md-4">62</div>
+            <div class="col-md-offset-4 col-md-4"><p>Buildings account for almost 62% of all greenhouse gas emissions in Philadelphia</p></div>
+        </div>
+    </div>
+
+    <div class="container space">
+        <div class="row text-center">
+            <h1>Year Built & Size Breakdown</h1>
+            <mos-barchart id="bar-chart-1" data="seedData"></mos-barchart>
+        </div>
+    </div>
+
+    <div class="stats-callout">
+        <div class="row text-center">
+            <div class="jumbo col-md-offset-4 col-md-4">2,700</div>
+            <div class="col-md-offset-4 col-md-4"><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod</p></div>
+        </div>
+    </div>
+
+    <div class="container space">
+        <div class="row text-center">
+            <h1>Comparison</h1>
+            <mos-scatterplot id="scatter-chart-1" data="currentData" plot-width="600"></mos-scatterplot>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="container space">
+        <div class="row text-center">
+            <h1>Comparison Over Time</h1>
+            <mos-time-scatterplot id="time-scatterplot-1"
+                data="combinedData"
+                margin="{top: 10, left: 60, right: 10, bottom: 30}">
+            </mos-time-scatterplot>
+        </div>
+    </div>
+</div>

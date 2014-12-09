@@ -57,12 +57,33 @@ h1, h2, h3, h4{
   font-weight: 700;
 }
 
+h1{
+  color: $heading;
+
+  &:after{
+    content: '';
+    display: block;
+    margin: 24px auto 48px auto;
+    border-bottom: solid 4px $heading;
+    width: 120px;
+  }
+}
+
+hr{
+  border-color: $table-border!important;
+}
 .container{
   width: 90%;
-  margin: 0 5% 24px 5%;
+  margin: 24px 5%;
 }
-.margin-top{
-  margin-top: 24px!important;
+
+.body-bg{
+  background-color: $light-bg;
+  padding-bottom: 100px;
+}
+
+.space{
+  margin: 72px 5%;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -198,7 +219,7 @@ h1, h2, h3, h4{
   background-color: $multi-family;
 }
 
-//Buttond
+//Buttons
 .btn-ghost {
   display: inline-block;
   margin-bottom: 0; // For input.btn
@@ -226,5 +247,31 @@ h1, h2, h3, h4{
   &.active {
     outline: 0;
     background-image: none;;
+  }
+}
+
+.close {
+    opacity: 0.8!important;
+    text-shadow: none!important;
+
+    a{
+        color: $heading!important;
+    }
+
+    &:hover{
+        opacity: 1!important;
+    }
+}
+
+.stats-callout{
+  min-height: 300px;
+  padding: 48px;
+  background-color: $callout;
+  color: $paper;
+
+  .jumbo{
+    font-family: 'Roboto Slab', serif;
+    font-weight: 700;
+    font-size: 8rem;
   }
 }
