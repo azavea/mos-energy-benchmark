@@ -69,6 +69,7 @@
           '<h4>ID:</h4>', 
           '<p>{{::cartodbId}}</p>',
           '<p><button ng-click="compare()" ng-disabled="haveThree">Compare</button></p>',
+          '<p><button ui-sref="detail({buildingId: cartodbId})">Full Report</button></p>',
           '</div></span>'].join('');
 
         var showPopup = function(map, coords) {
@@ -113,7 +114,7 @@
                     // show popup with spinner to indicate it's loading, hang on...
                     $scope.popupLoading = true;
                     showPopup(nativeMap, latlng);
-                    
+
                     // Go fetch data for this feature; 'data' object from click method only has
                     // the interactivity field, which is the cartodb_id.
                     /* jshint camelcase: false */

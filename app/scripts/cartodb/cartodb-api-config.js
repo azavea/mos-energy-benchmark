@@ -8,7 +8,7 @@
         var module = {};
 
         // The unique column to use to identify records throughout the app
-        module.uniqueColumn = 'phl_bldg_id';
+        module.uniqueColumn = 'cartodb_id';
 
         module.tables = {
             currentYear: 'mos_beb_2013',
