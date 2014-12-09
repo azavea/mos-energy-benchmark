@@ -66,6 +66,8 @@
                 $scope.buildingTypes = [{'sector': module.FILTER_NONE}];
             });
 
+        MappingService.getLegend();
+
         // load map visualization
         cartodb.createVis('mymap', 'http://azavea-demo.cartodb.com/api/v2/viz/c5a9af6e-7f12-11e4-8f24-0e018d66dc29/viz.json',
                           {'infowindow': false, 'legends': true})
