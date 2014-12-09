@@ -8,7 +8,7 @@
         var module = {};
 
         module.FILTER_NONE = 'All types';
-        var buildingTypes = [{'primary_property_type': module.FILTER_NONE}];
+        var buildingTypes = [{'sector': module.FILTER_NONE}];
 
         // TODO: show additional legend of property type with its sector color if color by property type selected
         /*
@@ -36,17 +36,17 @@
             if (buildingTypes.size > 1) {
                 callback(buildingTypes);
             }
-            var qry = 'SELECT DISTINCT primary_property_type FROM mos_beb_2013 ORDER BY sector;';
+            var qry = 'SELECT DISTINCT sector FROM mos_beb_2013;';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
             sql.execute(qry)
                 .done(function(data) {
-                    buildingTypes = [{'primary_property_type': module.FILTER_NONE}];
+                    buildingTypes = [{'sector': module.FILTER_NONE}];
                     buildingTypes = buildingTypes.concat(data.rows);
                     callback(buildingTypes);
                 }).error(function(errors) {
                     // returns a list
                     console.error('errors fetching property types: ' + errors);
-                    buildingTypes = [{'primary_property_type': module.FILTER_NONE}];
+                    buildingTypes = [{'sector': module.FILTER_NONE}];
                     callback(buildingTypes);
                 });
         };
@@ -60,8 +60,8 @@
          */
         module.featureLookup = function(callback, cartodbId, coords)  {
             /* jshint camelcase: false */
-            var qry = 'SELECT cartodb_id, geocode_address, total_ghg, property_name ' + 
-            'FROM mos_beb_2013 where cartodb_id = {{id}}';
+            var qry = 'SELECT cartodb_id, geocode_address, total_ghg, property_name, ' + 
+            'sector FROM mos_beb_2013 where cartodb_id = {{id}}';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
             sql.execute(qry, { id: cartodbId})
                 .done(function(data) {
