@@ -4,18 +4,23 @@
     /*
      * ngInject
      */
-    function MapController($scope, $compile, BuildingCompare, MappingService) {
+    function MapController($compile, $scope, $state, BuildingCompare, MappingService) {
 
         // initialization
         var vizLayer = null;
         var nativeMap = null;
 
-        $scope.haveThree = false;
+        $scope.compare = {
+            count: BuildingCompare.count(),
+            isChecked: false,
+            disabled: false
+        };
+        $scope.cartodbId = '';
         $scope.popupLoading = true;
         $scope.buildingTypes = [];
         $scope.filterType = MappingService.FILTER_NONE;
 
-        // indicate that map is loading, hang on...
+        // indicate that map is loading, hang on..
         $scope.mapLoading = true;
 
         $scope.filterBy = function(propertyType) {
@@ -23,14 +28,17 @@
             MappingService.filterViz(vizLayer, propertyType);
         };
 
-        $scope.compare = function() {
-            if ($scope.haveThree) {
-                // shouldn't get here (button is disabled)
-                console.error('Cannot compare more than three items at a time');
-            } else {
-                BuildingCompare.add($scope.cartodbId);
-                $scope.haveThree = BuildingCompare.count() >=3 ? true : false;
+        $scope.setCompare = function(cartodbId) {
+            if (BuildingCompare.count() < 3 && $scope.compare.isChecked) {
+                BuildingCompare.add(cartodbId);
+            } else if (!$scope.compare.isChecked) {
+                BuildingCompare.remove(cartodbId);
             }
+            $scope.compare.count = BuildingCompare.count();
+        };
+
+        $scope.gotoCompare = function () {
+            $state.go('compare', {ids: BuildingCompare.list().join(',')});
         };
 
         var popupTemplate = ['<span>',
@@ -41,13 +49,17 @@
           '<p>{{::address}}</p>',
           '<h4>Emissions:</h4>',
           '<p>{{::totalGhg}}</p>',
-          '<h4>ID:</h4>', 
+          '<h4>ID:</h4>',
           '<p>{{::cartodbId}}</p>',
-          '<p><button ng-click="compare()" ng-disabled="haveThree">Compare</button></p>',
+          '<p><input type="checkbox" ng-model="compare.isChecked" ng-disabled="compare.disabled" ng-change="setCompare(cartodbId)" />Compare</p>',
           '<p><button ui-sref="detail({buildingId: cartodbId})">Full Report</button></p>',
           '</div></span>'].join('');
 
         var showPopup = function(coords) {
+            // Set the properties of the compare object here so we ensure the popup always
+            //  has the correct state on load
+            $scope.compare.isChecked = BuildingCompare.hasId($scope.cartodbId);
+            $scope.compare.disabled = !$scope.compare.isChecked && BuildingCompare.count() >= 3;
             var popup = $compile(popupTemplate)($scope);
             $scope.$apply(); // tell Angular to really, really go compile now
             L.popup({

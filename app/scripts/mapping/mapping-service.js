@@ -36,7 +36,7 @@
             if (buildingTypes.size > 1) {
                 callback(buildingTypes);
             }
-            var qry = 'SELECT DISTINCT primary_property_type FROM mos_beb_2013 ORDER BY sector;';
+            var qry = 'SELECT DISTINCT sector FROM mos_beb_2013 ORDER BY sector;';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
             sql.execute(qry)
                 .done(function(data) {
@@ -60,7 +60,7 @@
          */
         module.featureLookup = function(callback, cartodbId, coords)  {
             /* jshint camelcase: false */
-            var qry = 'SELECT cartodb_id, geocode_address, total_ghg, property_name ' + 
+            var qry = 'SELECT cartodb_id, geocode_address, total_ghg, property_name ' +
             'FROM mos_beb_2013 where cartodb_id = {{id}}';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
             sql.execute(qry, { id: cartodbId})
