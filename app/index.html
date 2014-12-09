@@ -26,9 +26,10 @@
     <header class="header">
       <h3 class="text-muted">MOS Energy Benchmark</h3>
       <ul class="nav nav-pills pull-right">
-        <li class="active"><a ui-sref="charts">Charts</a></li>
-        <li><a ui-sref="map">Map</a></li>
-        <li><a ui-sref="info">Info</a></li>
+        <li ui-sref-active="active"><a ui-sref="charts">Charts</a></li>
+        <!-- TODO: Figure out how to show map highlight when detail/compare is active? -->
+        <li ui-sref-active="active"><a ui-sref="map">Map</a></li>
+        <li ui-sref-active="active"><a ui-sref="info">Info</a></li>
       </ul>
     </header>
     <div ui-view class="content">
