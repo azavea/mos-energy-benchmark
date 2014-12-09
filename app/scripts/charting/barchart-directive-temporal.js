@@ -5,7 +5,7 @@
     var BarChartDefaultsTemporal = {
         plotWidth: 800,
         plotHeight: 200,
-        yLabel: 'count',
+        yLabel: 'emissions',
         xLabel: 'yearbuilt',
     };
 
@@ -58,7 +58,7 @@
                 // This annoying junk is to logarithmically bin years - we have fewer old buildings
                 var nestedByLog = d3.nest()
                     .key(function(d) {
-                        return Math.log(2014 - d[config.xLabel]);
+                        return (2014 - d[config.xLabel]);
                     })
                     .rollup(function(d) {
                         return {

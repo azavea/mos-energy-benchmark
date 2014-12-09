@@ -5,7 +5,7 @@
     var BarChartDefaultsSqft = {
         plotWidth: 800,
         plotHeight: 200,
-        yLabel: 'emissions',
+        yLabel: 'energystar',
         xLabel: 'avgsqfeet',
     };
 
