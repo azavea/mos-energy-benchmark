@@ -32,6 +32,7 @@ module.exports = function(config) {
       'bower_components/lodash/dist/lodash.compat.js',
 
       // Add app scripts here, same order as in index.html
+      'app/utils.js',
       'app/scripts/cartodb/cartodb-api-config.js',
       'app/scripts/cartodb/cartodb-api-service.js',
       'app/scripts/charting/module.js',
