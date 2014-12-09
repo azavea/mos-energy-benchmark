@@ -49,7 +49,7 @@
                 + ', site_eui AS eui'
                 + ' FROM ' + module.tables.currentYear,
 
-            detailQuery: Utils.strFormat('SELECT * from mos_beb_2013 where {uniqueColumn} = \'{id}\'', {
+            detailQuery: Utils.strFormat('SELECT * from mos_beb_2013 where {uniqueColumn} in ({id})', {
                 uniqueColumn: module.uniqueColumn
             }),
 

@@ -13,20 +13,10 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>
-                        <div class="close"><a ui-sref="#"><i class="fa fa-times"></i></a></div>
+                    <th ng-repeat="building in buildings track by building.cartodb_id">
+                        <div class="close"><a ng-click="close($index)"><i class="fa fa-times"></i></a></div>
                         <div class="building"></div>
-                        <h5>Building One</h5>
-                    </th>
-                    <th>
-                        <div class="close"><a ui-sref="#"><i class="fa fa-times"></i></a></div>
-                        <div class="building"></div>
-                        <h5>Building Two</h5>
-                    </th>
-                    <th>
-                        <div class="close"><a ui-sref="#"><i class="fa fa-times"></i></a></div>
-                        <div class="building"></div>
-                        <h5>Building Three</h5>
+                        <h5>{{ ::building.property_name }}</h5>
                     </th>
 
                     <th>
@@ -35,60 +25,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="category">Energy Star Score</td>
-                    <td class="compare bld-1">Building 1 Data</td>
-                    <td class="compare bld-2">Building 2 Data</td>
-                    <td class="compare bld-3">Building 3 Data</td>
-                    <td><i class="fa fa-signal"></i> Chart</td>
-                </tr>
-                <tr>
-                    <td class="category">EUI</td>
-                    <td class="compare bld-1">Building 1 Data</td>
-                    <td class="compare bld-2">Building 2 Data</td>
-                    <td class="compare bld-3">Building 3 Data</td>
-                    <td><i class="fa fa-signal"></i> Chart</td>
-                </tr>
-                <tr>
-                    <td class="category">Emissions</td>
-                    <td class="compare bld-1">Building 1 Data</td>
-                    <td class="compare bld-2">Building 2 Data</td>
-                    <td class="compare bld-3">Building 3 Data</td>
-                    <td><i class="fa fa-signal"></i> Chart</td>
-                </tr>
-                <tr>
-                    <td class="category">Electric Usage</td>
-                    <td class="compare bld-1">Building 1 Data</td>
-                    <td class="compare bld-2">Building 2 Data</td>
-                    <td class="compare bld-3">Building 3 Data</td>
-                    <td><i class="fa fa-signal"></i> Chart</td>
-                </tr>
-                <tr>
-                    <td class="category">Natural Gas Usage</td>
-                    <td class="compare bld-1">Building 1 Data</td>
-                    <td class="compare bld-2">Building 2 Data</td>
-                    <td class="compare bld-3">Building 3 Data</td>
-                    <td><i class="fa fa-signal"></i> Chart</td>
-                </tr>
-                <tr>
-                    <td class="category">Oil Usage</td>
-                    <td class="compare bld-1">Building 1 Data</td>
-                    <td class="compare bld-2">Building 2 Data</td>
-                    <td class="compare bld-3">Building 3 Data</td>
-                    <td><i class="fa fa-signal"></i> Chart</td>
-                </tr>
-                <tr>
-                    <td class="category">Steam Usage</td>
-                    <td class="compare bld-1">Building 1 Data</td>
-                    <td class="compare bld-2">Building 2 Data</td>
-                    <td class="compare bld-3">Building 3 Data</td>
-                    <td><i class="fa fa-signal"></i> Chart</td>
-                </tr>
-                <tr>
-                    <td class="category">Water Usage</td>
-                    <td class="compare bld-1">Building 1 Data</td>
-                    <td class="compare bld-2">Building 2 Data</td>
-                    <td class="compare bld-3">Building 3 Data</td>
+                <tr ng-repeat="(key, readable) in fields">
+                    <td class="category">{{ ::readable }}</td>
+                    <td class="compare" ng-class="bld-{{ $index + 1 }}" ng-repeat="building in buildings">{{ ::building[key] | cartodbNumber }}</td>
                     <td><i class="fa fa-signal"></i> Chart</td>
                 </tr>
             </tbody>
