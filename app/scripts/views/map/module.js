@@ -20,8 +20,7 @@
      */
     angular
       .module('mos.views.map', [
-        'ui.router',
-        'leaflet-directive'
+        'ui.router'
       ]).config(StateConfig);
 
 })();

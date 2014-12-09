@@ -28,9 +28,9 @@
             prevQuery: 'SELECT'
                 + ' property_id AS id'
                 + ', property_name AS propertyname'
-                + ', total_ghg_emissions_mtco2e AS emissions'
+                + ', total_ghg AS emissions'
                 + ', energy_star_score AS energystar'
-                + ', site_eui_kbtu_ft AS eui'
+                + ', site_eui AS eui'
                 + ' FROM mos_beb_2012',
 
             currQuery: 'SELECT'
