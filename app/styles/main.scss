@@ -58,15 +58,18 @@ h1, h2, h3, h4{
 }
 
 h1{
-  color: $heading;
 
   &:after{
     content: '';
     display: block;
     margin: 24px auto 48px auto;
-    border-bottom: solid 4px $heading;
+    border-bottom: solid 4px;
     width: 120px;
   }
+}
+
+p{
+  font-size: 1rem;
 }
 
 hr{
@@ -74,25 +77,24 @@ hr{
 }
 .container{
   width: 90%;
-  margin: 24px 5%;
+  margin: 0 5%;
+  padding: 24px 0;
 }
 
 .body-bg{
   background-color: $light-bg;
   padding-bottom: 100px;
+
+  h1{
+    color: $heading;
+    border-color: $heading;
+  }
 }
 
 .space{
-  margin: 72px 5%;
+  padding: 72px 0;
 }
 
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-  padding-left: 15px;
-  padding-right: 15px;
-}
 
 /* Custom page header */
 .header {
@@ -112,15 +114,14 @@ hr{
   margin: 30px 0;
 }
 
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-
-  .btn {
-    font-size: 21px;
-    padding: 14px 24px;
-  }
+.hero{
+  width: 100%;
+  height: 800px;
+  display: block;
+  background-image: url('../images/hero.png');
+  background-position: center center;
+  background-size: cover;
+  color: $paper!important;
 }
 
 /* Supporting marketing content */
@@ -220,33 +221,43 @@ hr{
 }
 
 //Buttons
-.btn-ghost {
+.btn{
   display: inline-block;
   margin-bottom: 0; // For input.btn
   font-weight: 300;
-  color: $paper;
-  background: transparent!important;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
-  border: o!important;
+  border: 0!important;
   white-space: nowrap;
+}
 
-  i{
-    color: $paper;
-    padding-right: 8px;
-  }
+.btn-lg{
+  margin: 12px;
+  padding: 16px 32px;
+  font-size: 1rem;
+}
+
+.btn-ghost {
+  background: rgba(225,225,225,.2);
+  color: $paper;
 
   &:hover,
   &:focus {
-    text-decoration: none;
-    background: rgba(0,0,0,.4);
+    background: rgba(225,225,225,.5);
+    color: $paper;
   }
-  &:active,
-  &.active {
-    outline: 0;
-    background-image: none;;
+}
+
+.btn-default {
+  background: $active;
+  color: $paper;
+
+  &:hover,
+  &:focus {
+    background: darken($active, 3%);
+    color: $paper;
   }
 }
 
@@ -263,6 +274,8 @@ hr{
     }
 }
 
+
+//Homepage
 .stats-callout{
   min-height: 300px;
   padding: 48px;
