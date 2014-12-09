@@ -6,9 +6,14 @@
      */
     function StateConfig($stateProvider) {
         $stateProvider.state('detail', {
-            url: '/detail',
+            url: '/detail/:buildingId',
             templateUrl: 'scripts/views/detail/detail-partial.html',
-            controller: 'DetailController'
+            controller: 'DetailController',
+            resolve: /* ngInject */ {
+                buildingData: function ($stateParams, CartoSQLAPI) {
+                    return CartoSQLAPI.getBuildingData($stateParams.buildingId);
+                }
+            }
         });
     }
 

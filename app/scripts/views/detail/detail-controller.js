@@ -4,7 +4,8 @@
     /*
      * ngInject
      */
-    function DetailController() {
+    function DetailController(buildingData) {
+        console.log('detail: ', buildingData.data);
     }
 
     angular.module('mos.views.detail')
