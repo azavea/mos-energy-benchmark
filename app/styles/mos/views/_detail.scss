@@ -1,0 +1,77 @@
+.snapshot{
+    color: $paper;
+    padding: 14px 0;
+    width: 100%;
+    display: block;
+
+    p{
+        margin: 0;
+    }
+
+    h3{
+        font-size: 1.4rem;
+    }
+}
+
+.energy-star{
+    background-color: rgba(225,225,225,.2);
+    padding: 18px;
+    text-align: center;
+    border-radius: 12px;
+    width: 160px;
+    h4{
+       font-size: 3rem;
+       margin: 0!important;
+    }
+    label{
+        font-weight: 400!important;
+        margin: 0!important;
+    }
+}
+
+.close {
+    opacity: 0.8!important;
+    text-shadow: none!important;
+
+    a{
+        color: $paper!important;
+    }
+
+    &:hover{
+        opacity: 1!important;
+    }
+}
+
+.stats{
+    margin-bottom: 12px;
+
+    p{
+        line-height: 100px!important;
+        margin: 0!important;
+        vertical-align: baseline;
+    }
+    h3{
+        line-height: 100px!important;
+        margin: 0!important;
+        vertical-align: baseline;
+    }
+}
+
+.strong{
+    color: $heading!important;
+}
+
+.chart{
+    height: 100px;
+    background-color: $border;
+    border-radius: 8px;
+    display: block;
+    width: 100%;
+    text-align: center;
+
+    i{
+        font-size: 24px;
+        color: rgba(0,0,0,.2);
+        line-height: 100px;
+    }
+}

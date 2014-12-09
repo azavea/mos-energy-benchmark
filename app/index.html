@@ -13,6 +13,8 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.11/themes/css/cartodb.css" />
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,400italic|Roboto+Slab:700' rel='stylesheet' type='text/css'>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- endbuild -->
   </head>
   <body ng-app="mos">
@@ -21,15 +23,15 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="container">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li class="active"><a ui-sref="charts">Charts</a></li>
-          <li><a ui-sref="map">Map</a></li>
-          <li><a ui-sref="info">Info</a></li>
-        </ul>
-        <h3 class="text-muted">MOS Energy Benchmark</h3>
-      </div>
+    <header class="header">
+      <h3 class="text-muted">MOS Energy Benchmark</h3>
+      <ul class="nav nav-pills pull-right">
+        <li class="active"><a ui-sref="charts">Charts</a></li>
+        <li><a ui-sref="map">Map</a></li>
+        <li><a ui-sref="info">Info</a></li>
+      </ul>
+    </header>
+    <div class="content">
 
       <ui-view></ui-view>
     </div>
