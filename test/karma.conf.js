@@ -19,6 +19,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'bower_components/angular/angular.js',
+      'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/angular-animate/angular-animate.js',
       'bower_components/angular-cookies/angular-cookies.js',
@@ -26,9 +27,6 @@ module.exports = function(config) {
       'bower_components/angular-ui-router/release/angular-ui-router.min.js',
       'bower_components/d3/d3.js',
       'bower_components/d3-tip/index.js',
-      'bower_components/leaflet/dist/leaflet.js',
-      'bower_components/leaflet/dist/leaflet-src.js',
-      'bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js',
       'bower_components/lodash/dist/lodash.compat.js',
 
       // Add app scripts here, same order as in index.html
@@ -43,6 +41,8 @@ module.exports = function(config) {
       'app/scripts/charting/scatterplot-directive.js',
       'app/scripts/compare/module.js',
       'app/scripts/compare/compare-service.js',
+      'app/scripts/mapping/module.js',
+      'app/scripts/mapping/mapping-service.js',
       'app/scripts/views/charts/module.js',
       'app/scripts/views/charts/charts-controller.js',
       'app/scripts/views/map/module.js',
@@ -54,6 +54,7 @@ module.exports = function(config) {
       'app/scripts/views/compare/module.js',
       'app/scripts/views/compare/compare-controller.js',
       'app/scripts/app.js',
+      'http://libs.cartocdn.com/cartodb.js/v3/3.11/cartodb.js',
 
       'test/mock/**/*.js',
       'test/spec/**/*.js'

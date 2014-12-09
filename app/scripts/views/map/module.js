@@ -22,7 +22,8 @@
       .module('mos.views.map', [
         'ui.router',
         'ui.bootstrap',
-        'mos.compare'
+        'mos.compare',
+        'mos.mapping'
       ]).config(StateConfig);
 
 })();
