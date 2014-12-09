@@ -66,11 +66,12 @@
                 $scope.buildingTypes = [{'sector': module.FILTER_NONE}];
             });
 
-        MappingService.getLegend();
+        // get colors to display in legend
+        $scope.sectorColors = MappingService.getLegendColors();
 
         // load map visualization
         cartodb.createVis('mymap', 'http://azavea-demo.cartodb.com/api/v2/viz/c5a9af6e-7f12-11e4-8f24-0e018d66dc29/viz.json',
-                          {'infowindow': false, 'legends': true})
+                          {'infowindow': false, 'legends': true, 'searchControl': false, 'loaderControl': false})
             .done(function(vis, layers) {
                 $scope.mapLoading = false;
                 nativeMap = vis.getNativeMap();
@@ -91,8 +92,15 @@
                     $('.leaflet-container').css('cursor', '-moz-grab');
                 });
 
-                vizLayer.on('featureClick', function(e, latlng, pos, data) {
+                var legend = new cartodb.geo.ui.Legend({
+                   type: 'custom',
+                   title: 'Sectors',
+                   data: $scope.sectorColors
+                 });
 
+                $('#mymap').append(legend.render().el);
+                
+                vizLayer.on('featureClick', function(e, latlng, pos, data) {
                     // show popup with spinner to indicate it's loading, hang on...
                     $scope.popupLoading = true;
                     showPopup(latlng);

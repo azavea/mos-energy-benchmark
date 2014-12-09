@@ -21,7 +21,7 @@
         'Multifamily': '#FF7F00',
         'Hotel': '#CAB2D6',
         'Industrial': '#6A3D9A',
-        '': '#DDDDDD'
+        'Unknown': '#DDDDDD'
     };
 
     /**

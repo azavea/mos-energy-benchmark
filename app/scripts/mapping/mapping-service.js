@@ -9,11 +9,13 @@
 
         module.FILTER_NONE = 'All types';
 
-        module.getLegend = function() {
+        module.getLegendColors = function() {
+            var sectors = [];
+            // build object with properties CartoDB expects for legend data
             angular.forEach(MOSColors, function(value, key) {
-                console.log(key);
-                console.log(value);
+                sectors.push({'name': key, 'value': value});
             });
+            return sectors;
         };
 
         /*
