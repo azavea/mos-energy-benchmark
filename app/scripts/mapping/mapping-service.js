@@ -34,7 +34,7 @@
             if (buildingTypes.size > 1) {
                 callback(buildingTypes);
             }
-            var qry = 'SELECT DISTINCT primary_property_type, sector FROM mos_beb_2013 ORDER BY sector;';
+            var qry = 'SELECT DISTINCT primary_property_type FROM mos_beb_2013 ORDER BY sector;';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
             sql.execute(qry)
                 .done(function(data) {
