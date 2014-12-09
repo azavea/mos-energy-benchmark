@@ -23,7 +23,6 @@
         var building = buildingData.data && buildingData.data.rows && buildingData.data.rows.length > 0
                         ? buildingData.data.rows[0] : {};
 /* jshint laxbreak:false */
-        console.log(building);
         $scope.building = building;
         $scope.fields = DetailConfig.fields;
     }
