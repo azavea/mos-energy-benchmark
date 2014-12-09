@@ -6,11 +6,13 @@
      */
     var DetailConfig = {
         fields: {
-            'electricity': 'Electricity',
             'site_eui': 'EUI',
-            'total_ghg': 'Greenhouse Emissions',
-            'water_use': 'Water Use',
-            'natural_gas': 'Natural Gas'
+            'total_ghg': 'Emissions',
+            'electricity': 'Electric Usage',
+            'natural_gas': 'Natural Gas Usage',
+            'fuel_oil': 'Oil Usage',
+            'steam': 'Steam Usage',
+            'water_use': 'Water Usage'
         }
     };
 
