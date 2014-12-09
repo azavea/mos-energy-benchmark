@@ -59,10 +59,11 @@ h1, h2, h3, h4{
 
 .container{
   width: 90%;
-  margin: 0 5% 24px 5%;
+  margin: 24px 5%;
 }
+
 .margin-top{
-  margin-top: 24px!important;
+  margin-top: 36px!important;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -198,7 +199,7 @@ h1, h2, h3, h4{
   background-color: $multi-family;
 }
 
-//Buttond
+//Buttons
 .btn-ghost {
   display: inline-block;
   margin-bottom: 0; // For input.btn
@@ -227,4 +228,17 @@ h1, h2, h3, h4{
     outline: 0;
     background-image: none;;
   }
+}
+
+.close {
+    opacity: 0.8!important;
+    text-shadow: none!important;
+
+    a{
+        color: $heading!important;
+    }
+
+    &:hover{
+        opacity: 1!important;
+    }
 }

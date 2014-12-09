@@ -29,19 +29,6 @@
     }
 }
 
-.close {
-    opacity: 0.8!important;
-    text-shadow: none!important;
-
-    a{
-        color: $paper!important;
-    }
-
-    &:hover{
-        opacity: 1!important;
-    }
-}
-
 .stats{
     margin-bottom: 12px;
 
