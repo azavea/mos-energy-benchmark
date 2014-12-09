@@ -12,7 +12,7 @@
 
         $scope.haveThree = false;
         $scope.popupLoading = true;
-        $scope.building_types = [];
+        $scope.buildingTypes = [];
         $scope.filterType = FILTER_NONE;
 
         // indicate that map is loading, hang on...
@@ -44,8 +44,8 @@
                 .done(function(data) {
                     console.log('got building categories!');
                     //console.log(data.rows);
-                    $scope.building_types = [{'primary_property_type': FILTER_NONE}];
-                    $scope.building_types = data.rows;
+                    $scope.buildingTypes = [{'primary_property_type': FILTER_NONE}];
+                    $scope.buildingTypes = data.rows;
                 }).error(function(errors) {
                     // returns a list
                     console.error('errors fetching property types: ' + errors);
@@ -57,26 +57,26 @@
                 // shouldn't get here (button is disabled)
                 console.error('Cannot compare more than three items at a time');
             } else {
-                BuildingCompare.add($scope.cartodb_id);
+                BuildingCompare.add($scope.cartodbId);
                 $scope.haveThree = BuildingCompare.count() >=3 ? true : false;
             }
         };
 
-        var popup_template = ['<span>',
+        var popupTemplate = ['<span>',
           '<div ng-show="popupLoading" class="spinner">',
           '<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>',
           '</div>',
           '<div ng-hide="popupLoading"><h4>Address:</h4>',
           '<p>{{address}}</p>',
           '<h4>Emissions:</h4>',
-          '<p>{{total_ghg}}</p>',
+          '<p>{{totalGhg}}</p>',
           '<h4>ID:</h4>', 
-          '<p>{{cartodb_id}}</p>',
+          '<p>{{cartodbId}}</p>',
           '<p><button ng-click="compare()" ng-disabled="haveThree">Compare</button></p>',
           '</div></span>'].join('');
 
         var showPopup = function(map, coords) {
-            var popup = $compile(popup_template)($scope);
+            var popup = $compile(popupTemplate)($scope);
             $scope.$apply(); // tell Angular to really, really go compile now
             L.popup({
                 minWidth: 100
@@ -121,15 +121,16 @@
                     
                     // Go fetch data for this feature; 'data' object from click method only has
                     // the interactivity field, which is the cartodb_id.
+                    /* jshint camelcase: false */
                     var qry = 'SELECT cartodb_id, geocode_address, total_ghg, property_name ' + 
                     'FROM mos_beb_2013 where cartodb_id = {{id}}';
                     var sql = new cartodb.SQL({ user: 'azavea-demo'});
                     sql.execute(qry, { id: data.cartodb_id})
                         .done(function(data) {
                             var data = data.rows[0];
-                            $scope.cartodb_id = data.cartodb_id.toString();
+                            $scope.cartodbId = data.cartodb_id.toString();
                             $scope.address = data.geocode_address;
-                            $scope.total_ghg = data.total_ghg;
+                            $scope.totalGhg = data.total_ghg;
 
                             // update popup now we have the data
                             $scope.popupLoading = false;
@@ -139,6 +140,7 @@
                             // returns a list
                             console.error('errors fetching property data: ' + errors);
                         });
+                        /* jshint camelcase:true */
                 });
             });
     }
