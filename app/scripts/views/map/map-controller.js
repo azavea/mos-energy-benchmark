@@ -4,7 +4,7 @@
     /*
      * ngInject
      */
-    function MapController($scope, $compile, BuildingCompare) {
+    function MapController($scope, $compile, BuildingCompare, MappingService) {
 
         // initialization
         var FILTER_NONE = 'All types';
@@ -36,16 +36,19 @@
         };
 
         var getBldgCategories = function() {
+            $scope.buildingTypes = MappingService.getBldgCategories();
+            /*
             var qry = 'SELECT DISTINCT primary_property_type FROM mos_beb_2013;';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
             sql.execute(qry)
                 .done(function(data) {
                     $scope.buildingTypes = [{'primary_property_type': FILTER_NONE}];
-                    $scope.buildingTypes = data.rows;
+                    $scope.buildingTypes = $scope.buildingTypes.concat(data.rows);
                 }).error(function(errors) {
                     // returns a list
                     console.error('errors fetching property types: ' + errors);
                 });
+            */
         };
 
         $scope.compare = function() {
