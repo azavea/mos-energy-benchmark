@@ -4,13 +4,13 @@
     /**
      * @ngInject
      */
-    function CartoSQLAPI ($http, CartoConfig) {
+    function CartoSQLAPI ($http, CartoConfig, Utils) {
         var module = {};
 
         /*
          *  Retrieves the current data from CartoDB
          *
-         *  @return jQuery.Deferred object
+         *  @return {$httpPromise} object
          */
         module.getCurrentData = function () {
             return makeCartoDBRequest(CartoConfig.data.currQuery);
@@ -19,7 +19,7 @@
         /*
          *  Retrieves the previous data from CartoDB
          *
-         *  @return jQuery.Deferred object
+         *  @return {$httpPromise} object
          */
         module.getPreviousData = function () {
             return makeCartoDBRequest(CartoConfig.data.prevQuery);
@@ -28,19 +28,41 @@
         /*
          *  Retrieves the grouped data from CartoDB
          *
-         *  @return jQuery.Deferred object
+         *  @return {$httpPromise} object
          */
         module.getGroupedData = function () {
             return makeCartoDBRequest(CartoConfig.data.groupedQuery);
         };
 
+        /**
+         * Get building data for a given id
+         * @param  {String} buildingId Building id queried against CartoConfig.uniqueColumn column
+         * @return {$httpPromise}
+         */
+        module.getBuildingData = function (buildingId) {
+            return makeCartoDBRequest(CartoConfig.data.detailQuery, {
+                id: buildingId
+            });
+        };
+
+        /**
+         * Get popup data for a given cartodbId
+         * @param  {String} cartodbId The cartodbId to query against
+         * @return {$httpPromise}
+         */
+        module.getPopupData = function (cartodbId) {
+            return makeCartoDBRequest(CartoConfig.data.popupQuery, {
+                cartodbId: cartodbId
+            });
+        };
+
         /*
          * Combines the rows, keeps the ones where data exists for both years
          *
-         * @param currData Object returned from CartoDB representing current data
-         *     prevData Object returned from CartoDB representing previous data
+         * @param {Object} currData Data returned from CartoDB representing current data
+         * @param {Object} prevData Data returned from CartoDB representing previous data
          *
-         * @return Array of merged data
+         * @return [Array] Merged data
          */
         module.getCombinedData = function (currData, prevData) {
             var currRows = currData.rows;
@@ -69,11 +91,20 @@
             return dataArr;
         };
 
-        // Helper for getting data from CartoDB and returning a promise
-        function makeCartoDBRequest(query) {
+        /**
+         * Helper function to make a request to the CartoDBAPI
+         * @param  {String} query The sql query to make
+         * @param  {Object(Optional)} queryParams Object See Utils.strFormat params
+         * @return {$httpPromise} The $httpPromise object for the query
+         */
+        function makeCartoDBRequest(query, queryParams) {
+
+            queryParams = queryParams || {};
+            var formattedQuery = Utils.strFormat(query, queryParams);
+
             return $http.get(CartoConfig.data.url, {
                 params: {
-                    q: query
+                    q: formattedQuery
                 }
             });
         }
