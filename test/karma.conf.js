@@ -28,6 +28,7 @@ module.exports = function(config) {
       'bower_components/d3/d3.js',
       'bower_components/d3-tip/index.js',
       'bower_components/lodash/dist/lodash.compat.js',
+      'bower_components/ngSmoothScroll/angular-smooth-scroll.js',
 
       // Add app scripts here, same order as in index.html
       'app/scripts/utils.js',

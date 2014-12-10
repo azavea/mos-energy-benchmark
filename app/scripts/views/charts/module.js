@@ -32,6 +32,7 @@
     angular
       .module('mos.views.charts', [
         'ui.router',
+        'smoothScroll',
         'mos.cartodb',
         'mos.charting'
       ]).config(StateConfig);
