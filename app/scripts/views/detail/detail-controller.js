@@ -19,7 +19,7 @@
     /*
      * ngInject
      */
-    function DetailController($scope, DetailConfig, buildingData) {
+    function DetailController($scope, DetailConfig, MOSColors, buildingData) {
 
 /* jshint laxbreak:true */
         var building = buildingData.data && buildingData.data.rows && buildingData.data.rows.length > 0
@@ -27,6 +27,10 @@
 /* jshint laxbreak:false */
         $scope.building = building;
         $scope.fields = DetailConfig.fields;
+        $scope.sectorColor = {
+            'background-color': MOSColors[building.sector],
+            opacity: 0.8
+        };
     }
 
     angular.module('mos.views.detail')
