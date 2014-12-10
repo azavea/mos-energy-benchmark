@@ -15,10 +15,21 @@
                 </ul>
             </div>
         </div>
+        <div class="input-group">
+            <label for="picker">Color By</label>
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-primary dropdown-toggle"
+                    id="picker" dropdown-toggle>{{colorType.category}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="type in colorByTypes"><a ng-click="colorBy(type)">{{::type.category}}</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <div class="pull-right">
-        <button ng-show="compare.count > 0" ng-click="gotoCompare()" class="btn btn-primary">Compare ({{ compare.count }})</button>
+        <button ng-show="compare.count > 0" ng-click="gotoCompare()" class="btn btn-primary">Compare ({{compare.count}})</button>
     </div>
 </div>
 <div ng-show="mapLoading" class="spinner">

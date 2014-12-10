@@ -20,12 +20,29 @@
         $scope.buildingTypes = [];
         $scope.filterType = MappingService.FILTER_NONE;
 
+        // options for changing field for controlling viz feature color
+        // 'category' is name for display; 'field' is field name in DB
+        $scope.colorByTypes = [
+            {'category': 'Building Type', 'field': 'sector'},
+            {'category': 'Year Built', 'field': 'year_built'},
+            {'category': 'Square footage', 'field': 'floor_area'}
+        ];
+
+        // default to sector for feature color
+        $scope.colorType = $scope.colorByTypes[0];
+
         // indicate that map is loading, hang on..
         $scope.mapLoading = true;
 
         $scope.filterBy = function(propertyType) {
             $scope.filterType = propertyType;
             MappingService.filterViz(vizLayer, propertyType);
+        };
+
+        $scope.colorBy = function(selection) {
+            $scope.colorType = selection;
+            console.log(selection);
+            MappingService.setVizCartoCSS(vizLayer, $scope.colorType.field, 'eui');
         };
 
         $scope.setCompare = function(cartodbId) {
