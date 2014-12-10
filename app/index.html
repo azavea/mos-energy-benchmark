@@ -28,10 +28,11 @@
         <li ui-sref-active="active"><div class="nav-icon nav-chart"></div><a ui-sref="charts">Charts</a></li>
         <!-- TODO: Figure out how to show map highlight when detail/compare is active? -->
         <li ui-sref-active="active"><div class="nav-icon nav-map"></div><a ui-sref="map">Map</a></li>
-        <li class="dropdown">
+        <li class="dropdown" dropdown>
             <div class="nav-icon nav-data"></div>
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-              Data</span>
+            <a href dropdown-toggle
+               class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+              Data
             </a>
             <ul class="dropdown-menu" role="menu">
               <li><a ui-sref="#">Download 2013 Data</a></li>
