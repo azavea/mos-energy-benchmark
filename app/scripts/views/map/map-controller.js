@@ -31,6 +31,16 @@
         // default to sector for feature color
         $scope.colorType = $scope.colorByTypes[0];
 
+        $scope.sizeByTypes = [
+            {'category': 'EUI', 'field': 'site_eui'},
+            {'category': 'GHG', 'field': 'total_ghg'},
+            {'category': 'Electricity', 'field': 'electricity'},
+            {'category': 'Fuel Oil', 'field': 'fuel_oil'}
+        ];
+
+        // default to EUI for feature size
+        $scope.sizeType = $scope.sizeByTypes[0];
+
         // indicate that map is loading, hang on..
         $scope.mapLoading = true;
 
@@ -42,7 +52,13 @@
         $scope.colorBy = function(selection) {
             $scope.colorType = selection;
             console.log(selection);
-            MappingService.setVizCartoCSS(vizLayer, $scope.colorType.field, 'eui');
+            MappingService.setVizCartoCSS(vizLayer, $scope.colorType.field, $scope.sizeType.field);
+        };
+
+        $scope.sizeBy = function(selection) {
+            $scope.sizeType = selection;
+            console.log(selection);
+            MappingService.setVizCartoCSS(vizLayer, $scope.colorType.field, $scope.sizeType.field);
         };
 
         $scope.setCompare = function(cartodbId) {
