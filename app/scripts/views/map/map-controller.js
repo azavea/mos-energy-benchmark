@@ -114,6 +114,29 @@
         // get colors to display in legend
         $scope.sectorColors = MappingService.getLegendColors();
 
+        // add second legend for feature color, above size legend
+        var setSecondLegend = function() {
+            var legend = null;
+
+            if ($scope.colorBy.field === 'sector') {
+                // categorize by sector
+                legend = new cartodb.geo.ui.Legend({
+                   type: 'custom',
+                   title: 'Sectors',
+                   data: $scope.sectorColors
+                 });
+            } else {
+                // choropleth legend
+                legend = new cartodb.geo.ui.ChoroplethLegend({
+                    title: 'Colors'
+                });
+            }
+
+            console.log(legend);
+
+            $('#mymap').append(legend.render().el);
+        };
+
         // load map visualization
         cartodb.createVis('mymap', 'http://azavea-demo.cartodb.com/api/v2/viz/c5a9af6e-7f12-11e4-8f24-0e018d66dc29/viz.json',
                           {'infowindow': false, 'legends': true, 'searchControl': false, 'loaderControl': false})
@@ -137,13 +160,7 @@
                     $('.leaflet-container').css('cursor', '-moz-grab');
                 });
 
-                var legend = new cartodb.geo.ui.Legend({
-                   type: 'custom',
-                   title: 'Sectors',
-                   data: $scope.sectorColors
-                 });
-
-                $('#mymap').append(legend.render().el);
+                //setSecondLegend();
                 
                 vizLayer.on('featureClick', function(e, latlng, pos, data) {
                     // show popup with spinner to indicate it's loading, hang on...

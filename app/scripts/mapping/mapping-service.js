@@ -59,9 +59,9 @@
                 console.error('cannot change CartoCSS; there is no viz!');
                 return;
             }
-            var css = MapColorService.baseCartoCSS + 
-                      MapColorService.getColorCartoCSS(colorByField) + 
-                      MapColorService.getSizeCartoCSS(sizeByField);
+            var css = MapColorService.baseCartoCSS + ' ' +
+                      MapColorService.getFieldCartoCSS(colorByField) + ' ' +
+                      MapColorService.getFieldCartoCSS(sizeByField);
 
             viz.setCartoCSS(css);
         };
