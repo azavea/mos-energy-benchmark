@@ -17,11 +17,13 @@
     /*
      * ngInject
      */
-    function CompareController($scope, CompareConfig, buildingData) {
+    function CompareController($scope, BuildingCompare, CompareConfig, buildingData) {
         $scope.buildings = buildingData.data.rows;
         $scope.fields = CompareConfig.fields;
 
         $scope.close = function (index) {
+            var cartodbId = $scope.buildings[index].cartodb_id;
+            BuildingCompare.remove(cartodbId.toString());
             $scope.buildings.splice(index, 1);
         };
     }

@@ -50,6 +50,12 @@ describe('Factory: mos.compare.BuildingCompare', function () {
         expect(removed).toEqual(null);
     });
 
+    it ('should return true/false if id is in compare list', function () {
+        buildingCompare.add('a');
+        expect(buildingCompare.hasId('a')).toBe(true);
+        expect(buildingCompare.hasId('b')).toBe(false);
+    });
+
     it ('should clear the array after a call to clear', function () {
         buildingCompare.add('a');
         buildingCompare.add('b');

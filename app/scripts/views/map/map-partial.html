@@ -7,7 +7,7 @@
         <div class="input-group">
             <label for="picker">Filter By</label>
             <div class="btn-group" dropdown>
-                <button type="button" class="btn btn-primary dropdown-toggle" 
+                <button type="button" class="btn btn-primary dropdown-toggle"
                     id="picker" dropdown-toggle>{{filterType}} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
@@ -15,6 +15,10 @@
                 </ul>
             </div>
         </div>
+    </div>
+
+    <div class="pull-right">
+        <button ng-show="compare.count > 0" ng-click="gotoCompare()" class="btn btn-primary">Compare ({{ compare.count }})</button>
     </div>
 </div>
 <div ng-show="mapLoading" class="spinner">

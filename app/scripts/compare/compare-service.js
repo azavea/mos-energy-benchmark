@@ -32,6 +32,10 @@
             return value;
         };
 
+        module.hasId = function (buildingId) {
+            return _.indexOf(buildingIds, buildingId) !== -1 ? true : false;
+        };
+
         module.list = function () {
             return buildingIds;
         };
