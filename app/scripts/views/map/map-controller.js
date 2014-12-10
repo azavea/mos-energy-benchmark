@@ -6,6 +6,9 @@
      */
     function MapController($compile, $scope, $state, BuildingCompare, MappingService) {
 
+        // indicate that map is loading, hang on..
+        $scope.mapLoading = true;
+
         // initialization
         var vizLayer = null;
         var nativeMap = null;
@@ -31,6 +34,8 @@
         // default to sector for feature color
         $scope.colorType = $scope.colorByTypes[0];
 
+        // options for changing field for controlling viz feature size
+        // 'category' is name for display; 'field' is field name in DB
         $scope.sizeByTypes = [
             {'category': 'EUI', 'field': 'site_eui'},
             {'category': 'GHG', 'field': 'total_ghg'},
@@ -41,9 +46,6 @@
         // default to EUI for feature size
         $scope.sizeType = $scope.sizeByTypes[0];
 
-        // indicate that map is loading, hang on..
-        $scope.mapLoading = true;
-
         $scope.filterBy = function(propertyType) {
             $scope.filterType = propertyType;
             MappingService.filterViz(vizLayer, propertyType);
@@ -51,13 +53,11 @@
 
         $scope.colorBy = function(selection) {
             $scope.colorType = selection;
-            console.log(selection);
             MappingService.setVizCartoCSS(vizLayer, $scope.colorType.field, $scope.sizeType.field);
         };
 
         $scope.sizeBy = function(selection) {
             $scope.sizeType = selection;
-            console.log(selection);
             MappingService.setVizCartoCSS(vizLayer, $scope.colorType.field, $scope.sizeType.field);
         };
 

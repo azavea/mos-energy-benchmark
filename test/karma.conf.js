@@ -43,6 +43,7 @@ module.exports = function(config) {
       'app/scripts/compare/module.js',
       'app/scripts/compare/compare-service.js',
       'app/scripts/mapping/module.js',
+      'app/scripts/mapping/map-color-service.js',
       'app/scripts/mapping/mapping-service.js',
       'app/scripts/views/charts/module.js',
       'app/scripts/views/charts/charts-controller.js',
