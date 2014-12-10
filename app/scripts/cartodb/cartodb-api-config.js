@@ -47,6 +47,8 @@
                 + ', total_ghg AS emissions'
                 + ', energy_star AS energystar'
                 + ', site_eui AS eui'
+                + ', floor_area AS sqfeet'
+                + ', year_built AS yearbuilt'
                 + ' FROM ' + module.tables.currentYear,
 
             detailQuery: Utils.strFormat('SELECT * from mos_beb_2013 where {uniqueColumn} in ({id})', {
