@@ -11,6 +11,22 @@
 
         var TABLE = '#mos_beb_2013';
 
+        module.legendOptions = function(field) {
+            var bins = colorRamps[field].bins;
+            var lastBin = bins.length - 1;
+            var opts = {};
+
+            opts.right = bins[0].min;
+            opts.left = bins[lastBin].min;
+            opts.colors = [];
+
+            for (var i = lastBin; i-->0; ) {
+                opts.colors.push(bins[i].markerVal);
+            }
+
+            return opts;
+        };
+
         module.getFieldCartoCSS = function(field) {
             if (field === 'sector') {
                 return getSectorColorCartoCSS();
