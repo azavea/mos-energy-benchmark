@@ -13,7 +13,7 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th ng-repeat="building in buildings track by building.cartodb_id">
+                    <th ng-repeat="building in buildings track by building.cartodb_id" class="top">
                         <div class="close"><a ng-click="close($index)"><i class="fa fa-times"></i></a></div>
                         <div class="building"></div>
                         <h5>{{ ::building.property_name }}</h5>

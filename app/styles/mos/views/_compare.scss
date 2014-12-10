@@ -14,6 +14,10 @@
     border: none!important;
 }
 
+.top{
+    vertical-align: top!important;
+}
+
 .table-compare{
     thead > tr > th {
         border: solid 1px $table-border!important;
@@ -28,6 +32,7 @@
         border: solid 1px $table-border!important;
         line-height: 1rem;
         padding: 18px 4px;
+        width: 200px;
 
         &:first-child{
             background-color: $light-bg;
