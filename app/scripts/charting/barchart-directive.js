@@ -7,7 +7,7 @@
         plotHeight: 200,
         yDefault: 'avgemissions',
         transitionMillis: 500,
-        binType: 'temporal',
+        binType: 'temporal'
     };
 
     /**
@@ -39,7 +39,7 @@
             plotHeight: '@',
             margin: '&',
             binType: '@',
-            transitionMillis: '@',
+            transitionMillis: '@'
         };
 
 
@@ -56,7 +56,7 @@
             var dataCount = orderedData.length;
             var divider = Math.ceil(dataCount/groups);
             var binnedByPctile = {};
-            var pctileSize = 100/groups;
+            var pctileSize = 100 / groups;
             var pctileHolder;
             for (var i = 0; i < groups; i++) {
                 pctileHolder = [];
@@ -80,11 +80,12 @@
                     minsqfeet: _.min(d, function(val) { return val.sqfeet; }).sqfeet,
                     maxsqfeet: _.max(d, function(val) { return val.sqfeet; }).sqfeet,
                     avgsqfeet: _.reduce(d, function(memo, val) { return val.sqfeet + memo; }, 0) / kCount,
-                    mediansqfeet: _.sortBy(d, function(val) { return val.sqfeet; })[Math.round(kCount/2)].sqfeet,
+                    mediansqfeet: _.sortBy(d, function(val) { return val.sqfeet; })[Math.round(kCount / 2)].sqfeet,
                     totalsqfeet: _.reduce(d, function( memo, val) { return val.sqfeet + memo; }, 0),
                     count: kCount,
                     key: k,
-                    yearRange: _.min(d, function(d) { return d.yearbuilt; }).yearbuilt + '-' + _.max(d, function(d) { return d.yearbuilt; }).yearbuilt
+                    yearRange: _.min(d, function(d) { return d.yearbuilt; }).yearbuilt +
+                        '-' + _.max(d, function(d) { return d.yearbuilt; }).yearbuilt
                 });
             });
             return output.reverse();
@@ -105,11 +106,11 @@
                     })
                     .rollup(function(d) {
                         return {
-                            'avgsqft': d3.mean(d, function(e) { return +e.sqfeet; }),
-                            'avgeui': d3.mean(d, function(e) { return +e.eui; }),
-                            'avgemissions': d3.mean(d, function(e) { return +e.emissions; }),
-                            'avgenergystar': d3.mean(d, function(e) { return +e.energystar; }),
-                            'count': d3.sum(d, function() { return +1; })
+                            'avgsqft': d3.mean(d, function(e) { return e.sqfeet; }),
+                            'avgeui': d3.mean(d, function(e) { return e.eui; }),
+                            'avgemissions': d3.mean(d, function(e) { return e.emissions; }),
+                            'avgenergystar': d3.mean(d, function(e) { return e.energystar; }),
+                            'count': d3.sum(d, function() { return 1; })
                         };
                     })
                     .entries(filteredData);
@@ -132,11 +133,11 @@
                 'avgsqft': 'Mean Sq Ft: ',
                 'avgeui': 'Mean EUI: ',
                 'avgemissions': 'Mean Emissions: ',
-                'avgenergystar': 'Mean Energystar: ',
+                'avgenergystar': 'Mean Energystar: '
             };
             var humanLabels = _.merge({ // Keep this separate from selectoptions but DRY
                 'key': '',
-                'count': 'n = ',
+                'count': 'n = '
             }, $scope.selectOptions);
 
             // The dimension of choice for representation along Y
@@ -147,10 +148,6 @@
             element.addClass(PLOT_CLASS);
             var chart = d3.select('#' + attrs.id + ' .chart')
                     .attr('width', config.plotWidth);
-            var leftAxis = d3.svg.axis().orient('left');
-            var leftAxisG = chart.append('g')
-                .attr('class', 'y axis')
-                .attr('transform', 'translate(' + config.margin.left + ',' + config.margin.top + ')');
             var bottomAxis = d3.svg.axis().orient('bottom');
             var bottomAxisG = chart.append('g')
                 .attr('class', 'x axis')
@@ -174,7 +171,6 @@
                     .domain([0, d3.max(data, function(d) { return d[yAttr]; })])
                     .range([config.plotHeight-config.margin.bottom-config.margin.top, 0]);
                 bottomAxis.scale(x);
-                leftAxis.scale(y);
                 bottomAxisG.call(bottomAxis);
 
                 // Tooltips
