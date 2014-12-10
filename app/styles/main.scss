@@ -49,7 +49,8 @@ body{
   font-family: 'Lato', sans-serif;
   color: $body;
   font-size: 0.8rem;
-  font-weight: 400;
+  font-weight: 300;
+  margin-top: 82px;
 }
 
 h1, h2, h3, h4{
@@ -99,7 +100,7 @@ hr{
 /* Custom page header */
 .header {
   border-bottom: 1px solid $border;
-  margin: 0;
+  padding: 0 36px;
   background-color: #fff;
 
   /* Make the masthead heading the same height as the navigation */
@@ -107,7 +108,7 @@ hr{
     margin-top: 0;
     margin-bottom: 0;
     margin-left: 14px;
-    line-height: 60px;
+    line-height: 81px;
     display: inline-block!important;
   }
 }
@@ -141,7 +142,7 @@ hr{
   transition: transform .25s ease-in-out;
 }
 .headroom--top h3 {
-  line-height: 150px;
+  line-height: 81px;
 }
 .headroom--unpinned {
   top: -108px;
@@ -183,12 +184,12 @@ hr{
     > a {
       border-radius: 0!important;
       color: $body;
-      line-height: 57px;
-      padding: 0 10px!important;
+      line-height: 36px;
+      padding: 0 10px 10px 10px!important;
       background-color: transparent!important;
 
       &:hover{
-        border-bottom: solid 3px $active;
+        color: $active;
       }
     }
     + li {
@@ -205,6 +206,46 @@ hr{
         border-bottom: solid 3px $active;
       }
     }
+  }
+}
+.nav-icon{
+  display: block;
+  text-align: center;
+  height: 20px;
+  margin-top: 12px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.nav-chart{
+  background-image: url('../images/ic_chart.png');
+
+  @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
+      background-image: url('../images/ic_chart@2x.png');
+      background-size: 26px 20px;
+  }
+}
+.nav-map{
+  background-image: url('../images/ic_map.png');
+
+  @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
+      background-image: url('../images/ic_map@2x.png');
+      background-size: 26px 20px;
+  }
+}
+.nav-data{
+  background-image: url('../images/ic_data.png');
+
+  @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
+      background-image: url('../images/ic_data@2x.png');
+      background-size: 26px 20px;
+  }
+}
+.nav-info{
+  background-image: url('../images/ic_info.png');
+
+  @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
+      background-image: url('../images/ic_info@2x.png');
+      background-size: 26px 20px;
   }
 }
 
