@@ -22,7 +22,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <header class="header">
+    <headroom class="header" offset="150">
       <h3 class="text-muted">MOS Energy Benchmark</h3>
       <ul class="nav nav-pills pull-right">
         <li ui-sref-active="active"><a ui-sref="charts">Charts</a></li>
@@ -30,7 +30,8 @@
         <li ui-sref-active="active"><a ui-sref="map">Map</a></li>
         <li ui-sref-active="active"><a ui-sref="info">Info</a></li>
       </ul>
-    </header>
+    </headroom>
+
     <div ui-view class="content">
     </div>
 
@@ -54,6 +55,8 @@
     <script src="bower_components/d3-tip/index.js"></script>
     <script src="bower_components/lodash/dist/lodash.compat.js"></script>
     <script src="bower_components/ngSmoothScroll/angular-smooth-scroll.js"></script>
+    <script src="bower_components/headroom.js/dist/headroom.js"></script>
+    <script src="bower_components/headroom.js/dist/angular.headroom.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

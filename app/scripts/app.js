@@ -38,7 +38,8 @@
         'mos.views.map',
         'mos.views.info',
         'mos.views.detail',
-        'mos.views.compare'
+        'mos.views.compare',
+        'headroom'
     ]).config(StateConfig);
 
     angular.module('mos').constant('MOSColors', sectorColors);
