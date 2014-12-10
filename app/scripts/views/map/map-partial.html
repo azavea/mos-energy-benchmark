@@ -5,20 +5,43 @@
             <input id="searchBox" type="text" ng-model="searchText" class="form-control" placeholder="Search me">
         </div>
         <div class="input-group">
-            <label for="picker">Filter By</label>
+            <label for="filterPicker">Filter By</label>
             <div class="btn-group" dropdown>
                 <button type="button" class="btn btn-primary dropdown-toggle"
-                    id="picker" dropdown-toggle>{{filterType}} <span class="caret"></span>
+                    id="filterPicker" dropdown-toggle>{{filterType}} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li ng-repeat="propertyType in buildingTypes"><a ng-click="filterBy(propertyType.sector)">{{::propertyType.sector}}</a></li>
                 </ul>
             </div>
         </div>
+        <div class="input-group">
+            <label for="colorPicker">Color</label>
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-primary dropdown-toggle"
+                    id="colorPicker" dropdown-toggle>{{colorType.category}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="type in colorByTypes"><a ng-click="colorBy(type)">{{::type.category}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="input-group">
+            <label for="sizePicker">Diameter</label>
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-primary dropdown-toggle"
+                    id="sizePicker" dropdown-toggle>{{sizeType.category}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="size in sizeByTypes"><a ng-click="sizeBy(size)">{{::size.category}}</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <div class="pull-right">
-        <button ng-show="compare.count > 0" ng-click="gotoCompare()" class="btn btn-primary">Compare ({{ compare.count }})</button>
+        <button ng-show="compare.count > 0" ng-click="gotoCompare()" class="btn btn-primary">Compare ({{compare.count}})</button>
     </div>
 </div>
 <div ng-show="mapLoading" class="spinner">

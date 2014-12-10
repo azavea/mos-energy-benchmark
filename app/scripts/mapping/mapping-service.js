@@ -4,7 +4,7 @@
     /**
      * @ngInject
      */
-    function MappingService (MOSColors) {
+    function MappingService (MOSColors, MapColorService) {
         var module = {};
 
         module.FILTER_NONE = 'All types';
@@ -36,12 +36,10 @@
          * @returns Promise with results in data.rows
          */
         module.featureLookup = function(cartodbId)  {
-            /* jshint camelcase: false */
             var qry = 'SELECT cartodb_id, geocode_address, total_ghg, property_name, ' + 
             'sector FROM mos_beb_2013 where cartodb_id = {{id}}';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
             return sql.execute(qry, { id: cartodbId});
-            /* jshint camelcase:true */
         };
 
         module.filterViz = function(viz, val) {
@@ -54,6 +52,18 @@
             } else {
                 viz.setSQL('select * from mos_beb_2013 where primary_property_type =\'' + val + '\';');
             }
+        };
+
+        module.setVizCartoCSS = function(viz, colorByField, sizeByField) {
+            if (!viz) {
+                console.error('cannot change CartoCSS; there is no viz!');
+                return;
+            }
+            var css = MapColorService.baseCartoCSS + 
+                      MapColorService.getColorCartoCSS(colorByField) + 
+                      MapColorService.getSizeCartoCSS(sizeByField);
+
+            viz.setCartoCSS(css);
         };
 
         return module;
