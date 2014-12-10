@@ -1,0 +1,38 @@
+.title{
+    h3{
+        padding-top: 24px;
+
+        &:after{
+            content: '';
+            display: block;
+            margin: 24px auto;
+            border-bottom: solid 4px;
+            width: 120px;
+          }
+    }
+}
+
+#about-report{
+    a{
+        color: $active;
+
+        &:hover{
+            color: darken($active, 3%);
+        }
+    }
+}
+
+.building-title{
+    display: block;
+    text-align: center;
+    height: 60px;
+    margin-top: 12px;
+    background-image: url('../images/ic_building_title.png');
+    background-repeat: no-repeat;
+    background-position: center;
+
+    @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
+        background-image: url('../images/ic_building_title@2x.png');
+        background-size: 28px 60px;
+    }
+}
