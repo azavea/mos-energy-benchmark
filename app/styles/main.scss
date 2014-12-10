@@ -289,6 +289,15 @@ hr{
   }
 }
 
+.explore{
+  width: 100%;
+  padding: 36px;
+  display: block;
+  background-image: url('../images/hero.png');
+  background-position: center center;
+  background-size: cover;
+}
+
 .footer{
   background-color: $dark-bg;
   padding: 48px 0;
