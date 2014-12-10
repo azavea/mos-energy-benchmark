@@ -12,6 +12,9 @@
             resolve: /* ngInject */ {
                 buildingData: function ($stateParams, CartoSQLAPI) {
                     return CartoSQLAPI.getBuildingData($stateParams.buildingId);
+                },
+                currentData: function (CartoSQLAPI) {
+                    return CartoSQLAPI.getAllCurrentData();
                 }
             }
         });
@@ -25,7 +28,8 @@
      */
     angular
       .module('mos.views.detail', [
-        'ui.router'
+        'ui.router',
+        'mos.charting'
       ]).config(StateConfig);
 
 })();

@@ -18,7 +18,13 @@
      * ngInject
      */
     function ChartingController($scope, $attrs) {
+
+        var defaultMargins = {left: 30, top: 10, bottom: 30, right: 10};
         $scope.config = {};
+
+        $scope.setDefaultMargins = function (margins) {
+            defaultMargins = margins;
+        };
 
         // Configures the scope.config object with the defaults selected, overriding from
         //  directive attributes if the attribute exists
@@ -53,7 +59,7 @@
          * @returns Object {left: Int, top: Int, bottom: Int, right: Int}
          */
         function initializeMargins(margins) {
-            var margin = ($scope.$eval(margins) || {left: 30, top: 10, bottom: 30, right: 10});
+            var margin = ($scope.$eval(margins) || defaultMargins);
             if (typeof(margin) !== 'object') {
                 // we were passed a vanilla int, convert to full margin object
                 margin = {left: margin, top: margin, bottom: margin, right: margin};

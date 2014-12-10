@@ -41,4 +41,12 @@
             <div class="chart-placeholder"><i class="fa fa-signal"></i></div>
         </div>
     </div>
+
+    <div class="row">
+        <mos-histogram data="currentData"
+                       value-field="'electricity'"
+                       filter-field="'sector'"
+                       filter-value="'Multifamily'">
+        </mos-histogram>
+    </div>
 </div>
