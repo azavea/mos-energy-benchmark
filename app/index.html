@@ -12,7 +12,7 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.11/themes/css/cartodb.css" />
-    <link href='http://fonts.googleapis.com/css?family=Lato:400,400italic|Roboto+Slab:700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,400italic|Roboto+Slab:700' rel='stylesheet' type='text/css'>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- endbuild -->
   </head>
@@ -22,13 +22,26 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <headroom class="header" offset="150">
+    <headroom class="header" offset="120">
       <h3 class="text-muted">MOS Energy Benchmark</h3>
       <ul class="nav nav-pills pull-right">
-        <li ui-sref-active="active"><a ui-sref="charts">Charts</a></li>
+        <li ui-sref-active="active"><div class="nav-icon nav-chart"></div><a ui-sref="charts">Charts</a></li>
         <!-- TODO: Figure out how to show map highlight when detail/compare is active? -->
-        <li ui-sref-active="active"><a ui-sref="map">Map</a></li>
-        <li ui-sref-active="active"><a ui-sref="info">Info</a></li>
+        <li ui-sref-active="active"><div class="nav-icon nav-map"></div><a ui-sref="map">Map</a></li>
+        <li class="dropdown" dropdown>
+            <div class="nav-icon nav-data"></div>
+            <a href dropdown-toggle
+               class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+              Data
+            </a>
+            <ul class="dropdown-menu pull-right" role="menu">
+              <li><a ui-sref="#">Download 2013 Data</a></li>
+              <li><a ui-sref="#">Download 2012 Data</a></li>
+              <li class="divider"></li>
+              <li><a ui-sref="#">Source Data</a></li>
+            </ul>
+        </li>
+        <li ui-sref-active="active"><div class="nav-icon nav-info"></div><a ui-sref="info">Info</a></li>
       </ul>
     </headroom>
 
