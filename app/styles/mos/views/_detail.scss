@@ -48,6 +48,11 @@
     color: $heading!important;
 }
 
+.detail-header button.btn {
+    color: $paper;
+    font-weight: bold;
+}
+
 .chart-placeholder{
     height: 100px;
     background-color: $border;

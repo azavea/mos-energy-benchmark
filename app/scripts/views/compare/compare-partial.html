@@ -27,7 +27,10 @@
             <tbody>
                 <tr ng-repeat="(key, readable) in fields">
                     <td class="category">{{ ::readable }}</td>
-                    <td class="compare" ng-class="bld-{{ $index + 1 }}" ng-repeat="building in buildings">{{ ::building[key] | cartodbNumber }}</td>
+                    <!-- Tried ng-class="bld-{{$index+1}}", didn't seem to work? -->
+                    <td class="compare"
+                        ng-class="{'bld-1': $index === 0, 'bld-2': $index === 1, 'bld-3': $index === 2}"
+                        ng-repeat="building in buildings">{{ ::building[key] | cartodbNumber }}</td>
                     <td><i class="fa fa-signal"></i> Chart</td>
                 </tr>
             </tbody>

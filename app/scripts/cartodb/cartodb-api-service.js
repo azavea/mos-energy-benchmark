@@ -16,6 +16,10 @@
             return makeCartoDBRequest(CartoConfig.data.currQuery);
         };
 
+        module.getAllCurrentData = function () {
+            return makeCartoDBRequest(CartoConfig.data.currAllQuery);
+        };
+
         /*
          *  Retrieves the previous data from CartoDB
          *

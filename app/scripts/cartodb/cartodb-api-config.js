@@ -51,6 +51,8 @@
                 + ', year_built AS yearbuilt'
                 + ' FROM ' + module.tables.currentYear,
 
+            currAllQuery: 'SELECT * FROM ' + module.tables.currentYear,
+
             detailQuery: Utils.strFormat('SELECT * from mos_beb_2013 where {uniqueColumn} in ({id})', {
                 uniqueColumn: module.uniqueColumn
             }),
