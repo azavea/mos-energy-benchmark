@@ -29,7 +29,6 @@
          *  @returns {string} Corresponding color value for display
          */
         module.findSectorColor = function(sector) {
-            console.log('searching for ' + sector);
             if (sector in MOSColors) {
                 return MOSColors[sector];
             } else {

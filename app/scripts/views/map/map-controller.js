@@ -51,6 +51,7 @@
             {'category': 'Electricity', 'field': 'electricity'},
             {'category': 'Fuel Oil', 'field': 'fuel_oil'},
             {'category': 'Water Use', 'field': 'water_use'},
+            {'category': 'Steam Use', 'field': 'steam'},
             {'category': 'Natural Gas', 'field': 'natural_gas'}
         ];
 
