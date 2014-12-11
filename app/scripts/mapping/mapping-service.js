@@ -58,7 +58,7 @@
             if (val === module.FILTER_NONE) {
                 viz.setSQL('select * from mos_beb_2013');
             } else {
-                viz.setSQL('select * from mos_beb_2013 where primary_property_type =\'' + val + '\';');
+                viz.setSQL('select * from mos_beb_2013 where sector =\'' + val + '\';');
             }
         };
 
