@@ -5,17 +5,10 @@
     var HistogramDefaults = {
         plotWidth: 200,
         plotHeight: 80,
-        plotBins: 10,
         plotWidthPercentage: 0.8,
         barRadius: 4,
         valueField: '',
         transitionMillis: 500,
-        calloutValues: [],
-        calloutColors: [
-            '#8FBD84',
-            '#81ABCC',
-            '#DD8180'
-        ],
         bgFillColor: '#F0F1F2'
     };
 
@@ -38,12 +31,13 @@
             id: '@',                // Required
             plotWidth: '@',
             plotHeight: '@',
-            plotBins: '@',
             plotWidthPercentage: '@',
             barRadius: '@',
             valueField: '@',         // Required
             bgFillColor: '@',
             margin: '&',
+            calloutValues: '=',
+            calloutColors: '=',
             transitionMillis: '@'
         };
 
@@ -53,6 +47,8 @@
             $scope.configure(HistogramDefaults);
             var config = $scope.config;
             var margin = config.margin;
+            var calloutValues = $scope.calloutValues;
+            var calloutColors = $scope.calloutColors;
 
             // D3 margin, sizing, and spacing code
             element.addClass(PLOT_CLASS);
@@ -66,6 +62,11 @@
                     .attr('height', config.plotHeight)
                     .append('g')
                     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+            $scope.$watch('calloutValues', function (newValue) {
+                calloutValues = newValue;
+                $scope.redraw($scope.data);
+            });
 
             // Overridden ChartingController method
             /**
@@ -124,8 +125,8 @@
                         var minValue = d.x;
                         var maxValue = d.x + d.dx;
                         var highlightColor = config.bgFillColor;
-                        for (var i = 0; i < config.calloutValues.length; i++) {
-                            var value = config.calloutValues[i];
+                        for (var i = 0; i < calloutValues.length; i++) {
+                            var value = calloutValues[i];
                             // Set highlight color if:
                             // first bin and value < x + dx for that bin OR
                             // last bin (length - 2 for d3 reasons) and value > x for that bin OR
@@ -133,7 +134,7 @@
                             if ((_.indexOf(logScale, minValue) === 0 && value < maxValue) ||
                                 (_.indexOf(logScale, minValue) === logScale.length - 2 && value > minValue) ||
                                 (minValue <= value && value < maxValue) ) {
-                                highlightColor = config.calloutColors[i];
+                                highlightColor = calloutColors[i];
                             }
                         }
                         return highlightColor;
@@ -145,7 +146,7 @@
                     dx: dx,
                     percentWidth: percentageWidth,
                     xOffset: xOffset,
-                    callouts: config.calloutValues
+                    callouts: calloutValues
                 });
                 console.log('Scale:', logScale);
                 console.log('Data:', histogramData);

@@ -36,7 +36,7 @@
         $scope.fields = DetailConfig.fields;
         $scope.currentData = rows;
         $scope.filterField = 'sector';
-        $scope.calloutColor = sectorColor;
+        $scope.calloutColors = [sectorColor];
         $scope.FILTER = DetailConfig.FILTER;
         $scope.dropdownText = {};
         $scope.dropdownText[DetailConfig.FILTER.NONE] = 'All Buildings';
