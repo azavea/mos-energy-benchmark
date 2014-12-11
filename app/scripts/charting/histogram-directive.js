@@ -9,8 +9,6 @@
         plotWidthPercentage: 0.8,
         barRadius: 4,
         valueField: '',
-        filterField: '',
-        filterValue: '',
         transitionMillis: 500,
         calloutValues: [],
         calloutColors: [
@@ -44,8 +42,6 @@
             plotWidthPercentage: '@',
             barRadius: '@',
             valueField: '@',         // Required
-            filterField: '@',
-            filterValue: '@',
             bgFillColor: '@',
             margin: '&',
             transitionMillis: '@'
@@ -76,11 +72,10 @@
                 Data structure:
             */
             $scope.plot = function(data) {
-                if (config.filterField && config.filterValue) {
-                    data = _.filter(data, function (row) {
-                        return row[config.filterField] === config.filterValue;
-                    });
-                }
+
+                // Clear all drawn chart elements before redrawing
+                d3.selectAll('#' + chartId + ' .chart > g > *').remove();
+
                 // Filter values < 1 for log scale
                 data = _.filter(data, function (row) {
                     return row[config.valueField] >= 1;
@@ -118,18 +113,6 @@
 
                 var percentageWidth = dx * config.plotWidthPercentage;
                 var xOffset = (dx - percentageWidth) / 2;
-                /* Useful debug info
-                console.log('Config:', {
-                    min: minValue,
-                    max: maxValue,
-                    dx: dx,
-                    percentWidth: percentageWidth,
-                    xOffset: xOffset,
-                    callouts: config.calloutValues
-                });
-                console.log('Scale:', logScale);
-                console.log('Data:', histogramData);
-                */
                 bar.append('rect')
                     .attr('x', 0)       // Start x is relative to left edge of parent bar element
                     .attr('transform', 'translate(' + xOffset + ')')
@@ -155,7 +138,18 @@
                         }
                         return highlightColor;
                     });
-
+                /* Useful debug info
+                console.log('Config:', {
+                    min: minValue,
+                    max: maxValue,
+                    dx: dx,
+                    percentWidth: percentageWidth,
+                    xOffset: xOffset,
+                    callouts: config.calloutValues
+                });
+                console.log('Scale:', logScale);
+                console.log('Data:', histogramData);
+                */
             };
         };
 
