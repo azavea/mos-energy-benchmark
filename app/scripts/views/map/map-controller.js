@@ -13,14 +13,16 @@
         var vizLayer = null;
         var nativeMap = null;
 
-        $scope.cartodbId = '';
-        $scope.propertyName = '';
-        $scope.address = '';
-        $scope.totalGhg = '';
-        $scope.siteEui = '';
-        $scope.energyStar = '';
-        $scope.sector = '';
-        $scope.sectorColor = 'transparent';
+        $scope.propertyData = {
+            cartodbId: '',
+            propertyName: '',
+            address: '',
+            siteEui: '',
+            energyStar: '',
+            sector: '',
+            sectorColor: 'transparent'
+        };
+
         $scope.popupLoading = true;
 
         $scope.compare = {
@@ -89,23 +91,24 @@
 
         var popupTemplate = ['<span>',
           '<div ng-show="popupLoading" class="spinner">',
-          '<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>',
-          '</div>',
-          '<div ng-hide="popupLoading"><div class="headerPopup" style="background-color: {{::sectorColor}}">',
-          '<h4>{{::propertyName}}</h4>',
-          '<h4>{{::address}}</h4></div>',
-          '<p><b>Total Energy Use: </b>{{::siteEui}}</p>',
-          '<p><b>Emissions: </b>{{::totalGhg}}</p>',
-          '<p ng-show="energyStar"><b>Energy Star: </b>{{::energyStar}}</p>',
+          '<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>',
+          '<div ng-hide="popupLoading"><div class="headerPopup" ',
+          'style="background-color: {{::propertyData.sectorColor}}">',
+          '<h4>{{::propertyData.propertyName}}</h4>',
+          '<h4>{{::propertyData.address}}</h4></div>',
+          '<p><b>Total Energy Use: </b>{{::propertyData.siteEui}}</p>',
+          '<p><b>Emissions: </b>{{::propertyData.totalGhg}}</p>',
+          '<p ng-show="energyStar"><b>Energy Star: </b>{{::propertyData.energyStar}}</p>',
           '<p><input type="checkbox" ng-model="compare.isChecked" ng-disabled="compare.disabled" ',
-          'ng-change="setCompare(cartodbId)" /><em>Compare</em>',
-          '<button class="pull-right report-btn" ui-sref="detail({buildingId: cartodbId})">Full Report</button></p>',
+          'ng-change="setCompare(propertyData.cartodbId)" /><em>Compare</em>',
+          '<button class="pull-right report-btn" ',
+          'ui-sref="detail({buildingId: propertyData.cartodbId})">Full Report</button></p>',
           '</div></span>'].join('');
 
         var showPopup = function(coords) {
             // Set the properties of the compare object here so we ensure the popup always
             //  has the correct state on load
-            $scope.compare.isChecked = BuildingCompare.hasId($scope.cartodbId);
+            $scope.compare.isChecked = BuildingCompare.hasId($scope.propertyData.cartodbId);
             $scope.compare.disabled = !$scope.compare.isChecked && BuildingCompare.count() >= 3;
 
             var popup = $compile(popupTemplate)($scope);
@@ -191,30 +194,33 @@
                     MappingService.featureLookup(data.cartodb_id)
                         .done(function(data) {
                             var row = data.rows[0];
-                            $scope.cartodbId = row.cartodb_id.toString();
-                            $scope.propertyName = row.property_name;
-                            $scope.address = row.address;
-                            $scope.totalGhg = row.total_ghg;
-                            $scope.siteEui = row.site_eui;
-                            $scope.energyStar = row.energy_star;
-                            $scope.sector = row.sector;
+                            $scope.propertyData.cartodbId = row.cartodb_id.toString();
+                            $scope.propertyData.propertyName = row.property_name;
+                            $scope.propertyData.address = row.address;
+                            $scope.propertyData.totalGhg = row.total_ghg;
+                            $scope.propertyData.siteEui = row.site_eui;
+                            $scope.propertyData.energyStar = row.energy_star;
+                            $scope.propertyData.sector = row.sector;
+
                             $scope.popupLoading = false;
 
                             // get the color for this location's sector
-                            $scope.sectorColor = MappingService.findSectorColor($scope.sector);
+                            $scope.propertyData.sectorColor = 
+                                MappingService.findSectorColor($scope.propertyData.sector);
 
                             showPopup(latlng);
                         }).error(function(errors) {
                             // returns a list
                             console.error('errors fetching property data: ' + errors);
-                            $scope.cartodbId = '';
-                            $scope.propertyName = '';
-                            $scope.address = '';
-                            $scope.totalGhg = '';
-                            $scope.siteEui = '';
-                            $scope.energyStar = '';
-                            $scope.sector = '';
-                            $scope.sectorColor = 'transparent';
+                            $scope.propertyData.cartodbId = '';
+                            $scope.propertyData.propertyName = '';
+                            $scope.propertyData.address = '';
+                            $scope.propertyData.totalGhg = '';
+                            $scope.propertyData.siteEui = '';
+                            $scope.propertyData.energyStar = '';
+                            $scope.propertyData.sector = '';
+                            $scope.propertyData.sectorColor = 'transparent';
+
                             $scope.popupLoading = false;
                         });
                     });
