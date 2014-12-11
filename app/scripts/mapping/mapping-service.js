@@ -9,9 +9,13 @@
 
         module.FILTER_NONE = 'All types';
 
+        /*
+         *  Builds sector legend data
+         *
+         *  @returns Object with properties for custom CartoDB sector legend
+         */
         module.getSectorColors = function() {
             var sectors = [];
-            // build object with properties CartoDB expects for legend data
             angular.forEach(MOSColors, function(value, key) {
                 sectors.push({'name': key, 'value': value});
             });
