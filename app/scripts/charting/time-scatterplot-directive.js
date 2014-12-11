@@ -251,36 +251,42 @@
                 svg.select('.y.axis').call(yAxis);
             }
 
+            function isCompleteData(data, xAttr, yAttr) {
+                return x(data.curr[xAttr]) && x(data.prev[xAttr]) && y(data.curr[yAttr]) && y(data.prev[yAttr]);
+            }
+
             // We do not call redraw/plot when the axis changes because we are only shifting
             //  the drawn points rather than redrawing them entirely
             function refreshData() {
                 var transitionMillis = config.transitionMillis;
+                var currRadius = config.currRadius;
+                var prevRadius = config.prevRadius;
                 refreshScale(dimensions);
 
                 svg.selectAll('circle.curr')
                     .transition()
                     .ease('linear')
                     .duration(transitionMillis)
-                    .attr('cx', function(d) { return x(d.curr[xAttr]); })
-                    .attr('cy', function(d) { return y(d.curr[yAttr]); })
-                    .attr('r', config.currRadius);
+                    .attr('r', function(d) { return isCompleteData(d, xAttr, yAttr) ? prevRadius : 0; })
+                    .attr('cx', function(d) { return isCompleteData(d, xAttr, yAttr) ? x(d.curr[xAttr]) : x(0); })
+                    .attr('cy', function(d) { return isCompleteData(d, xAttr, yAttr) ? y(d.curr[yAttr]) : y(0); });
 
                 svg.selectAll('circle.prev')
                     .transition()
                     .ease('linear')
                     .duration(transitionMillis)
-                    .attr('cx', function(d) { return x(d.prev[xAttr]); })
-                    .attr('cy', function(d) { return y(d.prev[yAttr]); })
-                    .attr('r', config.prevRadius);
+                    .attr('r', function(d) { return isCompleteData(d, xAttr, yAttr) ? prevRadius : 0; })
+                    .attr('cx', function(d) { return isCompleteData(d, xAttr, yAttr) ? x(d.prev[xAttr]) : x(0); })
+                    .attr('cy', function(d) { return isCompleteData(d, xAttr, yAttr) ? y(d.prev[yAttr]) : y(0); });
 
                 svg.selectAll('line.connector')
                     .transition()
                     .ease('linear')
                     .duration(transitionMillis)
-                    .attr('x1', function(d) { return x(d.prev[xAttr]); })
-                    .attr('y1', function(d) { return y(d.prev[yAttr]); })
-                    .attr('x2', function(d) { return x(d.curr[xAttr]); })
-                    .attr('y2', function(d) { return y(d.curr[yAttr]); });
+                    .attr('x1', function(d) { return isCompleteData(d, xAttr, yAttr) ? x(d.prev[xAttr]) : 0; })
+                    .attr('y1', function(d) { return isCompleteData(d, xAttr, yAttr) ? y(d.prev[yAttr]) : 0; })
+                    .attr('x2', function(d) { return isCompleteData(d, xAttr, yAttr) ? x(d.curr[xAttr]) : 0; })
+                    .attr('y2', function(d) { return isCompleteData(d, xAttr, yAttr) ? y(d.curr[yAttr]) : 0; });
             }
         };
 
