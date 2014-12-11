@@ -4,7 +4,7 @@
     /**
      * @ngInject
      */
-    function MappingService (MOSColors, MapColorService) {
+    function MappingService ($http, MOSColors, MapColorService) {
         var module = {};
 
         module.FILTER_NONE = 'All types';
@@ -93,6 +93,26 @@
                       MapColorService.getFieldCartoCSS(sizeByField);
 
             viz.setCartoCSS(css);
+        };
+
+        // docs here:
+        // http://wiki.openstreetmap.org/wiki/Nominatim
+        module.geocode = function(address) {
+            console.log('going to search for ' + address);
+            
+            var url = 'http://nominatim.openstreetmap.org/search';
+            var viewbox = '-75.699037,40.195219,-74.886736,39.774326';
+
+            return $http.get(url, {
+                params: {
+                    'q': address,
+                    'viewbox': viewbox,
+                    'bounded': 1,
+                    'addressdetails': 0,
+                    'limit': 1,
+                    'format': 'json'
+                }
+            });
         };
 
         return module;

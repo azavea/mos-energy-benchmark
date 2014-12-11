@@ -80,6 +80,19 @@
             } else {
                 console.log('I guess that must be an address');
                 // TODO: geocode address and zoom to the spot
+                MappingService.geocode($scope.searchText).then(function(data) {
+                    if (!data.data || data.data.length < 1) {
+                        console.error('Could not find address!');
+                        return;
+                    }
+                    
+                    var result = data.data[0];
+
+                    console.log(result['display_name']);
+                    console.log(result.lat + ', ' + result.lon);
+                }, function(err) {
+                    console.error(err);
+                });
             }
 
         };
