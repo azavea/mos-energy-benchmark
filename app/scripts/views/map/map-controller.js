@@ -46,9 +46,9 @@
         // default to EUI for feature size
         $scope.sizeType = $scope.sizeByTypes[0];
 
-        $scope.filterBy = function(propertyType) {
-            $scope.filterType = propertyType;
-            MappingService.filterViz(vizLayer, propertyType);
+        $scope.filterBy = function(sector) {
+            $scope.filterType = sector;
+            MappingService.filterViz(vizLayer, sector);
         };
 
         $scope.colorBy = function(selection) {
@@ -132,7 +132,6 @@
             } else {
                 // choropleth legend
                 var opts = MappingService.getLegendOptions($scope.colorType.field);
-                console.log(opts);
 
                 legend = new cartodb.geo.ui.Legend.Choropleth({
                     left: opts.left,

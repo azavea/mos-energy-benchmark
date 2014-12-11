@@ -9,9 +9,13 @@
 
         module.FILTER_NONE = 'All types';
 
+        /*
+         *  Builds sector legend data
+         *
+         *  @returns Object with properties for custom CartoDB sector legend
+         */
         module.getSectorColors = function() {
             var sectors = [];
-            // build object with properties CartoDB expects for legend data
             angular.forEach(MOSColors, function(value, key) {
                 sectors.push({'name': key, 'value': value});
             });
@@ -54,7 +58,7 @@
             if (val === module.FILTER_NONE) {
                 viz.setSQL('select * from mos_beb_2013');
             } else {
-                viz.setSQL('select * from mos_beb_2013 where primary_property_type =\'' + val + '\';');
+                viz.setSQL('select * from mos_beb_2013 where sector =\'' + val + '\';');
             }
         };
 

@@ -11,7 +11,16 @@
 
         var TABLE = '#mos_beb_2013';
 
+        /*
+         *  @param {string} Database field name defined in colorRamps below
+         *  @returns Object with properties for CartoDB choropleth legend creation
+         */
         module.legendOptions = function(field) {
+            if (!(field in colorRamps)) {
+                console.error('Field ' + field + ' has no CartoCSS defined!');
+                return {};
+            }
+
             var bins = colorRamps[field].bins;
             var lastBin = bins.length - 1;
             var opts = {};
@@ -27,6 +36,10 @@
             return opts;
         };
 
+        /*
+         *  @param {string} Database field name
+         *  @returns CartoCSS string snippet for field
+         */
         module.getFieldCartoCSS = function(field) {
             if (field === 'sector') {
                 return getSectorColorCartoCSS();
