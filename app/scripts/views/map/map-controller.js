@@ -13,13 +13,22 @@
         var vizLayer = null;
         var nativeMap = null;
 
+        $scope.cartodbId = '';
+        $scope.propertyName = '';
+        $scope.address = '';
+        $scope.totalGhg = '';
+        $scope.siteEui = '';
+        $scope.energyStar = '';
+        $scope.sector = '';
+        $scope.sectorColor = 'transparent';
+        $scope.popupLoading = true;
+
         $scope.compare = {
             count: BuildingCompare.count(),
             isChecked: false,
             disabled: false
         };
-        $scope.cartodbId = '';
-        $scope.popupLoading = true;
+        
         $scope.buildingTypes = [];
         $scope.filterType = MappingService.FILTER_NONE;
 
@@ -81,14 +90,15 @@
           '<div ng-show="popupLoading" class="spinner">',
           '<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>',
           '</div>',
-          '<div ng-hide="popupLoading"><h4>Address:</h4>',
-          '<p>{{::address}}</p>',
-          '<h4>Emissions:</h4>',
-          '<p>{{::totalGhg}}</p>',
-          '<h4>ID:</h4>',
-          '<p>{{::cartodbId}}</p>',
-          '<p><input type="checkbox" ng-model="compare.isChecked" ng-disabled="compare.disabled" ng-change="setCompare(cartodbId)" />Compare</p>',
-          '<p><button ui-sref="detail({buildingId: cartodbId})">Full Report</button></p>',
+          '<div ng-hide="popupLoading"><div class="headerPopup" style="background-color: {{::sectorColor}}">',
+          '<h4>{{::propertyName}}</h4>',
+          '<h4>{{::address}}</h4></div>',
+          '<p><b>Total Energy Use: </b>{{::siteEui}}</p>',
+          '<p><b>Emissions: </b>{{::totalGhg}}</p>',
+          '<p ng-show="energyStar"><b>Energy Star: </b>{{::energyStar}}</p>',
+          '<p><input type="checkbox" ng-model="compare.isChecked" ng-disabled="compare.disabled" ',
+          'ng-change="setCompare(cartodbId)" /><em>Compare</em>',
+          '<button class="pull-right" ui-sref="detail({buildingId: cartodbId})">Full Report</button></p>',
           '</div></span>'].join('');
 
         var showPopup = function(coords) {
@@ -96,8 +106,10 @@
             //  has the correct state on load
             $scope.compare.isChecked = BuildingCompare.hasId($scope.cartodbId);
             $scope.compare.disabled = !$scope.compare.isChecked && BuildingCompare.count() >= 3;
+
             var popup = $compile(popupTemplate)($scope);
             $scope.$apply(); // tell Angular to really, really go compile now
+
             L.popup({
                 minWidth: 100
             }).setLatLng(coords).setContent(popup[0]).openOn(nativeMap);
@@ -179,16 +191,29 @@
                         .done(function(data) {
                             var row = data.rows[0];
                             $scope.cartodbId = row.cartodb_id.toString();
-                            $scope.address = row.geocode_address;
+                            $scope.propertyName = row.property_name;
+                            $scope.address = row.address;
                             $scope.totalGhg = row.total_ghg;
+                            $scope.siteEui = row.site_eui;
+                            $scope.energyStar = row.energy_star;
+                            $scope.sector = row.sector;
                             $scope.popupLoading = false;
+
+                            // get the color for this location's sector
+                            $scope.sectorColor = MappingService.findSectorColor($scope.sector);
+
                             showPopup(latlng);
                         }).error(function(errors) {
                             // returns a list
                             console.error('errors fetching property data: ' + errors);
-                            $scope.cartodbId = null;
-                            $scope.address = null;
-                            $scope.totalGhg = null;
+                            $scope.cartodbId = '';
+                            $scope.propertyName = '';
+                            $scope.address = '';
+                            $scope.totalGhg = '';
+                            $scope.siteEui = '';
+                            $scope.energyStar = '';
+                            $scope.sector = '';
+                            $scope.sectorColor = 'transparent';
                             $scope.popupLoading = false;
                         });
                     });

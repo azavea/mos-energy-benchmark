@@ -1,4 +1,4 @@
-#mymap { top:150px; left:0; right:0; bottom:0; position:absolute; }
+#mymap { top:175px; left:0; right:0; bottom:0; position:absolute; }
 button[disabled=disabled], button:disabled {color: DarkGray}
 
 #filterHeader {
@@ -18,6 +18,14 @@ button[disabled=disabled], button:disabled {color: DarkGray}
 
 .cartodb-legend.custom {
   margin-bottom: 100px;
+}
+
+.headerPopup {
+    margin: 0;
+    padding: 0;
+    width: 200;
+    overflow: visible;
+    outline: none;
 }
 
 .cartodb-legend.choropleth {
