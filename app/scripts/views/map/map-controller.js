@@ -112,7 +112,7 @@
             $scope.$apply(); // tell Angular to really, really go compile now
 
             L.popup({
-                minWidth: 100
+                minWidth: 150
             }).setLatLng(coords).setContent(popup[0]).openOn(nativeMap);
         };
 

@@ -1,17 +1,17 @@
-<div class="filterHeader container-fluid form-inline" role="form">
+<div class="filterHeader container-fluid form-inline" role="form form-horizontal">
     <div class="row">
-        <div class="col-xs-2"><h4>Search</h4></div>
+        <div class="col-xs-3"><h4>Search</h4></div>
         <div class="col-xs-2"><h4>Filter By</h4></div>
         <div class="col-xs-2"><h4>Color</h4></div>
         <div class="col-xs-2"><h4>Diameter</h4></div>
-        <div class="col-xs-4"></div>
+        <div class="col-xs-3"></div>
     </div>
     <div class="row">
-        <div class="col-xs-2"><div class="input-group">
+        <div class="col-xs-3 form-group">
             <input id="searchBox" type="text" ng-model="searchText" class="form-control" 
-                placeholder="Search me"></input>
-        </div></div>
-        <div class="col-xs-2"><div class="input-group">
+                placeholder="Enter an address or OPA number"></input>
+        </div>
+        <div class="col-xs-2 form-group">
             <div class="btn-group" dropdown>
                 <button type="button" class="btn dropdown-toggle map-btn"
                     id="filterPicker" dropdown-toggle>{{filterType}} <span class="caret"></span>
@@ -20,8 +20,8 @@
                     <li ng-repeat="propertyType in buildingTypes"><a ng-click="filterBy(propertyType.sector)">{{::propertyType.sector}}</a></li>
                 </ul>
             </div>
-        </div></div>
-        <div class="col-xs-2"><div class="input-group">
+        </div>
+        <div class="col-xs-2 form-group">
             <div class="btn-group" dropdown>
                 <button type="button" class="btn dropdown-toggle map-btn"
                     id="colorPicker" dropdown-toggle>{{colorType.category}} <span class="caret"></span>
@@ -30,8 +30,8 @@
                     <li ng-repeat="type in colorByTypes"><a ng-click="colorBy(type)">{{::type.category}}</a></li>
                 </ul>
             </div>
-        </div></div>
-        <div class="col-xs-2"><div class="input-group">
+        </div>
+        <div class="col-xs-2 col-xs-3">
             <div class="btn-group" dropdown>
                 <button type="button" class="btn dropdown-toggle map-btn"
                     id="sizePicker" dropdown-toggle>{{sizeType.category}} <span class="caret"></span>
@@ -40,13 +40,14 @@
                     <li ng-repeat="size in sizeByTypes"><a ng-click="sizeBy(size)">{{::size.category}}</a></li>
                 </ul>
             </div>
-        </div></div>
-        <div class="col-xs-2"></div>
-
-        <div class="col-xs-2"><div class="pull-right input-group">
+        </div>
+        <div class="col-xs-1"></div>
+        <div class="col-xs-2"><div class="pull-right form-group">
             <div class="btn-group">
                 <button type="button" ng-show="compare.count > 0" ng-click="gotoCompare()" 
-                    class="btn map-btn">Compare ({{compare.count}})</button>
+                    data-toggle="tooltip" data-placement="bottom" 
+                    title="Add up to three properties then press button to compare"
+                    class="btn btn-default map-btn">Compare ({{compare.count}})</button>
             </div>
         </div></div>
     </div>
