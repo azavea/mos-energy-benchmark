@@ -19,16 +19,20 @@
     /*
      * ngInject
      */
-    function DetailController($scope, DetailConfig, MOSColors, buildingData) {
+    function DetailController($scope, DetailConfig, MOSColors, buildingData, currentData) {
 
 /* jshint laxbreak:true */
         var building = buildingData.data && buildingData.data.rows && buildingData.data.rows.length > 0
                         ? buildingData.data.rows[0] : {};
+        var sectorColor = MOSColors[building.sector];
 /* jshint laxbreak:false */
         $scope.building = building;
         $scope.fields = DetailConfig.fields;
-        $scope.sectorColor = {
-            'background-color': MOSColors[building.sector],
+        $scope.currentData = currentData.data.rows;
+        $scope.filterField = 'sector';
+        $scope.calloutColor = sectorColor;
+        $scope.headerColor = {
+            'background-color': sectorColor,
             opacity: 0.8
         };
     }
