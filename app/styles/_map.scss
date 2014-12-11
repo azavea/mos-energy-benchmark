@@ -1,23 +1,21 @@
-#mymap { top:150px; left:0; right:0; bottom:0; position:absolute; }
-button[disabled=disabled], button:disabled {color: DarkGray}
+#mymap { top:170px; left:0; right:0; bottom:0; position:absolute; }
 
-#filterHeader {
-    height: 50px;
-}
-
-.form-group,
-.form-group label,
-.form-group input { float:left; display:inline-block;   }
-
- .form-group { margin-right:5px }
- .form-group label { line-height:--px; }
-
- .row .btn {
-    margin-top: 5px;
+.filterHeader {
+    height: 100px;
+    background-color: #bdbdbd;
 }
 
 .cartodb-legend.custom {
   margin-bottom: 100px;
+}
+
+.map-btn {
+    background-color: white;
+}
+
+.report-btn {
+    color: white;
+    background-color: #706f6c;
 }
 
 .cartodb-legend.choropleth {

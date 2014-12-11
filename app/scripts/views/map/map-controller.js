@@ -13,13 +13,24 @@
         var vizLayer = null;
         var nativeMap = null;
 
+        $scope.propertyData = {
+            cartodbId: '',
+            propertyName: '',
+            address: '',
+            siteEui: '',
+            energyStar: '',
+            sector: '',
+            sectorColor: 'transparent'
+        };
+
+        $scope.popupLoading = true;
+
         $scope.compare = {
             count: BuildingCompare.count(),
             isChecked: false,
             disabled: false
         };
-        $scope.cartodbId = '';
-        $scope.popupLoading = true;
+        
         $scope.buildingTypes = [];
         $scope.filterType = MappingService.FILTER_NONE;
 
@@ -37,10 +48,13 @@
         // options for changing field for controlling viz feature size
         // 'category' is name for display; 'field' is field name in DB
         $scope.sizeByTypes = [
-            {'category': 'EUI', 'field': 'site_eui'},
-            {'category': 'GHG', 'field': 'total_ghg'},
+            {'category': 'Total Energy Use', 'field': 'site_eui'},
+            {'category': 'Greenhouse Gases', 'field': 'total_ghg'},
             {'category': 'Electricity', 'field': 'electricity'},
-            {'category': 'Fuel Oil', 'field': 'fuel_oil'}
+            {'category': 'Fuel Oil', 'field': 'fuel_oil'},
+            {'category': 'Water Use', 'field': 'water_use'},
+            {'category': 'Steam Use', 'field': 'steam'},
+            {'category': 'Natural Gas', 'field': 'natural_gas'}
         ];
 
         // default to EUI for feature size
@@ -77,27 +91,31 @@
 
         var popupTemplate = ['<span>',
           '<div ng-show="popupLoading" class="spinner">',
-          '<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>',
-          '</div>',
-          '<div ng-hide="popupLoading"><h4>Address:</h4>',
-          '<p>{{::address}}</p>',
-          '<h4>Emissions:</h4>',
-          '<p>{{::totalGhg}}</p>',
-          '<h4>ID:</h4>',
-          '<p>{{::cartodbId}}</p>',
-          '<p><input type="checkbox" ng-model="compare.isChecked" ng-disabled="compare.disabled" ng-change="setCompare(cartodbId)" />Compare</p>',
-          '<p><button ui-sref="detail({buildingId: cartodbId})">Full Report</button></p>',
+          '<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>',
+          '<div ng-hide="popupLoading"><div class="headerPopup" ',
+          'style="background-color: {{::propertyData.sectorColor}}">',
+          '<h4>{{::propertyData.propertyName}}</h4>',
+          '<h4>{{::propertyData.address}}</h4></div>',
+          '<p><b>Total Energy Use: </b>{{::propertyData.siteEui}}</p>',
+          '<p><b>Emissions: </b>{{::propertyData.totalGhg}}</p>',
+          '<p ng-show="energyStar"><b>Energy Star: </b>{{::propertyData.energyStar}}</p>',
+          '<p><input type="checkbox" ng-model="compare.isChecked" ng-disabled="compare.disabled" ',
+          'ng-change="setCompare(propertyData.cartodbId)" /><em>Compare</em>',
+          '<button class="pull-right report-btn" ',
+          'ui-sref="detail({buildingId: propertyData.cartodbId})">Full Report</button></p>',
           '</div></span>'].join('');
 
         var showPopup = function(coords) {
             // Set the properties of the compare object here so we ensure the popup always
             //  has the correct state on load
-            $scope.compare.isChecked = BuildingCompare.hasId($scope.cartodbId);
+            $scope.compare.isChecked = BuildingCompare.hasId($scope.propertyData.cartodbId);
             $scope.compare.disabled = !$scope.compare.isChecked && BuildingCompare.count() >= 3;
+
             var popup = $compile(popupTemplate)($scope);
             $scope.$apply(); // tell Angular to really, really go compile now
+
             L.popup({
-                minWidth: 100
+                minWidth: 150
             }).setLatLng(coords).setContent(popup[0]).openOn(nativeMap);
         };
 
@@ -176,17 +194,33 @@
                     MappingService.featureLookup(data.cartodb_id)
                         .done(function(data) {
                             var row = data.rows[0];
-                            $scope.cartodbId = row.cartodb_id.toString();
-                            $scope.address = row.geocode_address;
-                            $scope.totalGhg = row.total_ghg;
+                            $scope.propertyData.cartodbId = row.cartodb_id.toString();
+                            $scope.propertyData.propertyName = row.property_name;
+                            $scope.propertyData.address = row.address;
+                            $scope.propertyData.totalGhg = row.total_ghg;
+                            $scope.propertyData.siteEui = row.site_eui;
+                            $scope.propertyData.energyStar = row.energy_star;
+                            $scope.propertyData.sector = row.sector;
+
                             $scope.popupLoading = false;
+
+                            // get the color for this location's sector
+                            $scope.propertyData.sectorColor = 
+                                MappingService.findSectorColor($scope.propertyData.sector);
+
                             showPopup(latlng);
                         }).error(function(errors) {
                             // returns a list
                             console.error('errors fetching property data: ' + errors);
-                            $scope.cartodbId = null;
-                            $scope.address = null;
-                            $scope.totalGhg = null;
+                            $scope.propertyData.cartodbId = '';
+                            $scope.propertyData.propertyName = '';
+                            $scope.propertyData.address = '';
+                            $scope.propertyData.totalGhg = '';
+                            $scope.propertyData.siteEui = '';
+                            $scope.propertyData.energyStar = '';
+                            $scope.propertyData.sector = '';
+                            $scope.propertyData.sectorColor = 'transparent';
+
                             $scope.popupLoading = false;
                         });
                     });

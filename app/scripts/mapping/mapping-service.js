@@ -22,6 +22,21 @@
             return sectors;
         };
 
+        /*
+         *  Finds color for a given property sector
+         *
+         *  @param {string} sector Property sector field value from database
+         *  @returns {string} Corresponding color value for display
+         */
+        module.findSectorColor = function(sector) {
+            if (sector in MOSColors) {
+                return MOSColors[sector];
+            } else {
+                // if color not found, use 'Unknown' color
+                return MOSColors.Unknown;
+            }
+        };
+
         module.getLegendOptions = function(field) {
             return MapColorService.legendOptions(field);
         };
@@ -44,8 +59,8 @@
          * @returns Promise with results in data.rows
          */
         module.featureLookup = function(cartodbId)  {
-            var qry = 'SELECT cartodb_id, geocode_address, total_ghg, property_name, ' + 
-            'sector FROM mos_beb_2013 where cartodb_id = {{id}}';
+            var qry = 'SELECT cartodb_id, property_name, address, total_ghg, site_eui, ' + 
+            'energy_star, sector FROM mos_beb_2013 where cartodb_id = {{id}}';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
             return sql.execute(qry, { id: cartodbId});
         };

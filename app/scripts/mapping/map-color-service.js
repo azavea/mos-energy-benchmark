@@ -88,7 +88,6 @@
             'marker-clip: false;}'
         ].join(['\n']);
 
-        // TODO: add steam and water_use
         // min. values and corresponding CSS values for each bucket
         var colorRamps = {
                 'floor_area': {
@@ -333,6 +332,141 @@
                     },
                     {
                         'min': '175893.5',
+                        'markerVal': '10.0'
+                    }
+                ]
+            },
+            'natural_gas': {
+                'cssVal': 'marker-width',
+                'bins': [
+                    {
+                        'min': '1123733030',
+                        'markerVal': '35.0'
+                    },
+                    {
+                        'min': '16996373.8',
+                        'markerVal': '32.2'
+                    },
+                    {
+                        'min': '7030613.2',
+                        'markerVal': '29.4'
+                    },
+                    {
+                        'min': '4607952.6',
+                        'markerVal': '26.7'
+                    },
+                    {
+                        'min': '3306190.9',
+                        'markerVal': '23.9'
+                    },
+                    {
+                        'min': '2201595.2',
+                        'markerVal': '21.1'
+                    },
+                    {
+                        'min': '1386463.6',
+                        'markerVal': '18.3'
+                    },
+                    {
+                        'min': '765205.4',
+                        'markerVal': '15.6'
+                    },
+                    {
+                        'min': '323197.2',
+                        'markerVal': '12.8'
+                    },
+                    {
+                        'min': '115650',
+                        'markerVal': '10.0'
+                    }
+                ]
+            },
+            'water_use': {
+                'cssVal': 'marker-width',
+                'bins': [
+                    {
+                        'min': '700949.4',
+                        'markerVal': '35.0'
+                    },
+                    {
+                        'min': '14733.6',
+                        'markerVal': '32.2'
+                    },
+                    {
+                        'min': '7137.9',
+                        'markerVal': '29.4'
+                    },
+                    {
+                        'min': '3943',
+                        'markerVal': '26.7'
+                    },
+                    {
+                        'min': '2349.3',
+                        'markerVal': '23.9'
+                    },
+                    {
+                        'min': '1345',
+                        'markerVal': '21.1'
+                    },
+                    {
+                        'min': '904.9',
+                        'markerVal': '18.3'
+                    },
+                    {
+                        'min': '611.4',
+                        'markerVal': '15.6'
+                    },
+                    {
+                        'min': '328.3',
+                        'markerVal': '12.8'
+                    },
+                    {
+                        'min': '112.7',
+                        'markerVal': '10.0'
+                    }
+                ]
+            },
+            'steam': {
+                'cssVal': 'marker-width',
+                'bins': [
+                    {
+                        'min': '1375885588',
+                        'markerVal': '25.0'
+                    },
+                    {
+                        'min': '33787072',
+                        'markerVal': '23.3'
+                    },
+                    {
+                        'min': '20344457.7',
+                        'markerVal': '21.7'
+                    },
+                    {
+                        'min': '14335164',
+                        'markerVal': '20.0'
+                    },
+                    {
+                        'min': '11635695.2',
+                        'markerVal': '18.3'
+                    },
+                    {
+                        'min': '9132222.5',
+                        'markerVal': '16.7'
+                    },
+                    {
+                        'min': '6982731.5',
+                        'markerVal': '15.0'
+                    },
+                    {
+                        'min': '5334792',
+                        'markerVal': '13.3'
+                    },
+                    {
+                        'min': '3599831.1',
+                        'markerVal': '11.7'
+                    },
+                    {
+                        'min': '1982704.8',
                         'markerVal': '10.0'
                     }
                 ]
