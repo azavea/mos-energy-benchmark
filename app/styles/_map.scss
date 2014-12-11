@@ -1,8 +1,9 @@
 #mymap { top:175px; left:0; right:0; bottom:0; position:absolute; }
 button[disabled=disabled], button:disabled {color: DarkGray}
 
-#filterHeader {
-    height: 50px;
+.filterHeader {
+    height: 120px;
+    background-color: #bdbdbd;
 }
 
 .form-group,
@@ -26,6 +27,15 @@ button[disabled=disabled], button:disabled {color: DarkGray}
     width: 200;
     overflow: visible;
     outline: none;
+}
+
+.map-btn {
+    background-color: white;
+}
+
+.report-btn {
+    color: white;
+    background-color: #706f6c;
 }
 
 .cartodb-legend.choropleth {

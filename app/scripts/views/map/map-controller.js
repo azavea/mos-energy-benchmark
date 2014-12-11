@@ -98,7 +98,7 @@
           '<p ng-show="energyStar"><b>Energy Star: </b>{{::energyStar}}</p>',
           '<p><input type="checkbox" ng-model="compare.isChecked" ng-disabled="compare.disabled" ',
           'ng-change="setCompare(cartodbId)" /><em>Compare</em>',
-          '<button class="pull-right" ui-sref="detail({buildingId: cartodbId})">Full Report</button></p>',
+          '<button class="pull-right report-btn" ui-sref="detail({buildingId: cartodbId})">Full Report</button></p>',
           '</div></span>'].join('');
 
         var showPopup = function(coords) {

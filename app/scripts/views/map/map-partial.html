@@ -7,7 +7,7 @@
         <div class="input-group">
             <label for="filterPicker">Filter By</label>
             <div class="btn-group" dropdown>
-                <button type="button" class="btn btn-primary dropdown-toggle"
+                <button type="button" class="btn dropdown-toggle map-btn"
                     id="filterPicker" dropdown-toggle>{{filterType}} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
@@ -18,7 +18,7 @@
         <div class="input-group">
             <label for="colorPicker">Color</label>
             <div class="btn-group" dropdown>
-                <button type="button" class="btn btn-primary dropdown-toggle"
+                <button type="button" class="btn dropdown-toggle map-btn"
                     id="colorPicker" dropdown-toggle>{{colorType.category}} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
@@ -30,7 +30,7 @@
     <div class="input-group">
             <label for="sizePicker">Diameter</label>
             <div class="btn-group" dropdown>
-                <button type="button" class="btn btn-primary dropdown-toggle"
+                <button type="button" class="btn dropdown-toggle map-btn"
                     id="sizePicker" dropdown-toggle>{{sizeType.category}} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
@@ -41,7 +41,7 @@
     </div>
 
     <div class="pull-right">
-        <button ng-show="compare.count > 0" ng-click="gotoCompare()" class="btn btn-primary">Compare ({{compare.count}})</button>
+        <button ng-show="compare.count > 0" ng-click="gotoCompare()" class="btn map-btn">Compare ({{compare.count}})</button>
     </div>
 </div>
 <div ng-show="mapLoading" class="spinner">
