@@ -31,9 +31,6 @@
 /* jshint laxbreak:false */
         var sectorColor = MOSColors[building.sector];
         var rows = currentData.data.rows;
-        var selectedFilterText = {};
-        selectedFilterText[DetailConfig.FILTER.NONE] = 'All Buildings';
-        selectedFilterText[DetailConfig.FILTER.SECTOR] = 'Similar Building Types';
 
         $scope.building = building;
         $scope.fields = DetailConfig.fields;
@@ -41,7 +38,11 @@
         $scope.filterField = 'sector';
         $scope.calloutColor = sectorColor;
         $scope.FILTER = DetailConfig.FILTER;
-        $scope.filterButtonText = selectedFilterText[DetailConfig.FILTER.NONE];
+        $scope.dropdownText = {};
+        $scope.dropdownText[DetailConfig.FILTER.NONE] = 'All Buildings';
+        $scope.dropdownText[DetailConfig.FILTER.SECTOR] = 'Similar Building Types';
+
+        $scope.filterButtonText = $scope.dropdownText[DetailConfig.FILTER.NONE];
         $scope.headerColor = {
             'background-color': sectorColor,
             opacity: 0.8
@@ -55,7 +56,7 @@
             } else {
                 $scope.currentData = rows;
             }
-            $scope.filterButtonText = selectedFilterText[filter];
+            $scope.filterButtonText = $scope.dropdownText[filter];
         };
     }
 
