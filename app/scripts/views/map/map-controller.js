@@ -54,6 +54,7 @@
         $scope.colorBy = function(selection) {
             $scope.colorType = selection;
             MappingService.setVizCartoCSS(vizLayer, $scope.colorType.field, $scope.sizeType.field);
+            setSecondLegend();
         };
 
         $scope.sizeBy = function(selection) {
@@ -112,7 +113,36 @@
             });
 
         // get colors to display in legend
-        $scope.sectorColors = MappingService.getLegendColors();
+        $scope.sectorColors = MappingService.getSectorColors();
+
+        // add second legend for feature color, above size legend
+        var setSecondLegend = function() {
+            var legend = null;
+
+            // first remove previous second legend
+            $('div.cartodb-legend.choropleth').remove();
+            $('div.cartodb-legend.custom').remove();
+
+            if ($scope.colorType.field === 'sector') {
+                // categorize by sector
+                legend = new cartodb.geo.ui.Legend({
+                   type: 'custom',
+                   data: $scope.sectorColors
+                 });
+            } else {
+                // choropleth legend
+                var opts = MappingService.getLegendOptions($scope.colorType.field);
+                console.log(opts);
+
+                legend = new cartodb.geo.ui.Legend.Choropleth({
+                    left: opts.left,
+                    right: opts.right,
+                    colors: opts.colors
+                });
+            }
+
+            $('#mymap').append(legend.render().el);
+        };
 
         // load map visualization
         cartodb.createVis('mymap', 'http://azavea-demo.cartodb.com/api/v2/viz/c5a9af6e-7f12-11e4-8f24-0e018d66dc29/viz.json',
@@ -137,13 +167,7 @@
                     $('.leaflet-container').css('cursor', '-moz-grab');
                 });
 
-                var legend = new cartodb.geo.ui.Legend({
-                   type: 'custom',
-                   title: 'Sectors',
-                   data: $scope.sectorColors
-                 });
-
-                $('#mymap').append(legend.render().el);
+                setSecondLegend();
                 
                 vizLayer.on('featureClick', function(e, latlng, pos, data) {
                     // show popup with spinner to indicate it's loading, hang on...

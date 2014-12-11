@@ -9,13 +9,17 @@
 
         module.FILTER_NONE = 'All types';
 
-        module.getLegendColors = function() {
+        module.getSectorColors = function() {
             var sectors = [];
             // build object with properties CartoDB expects for legend data
             angular.forEach(MOSColors, function(value, key) {
                 sectors.push({'name': key, 'value': value});
             });
             return sectors;
+        };
+
+        module.getLegendOptions = function(field) {
+            return MapColorService.legendOptions(field);
         };
 
         /*
@@ -59,9 +63,9 @@
                 console.error('cannot change CartoCSS; there is no viz!');
                 return;
             }
-            var css = MapColorService.baseCartoCSS + 
-                      MapColorService.getColorCartoCSS(colorByField) + 
-                      MapColorService.getSizeCartoCSS(sizeByField);
+            var css = MapColorService.baseCartoCSS + ' ' +
+                      MapColorService.getFieldCartoCSS(colorByField) + ' ' +
+                      MapColorService.getFieldCartoCSS(sizeByField);
 
             viz.setCartoCSS(css);
         };
