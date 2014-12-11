@@ -32,7 +32,9 @@
         };
         
         $scope.buildingTypes = [];
+        $scope.buildingIds = [];
         $scope.filterType = MappingService.FILTER_NONE;
+        $scope.searchText = '';
 
         // options for changing field for controlling viz feature color
         // 'category' is name for display; 'field' is field name in DB
@@ -59,6 +61,28 @@
 
         // default to EUI for feature size
         $scope.sizeType = $scope.sizeByTypes[0];
+
+        $scope.searchMap = function() {
+
+            // TODO: how to display an error? modal?  what if multiple results found?
+
+            console.log($scope.searchText);
+
+            if (!$scope.searchText) {
+                console.log('nothing to search for');
+                return;
+            }
+
+            // if entered search text is numeric, try searching by property ID
+            if (!isNaN($scope.searchText)) {
+                console.log('that looks like a property ID');
+                // TODO: look up property, zoom to it if found, and open pop-up
+            } else {
+                console.log('I guess that must be an address');
+                // TODO: geocode address and zoom to the spot
+            }
+
+        };
 
         $scope.filterBy = function(sector) {
             $scope.filterType = sector;
@@ -128,6 +152,16 @@
                 // returns a list
                 console.error('errors fetching property types: ' + errors);
                 $scope.buildingTypes = [{'sector': module.FILTER_NONE}];
+            });
+
+        // fetch building IDs for autocomplete
+        MappingService.getBuildingIds()
+            .done(function(data) {
+                $scope.buildingIds = data.rows;
+            }).error(function(errors) {
+                // returns a list
+                console.error('errors fetching building IDs: ' + errors);
+                $scope.buildingIds = [];
             });
 
         // get colors to display in legend

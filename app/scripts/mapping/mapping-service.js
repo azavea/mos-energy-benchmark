@@ -65,6 +65,12 @@
             return sql.execute(qry, { id: cartodbId});
         };
 
+        module.getBuildingIds = function() {
+            var qry = 'SELECT DISTINCT phl_bldg_id FROM mos_beb_2013;';
+            var sql = new cartodb.SQL({ user: 'azavea-demo'});
+            return sql.execute(qry);
+        };
+
         module.filterViz = function(viz, val) {
             if (!viz) {
                 console.error('cannot filter; there is no viz!');
