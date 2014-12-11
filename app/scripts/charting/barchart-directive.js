@@ -77,11 +77,11 @@
                     avgemissions: _.reduce(d, function(val, memo) { return memo.emissions + val; }, 0) / kCount,
                     avgenergystar: kCount > 0 ? _.reduce(d, function(val, memo) { return memo.energystar + val; }, 0) / kCount : 0,
                     avgeui: kCount > 0 ? _.reduce(d, function(val, memo) { return memo.eui + val; }, 0) / kCount : 0,
-                    minsqfeet: _.min(d, function(val) { return val.sqfeet; }).sqfeet,
-                    maxsqfeet: _.max(d, function(val) { return val.sqfeet; }).sqfeet,
-                    avgsqfeet: _.reduce(d, function(memo, val) { return val.sqfeet + memo; }, 0) / kCount,
-                    mediansqfeet: _.sortBy(d, function(val) { return val.sqfeet; })[Math.round(kCount / 2)].sqfeet,
-                    totalsqfeet: _.reduce(d, function( memo, val) { return val.sqfeet + memo; }, 0),
+                    minsqft: _.min(d, function(val) { return val.sqfeet; }).sqfeet,
+                    maxsqft: _.max(d, function(val) { return val.sqfeet; }).sqfeet,
+                    avgsqft: _.reduce(d, function(memo, val) { return val.sqfeet + memo; }, 0) / kCount,
+                    mediansqft: _.sortBy(d, function(val) { return val.sqfeet; })[Math.round(kCount / 2)].sqfeet,
+                    totalsqft: _.reduce(d, function( memo, val) { return val.sqfeet + memo; }, 0),
                     count: kCount,
                     key: k,
                     yearRange: _.min(d, function(d) { return d.yearbuilt; }).yearbuilt +
@@ -207,8 +207,13 @@
                         .transition()
                         .ease('linear')
                         .duration(transitionMillis)
-                        .attr('y', function(d) {return y(d[yAttr]) + config.margin.top; })
-                        .attr('height', function(d) { return config.plotHeight - y(d[yAttr]) - config.margin.top - config.margin.bottom; });
+                        .attr('y', function(d) {
+                            var val = isNaN(y(d[yAttr])) ? 0 : y(d[yAttr]);
+                            return val + config.margin.top; })
+                        .attr('height', function(d) {
+                            var val = isNaN(y(d[yAttr])) ? 0 : y(d[yAttr]);
+                            return config.plotHeight - val - config.margin.top - config.margin.bottom;
+                        });
                 }
 
                 $scope.selectedYChanged = function() {
