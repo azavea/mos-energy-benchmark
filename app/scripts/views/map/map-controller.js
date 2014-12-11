@@ -152,7 +152,7 @@
             $scope.$apply(); // tell Angular to really, really go compile now
 
             L.popup({
-                minWidth: 150
+                minWidth: 200
             }).setLatLng(coords).setContent(popup[0]).openOn(nativeMap);
         };
 
@@ -249,13 +249,13 @@
                             $scope.propertyData.energyStar = row.energy_star;
                             $scope.propertyData.sector = row.sector;
 
-                            $scope.popupLoading = false;
-
                             // get the color for this location's sector
                             $scope.propertyData.sectorColor = 
                                 MappingService.findSectorColor($scope.propertyData.sector);
 
+                            $scope.popupLoading = false;
                             showPopup(latlng);
+                            
                         }).error(function(errors) {
                             // returns a list
                             console.error('errors fetching property data: ' + errors);
