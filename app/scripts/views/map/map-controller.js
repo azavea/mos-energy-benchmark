@@ -37,10 +37,12 @@
         // options for changing field for controlling viz feature size
         // 'category' is name for display; 'field' is field name in DB
         $scope.sizeByTypes = [
-            {'category': 'EUI', 'field': 'site_eui'},
-            {'category': 'GHG', 'field': 'total_ghg'},
+            {'category': 'Total Energy Use', 'field': 'site_eui'},
+            {'category': 'Greenhouse Gases', 'field': 'total_ghg'},
             {'category': 'Electricity', 'field': 'electricity'},
-            {'category': 'Fuel Oil', 'field': 'fuel_oil'}
+            {'category': 'Fuel Oil', 'field': 'fuel_oil'},
+            {'category': 'Water Use', 'field': 'water_use'},
+            {'category': 'Natural Gas', 'field': 'natural_gas'}
         ];
 
         // default to EUI for feature size
