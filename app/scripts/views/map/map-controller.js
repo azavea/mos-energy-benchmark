@@ -151,13 +151,16 @@
                     // show popup with found addresss display name
                     var latlng = L.latLng(result.lat, result.lon);
                     nativeMap.panTo(latlng);
-                    var geocodePopupTemplate = '<span><h4>{{::geocodedDisplayName}}</h4></span>';
+                    var geocodePopupTemplate = [
+                        '<span class="featurePopup"><div class="headerPopup"></div>',
+                        '<p>{{::geocodedDisplayName}}</p></span>'
+                    ].join('');
                     /* jshint camelcase:false */
                     $scope.geocodedDisplayName = result.display_name;
                     /* jshint camelcase:true */
                     var popup = $compile(geocodePopupTemplate)($scope);
                     L.popup({
-                        minWidth:100
+                        minWidth: 200
                     }).setLatLng(latlng).setContent(popup[0]).openOn(nativeMap);
                     nativeMap.setZoom(16);
 
