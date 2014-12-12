@@ -33,7 +33,8 @@
       .module('mos.views.charts', [
         'ui.router',
         'mos.cartodb',
-        'mos.charting'
+        'mos.charting',
+        'mos.utils'
       ]).config(StateConfig);
 
 })();
