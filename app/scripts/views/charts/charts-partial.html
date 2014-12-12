@@ -1,95 +1,91 @@
-<div auto-height class="hero">
-    <div class="container space">
-        <div class="row text-center">
-            <h1>2014 Building Energy Benchmarking</h1>
-            <p>This report describes Philadelphia’s 2013 Energy Benchmarking results for large commercial facilities.</p>
+<div class="panel-snap-container" mos-panel-snap>
+    <section class="hero chart-hero">
+        <div class="container space">
+            <div class="row text-center">
+                <h1>2014 Building Energy Benchmarking</h1>
+                <p>
+                    This report describes Philadelphia’s 2013 Energy Benchmarking
+                    results for large commercial facilities.
+                </p>
+            </div>
+            <br>
+            <div class="row text-center">
+                <a type="button" class="btn btn-lg btn-ghost" mos-panel-snap-next>Explore Charts</a>
+                <a ui-sref="map" type="button" class="btn btn-lg btn-default">Explore Map</a>
+            </div>
         </div>
-        <br>
-        <div class="row text-center">
-            <a type="button" scroll-to="explore-charts" class="btn btn-lg btn-ghost">Explore Charts</a>
-            <a ui-sref="map" type="button" class="btn btn-lg btn-default">Explore Map</a>
-        </div>
-    </div>
-</div>
+    </section>
 
-<div class="body-bg" id="explore-charts">
-    <div class="stats-callout">
-        <div class="row text-center">
+    <section class="stats-callout">
+        <div class="stats-row text-center">
             <div class="jumbo">64</div>
             <p>Philadelphia’s average ENERGY STAR score.  The national average is 50.</p>
         </div>
-    </div>
+    </section>
 
-    <div class="container space">
-        <div class="row text-center">
+    <section class="chart-container">
+        <div class="chart-row text-center">
             <h1>Stats By Building Type</h1>
             <mos-bubblechart id="bubble-chart-1" data="groupedData"></mos-bubblechart>
         </div>
-    </div>
+    </section>
 
-    <div class="stats-callout">
-        <div class="row text-center">
+    <section class="stats-callout">
+        <div class="stats-row text-center">
             <div class="jumbo">62</div>
             <p>Buildings account for almost 62% of all greenhouse gas emissions in Philadelphia</p>
         </div>
-    </div>
+    </section>
 
-    <div class="container space">
-        <div class="row text-center">
+    <section class="chart-container">
+        <div class="chart-row text-center">
             <h1>Year Built & Size Breakdown</h1>
             <mos-barchart id="bar-chart-temporal" bin-type="'temporal'" data="currentData"></mos-barchart>
             <mos-barchart id="bar-chart-area" bin-type="'area'" data="currentData"></mos-barchart>
         </div>
-    </div>
+    </section>
 
-    <div class="stats-callout">
-        <div class="row text-center">
+    <section class="stats-callout">
+        <div class="stats-row text-center">
             <div class="jumbo">2,700</div>
             <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euilgod</p>
         </div>
-    </div>
+    </section>
 
-    <div class="container space">
-        <div class="row text-center">
+    <section class="chart-container">
+        <div class="chart-row text-center">
             <h1>Comparison</h1>
             <mos-scatterplot id="scatter-chart-1" data="currentData" plot-width="600"></mos-scatterplot>
         </div>
-    </div>
+    </section>
 
-    <hr>
-
-    <div class="container space">
-        <div class="row text-center">
+    <section class="chart-container">
+        <div class="chart-row text-center">
             <h1>Comparison Over Time</h1>
             <mos-time-scatterplot id="time-scatterplot-1"
                 data="combinedData"
                 margin="{top: 10, left: 60, right: 10, bottom: 30}">
             </mos-time-scatterplot>
         </div>
-    </div>
-</div>
+    </section>
 
-<div class="explore">
-    <div class="row text-center">
-        <a ui-sref="map" type="button" class="btn btn-lg btn-default">Explore Map</a>
-    </div>
+    <section class="footer chart-footer">
+        <div class="container">
+              <div class="stats-row">
+                    <div class="col-xs-4">
+                          <p><strong>Credits</strong></p>
+                          <p>This tool was developed for the Mayor’s Office of Sustainability (MOS) by <a href="http://www.azave
+                                                                                                                       a.com/" target="_blank">Azavea Inc.</a></p>
+                      </div>
+                    <div class="col-xs-4">
+                          <p><strong>Contact</strong></p>
+                          <p>Questions about the tool, the data, or the energy benchmarking program can be directed to MOS at <a href="mailto: benchmarkinghelp@phila.gov">benchmarkinghelp@phila.gov.</a></p>
+                      </div>
+                    <div class="col-xs-4">
+                          <p><strong>Full Report</strong></p>
+                          <p>For more information and to see the full report,  please visit the energy benchmarking site <a href="http://www.phila.gov/benchmarking" target="_blank">here</a>.</p>
+                      </div>
+                </div>
+          </div>
+    </section>
 </div>
-
-<footer class="footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-4">
-                <p><strong>Credits</strong></p>
-                <p>This tool was developed for the Mayor’s Office of Sustainability (MOS) by <a href="http://www.azavea.com/" target="_blank">Azavea Inc.</a></p>
-            </div>
-            <div class="col-xs-4">
-                <p><strong>Contact</strong></p>
-                <p>Questions about the tool, the data, or the energy benchmarking program can be directed to MOS at <a href="mailto: benchmarkinghelp@phila.gov">benchmarkinghelp@phila.gov.</a></p>
-            </div>
-            <div class="col-xs-4">
-                <p><strong>Full Report</strong></p>
-                <p>For more information and to see the full report,  please visit the energy benchmarking site <a href="http://www.phila.gov/benchmarking" target="_blank">here</a>.</p>
-            </div>
-        </div>
-    </div>
-</footer>
