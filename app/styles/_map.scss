@@ -1,7 +1,7 @@
-#mymap { top:170px; left:0; right:0; bottom:0; position:absolute; }
+#mymap { top:190px; left:0; right:0; bottom:0; position:absolute; }
 
 .filterHeader {
-    height: 100px;
+    height: 120px;
     background-color: #bdbdbd;
 }
 
@@ -22,17 +22,21 @@
   margin-bottom: 100px;
 }
 
+.no-results {
+  color: red;
+}
+
 
 /* search icon within input field */
-.search-group {
+div.search-group {
   position: relative;
 }
 
-.search-group.input {
+.search-group input {
   padding-left: 23px;
 }
 
-span.glyphicon-search {
+.glyphicon-search {
   position: absolute;
   padding-left: 7px;
   padding-top: 7px;

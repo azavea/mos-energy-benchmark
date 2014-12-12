@@ -7,18 +7,16 @@
         <div class="col-xs-3"></div>
     </div>
     <div class="row">
-        <div class="col-xs-3 form-group" style="position: relative;">
-            <span class="glyphicon glyphicon glyphicon-search pull-left" 
-                style="position: absolute; padding-left: 7px; padding-top: 7px;"
-                 aria-hidden="true" />
+        <div class="col-xs-3 form-group search-group">
+            <span class="glyphicon glyphicon-search pull-left" aria-hidden="true" />
             <input id="searchBox" type="text" ng-model="searchText" class="form-control" 
-                style="padding-left: 23px"
                 typeahead="bldg.phl_bldg_id for bldg in buildingIds | filter:$viewValue | limitTo:8"
                 typeahead-wait-ms="400" typeahead-min-length="3" ng-submit="searchMap()"
                 ng-keyup="$event.keyCode === 13 ? searchMap() : null" width="70%"
                 placeholder="Address or Building ID" data-toggle="tooltip" 
                 data-placement="bottom" title="Search for an address or Philadelphia Building ID">
             </input>
+            <p class="no-results" ng-show="noResults"><em>No search results found</em></p>
         </div>
         <div class="col-xs-2 form-group">
             <div class="btn-group" dropdown>
