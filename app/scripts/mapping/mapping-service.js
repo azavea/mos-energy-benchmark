@@ -4,10 +4,11 @@
     /**
      * @ngInject
      */
-    function MappingService ($http, MOSColors, MapColorService) {
+    function MappingService ($http, MOSColors, MapColorService, CartoConfig) {
         var module = {};
 
         module.FILTER_NONE = 'All types';
+        var table = CartoConfig.tables.currentYear;
 
         /*
          *  Builds sector legend data
@@ -47,9 +48,9 @@
          *  @returns Promise with query results
          */
         module.getBldgCategories = function() {
-            var qry = 'SELECT DISTINCT sector FROM mos_beb_2013;';
+            var qry = 'SELECT DISTINCT sector FROM {{tbl}};';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
-            return sql.execute(qry);
+            return sql.execute(qry, {tbl: table});
         };
 
         /*
@@ -60,9 +61,9 @@
          */
         module.featureLookup = function(cartodbId)  {
             var qry = 'SELECT cartodb_id, property_name, address, total_ghg, site_eui, ' + 
-            'energy_star, sector FROM mos_beb_2013 where cartodb_id = {{id}}';
+            'energy_star, sector FROM {{tbl}} where cartodb_id = {{id}}';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
-            return sql.execute(qry, { id: cartodbId});
+            return sql.execute(qry, { id: cartodbId, tbl: table });
         };
 
         /*
@@ -74,9 +75,9 @@
          */
         module.featureLookupByBldgId = function(bldgId)  {
             var qry = 'SELECT cartodb_id, property_name, address, total_ghg, site_eui, ' + 
-            'energy_star, sector, x, y FROM mos_beb_2013 where phl_bldg_id = \'{{bldgId}}\';';
+            'energy_star, sector, x, y FROM {{tbl}} where phl_bldg_id = \'{{bldgId}}\';';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
-            return sql.execute(qry, { bldgId: bldgId});
+            return sql.execute(qry, { bldgId: bldgId, tbl: table});
         };
 
         /*
@@ -85,9 +86,9 @@
          *  @returns Promise with results in data.rows
          */
         module.getBuildingIds = function() {
-            var qry = 'SELECT DISTINCT phl_bldg_id FROM mos_beb_2013;';
+            var qry = 'SELECT DISTINCT phl_bldg_id FROM {{tbl}};';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
-            return sql.execute(qry);
+            return sql.execute(qry, {tbl: table});
         };
 
         /*
@@ -102,9 +103,9 @@
                 return;
             }
             if (val === module.FILTER_NONE) {
-                viz.setSQL('select * from mos_beb_2013');
+                viz.setSQL('SELECT * FROM ' + table + ';');
             } else {
-                viz.setSQL('select * from mos_beb_2013 where sector =\'' + val + '\';');
+                viz.setSQL('SELECT * FROM ' + table + ' WHERE sector =\'' + val + '\';');
             }
         };
 

@@ -6,10 +6,10 @@
      *
      * @ngInject
      */
-    function MapColorService (MOSColors) {
+    function MapColorService (MOSColors, CartoConfig) {
         var module = {};
 
-        var TABLE = '#mos_beb_2013';
+        var TABLE = '#' + CartoConfig.tables.currentYear;
 
         /*
          *  @param {string} Database field name defined in colorRamps below
