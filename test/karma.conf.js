@@ -28,9 +28,11 @@ module.exports = function(config) {
       'bower_components/d3/d3.js',
       'bower_components/d3-tip/index.js',
       'bower_components/lodash/dist/lodash.compat.js',
-      'bower_components/ngSmoothScroll/angular-smooth-scroll.js',
       'bower_components/headroom.js/dist/headroom.js',
       'bower_components/headroom.js/dist/angular.headroom.js',
+
+      // Karma has problems with this file, but it's not needed for tests, commenting out
+      //'bower_components/panelsnap/jquery.panelSnap.js',
 
       // Add app scripts here, same order as in index.html
       'app/scripts/utils.js',
@@ -49,6 +51,7 @@ module.exports = function(config) {
       'app/scripts/mapping/mapping-service.js',
       'app/scripts/views/charts/module.js',
       'app/scripts/views/charts/charts-controller.js',
+      'app/scripts/views/charts/panel-snap-directive.js',
       'app/scripts/views/map/module.js',
       'app/scripts/views/map/map-controller.js',
       'app/scripts/views/info/module.js',
