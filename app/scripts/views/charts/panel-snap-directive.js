@@ -15,7 +15,7 @@
 
             // Clicking any "mos-panel-snap-next" element will
             // advance the chart page to the next section
-            element.find('[mos-panel-snap-next="true"]').click(function(event){
+            element.find('[mos-panel-snap-next]').click(function(event){
                 event.preventDefault();
                 event.stopPropagation();
                 element.panelSnap('snapTo', 'next');
