@@ -51,6 +51,7 @@ module.exports = function(config) {
       'app/scripts/mapping/mapping-service.js',
       'app/scripts/views/charts/module.js',
       'app/scripts/views/charts/charts-controller.js',
+      'app/scripts/views/charts/count-up-directive.js',
       'app/scripts/views/charts/panel-snap-directive.js',
       'app/scripts/views/map/module.js',
       'app/scripts/views/map/map-controller.js',
