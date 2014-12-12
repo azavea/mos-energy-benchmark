@@ -63,6 +63,7 @@
         };
 
         module.link = function ($scope, element, attrs) {
+
             // Setup public ($scope) and private variables
             $scope.configure(TimeScatterPlotDefaults);
             var config = $scope.config;
@@ -129,17 +130,21 @@
                     .attr('y2', function(d) { return y(d.curr[yAttr]); });
 
                 // Draw the current and previous year points
-                drawPoints('curr', currColor, currRadius);
-                drawPoints('prev', prevColor, prevRadius);
+                drawPoints('curr', currColor);
+                drawPoints('prev', prevColor);
+
+                // Perform the initial animation
+                refreshData();
 
                 // Helper for drawing points on the chart
-                function drawPoints(objName, color, radius) {
+                function drawPoints(objName, color) {
                     circles.append('circle')
                         .attr('class', objName)
-                        .attr('fill', function() { return color; })
+                        .attr('fill', color)
                         .attr('cx', function(d) { return x(d[objName][xAttr]); })
                         .attr('cy', function(d) { return y(d[objName][yAttr]); })
-                        .attr('r', radius)
+                        // Radius of zero initially so it can be animated on load
+                        .attr('r', 0)
                         .on('mouseover', tip.show)
                         .on('mouseout', tip.hide);
                 }
@@ -267,14 +272,16 @@
                     .ease('linear')
                     .duration(transitionMillis)
                     .attr('cx', function(d) { return x(d.curr[xAttr]); })
-                    .attr('cy', function(d) { return y(d.curr[yAttr]); });
+                    .attr('cy', function(d) { return y(d.curr[yAttr]); })
+                    .attr('r', config.currRadius);
 
                 svg.selectAll('circle.prev')
                     .transition()
                     .ease('linear')
                     .duration(transitionMillis)
                     .attr('cx', function(d) { return x(d.prev[xAttr]); })
-                    .attr('cy', function(d) { return y(d.prev[yAttr]); });
+                    .attr('cy', function(d) { return y(d.prev[yAttr]); })
+                    .attr('r', config.prevRadius);
 
                 svg.selectAll('line.connector')
                     .transition()

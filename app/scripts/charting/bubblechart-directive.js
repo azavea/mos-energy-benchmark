@@ -65,6 +65,7 @@
             Utils.onPanelSnap(element, function () {
                 $scope.redraw($scope.data);
             });
+
             $scope.$watch('bubbleSeries', function () {
                 $scope.plotComplete = false;
                 $scope.redraw($scope.data);
@@ -94,24 +95,25 @@
                 node = chart.selectAll('g')
                                  .data(pack.nodes({ children: data }));
 
-                // Update
-                node.transition().duration(config.transitionTime)
-                    .attr('transform', function(d) { return 'translate(' + d.x +
-                                                            ',' + d.y + ')'; })
-                    .selectAll('circle')
-                    .attr('r', function (d) { return d.r; });
-
                 // Add
                 node.enter().append('g')
                         .filter(function (d) { return d.depth === 1; })
                         .attr('transform', function(d) { return 'translate(' + d.x +
                                                                 ',' + d.y + ')'; })
                         .append('circle')
-                        .attr('r', function (d) { return d.r; })
+                        // Radius of zero initially so it can be animated on load
+                        .attr('r', 0)
                         .attr('class', 'bubble')
                         .style('fill', function (d, i) { return color(i); })
                         .on('mouseover', tip.show)
                         .on('mouseout', tip.hide);
+
+                // Update
+                node.transition().duration(config.transitionTime)
+                    .attr('transform', function(d) { return 'translate(' + d.x +
+                                                            ',' + d.y + ')'; })
+                    .selectAll('circle')
+                    .attr('r', function (d) { return d.r; });
 
                 $scope.plotComplete = true;
             };

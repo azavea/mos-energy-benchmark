@@ -126,20 +126,21 @@
                 var circles = chart.selectAll('circle')
                                   .data(data);
 
-                circles.transition().duration(2000)
-                       .attr('cx', function (d) { return x(datumX(d)); })
-                       .attr('cy', function (d) { return y(datumY(d)); })
-                       .attr('r', function (d) { return r(datumR(d)); });
-
                 circles.enter().append('circle')
                        .attr('cx', function (d) { return x(datumX(d)); })
                        .attr('cy', function (d) { return y(datumY(d)); })
-                       .attr('r', function (d) { return r(datumR(d)); })
+                        // Radius of zero initially so it can be animated on load
+                       .attr('r', 0)
                        .attr('fill', config.pointFillColor)
                        .attr('stroke', config.pointStrokeColor)
                        .on('mouseover', tip.show)
                        .on('mouseout', tip.hide);
                 circles.exit().remove();
+
+                circles.transition().duration(2000)
+                       .attr('cx', function (d) { return x(datumX(d)); })
+                       .attr('cy', function (d) { return y(datumY(d)); })
+                       .attr('r', function (d) { return r(datumR(d)); });
 
                 $scope.plotComplete = true;
             };
