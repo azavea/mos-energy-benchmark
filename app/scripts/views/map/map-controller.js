@@ -59,15 +59,15 @@
             if (row) {
                 /* jshint camelcase:false */
                 $scope.propertyData = {
-                cartodbId: row.cartodb_id.toString(),
-                propertyName: row.property_name,
-                address: row.address,
-                totalGhg: row.total_ghg,
-                siteEui: row.site_eui,
-                energyStar: row.energy_star,
-                sector: row.sector,
+                    cartodbId: row.cartodb_id.toString(),
+                    propertyName: row.property_name,
+                    address: row.address,
+                    totalGhg: row.total_ghg,
+                    siteEui: row.site_eui,
+                    energyStar: row.energy_star,
+                    sector: row.sector
+                };
                 /* jshint camelcase:true */
-            };
 
             // get the color for this location's sector
             $scope.propertyData.sectorColor = 
@@ -196,7 +196,7 @@
             $state.go('compare', {ids: BuildingCompare.list().join(',')});
         };
 
-        var popupTemplate = ['<span>',
+        var popupTemplate = ['<span class="featurePopup">',
           '<div ng-show="popupLoading" class="spinner">',
           '<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>',
           '<div ng-hide="popupLoading"><div class="headerPopup" ',
@@ -207,8 +207,8 @@
           '<p><b>Emissions: </b>{{::propertyData.totalGhg}}</p>',
           '<p ng-show="energyStar"><b>Energy Star: </b>{{::propertyData.energyStar}}</p>',
           '<p><input type="checkbox" ng-model="compare.isChecked" ng-disabled="compare.disabled" ',
-          'ng-change="setCompare(propertyData.cartodbId)" /><em>Compare</em>',
-          '<button class="pull-right report-btn" ',
+          'ng-change="setCompare(propertyData.cartodbId)" /><em> Compare</em>',
+          '<button type="button" class="pull-right btn" ',
           'ui-sref="detail({buildingId: propertyData.cartodbId})">Full Report</button></p>',
           '</div></span>'].join('');
 
@@ -222,7 +222,7 @@
             $scope.$apply(); // tell Angular to really, really go compile now
 
             L.popup({
-                minWidth: 200
+                minWidth: 220
             }).setLatLng(coords).setContent(popup[0]).openOn(nativeMap);
         };
 
