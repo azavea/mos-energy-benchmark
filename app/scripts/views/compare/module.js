@@ -13,6 +13,9 @@
                 buildingData: function ($stateParams, CartoSQLAPI) {
                     var ids = $stateParams.ids.split(',').slice(0, 3);
                     return CartoSQLAPI.getBuildingData(ids);
+                },
+                currentData: function (CartoSQLAPI) {
+                    return CartoSQLAPI.getAllCurrentData();
                 }
             }
         });
@@ -27,7 +30,8 @@
     angular
       .module('mos.views.compare', [
         'ui.router',
-        'mos.compare'
+        'mos.compare',
+        'mos.charting'
       ]).config(StateConfig);
 
 })();

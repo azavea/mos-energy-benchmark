@@ -31,7 +31,15 @@
                     <td class="compare"
                         ng-class="{'bld-1': $index === 0, 'bld-2': $index === 1, 'bld-3': $index === 2}"
                         ng-repeat="building in buildings">{{ ::building[key] | cartodbNumber }}</td>
-                    <td><i class="fa fa-signal"></i> Chart</td>
+                    <td>
+                        <mos-histogram plot-height="80"
+                                       plot-width="300"
+                                       data="currentData"
+                                       value-field="'{{key}}'"
+                                       callout-values="calloutValues[key]"
+                                       callout-colors="calloutColors">
+                        </mos-histogram>
+                    </td>
                 </tr>
             </tbody>
         </table>
