@@ -53,10 +53,10 @@
         };
 
         /*
-         *  Fetches details for a selected property
+         *  Fetches details for a selected property by row ID (cartodb_id)
          *
-         * @param {string} cartodbId Unique ID for record to search for
-         * @returns Promise with results in data.rows
+         *  @param {string} cartodbId Unique ID for record to search for
+         *  @returns Promise with results in data.rows
          */
         module.featureLookup = function(cartodbId)  {
             var qry = 'SELECT cartodb_id, property_name, address, total_ghg, site_eui, ' + 
@@ -65,12 +65,37 @@
             return sql.execute(qry, { id: cartodbId});
         };
 
+        /*
+         *  Fetches details for a selected property by its building ID.
+         *  Used by search box.
+         *
+         *  @param {string} Building ID to search for
+         *  @returns Promise with results in data.rows
+         */
+        module.featureLookupByBldgId = function(bldgId)  {
+            var qry = 'SELECT cartodb_id, property_name, address, total_ghg, site_eui, ' + 
+            'energy_star, sector, x, y FROM mos_beb_2013 where phl_bldg_id = \'{{bldgId}}\';';
+            var sql = new cartodb.SQL({ user: 'azavea-demo'});
+            return sql.execute(qry, { bldgId: bldgId});
+        };
+
+        /*
+         *  Fetches all building IDs, for use in autocomplete
+         *
+         *  @returns Promise with results in data.rows
+         */
         module.getBuildingIds = function() {
             var qry = 'SELECT DISTINCT phl_bldg_id FROM mos_beb_2013;';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
             return sql.execute(qry);
         };
 
+        /*
+         *  Filter CartoDB visualization by sector
+         *
+         *  @param {Object} viz CartoDB visualization layer to filter
+         *  @param {string} val Sector column value from database to filter on
+         */
         module.filterViz = function(viz, val) {
             if (!viz) {
                 console.error('cannot filter; there is no viz!');
@@ -83,6 +108,13 @@
             }
         };
 
+        /*
+         *  Set the CartoDB visualization CartoCSS styling
+         *
+         *  @param {Object} viz CartoDB visualization layer to style
+         *  @param {string} colorByField Database field name used to style feature colors
+         *  @param {string} sizeByField Database field name used to style feature bubble size
+         */
         module.setVizCartoCSS = function(viz, colorByField, sizeByField) {
             if (!viz) {
                 console.error('cannot change CartoCSS; there is no viz!');
@@ -95,12 +127,16 @@
             viz.setCartoCSS(css);
         };
 
-        // docs here:
-        // http://wiki.openstreetmap.org/wiki/Nominatim
-        module.geocode = function(address) {
-            console.log('going to search for ' + address);
-            
+        /*
+         * Geocode an address.  Docs here:
+         * http://wiki.openstreetmap.org/wiki/Nominatim
+         * 
+         * @param {string} address One-line address string to geocode
+         * @returns Promise with Nominatim search results
+         */
+        module.geocode = function(address) {            
             var url = 'http://nominatim.openstreetmap.org/search';
+            // limit search to greater Philadelphia region
             var viewbox = '-75.699037,40.195219,-74.886736,39.774326';
 
             return $http.get(url, {

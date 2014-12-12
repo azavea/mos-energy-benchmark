@@ -13,16 +13,6 @@
         var vizLayer = null;
         var nativeMap = null;
 
-        $scope.propertyData = {
-            cartodbId: '',
-            propertyName: '',
-            address: '',
-            siteEui: '',
-            energyStar: '',
-            sector: '',
-            sectorColor: 'transparent'
-        };
-
         $scope.popupLoading = true;
 
         $scope.compare = {
@@ -64,6 +54,44 @@
         // default to EUI for feature size
         $scope.sizeType = $scope.sizeByTypes[0];
 
+        // helper function to set or unset property data from a result row
+        var setPropertyData = function(row) {
+            if (row) {
+                /* jshint camelcase:false */
+                $scope.propertyData = {
+                cartodbId: row.cartodb_id.toString(),
+                propertyName: row.property_name,
+                address: row.address,
+                totalGhg: row.total_ghg,
+                siteEui: row.site_eui,
+                energyStar: row.energy_star,
+                sector: row.sector,
+                /* jshint camelcase:true */
+            };
+
+            // get the color for this location's sector
+            $scope.propertyData.sectorColor = 
+                MappingService.findSectorColor($scope.propertyData.sector);
+
+            } else {
+                // row is null; unset property data
+                $scope.propertyData = {
+                    cartodbId: '',
+                    propertyName: '',
+                    address: '',
+                    totalGhg: '',
+                    siteEui: '',
+                    energyStar: '',
+                    sector: '',
+                    sectorColor: 'transparent'
+                };
+            }
+        };
+
+        // initialize property data
+        setPropertyData(null);
+
+        // when user edits search text field, clear feedback messages on it
         $scope.clearErrorMsg = function() {
             $scope.noResults = false;
             $scope.amSearching = false;
@@ -72,10 +100,8 @@
         $scope.searchMap = function() {
             $scope.amSearching = true;
 
-            console.log($scope.searchText);
-
             if (!$scope.searchText || $scope.searchText.length < 5) {
-                console.log('nothing to search for');
+                // nothing to search for
                 $scope.noResults = true;
                 $scope.amSearching = false;
                 return;
@@ -83,12 +109,32 @@
 
             // if entered search text is numeric, try searching by property ID
             if (!isNaN($scope.searchText)) {
-                console.log('that looks like a property ID');
-                $scope.amSearching =false;
-                // TODO: look up property, zoom to it if found, and open pop-up
+                MappingService.featureLookupByBldgId($scope.searchText)
+                    .done(function(data) {
+                        if (!data.rows || data.rows.length < 1) {
+                            $scope.noResults = true;
+                            $scope.amSearching = false;
+                            return;
+                        }
+
+                        // pan to location found and open its pop-up
+                        var row = data.rows[0];
+                        setPropertyData(row);
+                        var latlng = L.latLng(row.y, row.x);
+                        $scope.popupLoading = false;
+                        $scope.amSearching = false;
+                        nativeMap.panTo(latlng);
+                        showPopup(latlng);
+
+                    }).error(function(errors) {
+                        console.error('errors fetching property by building ID: ' + errors);
+                        setPropertyData(null);
+                        $scope.popupLoading = false;
+                        $scope.amSearching = false;
+                        $scope.noResults = true;
+                    });
             } else {
-                console.log('I guess that must be an address');
-                // TODO: geocode address and zoom to the spot
+                // geocode address and pan to the spot
                 MappingService.geocode($scope.searchText).then(function(data) {
                     if (!data.data || data.data.length < 1) {
                         console.error('Could not find address!');
@@ -101,15 +147,24 @@
                     $scope.noResults = false;
                     $scope.amSearching = false;
 
-                    console.log(result['display_name']);
-                    console.log(result.lat + ', ' + result.lon);
+                    // show popup with found addresss display name
+                    var latlng = L.latLng(result.lat, result.lon);
+                    nativeMap.panTo(latlng);
+                    var geocodePopupTemplate = '<span><h4>{{::geocodedDisplayName}}</h4></span>';
+                    /* jshint camelcase:false */
+                    $scope.geocodedDisplayName = result.display_name;
+                    /* jshint camelcase:true */
+                    var popup = $compile(geocodePopupTemplate)($scope);
+                    L.popup({
+                        minWidth:100
+                    }).setLatLng(latlng).setContent(popup[0]).openOn(nativeMap);
+
                 }, function(err) {
                     console.error(err);
                     $scope.amSearching = false;
                     $scope.noResults = true;
                 });
             }
-
         };
 
         $scope.filterBy = function(sector) {
@@ -212,7 +267,6 @@
             } else {
                 // choropleth legend
                 var opts = MappingService.getLegendOptions($scope.colorType.field);
-
                 legend = new cartodb.geo.ui.Legend.Choropleth({
                     left: opts.left,
                     right: opts.right,
@@ -256,33 +310,13 @@
                     MappingService.featureLookup(data.cartodb_id)
                         .done(function(data) {
                             var row = data.rows[0];
-                            $scope.propertyData.cartodbId = row.cartodb_id.toString();
-                            $scope.propertyData.propertyName = row.property_name;
-                            $scope.propertyData.address = row.address;
-                            $scope.propertyData.totalGhg = row.total_ghg;
-                            $scope.propertyData.siteEui = row.site_eui;
-                            $scope.propertyData.energyStar = row.energy_star;
-                            $scope.propertyData.sector = row.sector;
-
-                            // get the color for this location's sector
-                            $scope.propertyData.sectorColor = 
-                                MappingService.findSectorColor($scope.propertyData.sector);
-
+                            setPropertyData(row);
                             $scope.popupLoading = false;
                             showPopup(latlng);
-                            
                         }).error(function(errors) {
                             // returns a list
                             console.error('errors fetching property data: ' + errors);
-                            $scope.propertyData.cartodbId = '';
-                            $scope.propertyData.propertyName = '';
-                            $scope.propertyData.address = '';
-                            $scope.propertyData.totalGhg = '';
-                            $scope.propertyData.siteEui = '';
-                            $scope.propertyData.energyStar = '';
-                            $scope.propertyData.sector = '';
-                            $scope.propertyData.sectorColor = 'transparent';
-
+                            setPropertyData(null);
                             $scope.popupLoading = false;
                         });
                     });
