@@ -125,6 +125,7 @@
                         $scope.amSearching = false;
                         nativeMap.panTo(latlng);
                         showPopup(latlng);
+                        nativeMap.setZoom(16);
 
                     }).error(function(errors) {
                         console.error('errors fetching property by building ID: ' + errors);
@@ -158,6 +159,7 @@
                     L.popup({
                         minWidth:100
                     }).setLatLng(latlng).setContent(popup[0]).openOn(nativeMap);
+                    nativeMap.setZoom(16);
 
                 }, function(err) {
                     console.error(err);
