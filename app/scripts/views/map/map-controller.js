@@ -35,6 +35,8 @@
         $scope.buildingIds = [];
         $scope.filterType = MappingService.FILTER_NONE;
         $scope.searchText = '';
+        $scope.noResults = false;
+        $scope.amSearching = false;
 
         // options for changing field for controlling viz feature color
         // 'category' is name for display; 'field' is field name in DB
@@ -62,20 +64,27 @@
         // default to EUI for feature size
         $scope.sizeType = $scope.sizeByTypes[0];
 
-        $scope.searchMap = function() {
+        $scope.clearErrorMsg = function() {
+            $scope.noResults = false;
+            $scope.amSearching = false;
+        };
 
-            // TODO: how to display an error? modal?  what if multiple results found?
+        $scope.searchMap = function() {
+            $scope.amSearching = true;
 
             console.log($scope.searchText);
 
-            if (!$scope.searchText) {
+            if (!$scope.searchText || $scope.searchText.length < 5) {
                 console.log('nothing to search for');
+                $scope.noResults = true;
+                $scope.amSearching = false;
                 return;
             }
 
             // if entered search text is numeric, try searching by property ID
             if (!isNaN($scope.searchText)) {
                 console.log('that looks like a property ID');
+                $scope.amSearching =false;
                 // TODO: look up property, zoom to it if found, and open pop-up
             } else {
                 console.log('I guess that must be an address');
@@ -83,15 +92,21 @@
                 MappingService.geocode($scope.searchText).then(function(data) {
                     if (!data.data || data.data.length < 1) {
                         console.error('Could not find address!');
+                        $scope.noResults = true;
+                        $scope.amSearching = false;
                         return;
                     }
                     
                     var result = data.data[0];
+                    $scope.noResults = false;
+                    $scope.amSearching = false;
 
                     console.log(result['display_name']);
                     console.log(result.lat + ', ' + result.lon);
                 }, function(err) {
                     console.error(err);
+                    $scope.amSearching = false;
+                    $scope.noResults = true;
                 });
             }
 

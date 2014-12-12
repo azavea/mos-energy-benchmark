@@ -14,8 +14,10 @@
                 typeahead-wait-ms="400" typeahead-min-length="3" ng-submit="searchMap()"
                 ng-keyup="$event.keyCode === 13 ? searchMap() : null" width="70%"
                 placeholder="Address or Building ID" data-toggle="tooltip" 
+                ng-change="clearErrorMsg()"
                 data-placement="bottom" title="Search for an address or Philadelphia Building ID">
             </input>
+            <p ng-show="amSearching"><em>Searching...</em></p>
             <p class="no-results" ng-show="noResults"><em>No search results found</em></p>
         </div>
         <div class="col-xs-2 form-group">
