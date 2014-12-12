@@ -13,7 +13,7 @@
     /**
      * ngInject
      */
-    function barChart (CartoConfig, BarChartDefaults) {
+    function barChart (CartoConfig, BarChartDefaults, Utils) {
 
         var PLOT_CLASS = 'mos-barchart';
 
@@ -153,8 +153,16 @@
                 .attr('class', 'x axis')
                 .attr('transform', 'translate(' + config.margin.left + ',' + (config.plotHeight - config.margin.bottom) + ')');
 
+            Utils.onPanelSnap(element, function () {
+                $scope.redraw($scope.data);
+            });
+
             // Overridden ChartingController method
             $scope.plot = function(data) {
+                if ($scope.plotComplete || !Utils.inViewPort(element)) {
+                    return;
+                }
+
                 if (config.binType === 'temporal') {
                     data = binByYears(data);
                 } else if (config.binType === 'area') {
@@ -220,6 +228,8 @@
                     yAttr = $scope.selectedY;
                     refreshData();
                 };
+
+                $scope.plotComplete = true;
             };
         };
 

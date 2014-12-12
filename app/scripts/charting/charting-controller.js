@@ -35,6 +35,7 @@
                 $scope.config[key] = angular.isDefined(attr) ? $scope.$eval(attr) : defaultValue;
             });
             $scope.config.margin = initializeMargins($attrs.margin);
+            $scope.plotComplete = false;
         };
 
         // Wrapper for the plot function, called from $scope.$watch

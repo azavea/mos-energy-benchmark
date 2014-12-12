@@ -17,7 +17,7 @@
     /**
      * ngInject
      */
-    function scatterPlot (ScatterPlotDefaults) {
+    function scatterPlot (ScatterPlotDefaults, Utils) {
 
         var PLOT_CLASS = 'mos-scatterplot';
 
@@ -47,7 +47,7 @@
             areaDefaultDim: '@',
             minRadius: '@',
             maxRadius: '@',
-            margin: '&',
+            margin: '&'
         };
 
         module.link = function ($scope, element, attrs) {
@@ -70,8 +70,16 @@
                                            (config.plotHeight - config.margin.bottom) +
                                            ')');
 
+            Utils.onPanelSnap(element, function () {
+                $scope.redraw($scope.data);
+            });
+
             // Overridden ChartingController method
             $scope.plot = function(data) {
+                if ($scope.plotComplete || !Utils.inViewPort(element)) {
+                    return;
+                }
+
                 var xDim = config.xDefaultDim;
                 var yDim = config.yDefaultDim;
                 var areaDim = config.areaDefaultDim;
@@ -132,6 +140,8 @@
                        .on('mouseover', tip.show)
                        .on('mouseout', tip.hide);
                 circles.exit().remove();
+
+                $scope.plotComplete = true;
             };
         };
 

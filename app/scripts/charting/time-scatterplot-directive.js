@@ -19,7 +19,7 @@
     /**
      * ngInject
      */
-    function timeScatterPlot (CartoConfig, TimeScatterPlotDefaults) {
+    function timeScatterPlot (CartoConfig, TimeScatterPlotDefaults, Utils) {
 
         var PLOT_CLASS = 'mos-time-scatterchart';
 
@@ -63,7 +63,6 @@
         };
 
         module.link = function ($scope, element, attrs) {
-
             // Setup public ($scope) and private variables
             $scope.configure(TimeScatterPlotDefaults);
             var config = $scope.config;
@@ -103,9 +102,16 @@
                 refreshData();
             };
 
+            Utils.onPanelSnap(element, function () {
+                $scope.redraw($scope.data);
+            });
+
             // Overridden ChartingController method
             $scope.plot = function(data) {
-                console.log('Called time scatter chart plot');
+                if ($scope.plotComplete || !Utils.inViewPort(element)) {
+                    return;
+                }
+
                 var prevColor = config.prevColor;
                 var currColor = config.currColor;
                 var prevRadius = config.prevRadius;
@@ -137,6 +143,8 @@
                         .on('mouseover', tip.show)
                         .on('mouseout', tip.hide);
                 }
+
+                $scope.plotComplete = true;
             };
 
             // PRIVATE METHODS

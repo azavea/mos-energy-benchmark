@@ -12,7 +12,7 @@
     /**
      * ngInject
      */
-    function bubbleChart (BubbleChartDefaults, CartoConfig) {
+    function bubbleChart (BubbleChartDefaults, CartoConfig, Utils) {
 
         var PLOT_CLASS = 'mos-bubblechart';
         var SELECT_CLASS = PLOT_CLASS + '-select';
@@ -62,12 +62,19 @@
                 .offset([-10, 0]);
             chart.call(tip);
 
-            $scope.$watch('bubbleSeries', function () {
+            Utils.onPanelSnap(element, function () {
                 $scope.redraw($scope.data);
             });
-
+            $scope.$watch('bubbleSeries', function () {
+                $scope.plotComplete = false;
+                $scope.redraw($scope.data);
+            });
             // Overridden ChartingController method
             $scope.plot = function(data) {
+                if ($scope.plotComplete || !Utils.inViewPort(element)) {
+                    return;
+                }
+
                 var color = d3.scale.category20();
                 var node;
                 var series = $scope.bubbleSeries;
@@ -105,6 +112,8 @@
                         .style('fill', function (d, i) { return color(i); })
                         .on('mouseover', tip.show)
                         .on('mouseout', tip.hide);
+
+                $scope.plotComplete = true;
             };
         };
 
