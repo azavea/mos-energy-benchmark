@@ -29,7 +29,7 @@
         module.template = [
             '<svg class="chart"></svg>',
             '<div class="btn-group" dropdown>',
-            '<button type="button" dropdown-toggle class="btn btn-default dropdown-toggle map-btn ',
+            '<button type="button" dropdown-toggle class="btn dropdown-toggle ',
             SELECT_CLASS,
             '">{{selectOptions[bubbleSeries]}} <span class="caret"></span>',
             '</button>',
@@ -37,12 +37,6 @@
             '<li ng-repeat="(key, value) in selectOptions">',
             '<a ng-click="changeSeries(key)">{{::value}}</a></li>',
             '</ul></div>'
-
-            /*
-            '<select class="' + SELECT_CLASS, 
-            '" ng-model="bubbleSeries" ng-options="key as value for (key, value) in selectOptions">'
-            */
-
         ].join('');
 
         module.controller = 'ChartingController';
