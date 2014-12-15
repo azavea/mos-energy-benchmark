@@ -10,6 +10,7 @@
         xDefaultDim: 'eui',
         yDefaultDim: 'emissions',
         areaDefaultDim: 'energystar',
+        colorDefaultDim: 'sector',
         minRadius: 1,
         maxRadius: 6
     };
@@ -17,7 +18,7 @@
     /**
      * ngInject
      */
-    function scatterPlot (ScatterPlotDefaults) {
+    function scatterPlot (CartoConfig, ScatterPlotDefaults) {
 
         var PLOT_CLASS = 'mos-scatterplot';
 
@@ -32,7 +33,8 @@
         var module = {};
 
         module.restrict = 'EA';
-        module.template = '<svg class="chart"></svg>';
+        module.templateUrl = 'scripts/charting/scatterplot-partial.html';
+        //module.template = '<svg class="chart"></svg>';
         module.controller = 'ChartingController';
 
         module.scope = {
@@ -45,6 +47,7 @@
             xDefaultDim: '@',
             yDefaultDim: '@',
             areaDefaultDim: '@',
+            colorDefaultDim: '@',
             minRadius: '@',
             maxRadius: '@',
             margin: '&'
@@ -54,6 +57,23 @@
             $scope.configure(ScatterPlotDefaults);
 
             var config = $scope.config;
+
+            $scope.axisOptions = _.omit(CartoConfig.labels, 'squarefeet');
+            $scope.colorOptions = {'sector': 'Building Type',
+                                   'year': 'Year Built',
+                                   'squarefeet': 'Sq Ft'};
+
+            $scope.selected = {
+                x: config.xDefaultDim,
+                y: config.yDefaultDim,
+                color: config.colorDefaultDim,
+                area: config.areaDefaultDim
+            };
+
+            $scope.changeSelectedOption = function (option, key) {
+                $scope.selected[option] = key;
+                // TODO: redraw
+            };
 
             element.addClass(PLOT_CLASS);
             chart = d3.select('#' + attrs.id + ' .chart')
@@ -72,9 +92,11 @@
 
             // Overridden ChartingController method
             $scope.plot = function(data) {
-                var xDim = config.xDefaultDim;
-                var yDim = config.yDefaultDim;
-                var areaDim = config.areaDefaultDim;
+                var xDim = $scope.selected.x;
+                var yDim = $scope.selected.y;
+                var areaDim = $scope.selected.area;
+                // TODO: get color ramp from map options
+                //var colorDim = $scope.selected.color;
 
                 // Need to make sure that all values are at least 1 for a log scale.
                 var datumX = function(datum) { return datum[xDim] < 1 ? 1 : datum[xDim]; };
