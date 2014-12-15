@@ -17,7 +17,7 @@
     /**
      * ngInject
      */
-    function ChartingController($scope, $attrs) {
+    function ChartingController($scope, $attrs, $element, Utils) {
 
         var defaultMargins = {left: 30, top: 10, bottom: 30, right: 10};
         $scope.config = {};
@@ -35,13 +35,16 @@
                 $scope.config[key] = angular.isDefined(attr) ? $scope.$eval(attr) : defaultValue;
             });
             $scope.config.margin = initializeMargins($attrs.margin);
+            $scope.plotComplete = false;
         };
 
         // Wrapper for the plot function, called from $scope.$watch
         $scope.redraw = function (data) {
-            if (data) {
-                $scope.plot(data);
+            if (!data || $scope.plotComplete || !Utils.inViewPort($element)) {
+                return;
             }
+            $scope.plot(data);
+            $scope.plotComplete = true;
         };
 
         // OVERRIDE
@@ -49,6 +52,10 @@
 
         $scope.$watch('data', function (newData) {
             $scope.redraw(newData);
+        });
+
+        Utils.onPanelSnap($element, function () {
+            $scope.redraw($scope.data);
         });
 
         /**

@@ -12,7 +12,7 @@
     /**
      * ngInject
      */
-    function bubbleChart (BubbleChartDefaults, CartoConfig) {
+    function bubbleChart (BubbleChartDefaults, CartoConfig, Utils) {
 
         var PLOT_CLASS = 'mos-bubblechart';
         var SELECT_CLASS = PLOT_CLASS + '-select';
@@ -63,9 +63,9 @@
             chart.call(tip);
 
             $scope.$watch('bubbleSeries', function () {
+                $scope.plotComplete = false;
                 $scope.redraw($scope.data);
             });
-
             // Overridden ChartingController method
             $scope.plot = function(data) {
                 var color = d3.scale.category20();
@@ -87,24 +87,25 @@
                 node = chart.selectAll('g')
                                  .data(pack.nodes({ children: data }));
 
-                // Update
-                node.transition().duration(config.transitionTime)
-                    .attr('transform', function(d) { return 'translate(' + d.x +
-                                                            ',' + d.y + ')'; })
-                    .selectAll('circle')
-                    .attr('r', function (d) { return d.r; });
-
                 // Add
                 node.enter().append('g')
                         .filter(function (d) { return d.depth === 1; })
                         .attr('transform', function(d) { return 'translate(' + d.x +
                                                                 ',' + d.y + ')'; })
                         .append('circle')
-                        .attr('r', function (d) { return d.r; })
+                        // Radius of zero initially so it can be animated on load
+                        .attr('r', 0)
                         .attr('class', 'bubble')
                         .style('fill', function (d, i) { return color(i); })
                         .on('mouseover', tip.show)
                         .on('mouseout', tip.hide);
+
+                // Update
+                node.transition().duration(config.transitionTime)
+                    .attr('transform', function(d) { return 'translate(' + d.x +
+                                                            ',' + d.y + ')'; })
+                    .selectAll('circle')
+                    .attr('r', function (d) { return d.r; });
             };
         };
 

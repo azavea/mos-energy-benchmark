@@ -13,7 +13,7 @@
     /**
      * ngInject
      */
-    function barChart (CartoConfig, BarChartDefaults) {
+    function barChart (CartoConfig, BarChartDefaults, Utils) {
 
         var PLOT_CLASS = 'mos-barchart';
 
@@ -190,10 +190,15 @@
                     .enter().append('rect')
                     .attr('transform', function(d) { return 'translate(' + (x(d.key) + config.margin.left).toString() + ',0)'; })
                     .attr('y', function(d) { return y(d[yAttr]) + config.margin.top; })
-                    .attr('height', function(d) { return config.plotHeight - y(d[yAttr]) - config.margin.top - config.margin.bottom; })
+                    // Height of zero initially so it can be animated on load
+                    .attr('height', 0)
                     .attr('width', x.rangeBand())
                     .on('mouseover', tip.show)
                     .on('mouseout', tip.hide);
+
+                // Perform the initial animation
+                // TODO: the bars draw from the top down. Would probably look better in reverse.
+                refreshData();
 
                 // Animation functions
                 function refreshScale() {
