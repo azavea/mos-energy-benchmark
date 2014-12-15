@@ -12,10 +12,9 @@
     /**
      * ngInject
      */
-    function bubbleChart (BubbleChartDefaults, CartoConfig, Utils) {
+    function bubbleChart (BubbleChartDefaults, CartoConfig) {
 
         var PLOT_CLASS = 'mos-bubblechart';
-        var SELECT_CLASS = PLOT_CLASS + '-select';
 
         // Private vars
         var chart = null;
@@ -26,10 +25,7 @@
         var module = {};
 
         module.restrict = 'EA';
-        module.template = [
-            '<svg class="chart"></svg>',
-            '<select class="' + SELECT_CLASS + '" ng-model="bubbleSeries" ng-options="key as value for (key, value) in selectOptions">'
-        ].join('');
+        module.templateUrl = 'scripts/charting/bubblechart-partial.html';
 
         module.controller = 'ChartingController';
 
@@ -43,6 +39,8 @@
         };
 
         module.link = function ($scope, element, attrs) {
+            $scope.SELECT_CLASS = PLOT_CLASS + '-select';
+
             $scope.configure(BubbleChartDefaults);
             var config = $scope.config;
 
@@ -61,6 +59,10 @@
                 .attr('class', 'd3-tip')
                 .offset([-10, 0]);
             chart.call(tip);
+
+            $scope.changeSeries = function (key) {
+                $scope.bubbleSeries = key;
+            };
 
             $scope.$watch('bubbleSeries', function () {
                 $scope.plotComplete = false;

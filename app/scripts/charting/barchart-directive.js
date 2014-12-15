@@ -13,7 +13,7 @@
     /**
      * ngInject
      */
-    function barChart (CartoConfig, BarChartDefaults, Utils) {
+    function barChart (CartoConfig, BarChartDefaults) {
 
         var PLOT_CLASS = 'mos-barchart';
 
@@ -21,15 +21,7 @@
         var module = {};
 
         module.restrict = 'EA';
-        module.template = [
-            '<svg class="chart"></svg>',
-            '<div class="controls">',
-            '  <div class="axis y">',
-            '    Y axis',
-            '    <select ng-model="selectedY" ng-options="key as value for (key, value) in selectOptions" ng-change="selectedYChanged()"></select>',
-            '  </div>',
-            '</div>'
-        ].join('');
+        module.templateUrl = 'scripts/charting/barchart-partial.html';
         module.controller = 'ChartingController';
 
         module.scope = {
@@ -221,7 +213,8 @@
                         });
                 }
 
-                $scope.selectedYChanged = function() {
+                $scope.selectedYChanged = function(key) {
+                    $scope.selectedY = key;
                     yAttr = $scope.selectedY;
                     refreshData();
                 };

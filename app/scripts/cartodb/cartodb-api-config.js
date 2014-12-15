@@ -19,7 +19,7 @@
         // The propery names are all lowercase (as opposed to camel case),
         // because CartoDB can only return them that way.
         module.labels = {
-            eui: 'EUI',
+            eui: 'Total Energy',
             emissions: 'Emissions',
             energystar: 'Energy Star',
             squarefeet: 'Sq. Ft.'

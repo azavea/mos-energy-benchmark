@@ -19,7 +19,7 @@
     /**
      * ngInject
      */
-    function timeScatterPlot (CartoConfig, TimeScatterPlotDefaults, Utils) {
+    function timeScatterPlot (CartoConfig, TimeScatterPlotDefaults) {
 
         var PLOT_CLASS = 'mos-time-scatterchart';
 
@@ -30,19 +30,8 @@
         var module = {};
 
         module.restrict = 'EA';
-        module.template = [
-            '<svg class="chart"></svg>',
-            '<div class="controls">',
-            '  <div class="axis x">',
-            '    X axis',
-            '    <select ng-model="selected.x" ng-options="key as value for (key, value) in selectOptions" ng-change="selectedXChanged()"></select>',
-            '  </div>',
-            '  <div class="axis y">',
-            '    Y axis',
-            '    <select ng-model="selected.y" ng-options="key as value for (key, value) in selectOptions" ng-change="selectedYChanged()"></select>',
-            '  </div>',
-            '</div>'
-        ].join('');
+        module.templateUrl = 'scripts/charting/time-scatterplot-partial.html';
+
         module.controller = 'ChartingController';
 
         module.scope = {
@@ -91,13 +80,15 @@
 
             // $scope
 
-            $scope.selectedXChanged = function () {
+            $scope.selectedXChanged = function (xkey) {
+                $scope.selected.x = xkey;
                 xAttr = $scope.selected.x;
                 xIndex = dimensions.indexOf(xAttr);
                 refreshData();
             };
 
-            $scope.selectedYChanged = function () {
+            $scope.selectedYChanged = function (ykey) {
+                $scope.selected.y = ykey;
                 yAttr = $scope.selected.y;
                 yIndex = dimensions.indexOf(yAttr);
                 refreshData();
@@ -107,8 +98,10 @@
             $scope.plot = function(data) {
                 var prevColor = config.prevColor;
                 var currColor = config.currColor;
-                var prevRadius = config.prevRadius;
-                var currRadius = config.currRadius;
+
+                // TODO: have unused configuration vars
+                //var prevRadius = config.prevRadius;
+                //var currRadius = config.currRadius;
 
                 refreshScale(dimensions);
 

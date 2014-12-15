@@ -17,7 +17,7 @@
     /**
      * ngInject
      */
-    function scatterPlot (ScatterPlotDefaults, Utils) {
+    function scatterPlot (ScatterPlotDefaults) {
 
         var PLOT_CLASS = 'mos-scatterplot';
 
