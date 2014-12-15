@@ -3,6 +3,10 @@ BuildingEnergyBenchmarking
 
 This [project](https://azavea.github.io/mos-energy-benchmark/ "Energy Benchmarking") is hosted by github.
 
+### Build Status
+##Build Status
+[![](https://travis-ci.org/azavea/mos-energy-benchmark.svg?branch=develop)](https://travis-ci.org/azavea/mos-energy-benchmark)
+
 ### Developing
 
 Dependencies:
