@@ -44,7 +44,9 @@
                 return;
             }
             $scope.plot(data);
-            $scope.plotComplete = true;
+            if (!$scope.allowRedraw) {
+                $scope.plotComplete = true;
+            }
         };
 
         // OVERRIDE

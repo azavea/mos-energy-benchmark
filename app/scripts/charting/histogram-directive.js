@@ -38,7 +38,8 @@
             margin: '&',
             calloutValues: '=',
             calloutColors: '=',
-            transitionMillis: '@'
+            transitionMillis: '@',
+            allowRedraw: '@'
         };
 
 
