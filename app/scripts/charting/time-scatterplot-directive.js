@@ -30,27 +30,8 @@
         var module = {};
 
         module.restrict = 'EA';
-        module.template = [
-            '<svg class="chart"></svg>',
-            '<div class="controls">',
-            '<div class="axis x">    X axis',
-            '<div class="btn-group" dropdown>',
-            '<button type="button" dropdown-toggle class="btn dropdown-toggle">',
-            '{{::selectOptions[selected.x]}} <span class="caret"></span></button>',
-            '<ul class="dropdown-menu" role="menu">',
-            '<li ng-repeat="(xKey, xValue) in selectOptions">',
-            '<a ng-click="selectedXChanged(xKey)">{{::xValue}}</a></li>',
-            '</ul></div></div><br />',
-            '<div class="axis y">    Y axis',
-            '<div class="btn-group" dropdown>',
-            '<button type="button" dropdown-toggle class="btn dropdown-toggle">',
-            '{{selectOptions[selected.y]}} <span class="caret"></span></button>',
-            '<ul class="dropdown-menu" role="menu">',
-            '<li ng-repeat="(yKey, yValue) in selectOptions">',
-            '<a ng-click="selectedYChanged(yKey)">{{::yValue}}</a></li>',
-            '</ul></div></div>',
-            '</div>'
-        ].join('');
+        module.templateUrl = 'scripts/charting/time-scatterplot-partial.html';
+
         module.controller = 'ChartingController';
 
         module.scope = {

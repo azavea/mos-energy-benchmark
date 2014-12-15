@@ -15,7 +15,6 @@
     function bubbleChart (BubbleChartDefaults, CartoConfig) {
 
         var PLOT_CLASS = 'mos-bubblechart';
-        var SELECT_CLASS = PLOT_CLASS + '-select';
 
         // Private vars
         var chart = null;
@@ -26,18 +25,7 @@
         var module = {};
 
         module.restrict = 'EA';
-        module.template = [
-            '<svg class="chart"></svg>',
-            '<div class="btn-group" dropdown>',
-            '<button type="button" dropdown-toggle class="btn dropdown-toggle ',
-            SELECT_CLASS,
-            '">{{selectOptions[bubbleSeries]}} <span class="caret"></span>',
-            '</button>',
-            '<ul class="dropdown-menu" role="menu">',
-            '<li ng-repeat="(key, value) in selectOptions">',
-            '<a ng-click="changeSeries(key)">{{::value}}</a></li>',
-            '</ul></div>'
-        ].join('');
+        module.templateUrl = 'scripts/charting/bubblechart-partial.html';
 
         module.controller = 'ChartingController';
 
@@ -51,6 +39,8 @@
         };
 
         module.link = function ($scope, element, attrs) {
+            $scope.SELECT_CLASS = PLOT_CLASS + '-select';
+
             $scope.configure(BubbleChartDefaults);
             var config = $scope.config;
 

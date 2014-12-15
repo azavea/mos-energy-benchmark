@@ -21,18 +21,7 @@
         var module = {};
 
         module.restrict = 'EA';
-        module.template = [
-            '<svg class="chart"></svg>',
-            '<div class="controls">',
-            '<div class="axis y">    Y axis',
-            '<div class="btn-group" dropdown>',
-            '<button type="button" dropdown-toggle class="btn dropdown-toggle">',
-            '{{selectOptions[selectedY]}} <span class="caret"></span></button>',
-            '<ul class="dropdown-menu" role="menu">',
-            '<li ng-repeat="(key, value) in selectOptions">',
-            '<a ng-click="selectedYChanged(key)">{{::value}}</a></li>',
-            '</ul></div></div></div>'
-        ].join('');
+        module.templateUrl = 'scripts/charting/barchart-partial.html';
         module.controller = 'ChartingController';
 
         module.scope = {
