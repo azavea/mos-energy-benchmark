@@ -33,14 +33,21 @@
         module.template = [
             '<svg class="chart"></svg>',
             '<div class="controls">',
-            '  <div class="axis x">',
-            '    X axis',
-            '    <select ng-model="selected.x" ng-options="key as value for (key, value) in selectOptions" ng-change="selectedXChanged()"></select>',
-            '  </div>',
-            '  <div class="axis y">',
-            '    Y axis',
-            '    <select ng-model="selected.y" ng-options="key as value for (key, value) in selectOptions" ng-change="selectedYChanged()"></select>',
-            '  </div>',
+            '<div class="axis x">    X axis',
+            '<div class="btn-group" dropdown>',
+            '<button type="button" dropdown-toggle class="btn dropdown-toggle">',
+            '{{selectOptions[selected.x]}} <span class="caret"></span></button>',
+            '<ul class="dropdown-menu" role="menu">',
+            '<li ng-repeat="(xKey, xValue) in selectOptions">',
+            '<a ng-click="selectedXChanged(xKey)">{{::xValue}}</a></li>',
+            '</ul></div></div>',
+            '<div class="axis y">    Y axis',
+            '<button type="button" dropdown-toggle class="btn dropdown-toggle">',
+            '{{selectOptions[selected.y]}} <span class="caret"></span></button>',
+            '<ul class="dropdown-menu" role="menu">',
+            '<li ng-repeat="(yKey, yValue) in selectOptions">',
+            '<a ng-click="selectedYChanged(yKey)">{{::yValue}}</a></li>',
+            '</ul></div></div>',
             '</div>'
         ].join('');
         module.controller = 'ChartingController';
@@ -91,13 +98,16 @@
 
             // $scope
 
-            $scope.selectedXChanged = function () {
+            $scope.selectedXChanged = function (key) {
+                $scope.selected.x = key;
                 xAttr = $scope.selected.x;
                 xIndex = dimensions.indexOf(xAttr);
                 refreshData();
             };
 
-            $scope.selectedYChanged = function () {
+            $scope.selectedYChanged = function (key) {
+                $scope.selected.y = key;
+                console.log($scope.selected);
                 yAttr = $scope.selected.y;
                 yIndex = dimensions.indexOf(yAttr);
                 refreshData();
