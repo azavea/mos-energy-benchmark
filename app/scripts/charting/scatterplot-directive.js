@@ -70,16 +70,8 @@
                                            (config.plotHeight - config.margin.bottom) +
                                            ')');
 
-            Utils.onPanelSnap(element, function () {
-                $scope.redraw($scope.data);
-            });
-
             // Overridden ChartingController method
             $scope.plot = function(data) {
-                if ($scope.plotComplete || !Utils.inViewPort(element)) {
-                    return;
-                }
-
                 var xDim = config.xDefaultDim;
                 var yDim = config.yDefaultDim;
                 var areaDim = config.areaDefaultDim;
@@ -141,8 +133,6 @@
                        .attr('cx', function (d) { return x(datumX(d)); })
                        .attr('cy', function (d) { return y(datumY(d)); })
                        .attr('r', function (d) { return r(datumR(d)); });
-
-                $scope.plotComplete = true;
             };
         };
 

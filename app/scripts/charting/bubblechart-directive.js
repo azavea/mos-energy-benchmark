@@ -62,20 +62,12 @@
                 .offset([-10, 0]);
             chart.call(tip);
 
-            Utils.onPanelSnap(element, function () {
-                $scope.redraw($scope.data);
-            });
-
             $scope.$watch('bubbleSeries', function () {
                 $scope.plotComplete = false;
                 $scope.redraw($scope.data);
             });
             // Overridden ChartingController method
             $scope.plot = function(data) {
-                if ($scope.plotComplete || !Utils.inViewPort(element)) {
-                    return;
-                }
-
                 var color = d3.scale.category20();
                 var node;
                 var series = $scope.bubbleSeries;
@@ -114,8 +106,6 @@
                                                             ',' + d.y + ')'; })
                     .selectAll('circle')
                     .attr('r', function (d) { return d.r; });
-
-                $scope.plotComplete = true;
             };
         };
 

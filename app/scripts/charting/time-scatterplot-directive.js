@@ -103,16 +103,8 @@
                 refreshData();
             };
 
-            Utils.onPanelSnap(element, function () {
-                $scope.redraw($scope.data);
-            });
-
             // Overridden ChartingController method
             $scope.plot = function(data) {
-                if ($scope.plotComplete || !Utils.inViewPort(element)) {
-                    return;
-                }
-
                 var prevColor = config.prevColor;
                 var currColor = config.currColor;
                 var prevRadius = config.prevRadius;
@@ -148,8 +140,6 @@
                         .on('mouseover', tip.show)
                         .on('mouseout', tip.hide);
                 }
-
-                $scope.plotComplete = true;
             };
 
             // PRIVATE METHODS
