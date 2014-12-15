@@ -313,7 +313,7 @@
                     showPopup(latlng);
                     /* jshint camelcase:false */
                     MappingService.featureLookup(data.cartodb_id)
-                    /* jshint camelcase:false */
+                    /* jshint camelcase:true */
                         .done(function(data) {
                             var row = data.rows[0];
                             setPropertyData(row);
