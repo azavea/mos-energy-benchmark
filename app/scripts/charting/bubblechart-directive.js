@@ -28,7 +28,21 @@
         module.restrict = 'EA';
         module.template = [
             '<svg class="chart"></svg>',
-            '<select class="' + SELECT_CLASS + '" ng-model="bubbleSeries" ng-options="key as value for (key, value) in selectOptions">'
+            '<div class="btn-group" dropdown>',
+            '<button type="button" dropdown-toggle class="btn btn-default dropdown-toggle map-btn ',
+            SELECT_CLASS,
+            '">{{selectOptions[bubbleSeries]}} <span class="caret"></span>',
+            '</button>',
+            '<ul class="dropdown-menu" role="menu">',
+            '<li ng-repeat="(key, value) in selectOptions">',
+            '<a ng-click="changeSeries(key)">{{::value}}</a></li>',
+            '</ul></div>'
+
+            /*
+            '<select class="' + SELECT_CLASS, 
+            '" ng-model="bubbleSeries" ng-options="key as value for (key, value) in selectOptions">'
+            */
+
         ].join('');
 
         module.controller = 'ChartingController';
@@ -61,6 +75,10 @@
                 .attr('class', 'd3-tip')
                 .offset([-10, 0]);
             chart.call(tip);
+
+            $scope.changeSeries = function (key) {
+                $scope.bubbleSeries = key;
+            };
 
             $scope.$watch('bubbleSeries', function () {
                 $scope.plotComplete = false;
