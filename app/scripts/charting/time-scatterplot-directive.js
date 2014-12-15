@@ -244,36 +244,66 @@
                 svg.select('.y.axis').call(yAxis);
             }
 
+            // Check to ensure that all data is in place for the given attributes
+            function isCompleteData(data, xAttr, yAttr) {
+                return x(data.curr[xAttr]) && x(data.prev[xAttr]) && y(data.curr[yAttr]) && y(data.prev[yAttr]);
+            }
+
+            // Tell JS that the parameter *is* a number
+            function isAn(val) {
+                return isNaN(val) ? 0 : val;
+            }
+
+
             // We do not call redraw/plot when the axis changes because we are only shifting
             //  the drawn points rather than redrawing them entirely
             function refreshData() {
                 var transitionMillis = config.transitionMillis;
+                var currRadius = config.currRadius;
+                var prevRadius = config.prevRadius;
                 refreshScale(dimensions);
 
-                svg.selectAll('circle.curr')
+                svg.selectAll('circle.curr') // first transition moves
                     .transition()
                     .ease('linear')
                     .duration(transitionMillis)
-                    .attr('cx', function(d) { return x(d.curr[xAttr]); })
-                    .attr('cy', function(d) { return y(d.curr[yAttr]); })
-                    .attr('r', config.currRadius);
+                    .attr('cx', function(d) { return x(isAn(d.curr[xAttr])); })
+                    .attr('cy', function(d) { return y(isAn(d.curr[yAttr])); });
 
-                svg.selectAll('circle.prev')
+                svg.selectAll('circle.curr') // second transition fades
+                    .transition()
+                    .ease('linear')
+                    .delay(transitionMillis)
+                    .attr('r', function(d) { return isCompleteData(d, xAttr, yAttr) ? currRadius : 0; });
+
+                svg.selectAll('circle.prev') // first transition moves
                     .transition()
                     .ease('linear')
                     .duration(transitionMillis)
-                    .attr('cx', function(d) { return x(d.prev[xAttr]); })
-                    .attr('cy', function(d) { return y(d.prev[yAttr]); })
-                    .attr('r', config.prevRadius);
+                    .attr('cx', function(d) { return x(isAn(d.prev[xAttr])); })
+                    .attr('cy', function(d) { return y(isAn(d.prev[yAttr])); });
 
+                svg.selectAll('circle.prev') // second transition fades
+                    .transition()
+                    .ease('linear')
+                    .delay(transitionMillis)
+                    .attr('r', function(d) { return isCompleteData(d, xAttr, yAttr) ? prevRadius : 0; });
+
+
+                svg.selectAll('line.connector')
+                    .attr('x1', function(d) { return x(isAn(d.prev[xAttr])); })
+                    .attr('y1', function(d) { return y(isAn(d.prev[yAttr])); })
+                    .attr('x2', function(d) { return x(isAn(d.prev[xAttr])); })
+                    .attr('y2', function(d) { return y(isAn(d.prev[yAttr])); });
                 svg.selectAll('line.connector')
                     .transition()
                     .ease('linear')
+                    .delay(transitionMillis)
                     .duration(transitionMillis)
-                    .attr('x1', function(d) { return x(d.prev[xAttr]); })
-                    .attr('y1', function(d) { return y(d.prev[yAttr]); })
-                    .attr('x2', function(d) { return x(d.curr[xAttr]); })
-                    .attr('y2', function(d) { return y(d.curr[yAttr]); });
+                    .attr('x1', function(d) { return isCompleteData(d, xAttr, yAttr) ? x(d.prev[xAttr]) : 0; })
+                    .attr('y1', function(d) { return isCompleteData(d, xAttr, yAttr) ? y(d.prev[yAttr]) : 0; })
+                    .attr('x2', function(d) { return isCompleteData(d, xAttr, yAttr) ? x(d.curr[xAttr]) : 0; })
+                    .attr('y2', function(d) { return isCompleteData(d, xAttr, yAttr) ? y(d.curr[yAttr]) : 0; });
             }
         };
 
