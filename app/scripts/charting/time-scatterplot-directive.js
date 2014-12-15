@@ -19,7 +19,7 @@
     /**
      * ngInject
      */
-    function timeScatterPlot (CartoConfig, TimeScatterPlotDefaults, Utils) {
+    function timeScatterPlot (CartoConfig, TimeScatterPlotDefaults) {
 
         var PLOT_CLASS = 'mos-time-scatterchart';
 
@@ -36,12 +36,13 @@
             '<div class="axis x">    X axis',
             '<div class="btn-group" dropdown>',
             '<button type="button" dropdown-toggle class="btn dropdown-toggle">',
-            '{{selectOptions[selected.x]}} <span class="caret"></span></button>',
+            '{{::selectOptions[selected.x]}} <span class="caret"></span></button>',
             '<ul class="dropdown-menu" role="menu">',
             '<li ng-repeat="(xKey, xValue) in selectOptions">',
             '<a ng-click="selectedXChanged(xKey)">{{::xValue}}</a></li>',
-            '</ul></div></div>',
+            '</ul></div></div><br />',
             '<div class="axis y">    Y axis',
+            '<div class="btn-group" dropdown>',
             '<button type="button" dropdown-toggle class="btn dropdown-toggle">',
             '{{selectOptions[selected.y]}} <span class="caret"></span></button>',
             '<ul class="dropdown-menu" role="menu">',
@@ -98,16 +99,15 @@
 
             // $scope
 
-            $scope.selectedXChanged = function (key) {
-                $scope.selected.x = key;
+            $scope.selectedXChanged = function (xkey) {
+                $scope.selected.x = xkey;
                 xAttr = $scope.selected.x;
                 xIndex = dimensions.indexOf(xAttr);
                 refreshData();
             };
 
-            $scope.selectedYChanged = function (key) {
-                $scope.selected.y = key;
-                console.log($scope.selected);
+            $scope.selectedYChanged = function (ykey) {
+                $scope.selected.y = ykey;
                 yAttr = $scope.selected.y;
                 yIndex = dimensions.indexOf(yAttr);
                 refreshData();
@@ -117,8 +117,10 @@
             $scope.plot = function(data) {
                 var prevColor = config.prevColor;
                 var currColor = config.currColor;
-                var prevRadius = config.prevRadius;
-                var currRadius = config.currRadius;
+
+                // TODO: have unused configuration vars
+                //var prevRadius = config.prevRadius;
+                //var currRadius = config.currRadius;
 
                 refreshScale(dimensions);
 

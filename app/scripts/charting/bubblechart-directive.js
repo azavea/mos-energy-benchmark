@@ -12,7 +12,7 @@
     /**
      * ngInject
      */
-    function bubbleChart (BubbleChartDefaults, CartoConfig, Utils) {
+    function bubbleChart (BubbleChartDefaults, CartoConfig) {
 
         var PLOT_CLASS = 'mos-bubblechart';
         var SELECT_CLASS = PLOT_CLASS + '-select';
