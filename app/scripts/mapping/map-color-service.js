@@ -12,6 +12,34 @@
         var TABLE = '#' + CartoConfig.tables.currentYear;
 
         /*
+         *  Builds sector legend data
+         *
+         *  @returns Object with properties for custom CartoDB sector legend
+         */
+        module.getSectorColors = function() {
+            var sectors = [];
+            angular.forEach(MOSColors, function(value, key) {
+                sectors.push({'name': key, 'value': value});
+            });
+            return sectors;
+        };
+
+        /*
+         *  Finds color for a given property sector
+         *
+         *  @param {string} sector Property sector field value from database
+         *  @returns {string} Corresponding color value for display
+         */
+        module.findSectorColor = function(sector) {
+            if (sector in MOSColors) {
+                return MOSColors[sector];
+            } else {
+                // if color not found, use 'Unknown' color
+                return MOSColors.Unknown;
+            }
+        };
+
+        /*
          *  @param {string} Database field name defined in colorRamps below
          *  @returns Object with properties for CartoDB choropleth legend creation
          */

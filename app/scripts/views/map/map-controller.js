@@ -50,7 +50,7 @@
 
             // get the color for this location's sector
             $scope.propertyData.sectorColor = 
-                MappingService.findSectorColor($scope.propertyData.sector);
+                MapColorService.findSectorColor($scope.propertyData.sector);
 
             } else {
                 // row is null; unset property data
@@ -234,7 +234,7 @@
             });
 
         // get colors to display in legend
-        $scope.sectorColors = MappingService.getSectorColors();
+        $scope.sectorColors = MapColorService.getSectorColors();
 
         // add second legend for feature color, above size legend
         var setSecondLegend = function() {
@@ -252,7 +252,7 @@
                  });
             } else {
                 // choropleth legend
-                var opts = MappingService.getLegendOptions($scope.colorType);
+                var opts = MapColorService.legendOptions($scope.colorType);
                 legend = new cartodb.geo.ui.Legend.Choropleth({
                     left: opts.left,
                     right: opts.right,
