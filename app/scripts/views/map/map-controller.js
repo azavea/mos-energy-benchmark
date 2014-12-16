@@ -213,12 +213,14 @@
         // fetch building categories for drop-down
         MappingService.getBldgCategories()
             .done(function(data) {
-                $scope.buildingTypes = [{'sector': MappingService.FILTER_NONE}];
-                $scope.buildingTypes = $scope.buildingTypes.concat(data.rows);
+                $scope.buildingTypes = [MappingService.FILTER_NONE];
+                angular.forEach(data.rows, function(value) {
+                    $scope.buildingTypes.push(value.sector);
+                });
             }).error(function(errors) {
                 // returns a list
                 console.error('errors fetching property types: ' + errors);
-                $scope.buildingTypes = [{'sector': module.FILTER_NONE}];
+                $scope.buildingTypes = [module.FILTER_NONE];
             });
 
         // fetch building IDs for autocomplete
