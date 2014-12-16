@@ -13,6 +13,7 @@
         currColor: '#CC3366',
         prevRadius: 6,
         currRadius: 6,
+        lazyLoad: true,
         transitionMillis: 500
     };
 
@@ -48,6 +49,7 @@
             currColor: '@',
             prevRadius: '@',
             currRadius: '@',
+            lazyLoad: '@',
             transitionMillis: '@'
         };
 

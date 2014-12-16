@@ -12,7 +12,8 @@
         areaDefaultDim: 'electricity',
         colorDefaultDim: 'sector',
         minRadius: 1,
-        maxRadius: 6
+        maxRadius: 6,
+        lazyLoad: true
     };
 
     /**
@@ -49,6 +50,7 @@
             colorDefaultDim: '@',
             minRadius: '@',
             maxRadius: '@',
+            lazyLoad: '@',
             margin: '&'
         };
 

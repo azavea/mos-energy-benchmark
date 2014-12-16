@@ -7,6 +7,7 @@
         plotHeight: 200,
         yDefault: 'avgemissions',
         transitionMillis: 500,
+        lazyLoad: true,
         binType: 'temporal'
     };
 
@@ -31,6 +32,7 @@
             plotHeight: '@',
             margin: '&',
             binType: '@',
+            lazyLoad: '@',
             transitionMillis: '@'
         };
 

@@ -40,7 +40,7 @@
 
         // Wrapper for the plot function, called from $scope.$watch
         $scope.redraw = function (data) {
-            if (!data || $scope.plotComplete || !Utils.inViewPort($element)) {
+            if (!data || $scope.plotComplete || ($scope.config.lazyLoad && !Utils.inViewPort($element))) {
                 return;
             }
             $scope.plot(data);
