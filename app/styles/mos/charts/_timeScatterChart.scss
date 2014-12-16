@@ -9,6 +9,18 @@
 
 .mos-time-scatterchart .controls {
   margin: 0 20px;
+
+  .x.axis {
+    .btn-group {
+
+    }
+  }
+
+  .y.axis {
+    .btn-group {
+
+    }
+  }
 }
 
 .mos-time-scatterchart .legend {
@@ -29,7 +41,15 @@
   stroke-opacity: 0.5;
 }
 
-.mos-time-scatterchart line {
+.mos-time-scatterchart circle.curr {
+
+}
+
+.mos-time-scatterchart circle.prev {
+
+}
+
+.mos-time-scatterchart line.connector {
   fill: #000;
   stroke: #000;
   stroke-width: 3px;
