@@ -464,3 +464,48 @@ html, body, .content, .chart-hero, .chart-footer {
   padding-top: 83px;
   background-color: #bdbdbd;
 }
+
+/* Support for glossary */
+.glossary {
+  position: fixed;
+  bottom: 3px;
+  right: 3px;
+  width: 100%;
+
+  .glossary-button {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.42;
+    border-radius: 15px;
+    outline: none;
+  }
+
+  .dropdown-menu {
+    width: 450px;
+    height: 250px;
+    overflow-y: scroll;
+    padding: 0 10px;
+  }
+
+  .wrapper {
+    margin: 4px 8px 16px 8px;
+  }
+
+  .label {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #777;
+    padding: 0;
+  }
+
+  .description {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 300;
+    font-size: 0.8rem;
+    color: #777;
+  }
+}

@@ -50,6 +50,7 @@ module.exports = function(config) {
       'app/scripts/mapping/map-color-service.js',
       'app/scripts/mapping/mapping-service.js',
       'app/scripts/views/charts/module.js',
+      'app/scripts/views/charts/charts-glossary-directive.js',
       'app/scripts/views/charts/charts-controller.js',
       'app/scripts/views/charts/count-up-directive.js',
       'app/scripts/views/charts/panel-snap-directive.js',

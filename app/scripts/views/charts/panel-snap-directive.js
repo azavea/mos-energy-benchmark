@@ -32,7 +32,13 @@
                 var scroller = element[0];
                 var options = {
                     offset: 120,
-                    scroller: scroller
+                    scroller: scroller,
+                    onTop: function() {
+                        $scope.$broadcast('header:on-top');
+                    },
+                    onNotTop: function() {
+                        $scope.$broadcast('header:on-not-top');
+                    }
                 };
 
                 // The undefined check is so this doesn't fail in unit tests
