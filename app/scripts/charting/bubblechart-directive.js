@@ -6,6 +6,7 @@
         plotWidth: 500,
         plotHeight:500,
         bubblePadding: 25,
+        lazyLoad: true,
         transitionTime: 500
     };
 
@@ -35,6 +36,7 @@
             plotWidth: '@',
             plotHeight: '@',
             bubblePadding: '@',
+            lazyLoad: '@',
             transitionTime: '@'
         };
 

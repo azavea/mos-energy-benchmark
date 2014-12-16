@@ -9,6 +9,7 @@
         barRadius: 4,
         valueField: '',
         transitionMillis: 500,
+        lazyLoad: false,
         bgFillColor: '#F0F1F2'
     };
 
@@ -39,7 +40,8 @@
             calloutValues: '=',
             calloutColors: '=',
             transitionMillis: '@',
-            allowRedraw: '@'
+            allowRedraw: '@',
+            lazyLoad: '@'
         };
 
 
