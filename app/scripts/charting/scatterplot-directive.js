@@ -101,6 +101,9 @@
                 var datumY = function(datum) { return datum[yDim] < 1 ? 1 : datum[yDim]; };
                 // Return the radius of a circle with area of this item
                 var datumR = function(datum) {
+                    if (datum[xDim] < 1 || datum[yDim] < 1) {
+                        return 0;
+                    }
                     return Math.sqrt(datum[areaDim] / Math.PI);
                 };
 
