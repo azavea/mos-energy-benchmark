@@ -2,7 +2,8 @@
     'use strict';
 
     angular.module('mos.mapping', [
-        'mos.cartodb'
+        'mos.cartodb',
+        'mos.colors'
     ]);
 
 })();

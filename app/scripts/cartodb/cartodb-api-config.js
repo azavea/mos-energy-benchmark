@@ -58,12 +58,6 @@
                 uniqueColumn: module.uniqueColumn
             }),
 
-            popupQuery: Utils.strFormat('SELECT cartodb_id, {uniqueColumn}, geocode_address, total_ghg, property_name ' +
-                                        'FROM {currentYearTable} where cartodb_id = \'{cartodbId}\'', {
-                                            uniqueColumn: module.uniqueColumn,
-                                            currentYearTable: module.tables.currentYear
-                                        }),
-
             groupedQuery: 'SELECT'
                 + '  sector as name'
                 + ', count(*) as count'

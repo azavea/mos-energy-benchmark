@@ -4,43 +4,11 @@
     /**
      * @ngInject
      */
-    function MappingService ($http, MOSColors, MapColorService, CartoConfig) {
+    function MappingService ($http, ColorService, CartoConfig) {
         var module = {};
 
         module.FILTER_NONE = 'All types';
         var table = CartoConfig.tables.currentYear;
-
-        /*
-         *  Builds sector legend data
-         *
-         *  @returns Object with properties for custom CartoDB sector legend
-         */
-        module.getSectorColors = function() {
-            var sectors = [];
-            angular.forEach(MOSColors, function(value, key) {
-                sectors.push({'name': key, 'value': value});
-            });
-            return sectors;
-        };
-
-        /*
-         *  Finds color for a given property sector
-         *
-         *  @param {string} sector Property sector field value from database
-         *  @returns {string} Corresponding color value for display
-         */
-        module.findSectorColor = function(sector) {
-            if (sector in MOSColors) {
-                return MOSColors[sector];
-            } else {
-                // if color not found, use 'Unknown' color
-                return MOSColors.Unknown;
-            }
-        };
-
-        module.getLegendOptions = function(field) {
-            return MapColorService.legendOptions(field);
-        };
 
         /*
          *  Fetches list of building categories in use
@@ -121,9 +89,9 @@
                 console.error('cannot change CartoCSS; there is no viz!');
                 return;
             }
-            var css = MapColorService.baseCartoCSS + ' ' +
-                      MapColorService.getFieldCartoCSS(colorByField) + ' ' +
-                      MapColorService.getFieldCartoCSS(sizeByField);
+            var css = ColorService.baseCartoCSS + ' ' +
+                      ColorService.getFieldCartoCSS(colorByField) + ' ' +
+                      ColorService.getFieldCartoCSS(sizeByField);
 
             viz.setCartoCSS(css);
         };

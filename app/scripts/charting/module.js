@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
-    angular.module('mos.charting', []);
+    angular.module('mos.charting', [
+      'mos.colors'
+    ]);
 
 })();

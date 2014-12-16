@@ -4,7 +4,7 @@
     /*
      * ngInject
      */
-    function MapController($compile, $scope, $state, BuildingCompare, MappingService) {
+    function MapController($compile, $scope, $state, BuildingCompare, MappingService, ColorService) {
 
         // indicate that map is loading, hang on..
         $scope.mapLoading = true;
@@ -20,7 +20,7 @@
             isChecked: false,
             disabled: false
         };
-
+        
         $scope.buildingTypes = [];
         $scope.buildingIds = [];
         $scope.filterType = MappingService.FILTER_NONE;
@@ -28,31 +28,10 @@
         $scope.noResults = false;
         $scope.amSearching = false;
 
-        // options for changing field for controlling viz feature color
-        // 'category' is name for display; 'field' is field name in DB
-        $scope.colorByTypes = [
-            {'category': 'Building Type', 'field': 'sector'},
-            {'category': 'Year Built', 'field': 'year_built'},
-            {'category': 'Square footage', 'field': 'floor_area'}
-        ];
-
-        // default to sector for feature color
-        $scope.colorType = $scope.colorByTypes[0];
-
-        // options for changing field for controlling viz feature size
-        // 'category' is name for display; 'field' is field name in DB
-        $scope.sizeByTypes = [
-            {'category': 'Total Energy Use', 'field': 'site_eui'},
-            {'category': 'Greenhouse Gases', 'field': 'total_ghg'},
-            {'category': 'Electricity', 'field': 'electricity'},
-            {'category': 'Fuel Oil', 'field': 'fuel_oil'},
-            {'category': 'Water Use', 'field': 'water_use'},
-            {'category': 'Steam Use', 'field': 'steam'},
-            {'category': 'Natural Gas', 'field': 'natural_gas'}
-        ];
-
-        // default to EUI for feature size
-        $scope.sizeType = $scope.sizeByTypes[0];
+        $scope.colorByTypes = ColorService.getColorByFields();
+        $scope.sizeByTypes = ColorService.getSizeByFields();
+        $scope.colorType = 'sector';
+        $scope.sizeType = 'site_eui';
 
         // helper function to set or unset property data from a result row
         var setPropertyData = function(row) {
@@ -70,8 +49,8 @@
                 /* jshint camelcase:true */
 
             // get the color for this location's sector
-            $scope.propertyData.sectorColor =
-                MappingService.findSectorColor($scope.propertyData.sector);
+            $scope.propertyData.sectorColor = 
+                ColorService.findSectorColor($scope.propertyData.sector);
 
             } else {
                 // row is null; unset property data
@@ -179,13 +158,13 @@
 
         $scope.colorBy = function(selection) {
             $scope.colorType = selection;
-            MappingService.setVizCartoCSS(vizLayer, $scope.colorType.field, $scope.sizeType.field);
+            MappingService.setVizCartoCSS(vizLayer, $scope.colorType, $scope.sizeType);
             setSecondLegend();
         };
 
         $scope.sizeBy = function(selection) {
             $scope.sizeType = selection;
-            MappingService.setVizCartoCSS(vizLayer, $scope.colorType.field, $scope.sizeType.field);
+            MappingService.setVizCartoCSS(vizLayer, $scope.colorType, $scope.sizeType);
         };
 
         $scope.setCompare = function(cartodbId) {
@@ -234,12 +213,14 @@
         // fetch building categories for drop-down
         MappingService.getBldgCategories()
             .done(function(data) {
-                $scope.buildingTypes = [{'sector': MappingService.FILTER_NONE}];
-                $scope.buildingTypes = $scope.buildingTypes.concat(data.rows);
+                $scope.buildingTypes = [MappingService.FILTER_NONE];
+                angular.forEach(data.rows, function(value) {
+                    $scope.buildingTypes.push(value.sector);
+                });
             }).error(function(errors) {
                 // returns a list
                 console.error('errors fetching property types: ' + errors);
-                $scope.buildingTypes = [{'sector': module.FILTER_NONE}];
+                $scope.buildingTypes = [module.FILTER_NONE];
             });
 
         // fetch building IDs for autocomplete
@@ -253,7 +234,7 @@
             });
 
         // get colors to display in legend
-        $scope.sectorColors = MappingService.getSectorColors();
+        $scope.sectorColors = ColorService.getSectorColors();
 
         // add second legend for feature color, above size legend
         var setSecondLegend = function() {
@@ -263,7 +244,7 @@
             $('div.cartodb-legend.choropleth').remove();
             $('div.cartodb-legend.custom').remove();
 
-            if ($scope.colorType.field === 'sector') {
+            if ($scope.colorType === 'sector') {
                 // categorize by sector
                 legend = new cartodb.geo.ui.Legend({
                    type: 'custom',
@@ -271,7 +252,7 @@
                  });
             } else {
                 // choropleth legend
-                var opts = MappingService.getLegendOptions($scope.colorType.field);
+                var opts = ColorService.legendOptions($scope.colorType);
                 legend = new cartodb.geo.ui.Legend.Choropleth({
                     left: opts.left,
                     right: opts.right,

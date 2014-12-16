@@ -6,10 +6,11 @@
         plotWidth: 800,
         plotHeight: 400,
         pointFillColor: '#14bfd6',
-        pointStrokeColor: '#2e9ec6',
-        xDefaultDim: 'eui',
-        yDefaultDim: 'emissions',
-        areaDefaultDim: 'energystar',
+        pointStrokeColor: '#ddd',
+        xDefaultDim: 'site_eui',
+        yDefaultDim: 'total_ghg',
+        areaDefaultDim: 'electricity',
+        colorDefaultDim: 'sector',
         minRadius: 1,
         maxRadius: 6
     };
@@ -17,7 +18,7 @@
     /**
      * ngInject
      */
-    function scatterPlot (MOSColors, ScatterPlotDefaults) {
+    function scatterPlot (ColorService, ScatterPlotDefaults) {
 
         var PLOT_CLASS = 'mos-scatterplot';
 
@@ -32,7 +33,7 @@
         var module = {};
 
         module.restrict = 'EA';
-        module.template = '<svg class="chart"></svg>';
+        module.templateUrl = 'scripts/charting/scatterplot-partial.html';
         module.controller = 'ChartingController';
 
         module.scope = {
@@ -45,6 +46,7 @@
             xDefaultDim: '@',
             yDefaultDim: '@',
             areaDefaultDim: '@',
+            colorDefaultDim: '@',
             minRadius: '@',
             maxRadius: '@',
             margin: '&'
@@ -54,6 +56,22 @@
             $scope.configure(ScatterPlotDefaults);
 
             var config = $scope.config;
+
+            $scope.axisOptions = ColorService.getSizeByFields();
+            $scope.colorOptions = ColorService.getColorByFields();
+
+            $scope.selected = {
+                x: config.xDefaultDim,
+                y: config.yDefaultDim,
+                color: config.colorDefaultDim,
+                area: config.areaDefaultDim
+            };
+
+            $scope.changeSelectedOption = function (option, key) {
+                $scope.selected[option] = key;
+                $scope.plotComplete = false;
+                $scope.redraw($scope.data);
+            };
 
             element.addClass(PLOT_CLASS);
             chart = d3.select('#' + attrs.id + ' .chart')
@@ -72,15 +90,19 @@
 
             // Overridden ChartingController method
             $scope.plot = function(data) {
-                var xDim = config.xDefaultDim;
-                var yDim = config.yDefaultDim;
-                var areaDim = config.areaDefaultDim;
+                var xDim = $scope.selected.x;
+                var yDim = $scope.selected.y;
+                var areaDim = $scope.selected.area;
+                var colorDim = $scope.selected.color;
 
                 // Need to make sure that all values are at least 1 for a log scale.
                 var datumX = function(datum) { return datum[xDim] < 1 ? 1 : datum[xDim]; };
                 var datumY = function(datum) { return datum[yDim] < 1 ? 1 : datum[yDim]; };
                 // Return the radius of a circle with area of this item
                 var datumR = function(datum) {
+                    if (datum[xDim] < 1 || datum[yDim] < 1) {
+                        return 0;
+                    }
                     return Math.sqrt(datum[areaDim] / Math.PI);
                 };
 
@@ -110,24 +132,23 @@
                         .attr('class', 'd3-tip')
                         .offset([-10, 0])
                         .html(function(d) {
-                            return '<span class="propertyName">' + d.propertyname + '</span>';
+                            /* jshint camelcase:false */
+                            return '<span class="propertyName">' + d.property_name + '</span>';
+                            /* jshint camelcase:true */
                         });
                 chart.call(tip);
 
                 // Create circles
                 var circles = chart.selectAll('circle')
                                   .data(data);
-                var colorBySector = function (d) {
-                    return MOSColors[d.sector] || MOSColors.Unknown;
-                };
 
                 circles.enter().append('circle')
                        .attr('cx', function (d) { return x(datumX(d)); })
                        .attr('cy', function (d) { return y(datumY(d)); })
                         // Radius of zero initially so it can be animated on load
                        .attr('r', 0)
-                       .attr('fill', colorBySector)
-                       .attr('stroke', colorBySector)
+                       .attr('fill', config.pointFillColor)
+                       .attr('stroke', config.pointStrokeColor)
                        .on('mouseover', tip.show)
                        .on('mouseout', tip.hide);
                 circles.exit().remove();
@@ -135,6 +156,8 @@
                 circles.transition().duration(2000)
                        .attr('cx', function (d) { return x(datumX(d)); })
                        .attr('cy', function (d) { return y(datumY(d)); })
+                       .attr('fill', function (d) { return ColorService.getColor(colorDim, d[colorDim]); })
+                       .attr('stroke', config.pointStrokeColor )
                        .attr('r', function (d) { return r(datumR(d)); });
             };
         };

@@ -9,12 +9,13 @@ describe('Controller: mos.views.map.MapController', function () {
     var Controller;
     var BuildingCompare;
     var MappingService;
-
+    var ColorService;
 
     // Initialize the controller and a mock scope
     beforeEach(inject(function ($controller, $rootScope, _$compile_, _$state_) {
         scope = $rootScope.$new();
         MappingService = $injector.get('MappingService');
+        ColorService = $injector.get('ColorService');
         BuildingCompare = $injector.get('BuildingCompare');
         
         Controller = $controller('MapController', {
@@ -22,16 +23,17 @@ describe('Controller: mos.views.map.MapController', function () {
             $scope: scope,
             $state: _$state_,
             BuildingCompare: BuildingCompare,
-            MappingService: MappingService
+            MappingService: MappingService,
+            ColorService: ColorService
         });
     }));
 
     it('should have EUI for default size type', function () {
-        expect(scope.sizeType.field).toBe('site_eui');
+        expect(scope.sizeType).toBe('site_eui');
     });
 
     it('should have sector for default color type', function () {
-        expect(scope.colorType.field).toBe('sector');
+        expect(scope.colorType).toBe('sector');
     });
 
     it('should be able to clear error messages', function () {
