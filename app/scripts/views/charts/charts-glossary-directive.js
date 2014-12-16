@@ -9,7 +9,7 @@
         var module = {};
 
         module.restrict = 'EA';
-        module.templateUrl = 'scripts/views/charts/charts-glossary-directive-partial.html',
+        module.templateUrl = 'scripts/views/charts/charts-glossary-partial.html',
 
         module.link = function ($scope, element, attrs) {
             // Don't show the glossary on the initial panel
