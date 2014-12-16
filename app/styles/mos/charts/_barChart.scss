@@ -32,16 +32,18 @@
 }
 
 .mos-barchart {
-
-  .x .startLabel text {
-    text-anchor: start;
+  text {
+    font: 10px sans-serif;
   }
-
-  .x .midLabel text {
-    text-anchor: middle;
-  }
-
-  .x .endLabel text {
-    text-anchor: end;
+  .x {
+    .startLabel text {
+      text-anchor: start;
+    }
+    .midLabel text {
+      text-anchor: middle;
+    }
+    .endLabel text {
+      text-anchor: end;
+    }
   }
 }

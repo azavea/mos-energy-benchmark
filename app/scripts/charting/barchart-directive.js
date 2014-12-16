@@ -36,6 +36,7 @@
             transitionMillis: '@'
         };
 
+        console.log('this far...')
 
         // This is a helper function for transforming api data into percentiles based on sqft
         function binBySqFt(data, groups) {
@@ -113,6 +114,7 @@
                     .map(function(d) {
                         var obj = d.values;
                         obj.key = d.key;
+                        obj.avgenergystar = isNaN(obj.avgenergystar) ? 0 : obj.avgenergystar;
                         return obj;
                     })
                     .reverse()
@@ -120,6 +122,7 @@
         }
 
         module.link = function ($scope, element, attrs) {
+        console.log('this far...4')
             $scope.configure(BarChartDefaults);
             var config = $scope.config;
             config.margin.left = 0;
@@ -163,7 +166,7 @@
                 var bottomAxis = d3.svg.axis()
                     .orient('bottom')
                     .scale(x)
-                    .tickSize(3,3)
+                    .tickSize(3,1)
                     .tickValues([])
                 var bottomAxisG = chart.append('g')
                     .attr('class', 'x axis')
@@ -180,8 +183,7 @@
                     .attr('class', 'x endLabel')
                     .attr('text-anchor', 'end')
                     .attr('x', config.plotWidth/2)
-                    .attr('y', config.plotHeight-config.margin.top)
-                    .text('50th Percentile');
+                    .attr('y', config.plotHeight-config.margin.top);
                 var labelEnd = chart.append('text')
                     .attr('class', 'x endLabel')
                     .attr('text-anchor', 'end')
@@ -190,12 +192,10 @@
                     .text('100th Percentile');
                 // Depending on bin type, our axis labeling should look rather different
                 if (config.binType === 'temporal') {
-                    labelStart.text('Olde Tymes');
-                    labelMid.text('Less old');
-                    labelEnd.text('Nowish');
+                    labelStart.text('1850');
+                    labelEnd.text('2013');
                 } else if (config.binType === 'area') {
                     labelStart.text('0th Percentile');
-                    labelMid.text('50th Percentile');
                     labelEnd.text('100th Percentile');
                 }
 
@@ -206,7 +206,7 @@
                   .html(function(d) {
                     var dataLabel = d.key + (config.binType === 'area' ? 'th Percentile' : '');
                     return '<div class="propertyName">' + dataLabel + '</div>' +
-                           '<div class="propertyname">' + humanLabels[yAttr] + Math.round(d[yAttr]) + '</div>';
+                           '<div class="propertyname">' + humanLabels[yAttr] + Math.round(d[yAttr]).toLocaleString() + '</div>';
                   });
                 chart.call(tip);
 
@@ -219,6 +219,8 @@
                     // Height of zero initially so it can be animated on load
                     .attr('height', 0)
                     .attr('width', x.rangeBand())
+                    .attr('rx', 3)
+                    .attr('ry', 3)
                     .on('mouseover', tip.show)
                     .on('mouseout', tip.hide);
 
@@ -239,19 +241,21 @@
                         .ease('linear')
                         .duration(transitionMillis)
                         .attr('y', function(d) {
-                            var val = isNaN(y(d[yAttr])) ? 0 : y(d[yAttr]);
-                            return val + config.margin.top; })
+                            var val = isNaN(d[yAttr]) ? 0 : y(d[yAttr]);
+                            return val-10 + config.margin.top; })
                         .attr('height', function(d) {
-                            var val = isNaN(y(d[yAttr])) ? 0 : y(d[yAttr]);
+                            var val = isNaN(d[yAttr]) ? 0 : y(d[yAttr]);
                             return config.plotHeight - val - config.margin.top - config.margin.bottom;
                         });
                 }
+                console.log($scope.$parent);
 
-                $scope.selectedYChanged = function(key) {
-                    $scope.selectedY = key;
-                    yAttr = $scope.selectedY;
+                $scope.$watch(function(scope) {
+                    return scope.$parent.selectedY;
+                }, function() {
+                    yAttr = $scope.$parent.selectedY;
                     refreshData();
-                };
+                });
             };
         };
 

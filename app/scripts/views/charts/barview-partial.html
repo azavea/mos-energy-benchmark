@@ -1,0 +1,16 @@
+<mos-barchart id="bar-chart-temporal" bin-type="'temporal'" data="data"></mos-barchart>
+<mos-barchart id="bar-chart-area" bin-type="'area'" data="data"></mos-barchart>
+<div class="controls">
+    <div class="axis y">
+        <div class="btn-group" dropdown>
+            <button type="button" dropdown-toggle class="btn dropdown-toggle">
+                {{ selectOptions[selectedY] }} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="(key, value) in selectOptions">
+                    <a ng-click="selectedYChanged(key)">{{::value}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
