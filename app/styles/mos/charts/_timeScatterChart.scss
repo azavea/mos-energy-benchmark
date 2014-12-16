@@ -36,22 +36,21 @@
 }
 
 .mos-time-scatterchart circle {
-  stroke-width: 1px;
-  stroke: #111;
-  stroke-opacity: 0.5;
+  stroke-width: 2px;
 }
 
-.mos-time-scatterchart circle.curr {
-
+.mos-time-scatterchart circle.curr,
+.mos-time-scatterchart circle.curr-legend {
+    fill-opacity: 0.6;
 }
 
-.mos-time-scatterchart circle.prev {
-
+.mos-time-scatterchart circle.prev,
+.mos-time-scatterchart circle.prev-legend {
+    fill-opacity: 0.6;
 }
 
 .mos-time-scatterchart line.connector {
-  fill: #000;
-  stroke: #000;
+  stroke: $chart-lines;
   stroke-width: 3px;
 }
 
