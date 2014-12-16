@@ -53,8 +53,8 @@
             var lastBin = bins.length - 1;
             var opts = {};
 
-            opts.right = bins[0].min;
-            opts.left = bins[lastBin].min;
+            opts.right = bins[0].max;
+            opts.left = bins[lastBin].max;
             opts.colors = [];
 
             for (var i = lastBin; i-->0; ) {
@@ -83,7 +83,7 @@
 
             for (var i = 0; i < binSize; i++) {
                 var thisBin = bins[i];
-                css += TABLE + ' [' + field + ' <= ' + thisBin.min + 
+                css += TABLE + ' [' + field + ' <= ' + thisBin.max + 
                        '] {' + cssVal + ': ' + thisBin.markerVal + ';}\n';
             }
             return css;
@@ -100,24 +100,6 @@
                 }
             });
             return css;
-        };
-
-        /*
-         *  Helper to get the fields available to select for setting color.
-         *
-         *  @returns Collection of field name -> descriptive name key/value pairs
-         */
-        module.getColorByFields = function() {
-            CartoConfig.getColorByFields();
-        };
-
-        /*
-         *  Helper to get the fields available to select for setting size.
-         *
-         *  @returns Collection of field name -> descriptive name key/value pairs
-         */
-        module.getSizeByFields = function() {
-            CartoConfig.getSizeByFields();
         };
 
         module.baseCartoCSS = [

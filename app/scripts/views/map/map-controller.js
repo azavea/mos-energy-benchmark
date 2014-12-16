@@ -4,7 +4,7 @@
     /*
      * ngInject
      */
-    function MapController($compile, $scope, $state, BuildingCompare, MappingService, MapColorService) {
+    function MapController($compile, $scope, $state, CartoConfig, BuildingCompare, MappingService, MapColorService) {
 
         // indicate that map is loading, hang on..
         $scope.mapLoading = true;
@@ -28,8 +28,8 @@
         $scope.noResults = false;
         $scope.amSearching = false;
 
-        $scope.colorByTypes = MapColorService.getColorByFields();
-        $scope.sizeByTypes = MapColorService.getSizeByFields();
+        $scope.colorByTypes = CartoConfig.getColorByFields();
+        $scope.sizeByTypes = CartoConfig.getSizeByFields();
         $scope.colorType = 'sector';
         $scope.sizeType = 'site_eui';
 

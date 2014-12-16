@@ -4,7 +4,7 @@
     /**
      * @ngInject
      */
-    function CartoConfig (Utils, MOSCSSValues) {
+    function CartoConfig (Utils, MOSCSSValues, MOSColors) {
         var module = {};
 
         // The unique column to use to identify records throughout the app
@@ -53,6 +53,42 @@
                 }
             });
             return sizeFields;
+        };
+
+        /*
+         * Get the CSS color defined for the bin of a given value
+         *
+         * @param field {string} Database field name binned
+         * @param value {Number} Check which bin this value falls into
+         *
+         * @returns Color found for the value's bin
+         */
+        module.getColor = function (field, value) {
+            if (!(field in MOSCSSValues)) {
+                if (field === 'sector') {
+                    if (value in MOSColors) {
+                        return MOSColors[value];
+                    } else {
+                        // if color not found, use 'Unknown' color
+                        return MOSColors.Unknown;
+                    }
+                } else {
+                    console.error('Have no CSS defined for field: ' + field);
+                    return '#ddd';
+                }
+            }
+
+            var bins = MOSCSSValues[field].bins;
+            var last = bins.length - 1;
+            for (var i = last; i-->0;) {
+                var maxVal = Number(bins[i].max);
+                if (value <= maxVal) {
+                    return bins[i].markerVal;
+                }
+            }
+
+            console.error('Could not find a bin for field: ' + field + ' with value: ' + value);
+            return bins[last].markerVal;
         };
 
         // Configuration for obtaining data for multiple years.

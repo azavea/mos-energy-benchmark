@@ -6,7 +6,7 @@
         plotWidth: 800,
         plotHeight: 400,
         pointFillColor: '#14bfd6',
-        pointStrokeColor: '#2e9ec6',
+        pointStrokeColor: '#ddd',
         xDefaultDim: 'site_eui',
         yDefaultDim: 'total_ghg',
         areaDefaultDim: 'electricity',
@@ -94,8 +94,7 @@
                 var xDim = $scope.selected.x;
                 var yDim = $scope.selected.y;
                 var areaDim = $scope.selected.area;
-                // TODO: get color ramp from map options
-                //var colorDim = $scope.selected.color;
+                var colorDim = $scope.selected.color;
 
                 // Need to make sure that all values are at least 1 for a log scale.
                 var datumX = function(datum) { return datum[xDim] < 1 ? 1 : datum[xDim]; };
@@ -155,6 +154,8 @@
                 circles.transition().duration(2000)
                        .attr('cx', function (d) { return x(datumX(d)); })
                        .attr('cy', function (d) { return y(datumY(d)); })
+                       .attr('fill', function (d) { return CartoConfig.getColor(colorDim, d[colorDim]); })
+                       .attr('stroke', config.pointStrokeColor )
                        .attr('r', function (d) { return r(datumR(d)); });
             };
         };
