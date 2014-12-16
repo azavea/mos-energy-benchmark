@@ -12,6 +12,72 @@
         var TABLE = '#' + CartoConfig.tables.currentYear;
 
         /*
+         *  Helper to get the fields available to select for setting color.
+         *
+         *  @returns Collection of field name -> descriptive name key/value pairs
+         */
+        module.getColorByFields = function() {
+            var colorFields = {'sector': 'Building Type'};
+            angular.forEach(MOSCSSValues, function(obj, key) {
+                if (obj.cssVal === 'marker-fill') {
+                    colorFields[key] = obj.description;
+                }
+            });
+            return colorFields;
+        };
+
+        /*
+         *  Helper to get the fields available to select for setting size.
+         *
+         *  @returns Collection of field name -> descriptive name key/value pairs
+         */
+        module.getSizeByFields = function() {
+            var sizeFields = {};
+            angular.forEach(MOSCSSValues, function(obj, key) {
+                if (obj.cssVal === 'marker-width') {
+                    sizeFields[key] = obj.description;
+                }
+            });
+            return sizeFields;
+        };
+
+        /*
+         * Get the CSS color defined for the bin of a given value
+         *
+         * @param field {string} Database field name binned
+         * @param value {Number} Check which bin this value falls into
+         *
+         * @returns Color found for the value's bin
+         */
+        module.getColor = function (field, value) {
+            if (!(field in MOSCSSValues)) {
+                if (field === 'sector') {
+                    if (value in MOSColors) {
+                        return MOSColors[value];
+                    } else {
+                        // if color not found, use 'Unknown' color
+                        return MOSColors.Unknown;
+                    }
+                } else {
+                    console.error('Have no CSS defined for field: ' + field);
+                    return '#ddd';
+                }
+            }
+
+            var bins = MOSCSSValues[field].bins;
+            var last = bins.length - 1;
+            for (var i = last; i-->0;) {
+                var maxVal = Number(bins[i].max);
+                if (value <= maxVal) {
+                    return bins[i].markerVal;
+                }
+            }
+
+            console.error('Could not find a bin for field: ' + field + ' with value: ' + value);
+            return bins[last].markerVal;
+        };
+
+        /*
          *  Builds sector legend data
          *
          *  @returns Object with properties for custom CartoDB sector legend
@@ -119,6 +185,6 @@
         return module;
     }
 
-    angular.module('mos.mapping')
-      .factory('MapColorService', MapColorService);
+    angular.module('mos.colors')
+      .factory('ColorService', MapColorService);
 })();

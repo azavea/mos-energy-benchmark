@@ -18,7 +18,7 @@
     /**
      * ngInject
      */
-    function scatterPlot (CartoConfig, ScatterPlotDefaults) {
+    function scatterPlot (ColorService, ScatterPlotDefaults) {
 
         var PLOT_CLASS = 'mos-scatterplot';
 
@@ -58,8 +58,8 @@
 
             var config = $scope.config;
 
-            $scope.axisOptions = CartoConfig.getSizeByFields();
-            $scope.colorOptions = CartoConfig.getColorByFields();
+            $scope.axisOptions = ColorService.getSizeByFields();
+            $scope.colorOptions = ColorService.getColorByFields();
 
             $scope.selected = {
                 x: config.xDefaultDim,
@@ -154,7 +154,7 @@
                 circles.transition().duration(2000)
                        .attr('cx', function (d) { return x(datumX(d)); })
                        .attr('cy', function (d) { return y(datumY(d)); })
-                       .attr('fill', function (d) { return CartoConfig.getColor(colorDim, d[colorDim]); })
+                       .attr('fill', function (d) { return ColorService.getColor(colorDim, d[colorDim]); })
                        .attr('stroke', config.pointStrokeColor )
                        .attr('r', function (d) { return r(datumR(d)); });
             };

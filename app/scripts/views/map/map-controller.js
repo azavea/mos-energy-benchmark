@@ -4,7 +4,7 @@
     /*
      * ngInject
      */
-    function MapController($compile, $scope, $state, CartoConfig, BuildingCompare, MappingService, MapColorService) {
+    function MapController($compile, $scope, $state, BuildingCompare, MappingService, ColorService) {
 
         // indicate that map is loading, hang on..
         $scope.mapLoading = true;
@@ -28,8 +28,8 @@
         $scope.noResults = false;
         $scope.amSearching = false;
 
-        $scope.colorByTypes = CartoConfig.getColorByFields();
-        $scope.sizeByTypes = CartoConfig.getSizeByFields();
+        $scope.colorByTypes = ColorService.getColorByFields();
+        $scope.sizeByTypes = ColorService.getSizeByFields();
         $scope.colorType = 'sector';
         $scope.sizeType = 'site_eui';
 
@@ -50,7 +50,7 @@
 
             // get the color for this location's sector
             $scope.propertyData.sectorColor = 
-                MapColorService.findSectorColor($scope.propertyData.sector);
+                ColorService.findSectorColor($scope.propertyData.sector);
 
             } else {
                 // row is null; unset property data
@@ -234,7 +234,7 @@
             });
 
         // get colors to display in legend
-        $scope.sectorColors = MapColorService.getSectorColors();
+        $scope.sectorColors = ColorService.getSectorColors();
 
         // add second legend for feature color, above size legend
         var setSecondLegend = function() {
@@ -252,7 +252,7 @@
                  });
             } else {
                 // choropleth legend
-                var opts = MapColorService.legendOptions($scope.colorType);
+                var opts = ColorService.legendOptions($scope.colorType);
                 legend = new cartodb.geo.ui.Legend.Choropleth({
                     left: opts.left,
                     right: opts.right,

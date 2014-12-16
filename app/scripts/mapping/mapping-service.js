@@ -4,7 +4,7 @@
     /**
      * @ngInject
      */
-    function MappingService ($http, MapColorService, CartoConfig) {
+    function MappingService ($http, ColorService, CartoConfig) {
         var module = {};
 
         module.FILTER_NONE = 'All types';
@@ -89,9 +89,9 @@
                 console.error('cannot change CartoCSS; there is no viz!');
                 return;
             }
-            var css = MapColorService.baseCartoCSS + ' ' +
-                      MapColorService.getFieldCartoCSS(colorByField) + ' ' +
-                      MapColorService.getFieldCartoCSS(sizeByField);
+            var css = ColorService.baseCartoCSS + ' ' +
+                      ColorService.getFieldCartoCSS(colorByField) + ' ' +
+                      ColorService.getFieldCartoCSS(sizeByField);
 
             viz.setCartoCSS(css);
         };

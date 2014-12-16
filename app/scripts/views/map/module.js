@@ -23,6 +23,7 @@
         'ui.router',
         'ui.bootstrap',
         'mos.compare',
+        'mos.colors',
         'mos.mapping'
       ]).config(StateConfig);
 
