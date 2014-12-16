@@ -88,6 +88,14 @@
                                            (config.plotHeight - config.margin.bottom) +
                                            ')');
 
+            // add second legend for feature color, above size legend
+            var setSecondLegend = function() {
+                // first remove previous second legend
+                $('div.cartodb-legend.choropleth').remove();
+                $('div.cartodb-legend.custom').remove();
+                $('.chart-row').append(ColorService.getLegend($scope.selected.color));
+            };
+
             // Overridden ChartingController method
             $scope.plot = function(data) {
                 var xDim = $scope.selected.x;
@@ -159,6 +167,8 @@
                        .attr('fill', function (d) { return ColorService.getColor(colorDim, d[colorDim]); })
                        .attr('stroke', config.pointStrokeColor )
                        .attr('r', function (d) { return r(datumR(d)); });
+
+                setSecondLegend();
             };
         };
 

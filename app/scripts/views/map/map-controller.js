@@ -233,34 +233,12 @@
                 $scope.buildingIds = [];
             });
 
-        // get colors to display in legend
-        $scope.sectorColors = ColorService.getSectorColors();
-
         // add second legend for feature color, above size legend
         var setSecondLegend = function() {
-            var legend = null;
-
             // first remove previous second legend
             $('div.cartodb-legend.choropleth').remove();
             $('div.cartodb-legend.custom').remove();
-
-            if ($scope.colorType === 'sector') {
-                // categorize by sector
-                legend = new cartodb.geo.ui.Legend({
-                   type: 'custom',
-                   data: $scope.sectorColors
-                 });
-            } else {
-                // choropleth legend
-                var opts = ColorService.legendOptions($scope.colorType);
-                legend = new cartodb.geo.ui.Legend.Choropleth({
-                    left: opts.left,
-                    right: opts.right,
-                    colors: opts.colors
-                });
-            }
-
-            $('#mymap').append(legend.render().el);
+            $('#mymap').append(ColorService.getLegend($scope.colorType));
         };
 
         // load map visualization

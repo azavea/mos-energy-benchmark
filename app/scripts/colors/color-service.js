@@ -6,7 +6,7 @@
      *
      * @ngInject
      */
-    function MapColorService (MOSColors, MOSCSSValues, CartoConfig) {
+    function ColorService (MOSColors, MOSCSSValues, CartoConfig) {
         var module = {};
 
         var TABLE = '#' + CartoConfig.tables.currentYear;
@@ -78,11 +78,37 @@
         };
 
         /*
+         *  Makes a CartoDB legend for the given field
+         *
+         *  @param {string} selection Database field to build legend for
+         *  @returns Compiled legend element
+         */
+        module.getLegend = function(selection) {
+            var legend = null;
+            if (selection === 'sector') {
+                // categorize by sector
+                legend = new cartodb.geo.ui.Legend({
+                   type: 'custom',
+                   data: getSectorColors()
+                 });
+            } else {
+                // choropleth legend
+                var opts = legendOptions(selection);
+                legend = new cartodb.geo.ui.Legend.Choropleth({
+                    left: opts.left,
+                    right: opts.right,
+                    colors: opts.colors
+                });
+            }
+            return legend.render().el;
+        };
+
+        /*
          *  Builds sector legend data
          *
          *  @returns Object with properties for custom CartoDB sector legend
          */
-        module.getSectorColors = function() {
+        var getSectorColors = function() {
             var sectors = [];
             angular.forEach(MOSColors, function(value, key) {
                 sectors.push({'name': key, 'value': value});
@@ -109,7 +135,7 @@
          *  @param {string} Database field name defined in MOSCSSValues below
          *  @returns Object with properties for CartoDB choropleth legend creation
          */
-        module.legendOptions = function(field) {
+        var legendOptions = function(field) {
             if (!(field in MOSCSSValues)) {
                 console.error('Field ' + field + ' has no CartoCSS defined!');
                 return {};
@@ -186,5 +212,5 @@
     }
 
     angular.module('mos.colors')
-      .factory('ColorService', MapColorService);
+      .factory('ColorService', ColorService);
 })();
