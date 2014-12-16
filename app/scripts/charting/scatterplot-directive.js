@@ -75,6 +75,9 @@
                 $scope.redraw($scope.data);
             };
 
+            // TODO: maybe do legends with superscripts, like this?
+            // http://bl.ocks.org/mbostock/6738229
+
             element.addClass(PLOT_CLASS);
             chart = d3.select('#' + attrs.id + ' .chart')
                     .attr('width', config.plotWidth)
@@ -90,7 +93,7 @@
                                            (config.plotHeight - config.margin.bottom) +
                                            ')');
 
-            // add second legend for feature color, above size legend
+            // add legend for color
             var setSecondLegend = function() {
                 // first remove previous second legend
                 $('div.cartodb-legend.choropleth').remove();

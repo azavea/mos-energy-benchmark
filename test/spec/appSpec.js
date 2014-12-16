@@ -3,6 +3,7 @@ describe('Midway: MOS Modules', function() {
 
   var mymodule;
   var MosColors;
+  var MosCssValues;
 
   beforeEach(module('mos'));
   var $injector = angular.injector(['mos']);
@@ -13,6 +14,7 @@ describe('Midway: MOS Modules', function() {
 
   beforeEach(inject(function () {
       MosColors = $injector.get('MOSColors');
+      MosCssValues = $injector.get('MOSCSSValues');
   }));
 
   it('should be registered', function() {
@@ -40,6 +42,11 @@ describe('Midway: MOS Modules', function() {
     it('should have MOSColors constant defined', function() {
       expect(MosColors).toBeDefined();
       expect(MosColors.Unknown).toBeDefined();
+    });
+
+    it('should have MOSCSSValues constant defined', function() {
+      expect(MosCssValues).toBeDefined();
+      expect(MosCssValues.steam.bins).toBeDefined();
     });
 
   });

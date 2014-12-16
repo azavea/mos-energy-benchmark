@@ -17,7 +17,7 @@ describe('Controller: mos.views.map.MapController', function () {
         MappingService = $injector.get('MappingService');
         ColorService = $injector.get('ColorService');
         BuildingCompare = $injector.get('BuildingCompare');
-        
+
         Controller = $controller('MapController', {
             $compile: _$compile_,
             $scope: scope,
