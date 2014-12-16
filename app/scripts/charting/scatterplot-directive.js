@@ -93,7 +93,9 @@
                 // first remove previous second legend
                 $('div.cartodb-legend.choropleth').remove();
                 $('div.cartodb-legend.custom').remove();
-                $('.chart-row').append(ColorService.getLegend($scope.selected.color));
+                var parent = $('#scatterplot');
+                console.log(parent);
+                $(parent).append(ColorService.getLegend($scope.selected.color));
             };
 
             // Overridden ChartingController method
