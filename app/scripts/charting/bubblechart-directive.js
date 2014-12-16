@@ -12,7 +12,7 @@
     /**
      * ngInject
      */
-    function bubbleChart (BubbleChartDefaults, CartoConfig) {
+    function bubbleChart (BubbleChartDefaults, CartoConfig, MOSColors) {
 
         var PLOT_CLASS = 'mos-bubblechart';
 
@@ -70,7 +70,6 @@
             });
             // Overridden ChartingController method
             $scope.plot = function(data) {
-                var color = d3.scale.category20();
                 var node;
                 var series = $scope.bubbleSeries;
                 if (!series) {
@@ -98,7 +97,7 @@
                         // Radius of zero initially so it can be animated on load
                         .attr('r', 0)
                         .attr('class', 'bubble')
-                        .style('fill', function (d, i) { return color(i); })
+                        .style('fill', function (d) { return MOSColors[d.name] || MOSColors.Unknown; })
                         .on('mouseover', tip.show)
                         .on('mouseout', tip.hide);
 

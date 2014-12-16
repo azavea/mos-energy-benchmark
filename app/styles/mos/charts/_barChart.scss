@@ -7,3 +7,28 @@
   text-anchor: end;
 }
 
+.mos-barchart svg {
+
+}
+
+.mos-barchart g.x.axis {
+
+    .tick {
+
+        line {
+        }
+
+        text {
+        }
+    }
+
+    // the divider between the bars and the legend text
+    path {
+    }
+}
+
+.mos-barchart .controls .axis.y {
+
+    .btn-group {
+    }
+}

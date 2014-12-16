@@ -17,7 +17,7 @@
     /**
      * ngInject
      */
-    function scatterPlot (ScatterPlotDefaults) {
+    function scatterPlot (MOSColors, ScatterPlotDefaults) {
 
         var PLOT_CLASS = 'mos-scatterplot';
 
@@ -117,14 +117,17 @@
                 // Create circles
                 var circles = chart.selectAll('circle')
                                   .data(data);
+                var colorBySector = function (d) {
+                    return MOSColors[d.sector] || MOSColors.Unknown;
+                };
 
                 circles.enter().append('circle')
                        .attr('cx', function (d) { return x(datumX(d)); })
                        .attr('cy', function (d) { return y(datumY(d)); })
                         // Radius of zero initially so it can be animated on load
                        .attr('r', 0)
-                       .attr('fill', config.pointFillColor)
-                       .attr('stroke', config.pointStrokeColor)
+                       .attr('fill', colorBySector)
+                       .attr('stroke', colorBySector)
                        .on('mouseover', tip.show)
                        .on('mouseout', tip.hide);
                 circles.exit().remove();

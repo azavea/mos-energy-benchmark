@@ -43,6 +43,7 @@
 
             currQuery: 'SELECT'
                 + ' portfolio_bldg_id AS id'
+                + ', sector'
                 + ', property_name AS propertyname'
                 + ', total_ghg AS emissions'
                 + ', energy_star AS energystar'
