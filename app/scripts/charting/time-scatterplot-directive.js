@@ -11,8 +11,8 @@
         currLabel: 2013,
         prevColor: '#33CCFF',
         currColor: '#CC3366',
-        prevRadius: 9,
-        currRadius: 10,
+        prevRadius: 6,
+        currRadius: 6,
         transitionMillis: 500
     };
 
@@ -126,6 +126,7 @@
                     circles.append('circle')
                         .attr('class', objName)
                         .attr('fill', color)
+                        .attr('stroke', color)
                         .attr('cx', function(d) { return x(d[objName][xAttr]); })
                         .attr('cy', function(d) { return y(d[objName][yAttr]); })
                         // Radius of zero initially so it can be animated on load
@@ -189,11 +190,13 @@
                 // Add a legend
                 var legendData = [
                     {
+                        classes: 'prev-legend',
                         label: prevLabel,
                         color: prevColor,
                         radius: prevRadius
                     },
                     {
+                        classes: 'curr-legend',
                         label: currLabel,
                         color: currColor,
                         radius: currRadius
@@ -207,6 +210,8 @@
                         .attr('width', 100)
                         .attr('zIndex', 100);
 
+                var legendTextWidth = 30;
+                var legendTextPadding = 8;
                 legend.selectAll('g').data(legendData)
                     .enter()
                     .append('g')
@@ -214,12 +219,14 @@
                         var g = d3.select(this);
                         g.append('circle')
                             .attr('fill', function(d) { return d.color; })
-                            .attr('cx', width - 65)
+                            .attr('stroke', function(d) { return d.color; })
+                            .attr('cx', function (d) { return width - legendTextWidth - legendTextPadding - d.radius * 2; })
                             .attr('cy', i * 25)
+                            .attr('class', function (d) { return d.classes; })
                             .attr('r', function(d) { return d.radius; });
                         g.append('text')
                             .attr('class', 'title')
-                            .attr('x', width - 20)
+                            .attr('x', width - legendTextWidth)
                             .attr('y', i * 25 + 4)
                             .attr('height', 30)
                             .attr('width', 100)
