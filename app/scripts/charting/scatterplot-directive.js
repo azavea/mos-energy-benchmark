@@ -73,6 +73,8 @@
             $scope.changeSelectedOption = function (option, key) {
                 $scope.selected[option] = key;
                 // TODO: redraw
+                $scope.plotComplete = false;
+                $scope.redraw($scope.data);
             };
 
             element.addClass(PLOT_CLASS);
