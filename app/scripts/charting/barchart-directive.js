@@ -142,10 +142,6 @@
             element.addClass(PLOT_CLASS);
             var chart = d3.select('#' + attrs.id + ' .chart')
                     .attr('width', config.plotWidth);
-            var bottomAxis = d3.svg.axis().orient('bottom');
-            var bottomAxisG = chart.append('g')
-                .attr('class', 'x axis')
-                .attr('transform', 'translate(' + config.margin.left + ',' + (config.plotHeight - config.margin.bottom) + ')');
 
             // Overridden ChartingController method
             $scope.plot = function(data) {
@@ -157,15 +153,51 @@
 
                 chart.attr('height', config.plotHeight);
 
-                // Axes
+                // Axes and scales
                 var x = d3.scale.ordinal()
                     .domain(data.map(function(d) { return d.key; }))
                     .rangeRoundBands([config.plotWidth-config.margin.left-config.margin.right, 0], 0.05);
                 var y = d3.scale.linear()
                     .domain([0, d3.max(data, function(d) { return d[yAttr]; })])
                     .range([config.plotHeight-config.margin.bottom-config.margin.top, 0]);
-                bottomAxis.scale(x);
-                bottomAxisG.call(bottomAxis);
+                var bottomAxis = d3.svg.axis()
+                    .orient('bottom')
+                    .scale(x)
+                    .tickSize(3,3)
+                    .tickValues([])
+                var bottomAxisG = chart.append('g')
+                    .attr('class', 'x axis')
+                    .attr('transform', 'translate(' +config.margin.left + ',' + (config.plotHeight - config.margin.bottom) + ')')
+                    .call(bottomAxis);
+
+                // Axes should have custom labels to prevent cluttering; tooltips can handle detail
+                var labelStart = chart.append('text')
+                    .attr('class', 'x startLabel')
+                    .attr('text-anchor', 'start')
+                    .attr('y', config.plotHeight-config.margin.top)
+                    .text('0th Percentile');
+                var labelMid = chart.append('text')
+                    .attr('class', 'x endLabel')
+                    .attr('text-anchor', 'end')
+                    .attr('x', config.plotWidth/2)
+                    .attr('y', config.plotHeight-config.margin.top)
+                    .text('50th Percentile');
+                var labelEnd = chart.append('text')
+                    .attr('class', 'x endLabel')
+                    .attr('text-anchor', 'end')
+                    .attr('x', config.plotWidth-config.margin.right)
+                    .attr('y', config.plotHeight-config.margin.top)
+                    .text('100th Percentile');
+                // Depending on bin type, our axis labeling should look rather different
+                if (config.binType === 'temporal') {
+                    labelStart.text('Olde Tymes');
+                    labelMid.text('Less old');
+                    labelEnd.text('Nowish');
+                } else if (config.binType === 'area') {
+                    labelStart.text('0th Percentile');
+                    labelMid.text('50th Percentile');
+                    labelEnd.text('100th Percentile');
+                }
 
                 // Tooltips
                 var tip = d3.tip()

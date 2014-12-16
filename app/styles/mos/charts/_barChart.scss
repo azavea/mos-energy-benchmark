@@ -4,11 +4,9 @@
 
 .mos-barchart text {
   font: 10px sans-serif;
-  text-anchor: end;
 }
 
 .mos-barchart svg {
-
 }
 
 .mos-barchart g.x.axis {
@@ -29,6 +27,21 @@
 
 .mos-barchart .controls .axis.y {
 
-    .btn-group {
-    }
+  .btn-group {
+  }
+}
+
+.mos-barchart {
+
+  .x .startLabel text {
+    text-anchor: start;
+  }
+
+  .x .midLabel text {
+    text-anchor: middle;
+  }
+
+  .x .endLabel text {
+    text-anchor: end;
+  }
 }
