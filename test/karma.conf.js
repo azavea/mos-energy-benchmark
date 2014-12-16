@@ -40,7 +40,7 @@ module.exports = function(config) {
       'app/scripts/cartodb/cartodb-api-service.js',
       'app/scripts/cartodb/cartodb-filters.js',
       'app/scripts/colors/module.js',
-      'scripts/colors/color-service.js',
+      'app/scripts/colors/color-service.js',
       'app/scripts/charting/module.js',
       'app/scripts/charting/charting-service.js',
       'app/scripts/charting/charting-controller.js',
