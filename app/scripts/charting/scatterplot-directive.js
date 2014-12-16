@@ -7,9 +7,9 @@
         plotHeight: 400,
         pointFillColor: '#14bfd6',
         pointStrokeColor: '#2e9ec6',
-        xDefaultDim: 'eui',
-        yDefaultDim: 'emissions',
-        areaDefaultDim: 'energystar',
+        xDefaultDim: 'site_eui',
+        yDefaultDim: 'total_ghg',
+        areaDefaultDim: 'electricity',
         colorDefaultDim: 'sector',
         minRadius: 1,
         maxRadius: 6
@@ -18,7 +18,7 @@
     /**
      * ngInject
      */
-    function scatterPlot (CartoConfig, ScatterPlotDefaults) {
+    function scatterPlot (CartoConfig, ScatterPlotDefaults, MapColorService) {
 
         var PLOT_CLASS = 'mos-scatterplot';
 
@@ -58,10 +58,14 @@
 
             var config = $scope.config;
 
-            $scope.axisOptions = _.omit(CartoConfig.labels, 'squarefeet');
+            $scope.axisOptions = MapColorService.getSizeByFields();
+            $scope.colorOptions = MapColorService.getColorByFields();
+            // TODO: remove
+            /* _.omit(CartoConfig.labels, 'squarefeet');
             $scope.colorOptions = {'sector': 'Building Type',
                                    'year': 'Year Built',
                                    'squarefeet': 'Sq Ft'};
+            */
 
             $scope.selected = {
                 x: config.xDefaultDim,
@@ -72,7 +76,6 @@
 
             $scope.changeSelectedOption = function (option, key) {
                 $scope.selected[option] = key;
-                // TODO: redraw
                 $scope.plotComplete = false;
                 $scope.redraw($scope.data);
             };
@@ -134,7 +137,9 @@
                         .attr('class', 'd3-tip')
                         .offset([-10, 0])
                         .html(function(d) {
-                            return '<span class="propertyName">' + d.propertyname + '</span>';
+                            /* jshint camelcase:false */
+                            return '<span class="propertyName">' + d.property_name + '</span>';
+                            /* jshint camelcase:true */
                         });
                 chart.call(tip);
 

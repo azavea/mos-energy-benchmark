@@ -13,6 +13,9 @@
                 currentData: function (CartoSQLAPI) {
                     return CartoSQLAPI.getCurrentData();
                 },
+                currentAllData: function (CartoSQLAPI) {
+                    return CartoSQLAPI.getAllCurrentData();
+                },
                 groupedData: function (CartoSQLAPI) {
                     return CartoSQLAPI.getGroupedData();
                 },

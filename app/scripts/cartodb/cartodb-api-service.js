@@ -53,17 +53,6 @@
             });
         };
 
-        /**
-         * Get popup data for a given cartodbId
-         * @param  {String} cartodbId The cartodbId to query against
-         * @return {$httpPromise}
-         */
-        module.getPopupData = function (cartodbId) {
-            return makeCartoDBRequest(CartoConfig.data.popupQuery, {
-                cartodbId: cartodbId
-            });
-        };
-
         /*
          * Combines the rows, keeps the ones where data exists for both years
          *
