@@ -2,8 +2,8 @@
 <div class="controls">
       <div class="axis x">    X axis
             <div class="btn-group" dropdown>
-                  <button type="button" dropdown-toggle 
-                        class="btn dropdown-toggle">{{::selectOptions[selected.x]}} <span class="caret"></span>
+                  <button type="button" dropdown-toggle
+                        class="btn dropdown-toggle">{{selectOptions[selected.x]}} <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
                         <li ng-repeat="(xKey, xValue) in selectOptions">
@@ -15,7 +15,7 @@
       <br />
       <div class="axis y">    Y axis
             <div class="btn-group" dropdown>
-                  <button type="button" dropdown-toggle 
+                  <button type="button" dropdown-toggle
                         class="btn dropdown-toggle">{{selectOptions[selected.y]}} <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
