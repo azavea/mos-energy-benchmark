@@ -20,7 +20,7 @@
             isChecked: false,
             disabled: false
         };
-        
+
         $scope.buildingTypes = [];
         $scope.buildingIds = [];
         $scope.filterType = MappingService.FILTER_NONE;
@@ -70,7 +70,7 @@
                 /* jshint camelcase:true */
 
             // get the color for this location's sector
-            $scope.propertyData.sectorColor = 
+            $scope.propertyData.sectorColor =
                 MappingService.findSectorColor($scope.propertyData.sector);
 
             } else {
@@ -143,7 +143,7 @@
                         $scope.amSearching = false;
                         return;
                     }
-                    
+
                     var result = data.data[0];
                     $scope.noResults = false;
                     $scope.amSearching = false;
@@ -284,7 +284,7 @@
 
         // load map visualization
         cartodb.createVis('mymap', 'http://azavea-demo.cartodb.com/api/v2/viz/c5a9af6e-7f12-11e4-8f24-0e018d66dc29/viz.json',
-                          {'infowindow': false, 'legends': true, 'searchControl': false, 'loaderControl': false})
+                          {'infowindow': false, 'legends': true, 'searchControl': false, 'loaderControl': true})
             .done(function(vis, layers) {
                 $scope.mapLoading = false;
                 nativeMap = vis.getNativeMap();
@@ -306,7 +306,7 @@
                 });
 
                 setSecondLegend();
-                
+
                 vizLayer.on('featureClick', function(e, latlng, pos, data) {
                     // show popup with spinner to indicate it's loading, hang on...
                     $scope.popupLoading = true;
