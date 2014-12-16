@@ -74,6 +74,36 @@
             return css;
         };
 
+        /*
+         *  Helper to get the fields available to select for setting color.
+         *
+         *  @returns Collection of field name -> descriptive name key/value pairs
+         */
+        module.getColorByFields = function() {
+            var colorFields = {'sector': 'Building Type'};
+            angular.forEach(colorRamps, function(obj, key) {
+                if (obj.cssVal === 'marker-fill') {
+                    colorFields[key] = obj.description;
+                }
+            });
+            return colorFields;
+        };
+
+        /*
+         *  Helper to get the fields available to select for setting size.
+         *
+         *  @returns Collection of field name -> descriptive name key/value pairs
+         */
+        module.getSizeByFields = function() {
+            var sizeFields = {};
+            angular.forEach(colorRamps, function(obj, key) {
+                if (obj.cssVal === 'marker-width') {
+                    sizeFields[key] = obj.description;
+                }
+            });
+            return sizeFields;
+        };
+
         module.baseCartoCSS = [
             TABLE + '{',
             'marker-fill-opacity: 0.8;',
@@ -92,6 +122,7 @@
         var colorRamps = {
                 'floor_area': {
                     'cssVal': 'marker-fill',
+                    'description': 'Square Footage',
                     'bins': [
                         {
                             'min': '13000000',
@@ -125,6 +156,7 @@
             },
             'year_built': {
                 'cssVal': 'marker-fill',
+                'description': 'Year Built',
                 'bins': [
                     {
                         'min': '2013',
@@ -158,6 +190,7 @@
             },
             'site_eui': {
                 'cssVal': 'marker-width',
+                'description': 'Total Energy',
                 'bins': [
                     {
                         'min': '2523',
@@ -203,6 +236,7 @@
             },
             'total_ghg': {
                 'cssVal': 'marker-width',
+                'description': 'Greenhouse Gases',
                 'bins': [
                     {
                         'min': '258330',
@@ -248,6 +282,7 @@
             },
             'electricity': {
                 'cssVal': 'marker-width',
+                'description': 'Electricity',
                 'bins': [
                     {
                         'min': '1068323130',
@@ -293,6 +328,7 @@
             },
             'fuel_oil': {
                 'cssVal': 'marker-width',
+                'description': 'Fuel Oil',
                 'bins': [
                     {
                         'min': '35790575',
@@ -338,6 +374,7 @@
             },
             'natural_gas': {
                 'cssVal': 'marker-width',
+                'description': 'Natural Gas',
                 'bins': [
                     {
                         'min': '1123733030',
@@ -383,6 +420,7 @@
             },
             'water_use': {
                 'cssVal': 'marker-width',
+                'description': 'Water Use',
                 'bins': [
                     {
                         'min': '700949.4',
@@ -428,6 +466,7 @@
             },
             'steam': {
                 'cssVal': 'marker-width',
+                'description': 'Steam',
                 'bins': [
                     {
                         'min': '1375885588',

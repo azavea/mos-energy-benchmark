@@ -4,7 +4,7 @@
     /*
      * ngInject
      */
-    function MapController($compile, $scope, $state, BuildingCompare, MappingService) {
+    function MapController($compile, $scope, $state, BuildingCompare, MappingService, MapColorService) {
 
         // indicate that map is loading, hang on..
         $scope.mapLoading = true;
@@ -28,31 +28,10 @@
         $scope.noResults = false;
         $scope.amSearching = false;
 
-        // options for changing field for controlling viz feature color
-        // 'category' is name for display; 'field' is field name in DB
-        $scope.colorByTypes = [
-            {'category': 'Building Type', 'field': 'sector'},
-            {'category': 'Year Built', 'field': 'year_built'},
-            {'category': 'Square footage', 'field': 'floor_area'}
-        ];
-
-        // default to sector for feature color
-        $scope.colorType = $scope.colorByTypes[0];
-
-        // options for changing field for controlling viz feature size
-        // 'category' is name for display; 'field' is field name in DB
-        $scope.sizeByTypes = [
-            {'category': 'Total Energy Use', 'field': 'site_eui'},
-            {'category': 'Greenhouse Gases', 'field': 'total_ghg'},
-            {'category': 'Electricity', 'field': 'electricity'},
-            {'category': 'Fuel Oil', 'field': 'fuel_oil'},
-            {'category': 'Water Use', 'field': 'water_use'},
-            {'category': 'Steam Use', 'field': 'steam'},
-            {'category': 'Natural Gas', 'field': 'natural_gas'}
-        ];
-
-        // default to EUI for feature size
-        $scope.sizeType = $scope.sizeByTypes[0];
+        $scope.colorByTypes = MapColorService.getColorByFields();
+        $scope.sizeByTypes = MapColorService.getSizeByFields();
+        $scope.colorType = 'sector';
+        $scope.sizeType = 'site_eui';
 
         // helper function to set or unset property data from a result row
         var setPropertyData = function(row) {
@@ -179,13 +158,13 @@
 
         $scope.colorBy = function(selection) {
             $scope.colorType = selection;
-            MappingService.setVizCartoCSS(vizLayer, $scope.colorType.field, $scope.sizeType.field);
+            MappingService.setVizCartoCSS(vizLayer, $scope.colorType, $scope.sizeType);
             setSecondLegend();
         };
 
         $scope.sizeBy = function(selection) {
             $scope.sizeType = selection;
-            MappingService.setVizCartoCSS(vizLayer, $scope.colorType.field, $scope.sizeType.field);
+            MappingService.setVizCartoCSS(vizLayer, $scope.colorType, $scope.sizeType);
         };
 
         $scope.setCompare = function(cartodbId) {
@@ -263,7 +242,7 @@
             $('div.cartodb-legend.choropleth').remove();
             $('div.cartodb-legend.custom').remove();
 
-            if ($scope.colorType.field === 'sector') {
+            if ($scope.colorType === 'sector') {
                 // categorize by sector
                 legend = new cartodb.geo.ui.Legend({
                    type: 'custom',
@@ -271,7 +250,7 @@
                  });
             } else {
                 // choropleth legend
-                var opts = MappingService.getLegendOptions($scope.colorType.field);
+                var opts = MappingService.getLegendOptions($scope.colorType);
                 legend = new cartodb.geo.ui.Legend.Choropleth({
                     left: opts.left,
                     right: opts.right,
