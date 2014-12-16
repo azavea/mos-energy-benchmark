@@ -3,8 +3,8 @@
 
     // Define object config of properties for this chart directive
     var BubbleChartDefaults = {
-        plotWidth: 400,
-        plotHeight:400,
+        plotWidth: 500,
+        plotHeight:500,
         bubblePadding: 25,
         transitionTime: 500
     };
