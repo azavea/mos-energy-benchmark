@@ -4,7 +4,7 @@
     /**
      * @ngInject
      */
-    function CartoConfig (Utils) {
+    function CartoConfig (Utils, MOSCSSValues) {
         var module = {};
 
         // The unique column to use to identify records throughout the app
@@ -23,6 +23,36 @@
             emissions: 'Emissions',
             energystar: 'Energy Star',
             squarefeet: 'Sq. Ft.'
+        };
+
+        /*
+         *  Helper to get the fields available to select for setting color.
+         *
+         *  @returns Collection of field name -> descriptive name key/value pairs
+         */
+        module.getColorByFields = function() {
+            var colorFields = {'sector': 'Building Type'};
+            angular.forEach(MOSCSSValues, function(obj, key) {
+                if (obj.cssVal === 'marker-fill') {
+                    colorFields[key] = obj.description;
+                }
+            });
+            return colorFields;
+        };
+
+        /*
+         *  Helper to get the fields available to select for setting size.
+         *
+         *  @returns Collection of field name -> descriptive name key/value pairs
+         */
+        module.getSizeByFields = function() {
+            var sizeFields = {};
+            angular.forEach(MOSCSSValues, function(obj, key) {
+                if (obj.cssVal === 'marker-width') {
+                    sizeFields[key] = obj.description;
+                }
+            });
+            return sizeFields;
         };
 
         // Configuration for obtaining data for multiple years.
@@ -56,12 +86,6 @@
             detailQuery: Utils.strFormat('SELECT * from mos_beb_2013 where {uniqueColumn} in ({id})', {
                 uniqueColumn: module.uniqueColumn
             }),
-
-            popupQuery: Utils.strFormat('SELECT cartodb_id, {uniqueColumn}, geocode_address, total_ghg, property_name ' +
-                                        'FROM {currentYearTable} where cartodb_id = \'{cartodbId}\'', {
-                                            uniqueColumn: module.uniqueColumn,
-                                            currentYearTable: module.tables.currentYear
-                                        }),
 
             groupedQuery: 'SELECT'
                 + '  sector as name'

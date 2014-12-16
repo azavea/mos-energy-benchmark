@@ -6,7 +6,7 @@
      *
      * @ngInject
      */
-    function MapColorService (MOSColors, MOSCSSValues,CartoConfig) {
+    function MapColorService (MOSColors, MOSCSSValues, CartoConfig) {
         var module = {};
 
         var TABLE = '#' + CartoConfig.tables.currentYear;
@@ -108,13 +108,7 @@
          *  @returns Collection of field name -> descriptive name key/value pairs
          */
         module.getColorByFields = function() {
-            var colorFields = {'sector': 'Building Type'};
-            angular.forEach(MOSCSSValues, function(obj, key) {
-                if (obj.cssVal === 'marker-fill') {
-                    colorFields[key] = obj.description;
-                }
-            });
-            return colorFields;
+            CartoConfig.getColorByFields();
         };
 
         /*
@@ -123,13 +117,7 @@
          *  @returns Collection of field name -> descriptive name key/value pairs
          */
         module.getSizeByFields = function() {
-            var sizeFields = {};
-            angular.forEach(MOSCSSValues, function(obj, key) {
-                if (obj.cssVal === 'marker-width') {
-                    sizeFields[key] = obj.description;
-                }
-            });
-            return sizeFields;
+            CartoConfig.getSizeByFields();
         };
 
         module.baseCartoCSS = [

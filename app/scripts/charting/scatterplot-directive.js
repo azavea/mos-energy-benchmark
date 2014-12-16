@@ -18,7 +18,7 @@
     /**
      * ngInject
      */
-    function scatterPlot (CartoConfig, ScatterPlotDefaults, MapColorService) {
+    function scatterPlot (CartoConfig, ScatterPlotDefaults) {
 
         var PLOT_CLASS = 'mos-scatterplot';
 
@@ -58,14 +58,8 @@
 
             var config = $scope.config;
 
-            $scope.axisOptions = MapColorService.getSizeByFields();
-            $scope.colorOptions = MapColorService.getColorByFields();
-            // TODO: remove
-            /* _.omit(CartoConfig.labels, 'squarefeet');
-            $scope.colorOptions = {'sector': 'Building Type',
-                                   'year': 'Year Built',
-                                   'squarefeet': 'Sq Ft'};
-            */
+            $scope.axisOptions = CartoConfig.getSizeByFields();
+            $scope.colorOptions = CartoConfig.getColorByFields();
 
             $scope.selected = {
                 x: config.xDefaultDim,
