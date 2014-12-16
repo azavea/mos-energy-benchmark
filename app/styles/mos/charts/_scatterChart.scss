@@ -8,3 +8,24 @@
   fill: #000;
   font: 13px sans-serif;
 }
+
+.mos-scatterplot circle {
+    fill-opacity: 0.9;
+}
+
+.mos-scatterplot .x.axis,
+.mos-scatterplot .y.axis {
+    .tick {
+        line {
+
+        }
+
+        text {
+
+        }
+    }
+
+    path {
+
+    }
+}
