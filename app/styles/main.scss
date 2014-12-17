@@ -140,6 +140,21 @@ hr{
   -moz-transition: .25s;
   -ms-transition: .25s;
   transition: transform .25s ease-in-out;
+
+  #logo{
+    background-image: url('../images/logo_lg.png');
+    background-repeat: no-repeat;
+    width: 215px;
+    height: 60px;
+    display: inline-block;
+    float: left;
+    margin-top: 10px;
+
+    @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
+        background-image: url('../images/logo_lg@2x.png');
+        background-size: 215px 60px;
+    }
+  }
 }
 .headroom--top h3 {
   line-height: 81px;
@@ -147,6 +162,21 @@ hr{
 .headroom--unpinned, .headroom--pinned {
   top: 0;
   height: 48px;
+
+  #logo{
+    background-image: url('../images/logo_sm.png');
+    background-repeat: no-repeat;
+    width: 294px;
+    height: 24px;
+    display: inline-block;
+    float: left;
+    margin-top: 15px;
+
+    @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
+        background-image: url('../images/logo_sm@2x.png');
+        background-size: 294px 24px;
+    }
+  }
 
   .nav-chart, .nav-map, .nav-data, .nav-info{
     display: none;
