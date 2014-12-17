@@ -190,15 +190,17 @@
           '<div ng-hide="popupLoading"><div class="headerPopup" ',
           'style="background-color: {{::propertyData.sectorColor}}">',
           '<h4>{{::propertyData.propertyName}}</h4>',
-          '<h4>{{::propertyData.address}}</h4></div>',
-          '<p><b>Total Energy Use: </b>{{::propertyData.siteEui}}</p>',
-          '<p><b>Emissions: </b>{{::propertyData.totalGhg}}</p>',
-          '<p ng-show="energyStar"><b>Energy Star: </b>{{::propertyData.energyStar}}</p>',
+          '<p>{{::propertyData.address}}</p></div>',
+          '<div class="popupContent">',
+          '<p>Total Energy Use: <strong>{{::propertyData.siteEui}}</strong></p>',
+          '<p>Emissions: <strong>{{::propertyData.totalGhg}}</strong></p>',
+          '<p ng-show="energyStar">Energy Star: <strong>{{::propertyData.energyStar}}</strong></p>',
+          '<br>',
           '<p><input type="checkbox" ng-model="compare.isChecked" ng-disabled="compare.disabled" ',
           'ng-change="setCompare(propertyData.cartodbId)" /><em> Compare</em>',
-          '<button type="button" class="pull-right btn" ',
+          '<button type="button" class="pull-right btn btn-popover" style="background-color: {{::propertyData.sectorColor}}; opacity: 0.6;" ',
           'ui-sref="detail({buildingId: propertyData.cartodbId})">Full Report</button></p>',
-          '</div></span>'].join('');
+          '</div></div></span>'].join('');
 
         var showPopup = function(coords) {
             // Set the properties of the compare object here so we ensure the popup always

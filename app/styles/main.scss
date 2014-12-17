@@ -53,7 +53,7 @@ body{
   margin-top: 82px;
 }
 
-h1, h2, h3, h4{
+h1, h2, h3, h4, h5{
   font-family: 'Roboto Slab', serif;
   font-weight: 700;
 }
@@ -343,6 +343,15 @@ hr{
   }
 }
 
+.btn-popover {
+  color: $paper!important;
+  text-shadow: 0 0 2px rgba(0,0,0,.3)!important;
+
+  &:hover {
+    opacity: 1!important;
+  }
+}
+
 .close {
     opacity: 0.8!important;
     text-shadow: none!important;
@@ -504,4 +513,37 @@ html, body, .content, .chart-hero, .chart-footer {
     font-size: 0.8rem;
     color: #777;
   }
+}
+
+.headerPopup{
+  padding: 18px;
+  color: $paper;
+  text-shadow: 0 0 2px rgba(0,0,0,.3)!important;
+
+  h4{
+    margin: 8px 0 0 0!important;
+  }
+}
+
+.popupContent{
+  padding: 18px;
+}
+
+.featurePopup p{
+  margin: 8px 0!important;
+  font-size: 0.7rem;
+
+  strong{
+    float: right;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: $heading;
+  }
+}
+
+.leaflet-container a.leaflet-popup-close-button{
+  color: $paper!important;
+  text-shadow: none!important;
+  padding: 6px 6px 0 0!important;
 }
