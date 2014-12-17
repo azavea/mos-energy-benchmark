@@ -16,20 +16,25 @@
         };
 
         module.link = function($scope, element, attrs) {
-            $scope.selectedY = 'totalenergy';
             $scope.selectOptions = {
                 totalenergy: 'Total Energy Used',
                 totalemissions: 'Total Emissions',
                 count: 'Building count',
                 avgenergystar: 'Mean Energystar'
             };
-            $scope.selectUnits = {
+            var selectUnits = {
                 totalenergy: 'BTUs',
-                totalsqft: 'Sq Ft',
                 totalemissions: '',
                 avgenergystar: '',
                 count: ''
             };
+            $scope.selectedY = 'totalenergy';
+            $scope.selectLabel = $scope.selectOptions[$scope.selectedY];
+            $scope.selectUnit = selectUnits[$scope.selectedY];
+            $scope.$watch('selectedY', function(newValue) {
+                $scope.selectLabel = $scope.selectOptions[newValue];
+                $scope.selectUnit = selectUnits[newValue];
+            });
             $scope.selectedYChanged = function(key) {
                 $scope.selectedY = key;
             };

@@ -29,8 +29,8 @@
             id: '@',                // Required
             plotWidth: '@',
             selectedY: '=',
-            selectOptions: '@',
-            selectUnits: '@',
+            selectLabel: '=',
+            selectUnit: '=',
             plotHeight: '@',
             margin: '&',
             binType: '@',
@@ -42,14 +42,6 @@
         // This is a helper function for transforming api data into percentiles based on sqft
         function binBySqFt(data, groups) {
             data = _.filter(data, function(d) { return d.sqfeet > 0; });
-            var orderedData = _.sortBy(
-                _.filter(data, function(q) {
-                    return q.sqfeet > 0;
-                }), function(p) {
-                        return p.sqfeet;
-                });
-            var dataCount = orderedData.length;
-            var minSize = _.min(data, function(d) { return d.sqfeet; }).sqfeet;
             _.forEach(data, function(d) {
                 d.log = Math.log10(d.sqfeet);
             });
@@ -140,6 +132,8 @@
             $scope.plot = function(data) {
                 // The dimension of choice for representation along Y
                 var yAttr = $scope.selectedY;
+                var selectLabel = $scope.selectLabel;
+                var selectUnit = $scope.selectUnit;
                 // Chart height
                 chart.attr('height', config.plotHeight);
 
@@ -184,7 +178,7 @@
                     labelStart.text('1850');
                     labelEnd.text('2013');
                 } else if (config.binType === 'area') {
-                    labelStart.text(Math.round(data[data.length-1].minsqft/1000).toLocaleString() + 'k');
+                    labelStart.text(Math.round(data[data.length - 1].minsqft / 1000).toLocaleString() + 'k');
                     labelEnd.text(Math.round(data[0].maxsqft / 1000).toLocaleString() + 'k');
                 }
 
@@ -195,9 +189,9 @@
                   .html(function(d) {
                     var dataLabel = d.key + (config.binType === 'area' ? ' Sq Ft' : '');
                     return '<div class="propertyName">' + dataLabel + '</div>' +
-                           '<div class="propertyname">' + $scope.selectOptions[yAttr] + ': ' +
+                           '<div class="propertyname">' + $scope.selectLabel + ': ' +
                            Math.round(d[yAttr]).toLocaleString() + ' ' +
-                           $scope.selectUnits[yAttr] + '</div>';
+                           $scope.selectUnit + '</div>';
                   });
                 chart.call(tip);
 
@@ -235,7 +229,7 @@
                         .attr('class', config.binType)
                         .attr('y', function(d) {
                             var val = isNaN(d[yAttr]) ? 0 : y(d[yAttr]);
-                            return val-10 + config.margin.top; })
+                            return val - 10 + config.margin.top; })
                         .attr('height', function(d) {
                             var val = isNaN(d[yAttr]) ? 0 : y(d[yAttr]);
                             return config.plotHeight - val - config.margin.top - config.margin.bottom;
@@ -246,8 +240,6 @@
                     yAttr = newValue;
                     refreshData();
                 });
-
-
             };
         };
 
