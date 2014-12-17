@@ -48,8 +48,11 @@
             var maxLog = _.max(data, function(d) { return d.log; }).log;
             var binnedBySqFt = {};
             var binSize = maxLog / groups;
+            var getBinSize =  function(d) {
+                return binSize * i < d.log && (binSize * i) + binSize >= d.log;
+            };
             for (var i = 0; i < groups; i++) {
-                binnedBySqFt[i] = _.filter(data, function(d) { return binSize * i < d.log && (binSize * i) + binSize >= d.log; });
+                binnedBySqFt[i] = _.filter(data, getBinSize);
             }
             var output = [];
             _.forEach(binnedBySqFt, function(d, i) {
@@ -132,8 +135,6 @@
             $scope.plot = function(data) {
                 // The dimension of choice for representation along Y
                 var yAttr = $scope.selectedY;
-                var selectLabel = $scope.selectLabel;
-                var selectUnit = $scope.selectUnit;
                 // Chart height
                 chart.attr('height', config.plotHeight);
 
@@ -158,7 +159,7 @@
                     .scale(x)
                     .tickSize(3,1)
                     .tickValues([]);
-                var bottomAxisG = chart.append('g')
+                chart.append('g')
                     .attr('class', 'x axis')
                     .attr('transform', 'translate(' +config.margin.left + ',' + (config.plotHeight - config.margin.bottom) + ')')
                     .call(bottomAxis);
