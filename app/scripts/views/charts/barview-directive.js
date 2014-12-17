@@ -16,17 +16,24 @@
         };
 
         module.link = function($scope, element, attrs) {
-            $scope.selectedY = 'avgsqft';
+            $scope.selectedY = 'totalemissions';
             $scope.selectOptions = {
-                'avgsqft': 'Mean Sq Ft',
-                'avgeui': 'Mean EUI',
-                'avgemissions': 'Mean Emissions',
-                'avgenergystar': 'Mean Energystar'
+                totalenergy: 'Total Energy Used',
+                totalsqft: 'Total Sq Ft',
+                totalemissions: 'Total Emissions',
+                avgenergystar: 'Mean Energystar',
+                count: 'Building count'
+            };
+            $scope.selectUnits = {
+                totalenergy: 'BTUs',
+                totalsqft: 'Sq Ft',
+                totalemissions: '',
+                avgenergystar: '',
+                count: ''
             };
             $scope.selectedYChanged = function(key) {
                 $scope.selectedY = key;
             };
-            $scope.test = 'blah!';
         };
 
         return module;

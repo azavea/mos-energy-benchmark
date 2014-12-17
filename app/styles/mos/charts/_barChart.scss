@@ -32,6 +32,8 @@
 }
 
 .mos-barchart {
+
+  // Barchart text
   text {
     font: 10px sans-serif;
   }
@@ -45,5 +47,13 @@
     .endLabel text {
       text-anchor: end;
     }
+  }
+
+  // Barchart fill
+  rect.temporal {
+    fill: steelblue;
+  }
+  rect.area {
+    fill: red;
   }
 }
