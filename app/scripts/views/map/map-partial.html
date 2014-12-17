@@ -1,3 +1,10 @@
+<div class="goto-overlay" ng-if="loadingView">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>
 <div class="filterHeader container-fluid form-inline" role="form form-horizontal">
     <div class="row">
         <div class="col-xs-3"><h4>Search</h4></div>
@@ -9,11 +16,11 @@
     <div class="row">
         <div class="col-xs-3 form-group search-group">
             <span class="glyphicon glyphicon-search pull-left" aria-hidden="true" />
-            <input id="searchBox" type="text" ng-model="searchText" class="form-control" 
+            <input id="searchBox" type="text" ng-model="searchText" class="form-control"
                 typeahead="bldg.phl_bldg_id for bldg in buildingIds | filter:$viewValue | limitTo:8"
                 typeahead-wait-ms="400" typeahead-min-length="3" ng-submit="searchMap()"
                 ng-keyup="$event.keyCode === 13 ? searchMap() : null" width="70%"
-                placeholder="Address or Building ID" data-toggle="tooltip" 
+                placeholder="Address or Building ID" data-toggle="tooltip"
                 ng-change="clearErrorMsg()"
                 data-placement="bottom" title="Search for an address or Philadelphia Building ID">
             </input>
@@ -55,8 +62,8 @@
         <div class="col-xs-1"></div>
         <div class="col-xs-2"><div class="pull-right form-group">
             <div class="btn-group">
-                <button type="button" ng-show="compare.count > 0" ng-click="gotoCompare()" 
-                    data-toggle="tooltip" data-placement="bottom" 
+                <button type="button" ng-show="compare.count > 0" ng-click="gotoCompare()"
+                    data-toggle="tooltip" data-placement="bottom"
                     title="Add up to three properties then press button to compare"
                     class="btn btn-default map-btn">Compare ({{compare.count}})</button>
             </div>

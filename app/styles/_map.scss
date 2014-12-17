@@ -111,11 +111,33 @@ div.search-group {
 }
 
 @keyframes bouncedelay {
-  0%, 80%, 100% { 
+  0%, 80%, 100% {
     transform: scale(0.0);
     -webkit-transform: scale(0.0);
-  } 40% { 
+  } 40% {
     transform: scale(1.0);
     -webkit-transform: scale(1.0);
   }
+}
+
+.goto-overlay {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background-color: $light-bg;
+  opacity: 0.6;
+  z-index: 10000;
+  vertical-align: middle;
+  text-align: center;
+
+  .spinner {
+    margin-top: 300px;
+  }
+
+  .spinner > div {
+    background-color: black;
+  }
+
 }
