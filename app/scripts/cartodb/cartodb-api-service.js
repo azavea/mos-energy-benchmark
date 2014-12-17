@@ -102,7 +102,8 @@
             return $http.get(CartoConfig.data.url, {
                 params: {
                     q: formattedQuery
-                }
+                },
+                cache: true
             });
         }
 
