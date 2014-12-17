@@ -174,7 +174,7 @@
                   .html(function(d) {
                     var dataLabel = d.key + (config.binType === 'area' ? 'th Percentile' : '');
                     return '<div class="propertyName">' + dataLabel + '</div>' +
-                           '<div class="propertyname">' + humanLabels[yAttr] + Math.round(d[yAttr]) + '</div>';
+                           '<div class="propertyName">' + humanLabels[yAttr] + Math.round(d[yAttr]) + '</div>';
                   });
                 chart.call(tip);
 

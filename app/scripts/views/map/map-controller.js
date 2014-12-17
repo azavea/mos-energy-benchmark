@@ -20,7 +20,7 @@
             isChecked: false,
             disabled: false
         };
-        
+
         $scope.buildingTypes = [];
         $scope.buildingIds = [];
         $scope.filterType = MappingService.FILTER_NONE;
@@ -49,7 +49,7 @@
                 /* jshint camelcase:true */
 
             // get the color for this location's sector
-            $scope.propertyData.sectorColor = 
+            $scope.propertyData.sectorColor =
                 ColorService.findSectorColor($scope.propertyData.sector);
 
             } else {

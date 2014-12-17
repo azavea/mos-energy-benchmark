@@ -38,11 +38,11 @@ describe('Factory: mos.colors.ColorService', function () {
 
     it('should build CartoCSS for total_ghg', function () {
         var ghgCSS = Colors.getFieldCartoCSS('total_ghg');
-        
+
         var cssVal = '#mos_beb_2013 [total_ghg <= 258330] {marker-width: 25.0;}\n#mos_beb_2013 [total_ghg <= 5311.3] {marker-width: 23.3;}\n#mos_beb_2013 [total_ghg <= 2593.9] {marker-width: 21.7;}\n#mos_beb_2013 [total_ghg <= 1671] {marker-width: 20.0;}\n#mos_beb_2013 [total_ghg <= 1129.4] {marker-width: 18.3;}\n#mos_beb_2013 [total_ghg <= 825.7] {marker-width: 16.7;}\n#mos_beb_2013 [total_ghg <= 598.2] {marker-width: 15.0;}\n#mos_beb_2013 [total_ghg <= 429.6] {marker-width: 13.3;}\n#mos_beb_2013 [total_ghg <= 316.5] {marker-width: 11.7;}\n#mos_beb_2013 [total_ghg <= 126.5] {marker-width: 10.0;}\n';
-        
+
         expect(ghgCSS).toBeDefined();
         expect(ghgCSS).toBe(cssVal);
     });
-    
+
 });
