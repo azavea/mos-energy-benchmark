@@ -5,7 +5,6 @@
     var BarChartDefaults = {
         plotWidth: 800,
         plotHeight: 200,
-        yDefault: 'avgemissions',
         transitionMillis: 500,
         lazyLoad: true,
         binType: 'temporal'
@@ -29,6 +28,9 @@
             data: '=',              // Required
             id: '@',                // Required
             plotWidth: '@',
+            selectedY: '=',
+            selectLabel: '=',
+            selectUnit: '=',
             plotHeight: '@',
             margin: '&',
             binType: '@',
@@ -39,50 +41,45 @@
 
         // This is a helper function for transforming api data into percentiles based on sqft
         function binBySqFt(data, groups) {
-            var orderedData = _.sortBy(
-                _.filter(data, function(q) {
-                    return q.sqfeet > 0;
-                }), function(p) {
-                        return p.sqfeet;
-                    });
-
-            var reverseData = orderedData.reverse();
-            var dataCount = orderedData.length;
-            var divider = Math.ceil(dataCount/groups);
-            var binnedByPctile = {};
-            var pctileSize = 100 / groups;
-            var pctileHolder;
+            data = _.filter(data, function(d) { return d.sqfeet > 0; });
+            _.forEach(data, function(d) {
+                d.log = Math.log10(d.sqfeet);
+            });
+            var maxLog = _.max(data, function(d) { return d.log; }).log;
+            var binnedBySqFt = {};
+            var binSize = maxLog / groups;
             for (var i = 0; i < groups; i++) {
-                pctileHolder = [];
-                for (var j = 0; j < divider; j++) {
-                    pctileHolder = pctileHolder.concat(reverseData.pop());
-                }
-                binnedByPctile[pctileSize*i] = pctileHolder;
-            }
-
-            var trashCount = divider-dataCount%divider; // count of undefined in last array
-            for (i = 0; i < trashCount; i++) {
-                binnedByPctile[pctileSize*(groups-1)].pop();
+                binnedBySqFt[i] = _.filter(data, function(d) { return binSize * i < d.log && (binSize * i) + binSize >= d.log; });
             }
             var output = [];
-            _.forEach(binnedByPctile, function(d, k) {
+            _.forEach(binnedBySqFt, function(d, i) {
+                // Naive count
                 var kCount = d.length;
+                // Special counts for fair avging
+                var nEnergystar = _.filter(d, function(e) { return !isNaN(e.energystar) && e.energystar > 0; }).length;
+                var nEUI = _.filter(d, function(e) { return !isNaN(e.eui) && e.eui > 0; }).length;
+                // The bin boundaries
+                var lowBound = Math.round(Math.pow(10, (i * binSize))).toLocaleString();
+                var highBound = Math.round(Math.pow(10, (i * binSize) + binSize)).toLocaleString();
+                // Min and max sq ft
+                var minsqft = _.min(d, function(val) { return val.sqfeet; }).sqfeet;
+                var maxsqft = _.max(d, function(val) { return val.sqfeet; }).sqfeet;
                 output = output.concat({
-                    avgemissions: _.reduce(d, function(val, memo) { return memo.emissions + val; }, 0) / kCount,
-                    avgenergystar: kCount > 0 ? _.reduce(d, function(val, memo) { return memo.energystar + val; }, 0) / kCount : 0,
-                    avgeui: kCount > 0 ? _.reduce(d, function(val, memo) { return memo.eui + val; }, 0) / kCount : 0,
-                    minsqft: _.min(d, function(val) { return val.sqfeet; }).sqfeet,
-                    maxsqft: _.max(d, function(val) { return val.sqfeet; }).sqfeet,
+                    totalemissions: _.reduce(d, function(memo, val) { return val.emissions + memo; }, 0),
+                    avgenergystar: nEnergystar > 0 ? _.reduce(d, function(memo, val) { return val.energystar + memo; }, 0) / nEnergystar : 0,
+                    avgeui: nEUI > 0 ? _.reduce(d, function(memo, val) { return val.eui + memo; }, 0) / nEUI : 0,
+                    minsqft: minsqft ? minsqft : 0,
+                    maxsqft: maxsqft ? maxsqft : 0,
                     avgsqft: _.reduce(d, function(memo, val) { return val.sqfeet + memo; }, 0) / kCount,
-                    mediansqft: _.sortBy(d, function(val) { return val.sqfeet; })[Math.round(kCount / 2)].sqfeet,
-                    totalsqft: _.reduce(d, function( memo, val) { return val.sqfeet + memo; }, 0),
+                    totalsqft: _.reduce(d, function(memo, val) { return val.sqfeet + memo; }, 0),
+                    totalenergy: _.reduce(d, function(memo, val) { return (val.sqfeet * val.eui) + memo; }, 0),
                     count: kCount,
-                    key: k,
+                    key: lowBound + '-' + highBound,
                     yearRange: _.min(d, function(d) { return d.yearbuilt; }).yearbuilt +
                         '-' + _.max(d, function(d) { return d.yearbuilt; }).yearbuilt
                 });
             });
-            return output.reverse();
+            return _.rest(output, function(d) { return d.count === 0; }).reverse(); // Prune empty head
         }
 
 
@@ -100,11 +97,12 @@
                     })
                     .rollup(function(d) {
                         return {
-                            'avgsqft': d3.mean(d, function(e) { return e.sqfeet; }),
-                            'avgeui': d3.mean(d, function(e) { return e.eui; }),
-                            'avgemissions': d3.mean(d, function(e) { return e.emissions; }),
-                            'avgenergystar': d3.mean(d, function(e) { return e.energystar; }),
-                            'count': d3.sum(d, function() { return 1; })
+                            totalsqft: d3.mean(d, function(e) { return e.sqfeet; }),
+                            avgeui: d3.mean(d, function(e) { return e.eui; }),
+                            totalemissions: d3.mean(d, function(e) { return e.emissions; }),
+                            avgenergystar: d3.mean(d, function(e) { return e.energystar; }),
+                            count: d3.sum(d, function() { return 1; }),
+                            totalenergy: d3.sum(d, function(e) { return e.eui * e.sqfeet; })
                         };
                     })
                     .entries(filteredData);
@@ -113,6 +111,7 @@
                     .map(function(d) {
                         var obj = d.values;
                         obj.key = d.key;
+                        obj.avgenergystar = isNaN(obj.avgenergystar) ? 0 : obj.avgenergystar;
                         return obj;
                     })
                     .reverse()
@@ -123,58 +122,76 @@
             $scope.configure(BarChartDefaults);
             var config = $scope.config;
             config.margin.left = 0;
-            $scope.selectOptions = {
-                'avgsqft': 'Mean Sq Ft: ',
-                'avgeui': 'Mean EUI: ',
-                'avgemissions': 'Mean Emissions: ',
-                'avgenergystar': 'Mean Energystar: '
-            };
-            var humanLabels = _.merge({ // Keep this separate from selectoptions but DRY
-                'key': '',
-                'count': 'n = '
-            }, $scope.selectOptions);
-
-            // The dimension of choice for representation along Y
-            $scope.selectedY = config.yDefault;
-            var yAttr = $scope.selectedY;
 
             // D3 margin, sizing, and spacing code
             element.addClass(PLOT_CLASS);
             var chart = d3.select('#' + attrs.id + ' .chart')
                     .attr('width', config.plotWidth);
-            var bottomAxis = d3.svg.axis().orient('bottom');
-            var bottomAxisG = chart.append('g')
-                .attr('class', 'x axis')
-                .attr('transform', 'translate(' + config.margin.left + ',' + (config.plotHeight - config.margin.bottom) + ')');
 
             // Overridden ChartingController method
             $scope.plot = function(data) {
+                // The dimension of choice for representation along Y
+                var yAttr = $scope.selectedY;
+                var selectLabel = $scope.selectLabel;
+                var selectUnit = $scope.selectUnit;
+                // Chart height
+                chart.attr('height', config.plotHeight);
+
+                // Choose appropriate binning algorithm
                 if (config.binType === 'temporal') {
                     data = binByYears(data);
                 } else if (config.binType === 'area') {
-                    data = binBySqFt(data, 20); // 20 for groupings of 5, 10 for 10, 100 for 1;
+                    data = binBySqFt(data, 62); // 62 is the magic number for generating a
+                                                // logarithmically generated set of bins which
+                                                // have  32 after pruning the empty head (30 removed)
                 }
 
-                chart.attr('height', config.plotHeight);
-
-                // Axes
+                // Axes and scales
                 var x = d3.scale.ordinal()
                     .domain(data.map(function(d) { return d.key; }))
                     .rangeRoundBands([config.plotWidth-config.margin.left-config.margin.right, 0], 0.05);
                 var y = d3.scale.linear()
                     .domain([0, d3.max(data, function(d) { return d[yAttr]; })])
                     .range([config.plotHeight-config.margin.bottom-config.margin.top, 0]);
-                bottomAxis.scale(x);
-                bottomAxisG.call(bottomAxis);
+                var bottomAxis = d3.svg.axis()
+                    .orient('bottom')
+                    .scale(x)
+                    .tickSize(3,1)
+                    .tickValues([]);
+                var bottomAxisG = chart.append('g')
+                    .attr('class', 'x axis')
+                    .attr('transform', 'translate(' +config.margin.left + ',' + (config.plotHeight - config.margin.bottom) + ')')
+                    .call(bottomAxis);
+
+                // Axes should have custom labels to prevent cluttering; tooltips can handle detail
+                var labelStart = chart.append('text')
+                    .attr('class', 'x startLabel')
+                    .attr('text-anchor', 'start')
+                    .attr('y', config.plotHeight-config.margin.top);
+                var labelEnd = chart.append('text')
+                    .attr('class', 'x endLabel')
+                    .attr('text-anchor', 'end')
+                    .attr('x', config.plotWidth-config.margin.right)
+                    .attr('y', config.plotHeight-config.margin.top);
+                // Depending on bin type, our axis labeling should look rather different
+                if (config.binType === 'temporal') {
+                    labelStart.text('1850');
+                    labelEnd.text('2013');
+                } else if (config.binType === 'area') {
+                    labelStart.text(Math.round(data[data.length - 1].minsqft / 1000).toLocaleString() + 'k');
+                    labelEnd.text(Math.round(data[0].maxsqft / 1000).toLocaleString() + 'k');
+                }
 
                 // Tooltips
                 var tip = d3.tip()
                   .attr('class', 'd3-tip')
                   .offset([-10, 0])
                   .html(function(d) {
-                    var dataLabel = d.key + (config.binType === 'area' ? 'th Percentile' : '');
+                    var dataLabel = d.key + (config.binType === 'area' ? ' Sq Ft' : '');
                     return '<div class="propertyName">' + dataLabel + '</div>' +
-                           '<div class="propertyname">' + humanLabels[yAttr] + Math.round(d[yAttr]) + '</div>';
+                           '<div class="propertyname">' + $scope.selectLabel + ': ' +
+                           Math.round(d[yAttr]).toLocaleString() + ' ' +
+                           $scope.selectUnit + '</div>';
                   });
                 chart.call(tip);
 
@@ -187,6 +204,9 @@
                     // Height of zero initially so it can be animated on load
                     .attr('height', 0)
                     .attr('width', x.rangeBand())
+                    .attr('opacity', function(d, i) { return 1 - (i / data.length) * 0.3; })
+                    .attr('rx', 3) // Rounding of corners
+                    .attr('ry', 3)
                     .on('mouseover', tip.show)
                     .on('mouseout', tip.hide);
 
@@ -205,20 +225,20 @@
                         .transition()
                         .ease('linear')
                         .duration(transitionMillis)
+                        .attr('class', config.binType)
                         .attr('y', function(d) {
-                            var val = isNaN(y(d[yAttr])) ? 0 : y(d[yAttr]);
-                            return val + config.margin.top; })
+                            var val = isNaN(d[yAttr]) ? 0 : y(d[yAttr]);
+                            return val - 10 + config.margin.top; })
                         .attr('height', function(d) {
-                            var val = isNaN(y(d[yAttr])) ? 0 : y(d[yAttr]);
+                            var val = isNaN(d[yAttr]) ? 0 : y(d[yAttr]);
                             return config.plotHeight - val - config.margin.top - config.margin.bottom;
                         });
                 }
 
-                $scope.selectedYChanged = function(key) {
-                    $scope.selectedY = key;
-                    yAttr = $scope.selectedY;
+                $scope.$watch('selectedY', function(newValue) {
+                    yAttr = newValue;
                     refreshData();
-                };
+                });
             };
         };
 
