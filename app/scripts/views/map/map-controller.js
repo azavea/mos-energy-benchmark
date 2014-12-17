@@ -4,10 +4,14 @@
     /*
      * ngInject
      */
-    function MapController($compile, $scope, $state, BuildingCompare, MappingService, ColorService) {
+    function MapController($compile, $scope, $state, $timeout, BuildingCompare, MappingService, ColorService) {
 
         // indicate that map is loading, hang on..
         $scope.mapLoading = true;
+
+        // setup overlay div for loading detail/compare views
+        var overlayTriggerMillis = 300;
+        $scope.loadingView = false;
 
         // initialization
         var vizLayer = null;
@@ -20,7 +24,7 @@
             isChecked: false,
             disabled: false
         };
-        
+
         $scope.buildingTypes = [];
         $scope.buildingIds = [];
         $scope.filterType = MappingService.FILTER_NONE;
@@ -49,7 +53,7 @@
                 /* jshint camelcase:true */
 
             // get the color for this location's sector
-            $scope.propertyData.sectorColor = 
+            $scope.propertyData.sectorColor =
                 ColorService.findSectorColor($scope.propertyData.sector);
 
             } else {
@@ -240,6 +244,14 @@
             $('div.cartodb-legend.custom').remove();
             $('#mymap').append(ColorService.getLegend($scope.colorType));
         };
+
+        $scope.$on('$stateChangeStart', function (event, toState) {
+            if (toState.name === 'detail' || toState.name === 'compare') {
+                $timeout(function () {
+                    $scope.loadingView = true;
+                }, overlayTriggerMillis);
+            }
+        });
 
         // load map visualization
         cartodb.createVis('mymap', 'http://azavea-demo.cartodb.com/api/v2/viz/c5a9af6e-7f12-11e4-8f24-0e018d66dc29/viz.json',
