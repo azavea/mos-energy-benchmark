@@ -28,7 +28,7 @@
          *  @returns Promise with results in data.rows
          */
         module.featureLookup = function(cartodbId)  {
-            var qry = 'SELECT cartodb_id, property_name, address, total_ghg, site_eui, ' + 
+            var qry = 'SELECT cartodb_id, property_name, address, total_ghg, site_eui, ' +
             'energy_star, sector FROM {{tbl}} where cartodb_id = {{id}}';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
             return sql.execute(qry, { id: cartodbId, tbl: table });
@@ -42,7 +42,7 @@
          *  @returns Promise with results in data.rows
          */
         module.featureLookupByBldgId = function(bldgId)  {
-            var qry = 'SELECT cartodb_id, property_name, address, total_ghg, site_eui, ' + 
+            var qry = 'SELECT cartodb_id, property_name, address, total_ghg, site_eui, ' +
             'energy_star, sector, x, y FROM {{tbl}} where phl_bldg_id = \'{{bldgId}}\';';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
             return sql.execute(qry, { bldgId: bldgId, tbl: table});
@@ -99,11 +99,11 @@
         /*
          * Geocode an address.  Docs here:
          * http://wiki.openstreetmap.org/wiki/Nominatim
-         * 
+         *
          * @param {string} address One-line address string to geocode
          * @returns Promise with Nominatim search results
          */
-        module.geocode = function(address) {            
+        module.geocode = function(address) {
             var url = 'http://nominatim.openstreetmap.org/search';
             // limit search to greater Philadelphia region
             var viewbox = '-75.699037,40.195219,-74.886736,39.774326';

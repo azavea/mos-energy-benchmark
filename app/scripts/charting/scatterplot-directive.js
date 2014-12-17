@@ -82,21 +82,22 @@
             leftaxis = d3.svg.axis().orient('left');
             leftaxisg = chart.append('g')
                             .attr('class', 'y axis')
+                            .selectAll('.tick text').text(null)
                             .attr('transform', 'translate(' + config.margin.left + ',0)');
             bottomaxis = d3.svg.axis().orient('bottom');
             bottomaxisg = chart.append('g')
                                .attr('class', 'x axis')
+                               .selectAll('.tick text').text(null)
                                .attr('transform', 'translate(0, ' +
                                            (config.plotHeight - config.margin.bottom) +
                                            ')');
 
-            // add second legend for feature color, above size legend
+            // add legend for color
             var setSecondLegend = function() {
                 // first remove previous second legend
                 $('div.cartodb-legend.choropleth').remove();
                 $('div.cartodb-legend.custom').remove();
                 var parent = $('#scatterplot');
-                console.log(parent);
                 $(parent).append(ColorService.getLegend($scope.selected.color));
             };
 
@@ -106,6 +107,12 @@
                 var yDim = $scope.selected.y;
                 var areaDim = $scope.selected.area;
                 var colorDim = $scope.selected.color;
+                var dimNames = {
+                    x: $scope.axisOptions[xDim],
+                    y: $scope.axisOptions[yDim],
+                    area: $scope.axisOptions[areaDim],
+                    color: $scope.colorOptions[colorDim]
+                };
 
                 // Need to make sure that all values are at least 1 for a log scale.
                 var datumX = function(datum) { return datum[xDim] < 1 ? 1 : datum[xDim]; };
@@ -145,14 +152,35 @@
                         .offset([-10, 0])
                         .html(function(d) {
                             /* jshint camelcase:false */
-                            return '<span class="propertyName">' + d.property_name + '</span>';
+                            var popup = ['<span><p class="propertyName">',
+                                         d.property_name,
+                                         '</p><p class="propertyName">',
+                                         dimNames.x,
+                                         ': ',
+                                         d[xDim],
+                                         '</p><p class="propertyName">',
+                                         dimNames.y,
+                                         ': ',
+                                         d[yDim],
+                                         '</p><p class="propertyName">',
+                                         dimNames.area,
+                                         ': ',
+                                         d[areaDim],
+                                         '</p><p class="propertyName">',
+                                         dimNames.color,
+                                         ': ',
+                                         d[colorDim],
+                                         '</p></span>'].join('');
+                            return popup;
                             /* jshint camelcase:true */
                         });
                 chart.call(tip);
 
                 // Create circles
                 var circles = chart.selectAll('circle')
-                                  .data(data);
+                                  .data(data)
+                                  .on('mouseover', tip.show)
+                                  .on('mouseout', tip.hide);
 
                 circles.enter().append('circle')
                        .attr('cx', function (d) { return x(datumX(d)); })
