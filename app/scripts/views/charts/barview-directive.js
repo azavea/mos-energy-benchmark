@@ -16,13 +16,12 @@
         };
 
         module.link = function($scope, element, attrs) {
-            $scope.selectedY = 'totalemissions';
+            $scope.selectedY = 'totalenergy';
             $scope.selectOptions = {
                 totalenergy: 'Total Energy Used',
-                totalsqft: 'Total Sq Ft',
                 totalemissions: 'Total Emissions',
-                avgenergystar: 'Mean Energystar',
-                count: 'Building count'
+                count: 'Building count',
+                avgenergystar: 'Mean Energystar'
             };
             $scope.selectUnits = {
                 totalenergy: 'BTUs',

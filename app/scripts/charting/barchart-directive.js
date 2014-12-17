@@ -5,7 +5,6 @@
     var BarChartDefaults = {
         plotWidth: 800,
         plotHeight: 200,
-        yDefault: 'avgemissions',
         transitionMillis: 500,
         lazyLoad: true,
         binType: 'temporal'
@@ -29,6 +28,9 @@
             data: '=',              // Required
             id: '@',                // Required
             plotWidth: '@',
+            selectedY: '=',
+            selectOptions: '@',
+            selectUnits: '@',
             plotHeight: '@',
             margin: '&',
             binType: '@',
@@ -54,7 +56,6 @@
             var maxLog = _.max(data, function(d) { return d.log; }).log;
             var binnedBySqFt = {};
             var binSize = maxLog / groups;
-            var binStart;
             for (var i = 0; i < groups; i++) {
                 binnedBySqFt[i] = _.filter(data, function(d) { return binSize * i < d.log && (binSize * i) + binSize >= d.log; });
             }
@@ -129,11 +130,6 @@
             $scope.configure(BarChartDefaults);
             var config = $scope.config;
             config.margin.left = 0;
-            $scope.selectOptions = $scope.$parent.selectOptions;
-            $scope.selectUnits = $scope.$parent.selectUnits;
-
-            // The dimension of choice for representation along Y
-            var yAttr = $scope.$parent.selectedY;
 
             // D3 margin, sizing, and spacing code
             element.addClass(PLOT_CLASS);
@@ -142,6 +138,12 @@
 
             // Overridden ChartingController method
             $scope.plot = function(data) {
+                // The dimension of choice for representation along Y
+                var yAttr = $scope.selectedY;
+                // Chart height
+                chart.attr('height', config.plotHeight);
+
+                // Choose appropriate binning algorithm
                 if (config.binType === 'temporal') {
                     data = binByYears(data);
                 } else if (config.binType === 'area') {
@@ -149,8 +151,6 @@
                                                 // logarithmically generated set of bins which
                                                 // have  32 after pruning the empty head (30 removed)
                 }
-
-                chart.attr('height', config.plotHeight);
 
                 // Axes and scales
                 var x = d3.scale.ordinal()
@@ -184,8 +184,8 @@
                     labelStart.text('1850');
                     labelEnd.text('2013');
                 } else if (config.binType === 'area') {
-                    labelStart.text(data[data.length-1].minsqft.toLocaleString());
-                    labelEnd.text(data[0].maxsqft.toLocaleString());
+                    labelStart.text(Math.round(data[data.length-1].minsqft/1000).toLocaleString() + 'k');
+                    labelEnd.text(Math.round(data[0].maxsqft / 1000).toLocaleString() + 'k');
                 }
 
                 // Tooltips
@@ -210,7 +210,8 @@
                     // Height of zero initially so it can be animated on load
                     .attr('height', 0)
                     .attr('width', x.rangeBand())
-                    .attr('rx', 3)
+                    .attr('opacity', function(d, i) { return 1 - (i / data.length) * 0.3; })
+                    .attr('rx', 3) // Rounding of corners
                     .attr('ry', 3)
                     .on('mouseover', tip.show)
                     .on('mouseout', tip.hide);
@@ -241,12 +242,12 @@
                         });
                 }
 
-                $scope.$watch(function(scope) {
-                    return scope.$parent.selectedY;
-                }, function() {
-                    yAttr = $scope.$parent.selectedY;
+                $scope.$watch('selectedY', function(newValue) {
+                    yAttr = newValue;
                     refreshData();
                 });
+
+
             };
         };
 
