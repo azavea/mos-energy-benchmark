@@ -59,6 +59,7 @@ h1, h2, h3, h4, h5{
 }
 
 h1{
+  margin-top: 40px!important;
 
   &:after{
     content: '';
@@ -77,9 +78,13 @@ hr{
   border-color: $table-border!important;
 }
 .container{
-  width: 980px;
+  width: 880px;
   margin: 0 auto;
   padding: 24px 0;
+
+  @media(min-width: 1025px){
+    width: 980px;
+  }
 }
 
 .body-bg{
@@ -341,7 +346,6 @@ hr{
   vertical-align: middle;
   cursor: pointer;
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
-  border: 0!important;
   white-space: nowrap;
 }
 
@@ -354,6 +358,7 @@ hr{
 .btn-ghost {
   background: rgba(225,225,225,.2);
   color: $paper;
+  border: 0!important;
 
   &:hover,
   &:focus {
@@ -365,11 +370,13 @@ hr{
 .btn-default {
   background: $active;
   color: $paper;
+  border: 0!important;
 
   &:hover,
   &:focus {
     background: darken($active, 3%);
     color: $paper;
+    box-shadow: 0 0 6px darken($filter-border, 10%);
   }
 }
 
@@ -395,6 +402,72 @@ hr{
     }
 }
 
+.btn-next {
+  background-color: $paper;
+  color: $body;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 4px $filter-border!important;
+
+  i{
+    line-height: 28px;
+  }
+  &:hover,
+  &:focus {
+    background-color: $active;
+    color: $paper;
+    box-shadow: 0 0 6px darken($filter-border, 10%);
+  }
+}
+
+.btn-filter {
+  background-color: $paper;
+  color: $heading;
+  border-top-right-radius: 4px!important;
+  border-top-left-radius: 4px!important;
+  border-bottom-right-radius: 4px!important;
+  border-bottom-left-radius: 4px!important;
+  border: solid 1px $filter-border;
+  padding: 10px 18px!important;
+  box-shadow: 0 0 4px $filter-border!important;
+
+  &:hover,
+  &:focus {
+    background-color: $active;
+    color: $paper;
+    box-shadow: 0 0 6px darken($filter-border, 10%);
+  }
+}
+
+.btn-group{
+  label{
+    position: absolute;
+    left: 0;
+    bottom: 40px;
+    font-style: italic;
+    color: $body;
+    font-size: 0.8rem;
+  }
+}
+
+//Scatterplot Filters
+#filter-scatter-color, #filter-scatter-size {
+  position: absolute;
+  width: 156px;
+  right: 20px;
+
+  .btn{
+    width: 100%;
+  }
+}
+#filter-scatter-color{
+  top: 240px;
+}
+#filter-scatter-size{
+  top: 170px;
+}
+
 
 //Homepage
 .stats-callout{
@@ -404,21 +477,32 @@ hr{
   .jumbo{
     font-family: 'Roboto Slab', serif;
     font-weight: 700;
-    font-size: 8rem;
+    font-size: 12rem;
   }
 }
 
-.explore{
+.next{
+  position: absolute;
+  bottom: 24px;
+  left: 0;
+  right: 0;
   width: 100%;
-  padding: 36px;
-  display: block;
-  background-image: url('../images/hero.png');
-  background-position: center center;
-  background-size: cover;
+  z-index: 1000;
+  text-align: center;
 }
 
+.explore{
+  height: 300px;
+  padding: 60px;
+  text-align: center;
+}
+
+//Footer
 .footer{
+  background-image: url('../images/footer_top.png');
+  background-position: top center;
   background-color: $dark-bg;
+  background-repeat: no-repeat;
   padding: 48px 0;
 
   strong{
@@ -430,9 +514,9 @@ hr{
     opacity: 0.8;
   }
 
-  a{
+  p a{
     color: $active;
-    opacity: 0.6;
+    opacity: 0.7;
 
     &:hover{
       opacity: 1;
@@ -482,6 +566,14 @@ html, body, .content, .chart-hero, .chart-footer {
   height: 700px;
 }
 
+.chart-container{
+  background-color: #f0f1f2;
+}
+
+.chart-filter{
+  display: block;
+  width: 100%;
+}
 .stats-row {
   margin: auto;
   position: absolute;
@@ -503,26 +595,41 @@ html, body, .content, .chart-hero, .chart-footer {
 /* Support for glossary */
 .glossary {
   position: fixed;
-  bottom: 3px;
-  right: 3px;
-  width: 100%;
-
-  .glossary-button {
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    padding: 6px 0;
-    font-size: 12px;
-    line-height: 1.42;
-    border-radius: 15px;
-    outline: none;
-  }
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
 
   .dropdown-menu {
-    width: 450px;
-    height: 250px;
-    overflow-y: scroll;
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
     padding: 0 10px;
+    border-radius: 8px;
+
+    .header{
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: block;
+      background-color: $callout;
+      padding: 8px 12px;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+
+      h4{
+        color: $paper!important;
+      }
+    }
+
+    .content{
+      position: absolute;
+      top: 60px;
+      width: 100%;
+      display: block;
+      padding: 12px;
+      overflow-y: scroll;
+    }
   }
 
   .wrapper {
@@ -530,11 +637,13 @@ html, body, .content, .chart-hero, .chart-footer {
   }
 
   .label {
-    font-family: 'Roboto Slab', serif;
-    font-weight: 700;
+    font-family: 'Lato', sans-serif;
+    color: $heading;
     font-size: 1rem;
-    color: #777;
-    padding: 0;
+    font-weight: 400;
+    margin: 12px 0;
+    white-space: normal;
+    padding: 0!important;
   }
 
   .description {
@@ -576,4 +685,15 @@ html, body, .content, .chart-hero, .chart-footer {
   color: $paper!important;
   text-shadow: none!important;
   padding: 6px 6px 0 0!important;
+}
+
+.cartodb-legend{
+  box-shadow: 0 0 4px $filter-border!important;
+  border-color: $filter-border!important;
+  bottom: 80px!important;
+  margin-bottom: 0!important;
+}
+
+.div.cartodb-legend.custom ul li .bullet{
+  border-color: $border!important;
 }
