@@ -37,16 +37,16 @@
   text {
     font: 10px sans-serif;
   }
-  .x {
-    .startLabel text {
-      text-anchor: start;
-    }
-    .midLabel text {
-      text-anchor: middle;
-    }
-    .endLabel text {
-      text-anchor: end;
-    }
+
+  .x.startLabel {
+    text-anchor: start;
+  }
+  .x.centerLabel {
+    text-anchor: middle;
+    font: 12px sans-serif;
+  }
+  .x.endLabel {
+    text-anchor: end;
   }
 
   // Barchart fill

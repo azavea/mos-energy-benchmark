@@ -159,36 +159,33 @@
                     .scale(x)
                     .tickSize(3,1)
                     .tickValues([]);
-                var leftAxis = d3.svg.axis()
-                    .orient('left')
-                    .scale(y);
                 chart.append('g')
                     .attr('class', 'x axis')
                     .attr('transform', 'translate(' +config.margin.left + ',' + (config.plotHeight - config.margin.bottom) + ')')
                     .call(bottomAxis);
-                //chart.append('g')
-                    //.attr('class', 'y axis')
-                    //.attr('transform', 'translate(' + config.margin.left + ', 0)')
-                    //.call(leftAxis);
 
                 // Axes should have custom labels to prevent cluttering; tooltips can handle detail
                 var labelStart = chart.append('text')
                     .attr('class', 'x startLabel')
-                    .attr('text-anchor', 'start')
                     .attr('x', config.margin.left)
                     .attr('y', config.plotHeight-config.margin.top);
                 var labelEnd = chart.append('text')
                     .attr('class', 'x endLabel')
-                    .attr('text-anchor', 'end')
                     .attr('x', config.plotWidth-config.margin.right)
                     .attr('y', config.plotHeight-config.margin.top);
+                var labelMiddle = chart.append('text')
+                    .attr('class', 'x centerLabel')
+                    .attr('x', (config.plotWidth - config.margin.right) / 2)
+                    .attr('y', config.plotHeight - config.margin.top);
                 // Depending on bin type, our axis labeling should look rather different
                 if (config.binType === 'temporal') {
                     labelStart.text('1850');
                     labelEnd.text('2013');
+                    labelMiddle.text('Years');
                 } else if (config.binType === 'area') {
                     labelStart.text(Math.round(data[data.length - 1].minsqft / 1000).toLocaleString() + 'k');
                     labelEnd.text(Math.round(data[0].maxsqft / 1000).toLocaleString() + 'k');
+                    labelMiddle.text('Sq. Feet');
                 }
 
                 // Tooltips
