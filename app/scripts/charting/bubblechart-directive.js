@@ -48,9 +48,9 @@
 
             $scope.bubbleSeries = 'count'; // Default to number of buildings in bubble
             $scope.selectOptions = { // CartoConfig labels require more config than they're worth
-                count: 'Building count',
-                totalenergy: 'Total energy',
-                emissions: 'Emissions',
+                count: 'Building Count',
+                totalenergy: 'Total Energy',
+                emissions: 'Total Emissions',
                 energystar: 'Mean Energy Star',
             };
 
