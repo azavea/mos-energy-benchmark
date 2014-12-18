@@ -20,7 +20,7 @@
                 totalenergy: 'Total Energy Used',
                 totalemissions: 'Total Emissions',
                 count: 'Building count',
-                avgenergystar: 'Mean Energystar'
+                avgenergystar: 'Mean Energy Star'
             };
             var selectUnits = {
                 totalenergy: 'BTUs',

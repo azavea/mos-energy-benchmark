@@ -64,6 +64,7 @@
                 + ', sum(site_eui) as eui'
                 + ', avg(energy_star) as energystar'
                 + ', sum(total_ghg) as emissions'
+                + ', sum(site_eui * floor_area) as totalenergy'
                 + ' FROM ' + module.tables.currentYear
                 + ' GROUP BY sector'
 /* jshint laxbreak:false */
