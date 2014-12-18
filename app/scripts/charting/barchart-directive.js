@@ -77,7 +77,7 @@
                     totalsqft: _.reduce(d, function(memo, val) { return val.sqfeet + memo; }, 0),
                     totalenergy: _.reduce(d, function(memo, val) { return (val.sqfeet * val.eui) + memo; }, 0),
                     count: kCount,
-                    key: lowBound + '-' + highBound,
+                    key: lowBound + ' - ' + highBound,
                     yearRange: _.min(d, function(d) { return d.yearbuilt; }).yearbuilt +
                         '-' + _.max(d, function(d) { return d.yearbuilt; }).yearbuilt
                 });
@@ -96,7 +96,7 @@
                         var years = _.find(dateRanges, function(range) {
                             return range[0] <= d.yearbuilt && d.yearbuilt <= range[1];
                         });
-                        return years[0]+'-'+years[1];
+                        return years[0]+' - '+years[1];
                     })
                     .rollup(function(d) {
                         return {
@@ -159,15 +159,23 @@
                     .scale(x)
                     .tickSize(3,1)
                     .tickValues([]);
+                var leftAxis = d3.svg.axis()
+                    .orient('left')
+                    .scale(y);
                 chart.append('g')
                     .attr('class', 'x axis')
                     .attr('transform', 'translate(' +config.margin.left + ',' + (config.plotHeight - config.margin.bottom) + ')')
                     .call(bottomAxis);
+                //chart.append('g')
+                    //.attr('class', 'y axis')
+                    //.attr('transform', 'translate(' + config.margin.left + ', 0)')
+                    //.call(leftAxis);
 
                 // Axes should have custom labels to prevent cluttering; tooltips can handle detail
                 var labelStart = chart.append('text')
                     .attr('class', 'x startLabel')
                     .attr('text-anchor', 'start')
+                    .attr('x', config.margin.left)
                     .attr('y', config.plotHeight-config.margin.top);
                 var labelEnd = chart.append('text')
                     .attr('class', 'x endLabel')
@@ -189,8 +197,9 @@
                   .offset([-10, 0])
                   .html(function(d) {
                     var dataLabel = d.key + (config.binType === 'area' ? ' Sq Ft' : '');
-                    return '<div class="propertyName">' + dataLabel + '</div>' +
-                           '<div class="propertyName">' + $scope.selectLabel + ': ' + Math.round(d[yAttr]).toLocaleString() + ' ' + $scope.selectUnit + '</div>';
+                    return '<div class="propertyName">' + dataLabel + '</div><br />' +
+                           '<div class="propertyName">' + $scope.selectLabel + ':</div>' +
+                           '<div class="propertyName">' + Math.round(d[yAttr]).toLocaleString() + ' ' + $scope.selectUnit + '</div>';
                   });
                 chart.call(tip);
 
