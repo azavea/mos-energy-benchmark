@@ -196,8 +196,8 @@
           '<p>Emissions: <strong>{{::propertyData.totalGhg.toLocaleString()}}</strong></p>',
           '<p ng-show="energyStar">Energy Star: <strong>{{::propertyData.energyStar.toLocaleString()}}</strong></p>',
           '<br>',
-          '<p><input type="checkbox" ng-model="compare.isChecked" ng-disabled="compare.disabled" ',
-          'ng-change="setCompare(propertyData.cartodbId)" /><em> Compare</em>',
+          '<p><label><input type="checkbox" ng-model="compare.isChecked" ng-disabled="compare.disabled" ',
+          'ng-change="setCompare(propertyData.cartodbId)" /> <em>Compare</em></label>',
           '<button type="button" class="pull-right btn btn-popover" style="background-color: {{::propertyData.sectorColor}}; opacity: 0.6;" ',
           'ui-sref="detail({buildingId: propertyData.cartodbId})">Full Report</button></p>',
           '</div></div></span>'].join('');
