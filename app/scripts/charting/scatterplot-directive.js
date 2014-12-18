@@ -26,9 +26,7 @@
         // Private vars
         var chart = null;
         var leftaxis = null;
-        var leftaxisg = null;
         var bottomaxis = null;
-        var bottomaxisg = null;
 
         // Begin directive module definition
         var module = {};
