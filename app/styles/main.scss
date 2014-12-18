@@ -146,24 +146,8 @@ hr{
   -ms-transition: .25s;
   transition: transform .25s ease-in-out;
 
-  #logo{
-    background-image: url('../images/logo_lg.png');
-    background-repeat: no-repeat;
-    width: 215px;
-    height: 60px;
-    display: inline-block;
-    float: left;
-    margin-top: 10px;
+}
 
-    @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
-        background-image: url('../images/logo_lg@2x.png');
-        background-size: 215px 60px;
-    }
-  }
-}
-.headroom--top h3 {
-  line-height: 81px;
-}
 .headroom--unpinned, .headroom--pinned {
   top: 0;
   height: 48px;
@@ -187,15 +171,34 @@ hr{
     display: none;
   }
 
-  h3{
-    line-height: 48px;
-  }
-
   .nav-pills > li > a{
     padding: 4px 8px 5px 8px!important;
   }
 }
 
+// headroom-top class is defined below headroom-pinned so that it's styles override the pinned definitions
+.headroom--top {
+  height: 80px;
+
+  .nav-chart, .nav-map, .nav-data, .nav-info{
+    display: block;
+  }
+
+  #logo{
+    background-image: url('../images/logo_lg.png');
+    background-repeat: no-repeat;
+    width: 215px;
+    height: 60px;
+    display: inline-block;
+    float: left;
+    margin-top: 10px;
+
+    @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
+        background-image: url('../images/logo_lg@2x.png');
+        background-size: 215px 60px;
+    }
+  }
+}
 
 /* Supporting marketing content */
 .marketing {
@@ -469,7 +472,7 @@ hr{
 //Map Filters
 
 #mymap{
-  top: 128px;
+  top: 160px;
 
   .cartodb-legend{
     margin-bottom: 100!important;
@@ -633,7 +636,7 @@ html, body, .content, .chart-hero, .chart-footer {
 
 .filterHeader {
   height: 80px;
-  margin-top: 48px;
+  margin-top: 80px;
   background-color: $light-bg;
   border-bottom: solid 1px $filter-border;
 }
