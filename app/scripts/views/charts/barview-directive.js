@@ -15,11 +15,11 @@
             data: '=' // Required
         };
 
-        module.link = function($scope, element, attrs) {
+        module.link = function($scope) {
             $scope.selectOptions = {
                 count: 'Building Count',
-                totalenergy: 'Total Energy',
-                totalemissions: 'Total Emissions',
+                totalenergy: 'Total Energy (kBtu)',
+                totalemissions: 'Total Emissions (MtCO2e)',
                 avgenergystar: 'Mean Energy Star'
             };
             var selectUnits = {
