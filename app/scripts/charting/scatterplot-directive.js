@@ -157,19 +157,19 @@
                                          '</p><p class="propertyName">',
                                          dimNames.x,
                                          ': ',
-                                         d[xDim],
+                                         d[xDim].toLocaleString(),
                                          '</p><p class="propertyName">',
                                          dimNames.y,
                                          ': ',
-                                         d[yDim],
+                                         d[yDim].toLocaleString(),
                                          '</p><p class="propertyName">',
                                          dimNames.area,
                                          ': ',
-                                         d[areaDim],
+                                         d[areaDim].toLocaleString(),
                                          '</p><p class="propertyName">',
                                          dimNames.color,
                                          ': ',
-                                         d[colorDim],
+                                         d[colorDim].toLocaleString(),
                                          '</p></span>'].join('');
                             return popup;
                             /* jshint camelcase:true */

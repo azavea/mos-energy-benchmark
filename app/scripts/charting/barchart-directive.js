@@ -190,7 +190,7 @@
                   .html(function(d) {
                     var dataLabel = d.key + (config.binType === 'area' ? ' Sq Ft' : '');
                     return '<div class="propertyName">' + dataLabel + '</div>' +
-                           '<div class="propertyName">' + $scope.selectLabel + ': ' + Math.round(d[yAttr]) + ' ' + $scope.selectUnit + '</div>';
+                           '<div class="propertyName">' + $scope.selectLabel + ': ' + Math.round(d[yAttr]).toLocaleString() + ' ' + $scope.selectUnit + '</div>';
                   });
                 chart.call(tip);
 

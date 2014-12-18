@@ -82,7 +82,7 @@
                     return '<div>' + d.name + '</div>' +
                            '<div>' +
                            CartoConfig.labels[series] + ': ' +
-                           Math.round(d[series]) + '</div>';
+                           Math.round(d[series]).toLocaleString() + '</div>';
                 });
                 pack.sort(null)
                     .value(function (d) { return d[series] || 0; });
