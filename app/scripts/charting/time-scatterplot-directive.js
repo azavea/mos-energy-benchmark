@@ -173,12 +173,34 @@
                 tip = d3.tip()
                         .attr('class', 'd3-tip')
                         .offset([-10, 0])
-                        .html(function(d) {
-                            return '<span class="propertyName">' + d.curr.propertyname + '</span>';
-                        });
+                        .html(createTooltip);
                 svg.call(tip);
 
                 drawLegend();
+            }
+
+            function tooltipValue(value) {
+                return Math.round(value).toLocaleString();
+            }
+
+            function createTooltip(d) {
+                var xLabel = $scope.selectOptions[$scope.selected.x];
+                var yLabel = $scope.selectOptions[$scope.selected.y];
+                var html = [
+                    '<div class="propertyName">' + d.curr.propertyname + '</div>',
+                    '<div class="propertyName">' + d.curr.sector + '</div>',
+                    '<br />',
+                    '<div class="propertyName">' + config.prevLabel + ' ' + xLabel + ': ' + tooltipValue(d.prev[$scope.selected.x]) + '</div>',
+                    '<div class="propertyName">' + config.currLabel + ' ' + xLabel + ': ' + tooltipValue(d.curr[$scope.selected.x]) + '</div>'
+                ];
+                if (xLabel !== yLabel) {
+                    html = html.concat([
+                        '<br />',
+                        '<div class="propertyName">' + config.prevLabel + ' ' + yLabel + ': ' + tooltipValue(d.prev[$scope.selected.y]) + '</div>',
+                        '<div class="propertyName">' + config.currLabel + ' ' + yLabel + ': ' + tooltipValue(d.curr[$scope.selected.y]) + '</div>'
+                    ]);
+                }
+                return html.join('');
             }
 
             function drawLegend() {
