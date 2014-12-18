@@ -9,15 +9,14 @@
     <div class="filter-row">
         <div class="form-group search-group">
             <label>Search</label>
-            <span class="glyphicon glyphicon-search" aria-hidden="true" />
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
             <input id="searchBox" type="text" ng-model="searchText" class="form-control search-filter"
                 typeahead="bldg.phl_bldg_id for bldg in buildingIds | filter:$viewValue | limitTo:8"
                 typeahead-wait-ms="400" typeahead-min-length="3" ng-submit="searchMap()"
                 ng-keyup="$event.keyCode === 13 ? searchMap() : null" width="70%"
                 placeholder="Address or Building ID" data-toggle="tooltip"
                 ng-change="clearErrorMsg()"
-                data-placement="bottom" title="Search for an address or Philadelphia Building ID">
-            </input>
+                data-placement="bottom" title="Search for an address or Philadelphia Building ID" />
             <p ng-show="amSearching"><em>Searching...</em></p>
             <p class="no-results" ng-show="noResults"><em>No search results found</em></p>
         </div>
@@ -56,15 +55,14 @@
                 </ul>
             </div>
         </div>
-        <div></div>
-        <div><div class="pull-right form-group">
+        <div class="pull-right form-group">
             <div class="btn-group">
                 <button type="button" ng-show="compare.count > 0" ng-click="gotoCompare()"
                     data-toggle="tooltip" data-placement="bottom"
                     title="Add up to three properties then press button to compare"
                     class="btn btn-default">Compare ({{compare.count}})</button>
             </div>
-        </div></div>
+        </div>
     </div>
 </div>
 <div ng-show="mapLoading" class="spinner">
