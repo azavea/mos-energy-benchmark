@@ -79,18 +79,6 @@
             chart = d3.select('#' + attrs.id + ' .chart')
                     .attr('width', config.plotWidth)
                     .attr('height', config.plotHeight);
-            leftaxis = d3.svg.axis().orient('left');
-            leftaxisg = chart.append('g')
-                            .attr('class', 'y axis')
-                            .selectAll('.tick text').text(null)
-                            .attr('transform', 'translate(' + config.margin.left + ',0)');
-            bottomaxis = d3.svg.axis().orient('bottom');
-            bottomaxisg = chart.append('g')
-                               .attr('class', 'x axis')
-                               .selectAll('.tick text').text(null)
-                               .attr('transform', 'translate(0, ' +
-                                           (config.plotHeight - config.margin.bottom) +
-                                           ')');
 
             // add legend for color
             var setSecondLegend = function() {
@@ -141,10 +129,23 @@
                         .domain([0, d3.max(data, datumR)])
                         .range([config.minRadius, config.maxRadius]);
 
-                leftaxis.scale(y);
-                bottomaxis.scale(x);
-                leftaxisg.call(leftaxis);
-                bottomaxisg.call(bottomaxis);
+                leftaxis = d3.svg.axis()
+                    .orient('left')
+                    .scale(y)
+                    .tickValues([]);    // Create with no ticks
+                chart.append('g')
+                    .attr('class', 'y axis')
+                    .attr('transform', 'translate(' + config.margin.left + ',0)')
+                    .call(leftaxis);
+
+                bottomaxis = d3.svg.axis()
+                    .orient('bottom')
+                    .scale(x)
+                    .tickValues([]);    // Create with no ticks
+                chart.append('g')
+                    .attr('class', 'x axis')
+                    .attr('transform', 'translate(0, ' + (config.plotHeight - config.margin.bottom) + ')')
+                    .call(bottomaxis);
 
                 // Add tooltips
                 var tip = d3.tip()
