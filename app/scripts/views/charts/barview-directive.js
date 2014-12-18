@@ -17,10 +17,10 @@
 
         module.link = function($scope, element, attrs) {
             $scope.selectOptions = {
-                totalenergy: 'Total Energy Used',
+                count: 'Building Count',
+                totalenergy: 'Total Energy',
                 totalemissions: 'Total Emissions',
-                count: 'Building count',
-                avgenergystar: 'Mean Energystar'
+                avgenergystar: 'Mean Energy Star'
             };
             var selectUnits = {
                 totalenergy: 'BTUs',

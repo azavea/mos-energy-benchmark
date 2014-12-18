@@ -46,8 +46,13 @@
             $scope.configure(BubbleChartDefaults);
             var config = $scope.config;
 
-            $scope.bubbleSeries = 'eui';
-            $scope.selectOptions = _.omit(CartoConfig.labels, 'squarefeet');
+            $scope.bubbleSeries = 'count'; // Default to number of buildings in bubble
+            $scope.selectOptions = { // CartoConfig labels require more config than they're worth
+                count: 'Building Count',
+                totalenergy: 'Total Energy',
+                emissions: 'Total Emissions',
+                energystar: 'Mean Energy Star',
+            };
 
             element.addClass(PLOT_CLASS);
             chart = d3.select('#' + attrs.id + ' .chart')
@@ -81,7 +86,7 @@
                 tip.html(function (d) {
                     return '<div>' + d.name + '</div>' +
                            '<div>' +
-                           CartoConfig.labels[series] + ': ' +
+                           $scope.selectOptions[series] + ': ' +
                            Math.round(d[series]).toLocaleString() + '</div>';
                 });
                 pack.sort(null)

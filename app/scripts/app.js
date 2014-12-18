@@ -63,7 +63,7 @@
                     {
                         'max': '59200',
                         'markerVal': '#F1EEF6'
-                    }                      
+                    }
             ]
         },
         'year_built': {
@@ -102,7 +102,7 @@
         },
         'site_eui': {
             'cssVal': 'marker-width',
-            'description': 'Total Energy',
+            'description': 'Energy Utilization Index',
             'bins': [
                 {
                     'max': '2523',
