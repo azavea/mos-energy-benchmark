@@ -11,8 +11,8 @@
         yDefaultDim: 'total_ghg',
         areaDefaultDim: 'electricity',
         colorDefaultDim: 'sector',
-        minRadius: 1,
-        maxRadius: 6,
+        minRadius: 3,
+        maxRadius: 10,
         lazyLoad: true
     };
 
@@ -188,7 +188,6 @@
                         // Radius of zero initially so it can be animated on load
                        .attr('r', 0)
                        .attr('fill', config.pointFillColor)
-                       .attr('stroke', config.pointStrokeColor)
                        .on('mouseover', tip.show)
                        .on('mouseout', tip.hide);
                 circles.exit().remove();
@@ -197,7 +196,6 @@
                        .attr('cx', function (d) { return x(datumX(d)); })
                        .attr('cy', function (d) { return y(datumY(d)); })
                        .attr('fill', function (d) { return ColorService.getColor(colorDim, d[colorDim]); })
-                       .attr('stroke', config.pointStrokeColor )
                        .attr('r', function (d) { return r(datumR(d)); });
 
                 setSecondLegend();
