@@ -6,17 +6,11 @@
   </div>
 </div>
 <div class="filterHeader container-fluid form-inline" role="form form-horizontal">
-    <div class="row">
-        <div class="col-xs-3"><h4>Search</h4></div>
-        <div class="col-xs-2"><h4>Filter By</h4></div>
-        <div class="col-xs-2"><h4>Color</h4></div>
-        <div class="col-xs-2"><h4>Diameter</h4></div>
-        <div class="col-xs-3"></div>
-    </div>
-    <div class="row">
-        <div class="col-xs-3 form-group search-group">
-            <span class="glyphicon glyphicon-search pull-left" aria-hidden="true" />
-            <input id="searchBox" type="text" ng-model="searchText" class="form-control"
+    <div class="filter-row">
+        <div class="form-group search-group">
+            <label>Search</label>
+            <span class="glyphicon glyphicon-search" aria-hidden="true" />
+            <input id="searchBox" type="text" ng-model="searchText" class="form-control search-filter"
                 typeahead="bldg.phl_bldg_id for bldg in buildingIds | filter:$viewValue | limitTo:8"
                 typeahead-wait-ms="400" typeahead-min-length="3" ng-submit="searchMap()"
                 ng-keyup="$event.keyCode === 13 ? searchMap() : null" width="70%"
@@ -27,9 +21,10 @@
             <p ng-show="amSearching"><em>Searching...</em></p>
             <p class="no-results" ng-show="noResults"><em>No search results found</em></p>
         </div>
-        <div class="col-xs-2 form-group">
+        <div class="form-group map-filter">
             <div class="btn-group" dropdown>
-                <button type="button" class="btn dropdown-toggle map-btn"
+                <label>Filter</label>
+                <button type="button" class="btn dropdown-toggle btn-filter"
                     id="filterPicker" dropdown-toggle>{{filterType}} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
@@ -39,9 +34,10 @@
                 </ul>
             </div>
         </div>
-        <div class="col-xs-2 form-group">
+        <div class="form-group map-filter">
             <div class="btn-group" dropdown>
-                <button type="button" class="btn dropdown-toggle map-btn"
+                <label>Color</label>
+                <button type="button" class="btn dropdown-toggle btn-filter"
                     id="colorPicker" dropdown-toggle>{{colorByTypes[colorType]}} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
@@ -49,9 +45,10 @@
                 </ul>
             </div>
         </div>
-        <div class="col-xs-2 form-group">
+        <div class="form-group map-filter">
             <div class="btn-group" dropdown>
-                <button type="button" class="btn dropdown-toggle map-btn"
+                <label>Diameter</label>
+                <button type="button" class="btn dropdown-toggle btn-filter"
                     id="sizePicker" dropdown-toggle>{{sizeByTypes[sizeType]}} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
@@ -59,13 +56,13 @@
                 </ul>
             </div>
         </div>
-        <div class="col-xs-1"></div>
-        <div class="col-xs-2"><div class="pull-right form-group">
+        <div></div>
+        <div><div class="pull-right form-group">
             <div class="btn-group">
                 <button type="button" ng-show="compare.count > 0" ng-click="gotoCompare()"
                     data-toggle="tooltip" data-placement="bottom"
                     title="Add up to three properties then press button to compare"
-                    class="btn btn-default map-btn">Compare ({{compare.count}})</button>
+                    class="btn btn-default">Compare ({{compare.count}})</button>
             </div>
         </div></div>
     </div>

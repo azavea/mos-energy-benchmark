@@ -16,6 +16,14 @@
         </div>
     </section>
 
+    <section class="chart-container">
+        <div class="chart-row text-center">
+            <h1>Stats By Building Type</h1>
+            <mos-bubblechart id="bubble-chart-1" data="groupedData"></mos-bubblechart>
+        </div>
+        <div class="next"><a type="button" class="btn btn-md btn-next" mos-panel-snap-next><i class="fa fa-angle-down"></i></a></div>
+    </section>
+
     <section class="stats-callout">
         <div class="stats-row text-center">
             <div class="jumbo">
@@ -23,13 +31,15 @@
             </div>
             <p>Philadelphia’s average ENERGY STAR score.  The national average is 50.</p>
         </div>
+        <div class="next"><a type="button" class="btn btn-md btn-next" mos-panel-snap-next><i class="fa fa-angle-down"></i></a></div>
     </section>
 
     <section class="chart-container">
         <div class="chart-row text-center">
-            <h1>Stats By Building Type</h1>
-            <mos-bubblechart id="bubble-chart-1" data="groupedData"></mos-bubblechart>
+            <h1>Year Built & Size Breakdown</h1>
+            <mos-barview data="currentData"></mos-barview>
         </div>
+        <div class="next"><a type="button" class="btn btn-md btn-next" mos-panel-snap-next><i class="fa fa-angle-down"></i></a></div>
     </section>
 
     <section class="stats-callout">
@@ -39,13 +49,15 @@
             </div>
             <p>Buildings account for almost 62% of all greenhouse gas emissions in Philadelphia</p>
         </div>
+        <div class="next"><a type="button" class="btn btn-md btn-next" mos-panel-snap-next><i class="fa fa-angle-down"></i></a></div>
     </section>
 
     <section class="chart-container">
         <div class="chart-row text-center">
-            <h1>Year Built & Size Breakdown</h1>
-            <mos-barview data="currentData"></mos-barview>
+            <h1>Comparison</h1>
+            <mos-scatterplot id="scatter-chart-1" data="currentAllData" plot-width="600"></mos-scatterplot>
         </div>
+        <div class="next"><a type="button" class="btn btn-md btn-next" mos-panel-snap-next><i class="fa fa-angle-down"></i></a></div>
     </section>
 
     <section class="stats-callout">
@@ -55,13 +67,7 @@
             </div>
             <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euilgod</p>
         </div>
-    </section>
-
-    <section class="chart-container">
-        <div class="chart-row text-center">
-            <h1>Comparison</h1>
-            <mos-scatterplot id="scatter-chart-1" data="currentAllData" plot-width="600"></mos-scatterplot>
-        </div>
+        <div class="next"><a type="button" class="btn btn-md btn-next" mos-panel-snap-next><i class="fa fa-angle-down"></i></a></div>
     </section>
 
     <section class="chart-container">
@@ -72,24 +78,32 @@
                 margin="{top: 10, left: 60, right: 10, bottom: 30}">
             </mos-time-scatterplot>
         </div>
+        <div class="next"><a type="button" class="btn btn-md btn-next" mos-panel-snap-next><i class="fa fa-angle-down"></i></a></div>
     </section>
 
     <section class="footer chart-footer">
         <div class="container">
-              <div class="stats-row">
-                    <div class="col-xs-4">
-                          <p><strong>Credits</strong></p>
-                          <p>This tool was developed for the Mayor’s Office of Sustainability (MOS) by <a href="http://www.azavea.com">Azavea</a>.</p></div>
-                    <div class="col-xs-4">
-                          <p><strong>Contact</strong></p>
-                          <p>Questions about the tool, the data, or the energy benchmarking program can be directed to MOS at <a href="mailto: benchmarkinghelp@phila.gov">benchmarkinghelp@phila.gov.</a></p>
-                      </div>
-                    <div class="col-xs-4">
-                          <p><strong>Full Report</strong></p>
-                          <p>For more information and to see the full report,  please visit the energy benchmarking site <a href="http://www.phila.gov/benchmarking" target="_blank">here</a>.</p>
-                      </div>
+            <div class="row explore">
+                <a ui-sref="map" type="button" class="btn btn-lg btn-default">Explore Map</a>
+            </div>
+            <div class="row">
+                <div class="center-block text-center">
+                      <p><strong>Credits</strong></p>
+                      <p>This tool was developed for the Mayor’s Office of Sustainability (MOS) by <a href="http://www.azavea.com">Azavea</a>.</p>
                 </div>
-          </div>
+                <br>
+                <div class="center-block text-center">
+                      <p><strong>Contact</strong></p>
+                      <p>Questions about the tool, the data, or the energy benchmarking program can be directed to MOS at <a href="mailto: benchmarkinghelp@phila.gov">benchmarkinghelp@phila.gov.</a></p>
+                </div>
+                <br>
+                <div class="center-block text-center">
+                      <p><strong>Full Report</strong></p>
+                      <p>For more information and to see the full report,  please visit the energy benchmarking site <a href="http://www.phila.gov/benchmarking" target="_blank">here</a>.</p>
+                </div>
+            </div>
+        </div>
+        <div class="next"><a type="button" class="btn btn-md btn-next" mos-panel-snap-next><i class="fa fa-angle-up"></i></a></div>
     </section>
     <mos-charts-glossary></mos-charts-glossary>
 </div>

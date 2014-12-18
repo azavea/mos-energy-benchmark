@@ -1,11 +1,13 @@
-<svg class="chart"></svg>
-<div class="btn-group" dropdown>
-    <button type="button" dropdown-toggle 
-        class="btn dropdown-toggle {{SELECT_CLASS}}">{{selectOptions[bubbleSeries]}} <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-        <li ng-repeat="(key, value) in selectOptions">
-            <a ng-click="changeSeries(key)">{{::value}}</a>
-        </li>
-    </ul>
+<div class="chart-filter text-center">
+    <div class="btn-group" dropdown>
+        <button type="button" dropdown-toggle
+            class="btn dropdown-toggle btn-filter {{SELECT_CLASS}}">{{selectOptions[bubbleSeries]}} <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="(key, value) in selectOptions">
+                <a ng-click="changeSeries(key)">{{::value}}</a>
+            </li>
+        </ul>
+    </div>
 </div>
+<svg class="chart"></svg>
