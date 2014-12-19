@@ -167,8 +167,8 @@
                                          d[areaDim].toLocaleString(),
                                          '</p><p class="propertyName">',
                                          dimNames.color,
-                                         ': ',
-                                         d[colorDim].toLocaleString(),
+                                         ': ', // Years do not require commas
+                                         colorDim === 'year_built' ? d[colorDim] : d[colorDim].toLocaleString(),
                                          '</p></span>'].join('');
                             return popup;
                             /* jshint camelcase:true */
