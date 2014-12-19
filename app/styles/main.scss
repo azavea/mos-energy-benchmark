@@ -59,7 +59,7 @@ h1, h2, h3, h4, h5{
 }
 
 h1{
-  margin-top: 40px!important;
+  margin-top: 60px!important;
 
   &:after{
     content: '';
@@ -146,6 +146,10 @@ hr{
   -ms-transition: .25s;
   transition: transform .25s ease-in-out;
 
+  @media print{
+    display: none;
+  }
+
 }
 
 .headroom--unpinned, .headroom--pinned {
@@ -153,16 +157,16 @@ hr{
   height: 48px;
 
   #logo{
-    background-image: url('../images/logo_sm.png');
+    background-image: url('../images/logo_min.png');
     background-repeat: no-repeat;
     width: 294px;
     height: 24px;
     display: inline-block;
     float: left;
-    margin-top: 15px;
+    margin-top: 12px;
 
     @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
-        background-image: url('../images/logo_sm@2x.png');
+        background-image: url('../images/logo_min@2x.png');
         background-size: 294px 24px;
     }
   }
@@ -185,17 +189,17 @@ hr{
   }
 
   #logo{
-    background-image: url('../images/logo_lg.png');
+    background-image: url('../images/logo.png');
     background-repeat: no-repeat;
     width: 215px;
     height: 60px;
     display: inline-block;
     float: left;
-    margin-top: 10px;
+    margin-top: 15px;
 
     @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
-        background-image: url('../images/logo_lg@2x.png');
-        background-size: 215px 60px;
+        background-image: url('../images/logo@2x.png');
+        background-size: 179px 50px;
     }
   }
 }
@@ -402,6 +406,10 @@ hr{
     &:hover{
         opacity: 1!important;
     }
+
+    @media print{
+      display: none;
+    }
 }
 
 .btn-next {
@@ -415,8 +423,7 @@ hr{
   i{
     line-height: 28px;
   }
-  &:hover,
-  &:focus {
+  &:hover{
     background-color: $active;
     color: $paper;
     box-shadow: 0 0 6px darken($filter-border, 10%);
@@ -532,9 +539,7 @@ hr{
 .next{
   position: absolute;
   bottom: 24px;
-  left: 0;
-  right: 0;
-  width: 100%;
+  right: 24px;
   z-index: 1000;
   text-align: center;
 }
@@ -645,7 +650,7 @@ html, body, .content, .chart-hero, .chart-footer {
 .glossary {
   position: fixed;
   bottom: 24px;
-  right: 24px;
+  left: 24px;
   z-index: 1000;
 
   .dropdown-menu {
@@ -678,6 +683,7 @@ html, body, .content, .chart-hero, .chart-footer {
       display: block;
       padding: 12px;
       overflow-y: scroll;
+      height: 340px;
     }
   }
 

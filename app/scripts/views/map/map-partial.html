@@ -1,71 +1,73 @@
-<div class="goto-overlay" ng-if="loadingView">
-  <div class="spinner">
-    <div class="bounce1"></div>
-    <div class="bounce2"></div>
-    <div class="bounce3"></div>
-  </div>
-</div>
-<div class="filterHeader container-fluid form-inline" role="form form-horizontal">
-    <div class="filter-row">
-        <div class="form-group search-group">
-            <label>Search</label>
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-            <input id="searchBox" type="text" ng-model="searchText" class="form-control search-filter"
-                typeahead="bldg.phl_bldg_id for bldg in buildingIds | filter:$viewValue | limitTo:8"
-                typeahead-wait-ms="400" typeahead-min-length="3" ng-submit="searchMap()"
-                ng-keyup="$event.keyCode === 13 ? searchMap() : null" width="70%"
-                placeholder="Address or Building ID" data-toggle="tooltip"
-                ng-change="clearErrorMsg()"
-                data-placement="bottom" title="Search for an address or Philadelphia Building ID" />
-            <p ng-show="amSearching"><em>Searching...</em></p>
-            <p class="no-results" ng-show="noResults"><em>No search results found</em></p>
-        </div>
-        <div class="form-group map-filter">
-            <div class="btn-group" dropdown>
-                <label>Filter</label>
-                <button type="button" class="btn dropdown-toggle btn-filter"
-                    id="filterPicker" dropdown-toggle>{{filterType}} <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li ng-repeat="sector in buildingTypes">
-                        <a ng-click="filterBy(sector)">{{::sector}}</a>
-                    </li>
-                </ul>
+<div class="fixed-wrapper">
+    <div class="goto-overlay" ng-if="loadingView">
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+    </div>
+    <div class="filterHeader container-fluid form-inline" role="form form-horizontal">
+        <div class="filter-row">
+            <div class="form-group search-group">
+                <label>Search</label>
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                <input id="searchBox" type="text" ng-model="searchText" class="form-control search-filter"
+                    typeahead="bldg.phl_bldg_id for bldg in buildingIds | filter:$viewValue | limitTo:8"
+                    typeahead-wait-ms="400" typeahead-min-length="3" ng-submit="searchMap()"
+                    ng-keyup="$event.keyCode === 13 ? searchMap() : null" width="70%"
+                    placeholder="Address or Building ID" data-toggle="tooltip"
+                    ng-change="clearErrorMsg()"
+                    data-placement="bottom" title="Search for an address or Philadelphia Building ID" />
+                <p ng-show="amSearching"><em>Searching...</em></p>
+                <p class="no-results" ng-show="noResults"><em>No search results found</em></p>
             </div>
-        </div>
-        <div class="form-group map-filter">
-            <div class="btn-group" dropdown>
-                <label>Color</label>
-                <button type="button" class="btn dropdown-toggle btn-filter"
-                    id="colorPicker" dropdown-toggle>{{colorByTypes[colorType]}} <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li ng-repeat="(key, value) in colorByTypes"><a ng-click="colorBy(key)">{{::value}}</a></li>
-                </ul>
+            <div class="form-group map-filter">
+                <div class="btn-group" dropdown>
+                    <label>Filter</label>
+                    <button type="button" class="btn dropdown-toggle btn-filter"
+                        id="filterPicker" dropdown-toggle>{{filterType}} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-repeat="sector in buildingTypes">
+                            <a ng-click="filterBy(sector)">{{::sector}}</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <div class="form-group map-filter">
-            <div class="btn-group" dropdown>
-                <label>Diameter</label>
-                <button type="button" class="btn dropdown-toggle btn-filter"
-                    id="sizePicker" dropdown-toggle>{{sizeByTypes[sizeType]}} <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li ng-repeat="(key, value) in sizeByTypes"><a ng-click="sizeBy(key)">{{::value}}</a></li>
-                </ul>
+            <div class="form-group map-filter">
+                <div class="btn-group" dropdown>
+                    <label>Color</label>
+                    <button type="button" class="btn dropdown-toggle btn-filter"
+                        id="colorPicker" dropdown-toggle>{{colorByTypes[colorType]}} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-repeat="(key, value) in colorByTypes"><a ng-click="colorBy(key)">{{::value}}</a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <div class="pull-right form-group">
-            <div class="btn-group">
-                <button type="button" ng-show="compare.count > 0" ng-click="gotoCompare()"
-                    data-toggle="tooltip" data-placement="bottom"
-                    title="Add up to three properties then press button to compare"
-                    class="btn btn-default">Compare ({{compare.count}})</button>
+            <div class="form-group map-filter">
+                <div class="btn-group" dropdown>
+                    <label>Diameter</label>
+                    <button type="button" class="btn dropdown-toggle btn-filter"
+                        id="sizePicker" dropdown-toggle>{{sizeByTypes[sizeType]}} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-repeat="(key, value) in sizeByTypes"><a ng-click="sizeBy(key)">{{::value}}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pull-right form-group">
+                <div class="btn-group">
+                    <button type="button" ng-show="compare.count > 0" ng-click="gotoCompare()"
+                        data-toggle="tooltip" data-placement="bottom"
+                        title="Add up to three properties then press button to compare"
+                        class="btn btn-default">Compare ({{compare.count}})</button>
+                </div>
             </div>
         </div>
     </div>
+    <div ng-show="mapLoading" class="spinner">
+        <div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>
+    </div>
+    <div id="mymap"></div>
 </div>
-<div ng-show="mapLoading" class="spinner">
-    <div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>
-</div>
-<div id="mymap"></div>

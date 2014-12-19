@@ -26,6 +26,11 @@
         i{
             opacity: 0.5;
         }
+
+        p{
+            font-size: .6rem;
+            font-weight: 300;
+        }
     }
     tbody > tr > td{
         text-align: center;
@@ -33,9 +38,17 @@
         line-height: 1rem;
         padding: 18px 4px;
         width: 200px;
+        @media print{
+            height: 60px!important;
+        }
 
         &:first-child{
             background-color: $light-bg;
+
+            @media print{
+                background-color: $light-bg!important;
+                -webkit-print-color-adjust: exact;
+            }
         }
     }
 }
@@ -70,5 +83,15 @@
     @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
         background-image: url('../images/ic_building@2x.png');
         background-size: 28px 60px;
+    }
+
+    @media print{
+        display: block!important;
+        text-align: center!important;
+        height: 60px!important;
+        margin-top: 12px!important;
+        background-image: url('../images/ic_building.png')!important;
+        background-repeat: no-repeat!important;
+        background-position: center!important;
     }
 }
