@@ -4,11 +4,12 @@
       <div class="btn-group dropup" dropdown>
             <label>X axis</label>
             <button type="button" dropdown-toggle
-                  class="btn dropdown-toggle btn-filter">{{selectOptions[selected.x]}} <span class="caret"></span>
+                class="btn dropdown-toggle btn-filter"
+                ng-bind-html="selectOptions[selected.x] + '<span class=&quot;caret&quot;></span>'">
             </button>
             <ul class="dropdown-menu" role="menu">
                   <li ng-repeat="(xKey, xValue) in selectOptions">
-                        <a ng-click="selectedXChanged(xKey)">{{::xValue}}</a>
+                        <a ng-click="selectedXChanged(xKey)" ng-bind-html="xValue"></a>
                   </li>
             </ul>
       </div>
@@ -16,11 +17,12 @@
       <div class="btn-group dropup" dropdown>
             <label>Y axis</label>
             <button type="button" dropdown-toggle
-                  class="btn dropdown-toggle btn-filter">{{selectOptions[selected.y]}} <span class="caret"></span>
+                class="btn dropdown-toggle btn-filter"
+                ng-bind-html="selectOptions[selected.y] + '<span class=&quot;caret&quot;></span>'">
             </button>
             <ul class="dropdown-menu" role="menu">
                   <li ng-repeat="(yKey, yValue) in selectOptions">
-                        <a ng-click="selectedYChanged(yKey)">{{::yValue}}</a>
+                        <a ng-click="selectedYChanged(yKey)" ng-bind-html="yValue"></a>
                   </li>
             </ul>
       </div>

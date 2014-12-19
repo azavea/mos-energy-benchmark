@@ -102,7 +102,7 @@
         },
         'site_eui': {
             'cssVal': 'marker-width',
-            'description': 'Energy Utilization Index',
+            'description': 'EUI (kBtu/ft&sup2;)',
             'bins': [
                 {
                     'max': '2523',
@@ -148,7 +148,7 @@
         },
         'total_ghg': {
             'cssVal': 'marker-width',
-            'description': 'Greenhouse Gases',
+            'description': 'Emissions (MtCO2e)',
             'bins': [
                 {
                     'max': '258330',
@@ -194,7 +194,7 @@
         },
         'electricity': {
             'cssVal': 'marker-width',
-            'description': 'Electricity',
+            'description': 'Electricity (kBtu)',
             'bins': [
                 {
                     'max': '1068323130',
@@ -240,7 +240,7 @@
         },
         'fuel_oil': {
             'cssVal': 'marker-width',
-            'description': 'Fuel Oil',
+            'description': 'Fuel Oil (kBtu)',
             'bins': [
                 {
                     'max': '35790575',
@@ -286,7 +286,7 @@
         },
         'natural_gas': {
             'cssVal': 'marker-width',
-            'description': 'Natural Gas',
+            'description': 'Natural Gas (kBtu)',
             'bins': [
                 {
                     'max': '1123733030',
@@ -332,7 +332,7 @@
         },
         'water_use': {
             'cssVal': 'marker-width',
-            'description': 'Water Use',
+            'description': 'Water Use (kgal)',
             'bins': [
                 {
                     'max': '700949.4',
@@ -378,7 +378,7 @@
         },
         'steam': {
             'cssVal': 'marker-width',
-            'description': 'Steam',
+            'description': 'Steam (kBtu)',
             'bins': [
                 {
                     'max': '1375885588',

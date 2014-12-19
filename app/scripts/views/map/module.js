@@ -20,6 +20,7 @@
      */
     angular
       .module('mos.views.map', [
+        'ngSanitize',
         'ui.router',
         'ui.bootstrap',
         'mos.compare',
