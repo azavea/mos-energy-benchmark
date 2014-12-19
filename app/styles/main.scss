@@ -716,6 +716,7 @@ html, body, .content, .chart-hero, .chart-footer {
 
   h4{
     margin: 8px 0 0 0!important;
+    padding-bottom: 10px;
   }
 }
 
@@ -734,6 +735,10 @@ html, body, .content, .chart-hero, .chart-footer {
     font-size: 1rem;
     color: $heading;
   }
+}
+
+.featurePopup .headerPopup p {
+    margin: 2px 0 !important;
 }
 
 .leaflet-container a.leaflet-popup-close-button{

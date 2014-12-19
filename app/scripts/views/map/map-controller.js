@@ -46,7 +46,9 @@
                 /* jshint camelcase:false */
                 $scope.propertyData = {
                     cartodbId: row.cartodb_id.toString(),
+                    buildingId: row.phl_bldg_id,
                     propertyName: row.property_name,
+                    floorArea: row.floor_area,
                     address: row.address,
                     totalGhg: row.total_ghg,
                     siteEui: row.site_eui,
@@ -63,8 +65,10 @@
                 // row is null; unset property data
                 $scope.propertyData = {
                     cartodbId: '',
+                    buildingId: '',
                     propertyName: '',
                     address: '',
+                    floorArea: '',
                     totalGhg: '',
                     siteEui: '',
                     energyStar: '',
@@ -214,11 +218,13 @@
           '<div ng-hide="popupLoading"><div class="headerPopup" ',
           'ng-style="{\'background-color\': \'{{::propertyData.sectorColor}}\' }">',
           '<h4>{{::propertyData.propertyName}}</h4>',
-          '<p>{{::propertyData.address}}</p></div>',
+          '<p class="popup-header">{{::propertyData.buildingId}}</p>',
+          '<p class="popup-header" ng-if="propertyData.address !== propertyData.propertyName">{{::propertyData.address}}</p>',
+          '<p class="popup-header">{{::propertyData.floorArea.toLocaleString()}} Sq. Feet</p></div>',
           '<div class="popupContent">',
-          '<p>Total Energy Use: <strong>{{::propertyData.siteEui.toLocaleString()}}</strong></p>',
+          '<p>Site EUI: <strong>{{::propertyData.siteEui.toLocaleString()}}</strong></p>',
           '<p>Emissions: <strong>{{::propertyData.totalGhg.toLocaleString()}}</strong></p>',
-          '<p ng-show="energyStar">Energy Star: <strong>{{::propertyData.energyStar.toLocaleString()}}</strong></p>',
+          '<p ng-show="propertyData.energyStar">Energy Star: <strong>{{::propertyData.energyStar.toLocaleString()}}</strong></p>',
           '<br>',
           '<p><label><input type="checkbox" ng-model="compare.isChecked" ng-disabled="compare.disabled" ',
           'ng-change="setCompare(propertyData.cartodbId)" /> <em>Compare</em></label>',

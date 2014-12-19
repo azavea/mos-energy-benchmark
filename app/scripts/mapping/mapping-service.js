@@ -37,7 +37,7 @@
          *  @returns Promise with results in data.rows
          */
         module.featureLookup = function(cartodbId)  {
-            var qry = 'SELECT cartodb_id, property_name, address, total_ghg, site_eui, ' +
+            var qry = 'SELECT cartodb_id, phl_bldg_id, property_name, address, floor_area, total_ghg, site_eui, ' +
             'energy_star, sector FROM {{tbl}} where cartodb_id = {{id}}';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
             return sql.execute(qry, { id: cartodbId, tbl: table });
