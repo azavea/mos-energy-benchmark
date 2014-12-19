@@ -25,7 +25,7 @@
                 <div class="btn-group" dropdown>
                     <label>Filter</label>
                     <button type="button" class="btn dropdown-toggle btn-filter"
-                        id="filterPicker" dropdown-toggle>{{filterType}} <span class="caret"></span>
+                        id="filterPicker" dropdown-toggle>{{selections.filterType}} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
                         <li ng-repeat="sector in buildingTypes">
@@ -37,11 +37,13 @@
             <div class="form-group map-filter">
                 <div class="btn-group" dropdown>
                     <label>Color</label>
-                    <button type="button" class="btn dropdown-toggle btn-filter"
-                        id="colorPicker" dropdown-toggle>{{colorByTypes[colorType]}} <span class="caret"></span>
+                    <button type="button" class="btn dropdown-toggle btn-filter" id="colorPicker"
+                        dropdown-toggle>{{colorByTypes[selections.colorType]}} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li ng-repeat="(key, value) in colorByTypes"><a ng-click="colorBy(key)">{{::value}}</a></li>
+                        <li ng-repeat="(key, value) in colorByTypes">
+                            <a ng-click="setSelection('colorType', key)">{{::value}}</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -51,10 +53,12 @@
                     <button type="button" dropdown-toggle
                         id="sizePicker"
                         class="btn dropdown-toggle btn-filter"
-                        ng-bind-html="sizeByTypes[sizeType] + '<span class=&quot;caret&quot;></span>'">
+                        ng-bind-html="sizeByTypes[selections.sizeType] + '<span class=&quot;caret&quot;></span>'">
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li ng-repeat="(key, value) in sizeByTypes"><a ng-click="sizeBy(key)" ng-bind-html="value"></a></li>
+                        <li ng-repeat="(key, value) in sizeByTypes">
+                            <a ng-click="setSelection('sizeType', key)" ng-bind-html="value"></a>
+                        </li>
                     </ul>
                 </div>
             </div>

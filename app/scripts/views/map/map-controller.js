@@ -27,15 +27,20 @@
 
         $scope.buildingTypes = [];
         $scope.buildingIds = [];
-        $scope.filterType = MappingService.FILTER_NONE;
         $scope.searchText = '';
         $scope.noResults = false;
         $scope.amSearching = false;
 
         $scope.colorByTypes = ColorService.getColorByFields();
         $scope.sizeByTypes = ColorService.getSizeByFields();
-        $scope.colorType = 'sector';
-        $scope.sizeType = 'site_eui';
+
+        $scope.selections = {
+            colorType: 'sector',
+            sizeType: 'site_eui',
+            filterType: MappingService.FILTER_NONE
+        };
+
+        console.log($scope.selections);
 
         // helper function to set or unset property data from a result row
         var setPropertyData = function(row) {
@@ -156,19 +161,15 @@
         };
 
         $scope.filterBy = function(sector) {
-            $scope.filterType = sector;
+            $scope.selections.filterType = sector;
             MappingService.filterViz(vizLayer, sector);
         };
 
-        $scope.colorBy = function(selection) {
-            $scope.colorType = selection;
-            MappingService.setVizCartoCSS(vizLayer, $scope.colorType, $scope.sizeType);
-            setLegends();
-        };
-
-        $scope.sizeBy = function(selection) {
-            $scope.sizeType = selection;
-            MappingService.setVizCartoCSS(vizLayer, $scope.colorType, $scope.sizeType);
+        $scope.setSelection = function(field, selection) {
+            $scope.selections[field] = selection;
+            MappingService.setVizCartoCSS(vizLayer,
+                                          $scope.selections.colorType,
+                                          $scope.selections.sizeType);
             setLegends();
         };
 
@@ -247,8 +248,8 @@
             $('div.cartodb-legend.bubble').remove();
             $('div.cartodb-legend.choropleth').remove();
             $('div.cartodb-legend.custom').remove();
-            $('#mymap').append(ColorService.getLegend($scope.sizeType));
-            $('#mymap').append(ColorService.getLegend($scope.colorType));
+            $('#mymap').append(ColorService.getLegend($scope.selections.sizeType));
+            $('#mymap').append(ColorService.getLegend($scope.selections.colorType));
         };
 
         $scope.$on('$stateChangeStart', function (event, toState) {
