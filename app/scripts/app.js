@@ -102,7 +102,7 @@
         },
         'site_eui': {
             'cssVal': 'marker-width',
-            'description': 'Energy Utilization Index (kBtu/ft^2)',
+            'description': 'EUI (kBtu/ft&sup2;)',
             'bins': [
                 {
                     'max': '2523',
@@ -148,7 +148,7 @@
         },
         'total_ghg': {
             'cssVal': 'marker-width',
-            'description': 'Greenhouse Gases (MtCO2e)',
+            'description': 'Emissions (MtCO2e)',
             'bins': [
                 {
                     'max': '258330',
