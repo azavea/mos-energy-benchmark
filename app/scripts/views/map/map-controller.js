@@ -40,8 +40,6 @@
             filterType: MappingService.FILTER_NONE
         };
 
-        console.log($scope.selections);
-
         // helper function to set or unset property data from a result row
         var setPropertyData = function(row) {
             if (row) {

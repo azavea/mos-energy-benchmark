@@ -29,11 +29,11 @@ describe('Controller: mos.views.map.MapController', function () {
     }));
 
     it('should have EUI for default size type', function () {
-        expect(scope.sizeType).toBe('site_eui');
+        expect(scope.selections.sizeType).toBe('site_eui');
     });
 
     it('should have sector for default color type', function () {
-        expect(scope.colorType).toBe('sector');
+        expect(scope.selections.colorType).toBe('sector');
     });
 
     it('should be able to clear error messages', function () {
