@@ -32,6 +32,9 @@
 
     // min. values and corresponding CSS values for each bucket
     var CssValues = {
+            'energy_star': {
+                description: 'Energy Star'
+            },
             'floor_area': {
                 'cssVal': 'marker-fill',
                 'description': 'Square Footage',

@@ -26,12 +26,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="(key, readable) in fields">
-                    <td class="category">{{ ::readable }}</td>
+                <tr ng-repeat="key in fields">
+                    <td class="category" ng-bind-html="cssValues[key].description"></td>
                     <!-- Tried ng-class="bld-{{$index+1}}", didn't seem to work? -->
                     <td class="compare"
                         ng-class="{'bld-1': $index === 0, 'bld-2': $index === 1, 'bld-3': $index === 2}"
-                        ng-repeat="building in buildings">{{ ::building[key] | cartodbNumber }}</td>
+                        ng-repeat="building in buildings">{{ ::building[key] | cartodbNumber:0 }}</td>
                     <td>
                         <mos-histogram plot-height="80"
                                        plot-width="300"
