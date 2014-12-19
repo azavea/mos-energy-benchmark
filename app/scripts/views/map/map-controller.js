@@ -163,12 +163,13 @@
         $scope.colorBy = function(selection) {
             $scope.colorType = selection;
             MappingService.setVizCartoCSS(vizLayer, $scope.colorType, $scope.sizeType);
-            setSecondLegend();
+            setLegends();
         };
 
         $scope.sizeBy = function(selection) {
             $scope.sizeType = selection;
             MappingService.setVizCartoCSS(vizLayer, $scope.colorType, $scope.sizeType);
+            setLegends();
         };
 
         $scope.setCompare = function(cartodbId) {
@@ -240,11 +241,13 @@
                 $scope.buildingIds = [];
             });
 
-        // add second legend for feature color, above size legend
-        var setSecondLegend = function() {
-            // first remove previous second legend
+        // add legends for feature size and color
+        var setLegends = function() {
+            // first remove previous legends
+            $('div.cartodb-legend.bubble').remove();
             $('div.cartodb-legend.choropleth').remove();
             $('div.cartodb-legend.custom').remove();
+            $('#mymap').append(ColorService.getLegend($scope.sizeType));
             $('#mymap').append(ColorService.getLegend($scope.colorType));
         };
 
@@ -258,7 +261,7 @@
 
         // load map visualization
         cartodb.createVis('mymap', 'http://azavea-demo.cartodb.com/api/v2/viz/c5a9af6e-7f12-11e4-8f24-0e018d66dc29/viz.json',
-                          {'infowindow': false, 'legends': true, 'searchControl': false, 'loaderControl': true})
+                          {'infowindow': false, 'legends': false, 'searchControl': false, 'loaderControl': true})
             .done(function(vis, layers) {
                 $scope.mapLoading = false;
                 nativeMap = vis.getNativeMap();
@@ -279,7 +282,7 @@
                     $('.leaflet-container').css('cursor', '-moz-grab');
                 });
 
-                setSecondLegend();
+                setLegends();
 
                 vizLayer.on('featureClick', function(e, latlng, pos, data) {
                     // show popup with spinner to indicate it's loading, hang on...
