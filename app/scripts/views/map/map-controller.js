@@ -188,7 +188,7 @@
           '<div ng-show="popupLoading" class="spinner">',
           '<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>',
           '<div ng-hide="popupLoading"><div class="headerPopup" ',
-          'style="background-color: {{::propertyData.sectorColor}}">',
+          'ng-style="{\'background-color\': \'{{::propertyData.sectorColor}}\' }">',
           '<h4>{{::propertyData.propertyName}}</h4>',
           '<p>{{::propertyData.address}}</p></div>',
           '<div class="popupContent">',
@@ -198,7 +198,8 @@
           '<br>',
           '<p><label><input type="checkbox" ng-model="compare.isChecked" ng-disabled="compare.disabled" ',
           'ng-change="setCompare(propertyData.cartodbId)" /> <em>Compare</em></label>',
-          '<button type="button" class="pull-right btn btn-popover" style="background-color: {{::propertyData.sectorColor}}; opacity: 0.6;" ',
+          '<button type="button" class="pull-right btn btn-popover" ',
+          'ng-style="{\'background-color\': \'{{::propertyData.sectorColor}}\',  \'opacity\': 0.6 }" ',
           'ui-sref="detail({buildingId: propertyData.cartodbId})">Full Report</button></p>',
           '</div></div></span>'].join('');
 
