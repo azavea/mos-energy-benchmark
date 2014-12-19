@@ -11,15 +11,20 @@
             <div class="form-group search-group">
                 <label>Search</label>
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                <input id="searchBox" type="text" ng-model="searchText" class="form-control search-filter"
-                    typeahead="bldg.phl_bldg_id for bldg in buildingIds | filter:$viewValue | limitTo:8"
-                    typeahead-wait-ms="400" typeahead-min-length="3" ng-submit="searchMap()"
-                    ng-keyup="$event.keyCode === 13 ? searchMap() : null" width="70%"
-                    placeholder="Address or Building ID" data-toggle="tooltip"
+                <input id="searchBox" type="text" ng-model="searchText"
+                    class="form-control search-filter"
+                    ng-class="{error: noResults}"
+                    typeahead="bldg for bldg in suggest() | filter:$viewValue | limitTo:8"
+                    typeahead-wait-ms="400"
+                    typeahead-min-length="3"
+                    ng-submit="searchMap()"
                     ng-change="clearErrorMsg()"
-                    data-placement="bottom" title="Search for an address or Philadelphia Building ID" />
-                <p ng-show="amSearching"><em>Searching...</em></p>
-                <p class="no-results" ng-show="noResults"><em>No search results found</em></p>
+                    ng-keyup="$event.keyCode === 13 ? searchMap() : null"
+                    data-toggle="tooltip"
+                    data-placement="bottom"
+                    placeholder="Address or Building ID"
+                    title="Search for an address or Philadelphia Building ID" />
+                <span class="ajax-loading" aria-hidden="true" ng-if="amSearching"></span>
             </div>
             <div class="form-group map-filter">
                 <div class="btn-group" dropdown>
