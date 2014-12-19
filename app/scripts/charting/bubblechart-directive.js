@@ -96,24 +96,37 @@
                                  .data(pack.nodes({ children: data }));
 
                 // Add
-                node.enter().append('g')
-                        .filter(function (d) { return d.depth === 1; })
-                        .attr('transform', function(d) { return 'translate(' + d.x +
-                                                                ',' + d.y + ')'; })
-                        .append('circle')
-                        // Radius of zero initially so it can be animated on load
-                        .attr('r', 0)
-                        .attr('class', 'bubble')
-                        .style('fill', function (d) { return MOSColors[d.name] || MOSColors.Unknown; })
-                        .on('mouseover', tip.show)
-                        .on('mouseout', tip.hide);
+                var nodeEnter = node.enter().append('g')
+                    .filter(function (d) { return d.depth === 1; })
+                        .attr('transform', function(d) {
+                            return 'translate(' + d.x + ',' + d.y + ')';
+                        })
+                    .on('mouseover', tip.show)
+                    .on('mouseout', tip.hide);
+
+                nodeEnter.append('circle')
+                    // Radius of zero initially so it can be animated on load
+                    .attr('r', 0)
+                    .attr('class', 'bubble')
+                    .style('fill', function (d) { return MOSColors[d.name] || MOSColors.Unknown; });
+
+                nodeEnter.append('text')
+                    .attr('dy', '.35em')
+                    .attr('text-anchor', 'middle')
+                    .text(function (d) { return d.name; })
+                    .style('opacity', 0);
 
                 // Update
                 node.transition().duration(config.transitionTime)
-                    .attr('transform', function(d) { return 'translate(' + d.x +
-                                                            ',' + d.y + ')'; })
+                    .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; })
                     .selectAll('circle')
                     .attr('r', function (d) { return d.r; });
+
+                node.select('text').transition().duration(config.transitionTime).style('opacity', function (d) {
+                        // only show sector labels on bubble if bubble is bigger than text box
+                        var bbox = this.getBBox();
+                        return bbox.width < ((d.r * 2) - 5) ? 1 : 0;
+                    });
             };
         };
 
