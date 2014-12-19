@@ -76,7 +76,8 @@
 path.plot {
   fill: #666;
   opacity: 0.2;
-  stroke: none;
+  stroke: black;
+  stroke-width: 1;
   shape-rendering: optimizeSpeed;
 }
 

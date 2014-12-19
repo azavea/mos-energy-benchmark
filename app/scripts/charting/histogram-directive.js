@@ -119,7 +119,7 @@
                     .x(function(d) { return xKDE(d[0]); })
                     .y0(height)
                     .y1(function(d) { return yKDE(d[1]); });
-                chart.append('path') // Actual plot area for KDE
+                chart.append('path') // Plot area for KDE
                     .datum(estimate)
                     .attr('class', 'kde plot')
                     .attr('d', plotArea);
