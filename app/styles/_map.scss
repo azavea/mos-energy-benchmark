@@ -64,7 +64,14 @@ div.search-group {
 }
 
 .search-group input {
-  padding-left: 34px !important;
+  padding-left: 34px !important;        // Space for search icon
+  padding-right: 34px !important;       // Space for loading GIF
+}
+
+input.error {
+  // TODO: Change this? Or switch to showing a circle w/ slash icon?
+  //        It is currently the same color as the std buttons (salmon)
+  background-color: #ff7b79;
 }
 
 .glyphicon-search {
@@ -139,5 +146,14 @@ div.search-group {
   .spinner > div {
     background-color: black;
   }
+}
 
+.ajax-loading {
+    background: url('../images/ajax-loader.gif') no-repeat;
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    top: 11px;
+    right: 4px;
+    z-index: 100;
 }

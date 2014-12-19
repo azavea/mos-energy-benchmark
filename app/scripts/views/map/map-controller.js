@@ -4,7 +4,7 @@
     /*
      * ngInject
      */
-    function MapController($compile, $scope, $state, $timeout, BuildingCompare, MappingService, ColorService) {
+    function MapController($compile, $q, $scope, $state, $timeout, BuildingCompare, MappingService, ColorService) {
 
         // indicate that map is loading, hang on..
         $scope.mapLoading = true;
@@ -26,7 +26,7 @@
         };
 
         $scope.buildingTypes = [];
-        $scope.buildingIds = [];
+        $scope.filterType = MappingService.FILTER_NONE;
         $scope.searchText = '';
         $scope.noResults = false;
         $scope.amSearching = false;
@@ -83,6 +83,24 @@
             $scope.amSearching = false;
         };
 
+        $scope.suggest = function () {
+            $scope.noResults = false;
+            $scope.amSearching = true;
+            var dfd = $q.defer();
+            MappingService.suggest($scope.searchText).then(function (data) {
+                if (!data.length) {
+                    $scope.noResults = true;
+                }
+                dfd.resolve(data);
+            }, function () {
+                $scope.noResults = true;
+                dfd.resolve([]);
+            }).finally(function () {
+                $scope.amSearching = false;
+            });
+            return dfd.promise;
+        };
+
         $scope.searchMap = function() {
             $scope.amSearching = true;
 
@@ -123,26 +141,32 @@
             } else {
                 // geocode address and pan to the spot
                 MappingService.geocode($scope.searchText).then(function(data) {
-                    if (!data.data || data.data.length < 1) {
+                    if (!data.length) {
                         console.error('Could not find address!');
                         $scope.noResults = true;
                         $scope.amSearching = false;
                         return;
                     }
 
-                    var result = data.data[0];
+                    var result = data[0];
                     $scope.noResults = false;
                     $scope.amSearching = false;
 
                     // show popup with found addresss display name
-                    var latlng = L.latLng(result.lat, result.lon);
-                    nativeMap.panTo(latlng);
+                    var geometry = result.feature.geometry;
+                    var latlng = L.latLng(geometry.y, geometry.x);
+                    nativeMap.panTo(latlng, {animate: true});
                     var geocodePopupTemplate = [
                         '<span class="featurePopup"><div class="headerPopup"></div>',
                         '<p>{{::geocodedDisplayName}}</p></span>'
                     ].join('');
+                    var attrs = result.feature.attributes;
                     /* jshint camelcase:false */
-                    $scope.geocodedDisplayName = result.display_name;
+                    $scope.geocodedDisplayName = [
+                        attrs.StAddr,
+                        attrs.City,
+                        attrs.Postal
+                    ].join(', ');
                     /* jshint camelcase:true */
                     var popup = $compile(geocodePopupTemplate)($scope);
                     L.popup({
@@ -230,16 +254,6 @@
                 $scope.buildingTypes = [module.FILTER_NONE];
             });
 
-        // fetch building IDs for autocomplete
-        MappingService.getBuildingIds()
-            .done(function(data) {
-                $scope.buildingIds = data.rows;
-            }).error(function(errors) {
-                // returns a list
-                console.error('errors fetching building IDs: ' + errors);
-                $scope.buildingIds = [];
-            });
-
         // add legends for feature size and color
         var setLegends = function() {
             // first remove previous legends
@@ -250,12 +264,10 @@
             $('#mymap').append(ColorService.getLegend($scope.selections.colorType));
         };
 
-        $scope.$on('$stateChangeStart', function (event, toState) {
-            if (toState.name === 'detail' || toState.name === 'compare') {
-                $timeout(function () {
-                    $scope.loadingView = true;
-                }, overlayTriggerMillis);
-            }
+        $scope.$on('$stateChangeStart', function () {
+            $timeout(function () {
+                $scope.loadingView = true;
+            }, overlayTriggerMillis);
         });
 
         // load map visualization

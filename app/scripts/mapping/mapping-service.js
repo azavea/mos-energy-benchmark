@@ -4,11 +4,20 @@
     /**
      * @ngInject
      */
-    function MappingService ($http, ColorService, CartoConfig) {
+    function MappingService ($http, $q, ColorService, CartoConfig) {
+
+        var viewbox = '-75.699037,40.195219,-74.886736,39.774326';
+        var buildingIds = [];
         var module = {};
 
         module.FILTER_NONE = 'All types';
         var table = CartoConfig.tables.currentYear;
+
+        var searchBuildingIds = function (buildingId) {
+            return _.filter(buildingIds, function (id) {
+                return id.indexOf(buildingId) !== -1;
+            });
+        };
 
         /*
          *  Fetches list of building categories in use
@@ -104,21 +113,64 @@
          * @returns Promise with Nominatim search results
          */
         module.geocode = function(address) {
-            var url = 'http://nominatim.openstreetmap.org/search';
-            // limit search to greater Philadelphia region
-            var viewbox = '-75.699037,40.195219,-74.886736,39.774326';
 
-            return $http.get(url, {
+            var dfd = $q.defer();
+            var url = 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find';
+            // limit search to greater Philadelphia region
+
+            $http.get(url, {
                 params: {
-                    'q': address,
-                    'viewbox': viewbox,
-                    'bounded': 1,
-                    'addressdetails': 0,
-                    'limit': 1,
-                    'format': 'json'
+                    'text': address,
+                    'bbox': viewbox,
+                    'category': 'Address,Postal',
+                    'outFields': 'StAddr,City,Postal',
+                    'maxLocations': 1,
+                    'f': 'pjson'
                 }
+            }).then(function (data) {
+                dfd.resolve(data.data.locations);
+            }, function () {
+                dfd.resolve([]);
             });
+            return dfd.promise;
         };
+
+        /*
+         * Suggest an address or building id, depending on the search query
+         *
+         * https://developers.arcgis.com/rest/geocode/api-reference/geocoding-suggest.htm
+         *
+         * @param address String One-line address or building id to search for
+         * @returns Array of string suggestions
+         */
+        module.suggest = function (address) {
+            var dfd = $q.defer();
+
+            var suggestUrl = 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest';
+            $http.get(suggestUrl, {
+                params: {
+                    text: address,
+                    searchExtent: viewbox,
+                    category: 'Address,Postal',
+                    f: 'pjson'
+                }
+            }).success(function (data) {
+                var buildings = searchBuildingIds(address).slice(0, 5);
+                var suggestions = buildings.concat(_.pluck(data.suggestions, 'text'));
+                dfd.resolve(suggestions);
+
+            }).error(function () {
+                dfd.resolve(searchBuildingIds(address).slice(0, 5));
+            });
+
+            return dfd.promise;
+        };
+
+        // Call building ids to initialize
+        // This is a bit nasty, but making a separate service for this seems like overkill?
+        module.getBuildingIds().done(function (data) {
+            buildingIds = _.pluck(data.rows, 'phl_bldg_id');
+        });
 
         return module;
     }
