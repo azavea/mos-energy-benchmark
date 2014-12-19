@@ -13,6 +13,20 @@
         bgFillColor: '#F0F1F2'
     };
 
+    function kernelDensityEstimator(kernel, x) {
+        return function(sample) {
+            return x.map(function(x) {
+                return [x, d3.mean(sample, function(v) { return kernel(x - v); })];
+            });
+        };
+    }
+
+    function epanechnikovKernel(scale) {
+        return function(u) {
+            return Math.abs(u /= scale) <= 1 ? 0.75 * (1 - u * u) / scale : 0;
+        };
+    }
+
     /**
      * ngInject
      */
@@ -105,6 +119,7 @@
 
                 var index = 0;
                 var dx = width / numBins;
+                /*
                 var bar = chart.selectAll('.bar')
                     .data(histogramData)
                     .enter().append('g')
@@ -114,12 +129,13 @@
                         index++;
                         return 'translate(' + xOffset + ', ' + y(d.y) + ')';
                     });
+                   */
 
                 var percentageWidth = dx * config.plotWidthPercentage;
                 var xOffset = (dx - percentageWidth) / 2;
+                /*
                 bar.append('rect')
-                    .attr('x', 0)       // Start x is relative to left edge of parent bar element
-                    .attr('transform', 'translate(' + xOffset + ')')
+                    .attr('x', xOffset)       // Start x is relative to left edge of parent bar element
                     .attr('width', percentageWidth)
                     .attr('rx', config.barRadius)
                     .attr('ry', config.barRadius)
@@ -142,7 +158,43 @@
                         }
                         return highlightColor;
                     });
-                /* Useful debug info
+                   */
+
+                var xKDE = d3.scale.linear()
+                    .domain([Math.log10(minValue), Math.log10(maxValue)])
+                    .range([0, width]);
+                var kde = kernelDensityEstimator(epanechnikovKernel(.2), xKDE.ticks(50));
+                var estimate = kde(_.map(values, function(d) { return Math.log10(d); }));
+                var yKDE = d3.scale.linear()
+                    .domain([0, 1])
+                    .range([height, 30]);
+                var plotArea = d3.svg.area()
+                    .x(function(d) { return xKDE(d[0]); })
+                    .y0(height)
+                    .y1(function(d) { return yKDE(d[1]); });
+                var overlayArea = d3.svg.area()
+                    .x(function(d) { return xKDE(d[0]); })
+                    .y0(0)
+                    .y1(function(d) { return yKDE(d[1]); });
+                chart.append('path') // Actual plot area for KDE
+                    .datum(estimate)
+                    .attr('class', 'kde plot')
+                    .attr('d', plotArea);
+                for (var i = 0; i < calloutValues.length; i++) {
+                    if (calloutValues[i] !== null) {
+                        chart.append('rect') // callouts
+                            .attr('x', xKDE(Math.log10(calloutValues[i])))
+                            .attr('y', 0)
+                            .attr('height', height)
+                            .attr('width', width / 50)
+                            .attr('fill', calloutColors[i]);
+                    }
+                }
+                chart.append('path') // Overlay for callouts
+                    .datum(estimate)
+                    .attr('class', 'overlay')
+                    .attr('d', overlayArea);
+
                 console.log('Config:', {
                     min: minValue,
                     max: maxValue,
@@ -153,7 +205,6 @@
                 });
                 console.log('Scale:', logScale);
                 console.log('Data:', histogramData);
-                */
             };
         };
 

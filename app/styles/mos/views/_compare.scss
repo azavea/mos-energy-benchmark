@@ -72,3 +72,19 @@
         background-size: 28px 60px;
     }
 }
+
+
+
+path.plot {
+  fill: steelblue;
+  stroke: none;
+  shape-rendering: optimizeSpeed;
+}
+
+path.overlay {
+  fill: white;
+  stroke: white;
+  shape-rendering: optimizeSpeed;
+}
+
+
