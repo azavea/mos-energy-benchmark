@@ -9,8 +9,7 @@
         barRadius: 4,
         valueField: '',
         transitionMillis: 500,
-        lazyLoad: false,
-        bgFillColor: '#F0F1F2'
+        lazyLoad: false
     };
 
     function kernelDensityEstimator(kernel, x) {
@@ -49,7 +48,6 @@
             plotWidthPercentage: '@',
             barRadius: '@',
             valueField: '@',         // Required
-            bgFillColor: '@',
             margin: '&',
             calloutValues: '=',
             calloutColors: '=',
@@ -95,116 +93,56 @@
                 d3.selectAll('#' + chartId + ' .chart > g > *').remove();
 
                 // Filter values < 1 for log scale
-                data = _.filter(data, function (row) {
-                    return row[config.valueField] >= 1;
-                });
-                var values = _.map(data, config.valueField);
-                var maxValue = _.max(values);
-                var minValue = _.min(values);
+                data = _.chain(data) // Filter out less than 1 and return the log10 of values
+                        .filter(function (row) { return row[config.valueField] >= 1; })
+                        .map(function(d) { return Math.log10(d[config.valueField]); })
+                        .value();
+                var maxValue = _.max(data);
+                var minValue = _.min(data);
                 var height = config.plotHeight - margin.top - margin.bottom;
                 var width = config.plotWidth - margin.left - margin.right;
 
-                var x = d3.scale.log()
+                // Scale for log values
+                var xKDE = d3.scale.linear()
                     .domain([minValue, maxValue])
                     .range([0, width]);
-
-                var logScale = x.ticks();
-                var numBins = logScale.length;
-                var histogramData = d3.layout.histogram()
-                    .bins(logScale)(values);
-
-                var y = d3.scale.linear()
-                    .domain([0, d3.max(histogramData, function (d) { return d.y; })])
-                    .range([height, 0]);
-
-                var index = 0;
-                var dx = width / numBins;
-                /*
-                var bar = chart.selectAll('.bar')
-                    .data(histogramData)
-                    .enter().append('g')
-                    .attr('class', 'bar')
-                    .attr('transform', function (d) {
-                        var xOffset = index * dx;
-                        index++;
-                        return 'translate(' + xOffset + ', ' + y(d.y) + ')';
-                    });
-                   */
-
-                var percentageWidth = dx * config.plotWidthPercentage;
-                var xOffset = (dx - percentageWidth) / 2;
-                /*
-                bar.append('rect')
-                    .attr('x', xOffset)       // Start x is relative to left edge of parent bar element
-                    .attr('width', percentageWidth)
-                    .attr('rx', config.barRadius)
-                    .attr('ry', config.barRadius)
-                    .attr('height', function (d) { return height - y(d.y); })
-                    .attr('fill', function (d) {
-                        var minValue = d.x;
-                        var maxValue = d.x + d.dx;
-                        var highlightColor = config.bgFillColor;
-                        for (var i = 0; i < calloutValues.length; i++) {
-                            var value = calloutValues[i];
-                            // Set highlight color if:
-                            // first bin and value < x + dx for that bin OR
-                            // last bin (length - 2 for d3 reasons) and value > x for that bin OR
-                            // any other bin and x <= value < x + dx
-                            if ((_.indexOf(logScale, minValue) === 0 && value < maxValue) ||
-                                (_.indexOf(logScale, minValue) === logScale.length - 2 && value > minValue) ||
-                                (minValue <= value && value < maxValue) ) {
-                                highlightColor = calloutColors[i];
-                            }
-                        }
-                        return highlightColor;
-                    });
-                   */
-
-                var xKDE = d3.scale.linear()
-                    .domain([Math.log10(minValue), Math.log10(maxValue)])
-                    .range([0, width]);
-                var kde = kernelDensityEstimator(epanechnikovKernel(.2), xKDE.ticks(50));
-                var estimate = kde(_.map(values, function(d) { return Math.log10(d); }));
                 var yKDE = d3.scale.linear()
                     .domain([0, 1])
                     .range([height, 30]);
+                // KDEstimator with probability distribution tapering out with a bandwidth of 0.2
+                // with the epanechnikov kernel function
+                var kde = kernelDensityEstimator(epanechnikovKernel(0.3), xKDE.ticks(100));
+                var estimate = kde(data); // Estimated density
+
+                // Plot KDE and callouts
                 var plotArea = d3.svg.area()
                     .x(function(d) { return xKDE(d[0]); })
                     .y0(height)
-                    .y1(function(d) { return yKDE(d[1]); });
-                var overlayArea = d3.svg.area()
-                    .x(function(d) { return xKDE(d[0]); })
-                    .y0(0)
                     .y1(function(d) { return yKDE(d[1]); });
                 chart.append('path') // Actual plot area for KDE
                     .datum(estimate)
                     .attr('class', 'kde plot')
                     .attr('d', plotArea);
                 for (var i = 0; i < calloutValues.length; i++) {
-                    if (calloutValues[i] !== null) {
-                        chart.append('rect') // callouts
-                            .attr('x', xKDE(Math.log10(calloutValues[i])))
+                    if (calloutValues[i] !== null) { // Don't plot null vals - null is not 0
+                        chart.append('rect') // Callouts - minValue is used for cases below 1 to avoid negInfinity on log10
+                            .attr('x', xKDE(calloutValues[i] >= 1 ? Math.log10(calloutValues[i]) : minValue))
                             .attr('y', 0)
                             .attr('height', height)
-                            .attr('width', width / 50)
+                            .attr('width', '2px')
                             .attr('fill', calloutColors[i]);
                     }
                 }
-                chart.append('path') // Overlay for callouts
-                    .datum(estimate)
-                    .attr('class', 'overlay')
-                    .attr('d', overlayArea);
 
+
+                /* Debugging logs
                 console.log('Config:', {
                     min: minValue,
                     max: maxValue,
-                    dx: dx,
-                    percentWidth: percentageWidth,
-                    xOffset: xOffset,
                     callouts: calloutValues
                 });
-                console.log('Scale:', logScale);
-                console.log('Data:', histogramData);
+                console.log('Data:', data);
+               */
             };
         };
 

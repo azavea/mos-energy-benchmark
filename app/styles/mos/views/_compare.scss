@@ -73,18 +73,12 @@
     }
 }
 
-
-
 path.plot {
-  fill: steelblue;
+  fill: #666;
+  opacity: 0.2;
   stroke: none;
   shape-rendering: optimizeSpeed;
 }
 
-path.overlay {
-  fill: white;
-  stroke: white;
-  shape-rendering: optimizeSpeed;
-}
 
 
