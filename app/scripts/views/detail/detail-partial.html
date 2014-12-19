@@ -10,7 +10,7 @@
             </div>
             <div class="col-xs-4 pull-right">
                 <div class="energy-star center-block text-center">
-                    <h4>{{ ::building.energy_star | cartodbNumber }}</h4>
+                    <h4>{{ ::building.energy_star | cartodbNumber:0 }}</h4>
                     <label>Energy Star Score</label>
                 </div>
             </div>
@@ -45,12 +45,12 @@
         </div>
     </div>
 
-    <div ng-repeat="(key, readable) in fields"class="row stats" ng-if="building[key]">
+    <div ng-repeat="key in fields"class="row stats" ng-if="building[key]">
         <div class="col-xs-3">
-            <p>{{ ::readable }}</p>
+            <p ng-bind-html="cssValues[key].description"></p>
         </div>
         <div class="col-xs-3">
-            <h3 class="pull-right"><strong>{{ building[key] | cartodbNumber:1 }}</strong></h3>
+            <h3 class="pull-right"><strong>{{ ::building[key] | cartodbNumber:0 }}</strong></h3>
         </div>
         <div class="col-xs-6">
             <mos-histogram plot-height="100"

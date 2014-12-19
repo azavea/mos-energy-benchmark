@@ -5,15 +5,15 @@
      * ngInject
      */
     var DetailConfig = {
-        fields: {
-            'site_eui': 'EUI',
-            'total_ghg': 'Emissions',
-            'electricity': 'Electric Usage',
-            'natural_gas': 'Natural Gas Usage',
-            'fuel_oil': 'Oil Usage',
-            'steam': 'Steam Usage',
-            'water_use': 'Water Usage'
-        },
+        fields: [
+            'site_eui',
+            'total_ghg',
+            'electricity',
+            'natural_gas',
+            'fuel_oil',
+            'steam',
+            'water_use'
+        ],
         FILTER: {
             NONE: 'none',
             SECTOR: 'sector'
@@ -23,7 +23,7 @@
     /*
      * ngInject
      */
-    function DetailController($scope, DetailConfig, MOSColors, buildingData, currentData) {
+    function DetailController($scope, DetailConfig, MOSColors, MOSCSSValues, buildingData, currentData) {
 
 /* jshint laxbreak:true */
         var building = buildingData.data && buildingData.data.rows && buildingData.data.rows.length > 0
@@ -35,6 +35,7 @@
         $scope.building = building;
         $scope.fields = DetailConfig.fields;
         $scope.currentData = rows;
+        $scope.cssValues = MOSCSSValues;
         $scope.filterField = 'sector';
         $scope.calloutColors = [sectorColor];
         $scope.FILTER = DetailConfig.FILTER;

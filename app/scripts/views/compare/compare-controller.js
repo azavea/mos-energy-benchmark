@@ -2,26 +2,26 @@
     'use strict';
 
     var CompareConfig = {
-        fields: {
-            'energy_star': 'Energy Star Score',
-            'site_eui': 'EUI',
-            'total_ghg': 'Emissions',
-            'electricity': 'Electric Usage',
-            'natural_gas': 'Natural Gas Usage',
-            'fuel_oil': 'Oil Usage',
-            'steam': 'Steam Usage',
-            'water_use': 'Water Usage'
-        }
+        fields: [
+            'energy_star',
+            'site_eui',
+            'total_ghg',
+            'electricity',
+            'natural_gas',
+            'fuel_oil',
+            'steam',
+            'water_use'
+        ]
     };
 
     /*
      * ngInject
      */
-    function CompareController($scope, BuildingCompare, CompareConfig, buildingData, currentData) {
+    function CompareController($scope, BuildingCompare, CompareConfig, MOSCSSValues, buildingData, currentData) {
 
         var setCalloutValues = function (data, fields) {
             var calloutValues = {};
-            angular.forEach(fields, function (readable, key) {
+            angular.forEach(fields, function (key) {
                 calloutValues[key] = [];
                 for (var i = 0; i < data.length; i++) {
                     calloutValues[key].push(data[i][key]);
@@ -34,6 +34,7 @@
         $scope.buildings = buildingData.data.rows;
         $scope.fields = CompareConfig.fields;
         $scope.currentData = currentData.data.rows;
+        $scope.cssValues = MOSCSSValues;
         $scope.calloutColors = [
             '#8FBD84',
             '#81ABCC',
