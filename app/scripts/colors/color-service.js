@@ -10,6 +10,7 @@
         var module = {};
 
         var TABLE = '#' + CartoConfig.tables.currentYear;
+        var SECTOR_DESC = 'Building Type';
 
         /*
          *  Helper to get the fields available to select for setting color.
@@ -17,7 +18,7 @@
          *  @returns Collection of field name -> descriptive name key/value pairs
          */
         module.getColorByFields = function() {
-            var colorFields = {'sector': 'Building Type'};
+            var colorFields = {'sector': SECTOR_DESC};
             angular.forEach(MOSCSSValues, function(obj, key) {
                 if (obj.cssVal === 'marker-fill') {
                     colorFields[key] = obj.description;
@@ -78,6 +79,45 @@
         };
 
         /*
+         *  @param {string} Database field name defined in MOSCSSValues
+         *  @returns Object with properties for CartoDB choropleth legend creation
+         */
+        var legendOptions = function(field) {
+            if (!(field in MOSCSSValues)) {
+                console.error('Field ' + field + ' has no CartoCSS defined!');
+                return {};
+            }
+
+            var bins = MOSCSSValues[field].bins;
+            var lastBin = bins.length - 1;
+            var opts = {};
+            opts.title = MOSCSSValues[field].description;
+
+            if (MOSCSSValues[field].cssVal === 'marker-fill') {
+                opts.type = 'choropleth';
+                opts.right = bins[0].max;
+                opts.left = bins[lastBin].max;
+
+                if (field !== 'year_built') {
+                    opts.right = Number(opts.right).toLocaleString();
+                    opts.left = Number(opts.left).toLocaleString();
+                }
+
+                opts.colors = [];
+                for (var i = lastBin; i-->0; ) {
+                    opts.colors.push(bins[i].markerVal);
+                }
+            } else {
+                opts.type = 'bubble';
+                opts.color = 'DarkGrey';
+                opts.min = Number(bins[lastBin].max).toLocaleString();
+                opts.max = Number(bins[0].max).toLocaleString();
+            }
+
+            return opts;
+        };
+
+        /*
          *  Makes a CartoDB legend for the given field
          *
          *  @param {string} selection Database field to build legend for
@@ -87,18 +127,19 @@
             var legend = null;
             if (selection === 'sector') {
                 // categorize by sector
-                legend = new cartodb.geo.ui.Legend({
+                legend = new cartodb.geo.ui.Legend.Custom({
+                   title: SECTOR_DESC,
                    type: 'custom',
                    data: getSectorColors()
                  });
             } else {
-                // choropleth legend
+                // color choropleth or size bubbles
                 var opts = legendOptions(selection);
-                legend = new cartodb.geo.ui.Legend.Choropleth({
-                    left: opts.left,
-                    right: opts.right,
-                    colors: opts.colors
-                });
+                if (opts.type === 'bubble') {
+                    legend = new cartodb.geo.ui.Legend.Bubble(opts);
+                } else {
+                    legend = new cartodb.geo.ui.Legend.Choropleth(opts);
+                }
             }
             return legend.render().el;
         };
@@ -132,31 +173,6 @@
         };
 
         /*
-         *  @param {string} Database field name defined in MOSCSSValues below
-         *  @returns Object with properties for CartoDB choropleth legend creation
-         */
-        var legendOptions = function(field) {
-            if (!(field in MOSCSSValues)) {
-                console.error('Field ' + field + ' has no CartoCSS defined!');
-                return {};
-            }
-
-            var bins = MOSCSSValues[field].bins;
-            var lastBin = bins.length - 1;
-            var opts = {};
-
-            opts.right = bins[0].max;
-            opts.left = bins[lastBin].max;
-            opts.colors = [];
-
-            for (var i = lastBin; i-->0; ) {
-                opts.colors.push(bins[i].markerVal);
-            }
-
-            return opts;
-        };
-
-        /*
          *  @param {string} Database field name
          *  @returns CartoCSS string snippet for field
          */
@@ -175,7 +191,7 @@
 
             for (var i = 0; i < binSize; i++) {
                 var thisBin = bins[i];
-                css += TABLE + ' [' + field + ' <= ' + thisBin.max + 
+                css += TABLE + ' [' + field + ' <= ' + thisBin.max +
                        '] {' + cssVal + ': ' + thisBin.markerVal + ';}\n';
             }
             return css;
