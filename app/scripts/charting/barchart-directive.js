@@ -3,7 +3,7 @@
 
     // Define object config of properties for this chart directive
     var BarChartDefaults = {
-        plotWidth: 800,
+        plotWidth: 700,
         plotHeight: 200,
         transitionMillis: 500,
         lazyLoad: true,
@@ -43,7 +43,7 @@
         function binBySqFt(data, groups) {
             data = _.filter(data, function(d) { return d.sqfeet > 0; });
             _.forEach(data, function(d) {
-                d.log = Math.log10(d.sqfeet);
+                d.log = Math.log(d.sqfeet) / Math.log(10);
             });
             var maxLog = _.max(data, function(d) { return d.log; }).log;
             var binnedBySqFt = {};
@@ -129,7 +129,8 @@
             // D3 margin, sizing, and spacing code
             element.addClass(PLOT_CLASS);
             var chart = d3.select('#' + attrs.id + ' .chart')
-                    .attr('width', config.plotWidth);
+                    .attr('width', config.plotWidth)
+                    .attr('height', config.plotHeight);
 
             // Overridden ChartingController method
             $scope.plot = function(data) {
