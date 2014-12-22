@@ -95,7 +95,7 @@
                 // Filter values < 1 for log scale
                 data = _.chain(data) // Filter out less than 1 and return the log10 of values
                         .filter(function (row) { return row[config.valueField] >= 1; })
-                        .map(function(d) { return Math.log10(d[config.valueField]); })
+                        .map(function(d) { return Math.log(d[config.valueField]) / Math.log(10); })
                         .value();
                 var maxValue = _.max(data);
                 var minValue = _.min(data);
@@ -126,7 +126,7 @@
                 for (var i = 0; i < calloutValues.length; i++) {
                     if (calloutValues[i] !== null) { // Don't plot null vals - null is not 0
                         chart.append('rect') // Callouts - minValue is used for cases below 1 to avoid negInfinity on log10
-                            .attr('x', xKDE(calloutValues[i] >= 1 ? Math.log10(calloutValues[i]) : minValue))
+                            .attr('x', xKDE(calloutValues[i] >= 1 ? Math.log(calloutValues[i]) / Math.log(10) : minValue))
                             .attr('y', 0)
                             .attr('height', height)
                             .attr('width', '2px')
