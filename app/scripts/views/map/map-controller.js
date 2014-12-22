@@ -162,7 +162,7 @@
                     nativeMap.panTo(latlng, {animate: true});
                     var geocodePopupTemplate = [
                         '<span class="featurePopup"><div class="headerPopup"></div>',
-                        '<p>{{::geocodedDisplayName}}</p></span>'
+                        '<div class="popupContent"><p>{{::geocodedDisplayName}}</p></div></span>'
                     ].join('');
                     var attrs = result.feature.attributes;
                     /* jshint camelcase:false */
