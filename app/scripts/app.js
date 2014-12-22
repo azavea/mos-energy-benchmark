@@ -33,7 +33,50 @@
     // min. values and corresponding CSS values for each bucket
     var CssValues = {
             'energy_star': {
-                description: 'Energy Star'
+                cssVal: 'marker-width',
+                description: 'Energy Star',
+                bins: [
+                    {
+                        max: '100',
+                        markerVal: 25
+                    },
+                    {
+                        max: '90',
+                        markerVal: 23.3
+                    },
+                    {
+                        max: '80',
+                        markerVal: 21.7
+                    },
+                    {
+                        max: '70',
+                        markerVal: 20.0
+                    },
+                    {
+                        max: '60',
+                        markerVal: 18.3
+                    },
+                    {
+                        max: '51',
+                        markerVal: 16.7
+                    },
+                    {
+                        max: '41',
+                        markerVal: 15.0
+                    },
+                    {
+                        max: '31',
+                        markerVal: 13.3
+                    },
+                    {
+                        max: '21',
+                        markerVal: 11.7
+                    },
+                    {
+                        max: '11',
+                        markerVal: 10.0
+                    }
+                ]
             },
             'floor_area': {
                 'cssVal': 'marker-fill',
