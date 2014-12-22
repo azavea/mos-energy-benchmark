@@ -4,7 +4,7 @@
     // Define object config of properties for this chart directive
     var BarChartDefaults = {
         plotWidth: 700,
-        plotHeight: 150,
+        plotHeight: 200,
         transitionMillis: 500,
         lazyLoad: true,
         binType: 'temporal'
@@ -129,7 +129,8 @@
             // D3 margin, sizing, and spacing code
             element.addClass(PLOT_CLASS);
             var chart = d3.select('#' + attrs.id + ' .chart')
-                    .attr('width', config.plotWidth);
+                    .attr('width', config.plotWidth)
+                    .attr('height', config.plotHeight);
 
             // Overridden ChartingController method
             $scope.plot = function(data) {
