@@ -1,3 +1,17 @@
+<div class="controls barchart">
+    <div class="axis y">
+        <div class="btn-group" dropdown>
+            <button type="button" dropdown-toggle class="btn dropdown-toggle btn-filter">
+                {{ selectOptions[selectedY] }} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="(key, value) in selectOptions">
+                    <a ng-click="selectedYChanged(key)">{{::value}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 <mos-barchart id="bar-chart-temporal"
               bin-type="'temporal'"
               data="data"
@@ -12,18 +26,3 @@
               select-label="selectLabel"
               select-unit="selectUnit">
 </mos-barchart>
-<div class="controls barchart">
-    <div class="axis y">
-        <div class="btn-group dropup" dropdown>
-            <label>Y-Axis:</label>
-            <button type="button" dropdown-toggle class="btn dropdown-toggle btn-filter">
-                {{ selectOptions[selectedY] }} <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <li ng-repeat="(key, value) in selectOptions">
-                    <a ng-click="selectedYChanged(key)">{{::value}}</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>

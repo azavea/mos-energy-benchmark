@@ -60,7 +60,7 @@ h1, h2, h3, h4, h5{
 
 h1{
   margin-top: 60px!important;
-
+  font-size: 30px;
   &:after{
     content: '';
     display: block;
@@ -374,6 +374,18 @@ hr{
   }
 }
 
+.btn-ghost-dark {
+  background: rgba(0,0,0,.1);
+  color: $paper;
+  border: 0!important;
+
+  &:hover,
+  &:focus {
+    background: rgba(0,0,0,.2);
+    color: $paper;
+  }
+}
+
 .btn-default {
   background: $active;
   color: $paper;
@@ -413,21 +425,19 @@ hr{
 }
 
 .btn-next {
-  background-color: $paper;
-  color: $body;
   width: 40px;
   height: 40px;
   border-radius: 20px;
-  box-shadow: 0 0 4px $filter-border!important;
 
   i{
     line-height: 28px;
   }
-  &:hover{
-    background-color: $active;
-    color: $paper;
-    box-shadow: 0 0 6px darken($filter-border, 10%);
-  }
+}
+
+.btn-glossary{
+  height: 40px;
+  border-radius: 20px;
+  line-height: 28px;
 }
 
 .btn-filter {
@@ -754,4 +764,18 @@ html, body, .content, .chart-hero, .chart-footer {
 
 .div.cartodb-legend.custom ul li .bullet{
   border-color: $border!important;
+}
+.controls{
+    margin: -30px 0 10px 0!important;
+}
+
+.tour{
+  position: absolute;
+  right: 24px;
+  bottom: 124px;
+  width: 240px;
+  background-color: $paper;
+  border-radius: 8px;
+  box-shadow: 0 0 4px $filter-border;
+  padding: 18px;
 }
