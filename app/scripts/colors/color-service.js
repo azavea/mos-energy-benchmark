@@ -194,6 +194,13 @@
                 css += TABLE + ' [' + field + ' <= ' + thisBin.max +
                        '] {' + cssVal + ': ' + thisBin.markerVal + ';}\n';
             }
+
+            // for feature size, add bins with zero size to hide null/zero values
+            if (cssVal === 'marker-width') {
+                css += TABLE + ' [' + field + ' = null] {marker-width: 0;}\n' +
+                       TABLE + ' [' + field + ' = 0] {marker-width: 0;}\n';
+            }
+
             return css;
         };
 

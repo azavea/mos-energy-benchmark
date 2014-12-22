@@ -271,7 +271,7 @@
         });
 
         // load map visualization
-        cartodb.createVis('mymap', 'http://azavea-demo.cartodb.com/api/v2/viz/c5a9af6e-7f12-11e4-8f24-0e018d66dc29/viz.json',
+        cartodb.createVis('mymap', 'http://azavea-demo.cartodb.com/api/v2/viz/3a56f79c-87d1-11e4-b8a5-0e9d821ea90d/viz.json',
                           {'infowindow': false, 'legends': false, 'searchControl': false, 'loaderControl': true})
             .done(function(vis, layers) {
                 $scope.mapLoading = false;
