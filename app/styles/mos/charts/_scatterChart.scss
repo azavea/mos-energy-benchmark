@@ -33,3 +33,26 @@
 .mos-scatterplot .btn-group {
     // TODO: Add dropdown specific classes for each dropdown when the dropdowns are added
 }
+
+//Chart Filters
+#filter-scatter-color, #filter-scatter-size {
+  position: absolute;
+  width: 156px;
+  right: 20px;
+
+  .btn{
+    width: 100%;
+  }
+}
+#filter-scatter-y {
+  position: absolute;
+  top: 350px;
+  left: 160px;
+}
+#filter-scatter-color {
+  top: 177px;
+}
+#filter-scatter-size {
+  top: 116px;
+}
+
