@@ -3,8 +3,8 @@
 
     // Define object config of properties for this chart directive
     var BarChartDefaults = {
-        plotWidth: 800,
-        plotHeight: 200,
+        plotWidth: 700,
+        plotHeight: 150,
         transitionMillis: 500,
         lazyLoad: true,
         binType: 'temporal'
