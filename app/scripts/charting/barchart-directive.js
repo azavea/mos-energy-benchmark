@@ -43,7 +43,7 @@
         function binBySqFt(data, groups) {
             data = _.filter(data, function(d) { return d.sqfeet > 0; });
             _.forEach(data, function(d) {
-                d.log = Math.log10(d.sqfeet);
+                d.log = Math.log(d.sqfeet) / Math.log(10);
             });
             var maxLog = _.max(data, function(d) { return d.log; }).log;
             var binnedBySqFt = {};
