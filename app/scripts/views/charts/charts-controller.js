@@ -6,7 +6,7 @@
     /*
      * ngInject
      */
-    function ChartsController($scope, $q, CartoSQLAPI, ChartingUtils) {
+    function ChartsController($scope, $cookieStore, $q, CartoSQLAPI, ChartingUtils) {
         // Initialize
         $scope.loadingView = true;
         var previousData = [];
