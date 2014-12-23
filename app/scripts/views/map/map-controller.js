@@ -220,7 +220,7 @@
           '<h4>{{::propertyData.propertyName}}</h4>',
           '<p class="popup-header">OPA Number: {{::propertyData.buildingId}}</p>',
           '<p class="popup-header" ng-if="propertyData.address !== propertyData.propertyName">{{::propertyData.address}}</p>',
-          '<p class="popup-header">{{::propertyData.floorArea.toLocaleString()}} Sq. Ft</p></div>',
+          '<p class="popup-header">{{::propertyData.floorArea.toLocaleString()}} sq ft</p></div>',
           '<div class="popupContent">',
           '<p>Site EUI: <strong>{{::propertyData.siteEui.toLocaleString()}}</strong></p>',
           '<p>Emissions: <strong>{{::propertyData.totalGhg.toLocaleString()}}</strong></p>',
