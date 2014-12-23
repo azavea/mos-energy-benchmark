@@ -21,7 +21,8 @@
             <h1>Stats By Building Type</h1>
             <mos-bubblechart id="bubble-chart-1" data="groupedData"></mos-bubblechart>
         </div>
-        <div class="next"><a type="button" class="btn btn-md btn-ghost-dark btn-next" mos-panel-snap-next><i class="fa fa-angle-down"></i></a></div>
+        <div class="next"><a type="button" class="btn btn-md btn-ghost-dark btn-next" ng-click="calloutClicked()" mos-panel-snap-next><i class="fa fa-angle-down"></i></a></div>
+        <div class="popup-callout" ng-hide="hideCallout">Click me or scroll to see more data!</div>
     </section>
 
     <section class="stats-callout">
