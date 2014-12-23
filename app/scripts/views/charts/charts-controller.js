@@ -7,10 +7,10 @@
     function ChartsController($scope, $q, CartoSQLAPI, ChartingUtils) {
         // Initialize
         $scope.loadingView = true;
-        var previousData = null;
-        $scope.currentData = null;
-        $scope.currentAllData = null;
-        $scope.groupedData = null;
+        var previousData = [];
+        $scope.currentData = [];
+        $scope.currentAllData = [];
+        $scope.groupedData = [];
 
         var init  = function () {
             var getPrevious = CartoSQLAPI.getPreviousData().then(function(data) {
@@ -31,7 +31,6 @@
             all.then(function() {
                 $scope.currentData = CartoSQLAPI.getCurrentData($scope.currentAllData);
                 $scope.combinedData = CartoSQLAPI.getCombinedData($scope.currentData, previousData);
-                $scope.seedData = ChartingUtils.seed(20);
                 $scope.loadingView = false;
             });
         };

@@ -4,7 +4,7 @@
     /**
      * @ngInject
      */
-    function CartoSQLAPI ($http, $timeout, CartoConfig, Utils) {
+    function CartoSQLAPI ($http, CartoConfig, Utils) {
         var module = {};
 
         /*
@@ -37,7 +37,7 @@
         /*
          *  Retrieves the previous data from CartoDB
          *
-         *  @return {$httpPromise} objectk
+         *  @return {$httpPromise} object
          */
         module.getPreviousData = function () {
             return makeCartoDBRequest(CartoConfig.data.prevQuery);
@@ -112,16 +112,12 @@
 
             queryParams = queryParams || {};
             var formattedQuery = Utils.strFormat(query, queryParams);
-
-            // simulate delay TODO: remove
-            return $timeout(function() {
-                return $http.get(CartoConfig.data.url, {
-                    params: {
-                        q: formattedQuery
-                    },
-                    cache: true
-                });
-            }, 6000);
+            return $http.get(CartoConfig.data.url, {
+                params: {
+                    q: formattedQuery
+                },
+                cache: true
+            });
         }
 
 
