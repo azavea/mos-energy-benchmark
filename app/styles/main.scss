@@ -719,44 +719,8 @@ html, body, .content, .chart-hero, .chart-footer {
   }
 }
 
-.headerPopup{
-  padding: 18px;
-  color: $paper;
-  text-shadow: 0 0 2px rgba(0,0,0,.3)!important;
 
-  h4{
-    margin: 8px 0 0 0!important;
-    padding-bottom: 10px;
-  }
-}
-
-.popupContent{
-  padding: 18px;
-}
-
-.featurePopup p{
-  margin: 8px 0!important;
-  font-size: 0.7rem;
-
-  strong{
-    float: right;
-    font-family: 'Roboto Slab', serif;
-    font-weight: 700;
-    font-size: 1rem;
-    color: $heading;
-  }
-}
-
-.featurePopup .headerPopup p {
-    margin: 2px 0 !important;
-}
-
-.leaflet-container a.leaflet-popup-close-button{
-  color: $paper!important;
-  text-shadow: none!important;
-  padding: 6px 6px 0 0!important;
-}
-
+/* Legends appear both on charts page and map */
 .cartodb-legend, .cartodb-legend-stack{
   box-shadow: 0 0 4px $filter-border!important;
   border-color: $filter-border!important;

@@ -229,7 +229,7 @@
           '<p><label><input type="checkbox" ng-model="compare.isChecked" ng-disabled="compare.disabled" ',
           'ng-change="setCompare(propertyData.cartodbId)" /> <em>Compare</em></label>',
           '<button type="button" class="pull-right btn btn-popover" ',
-          'ng-style="{\'background-color\': \'{{::propertyData.sectorColor}}\',  \'opacity\': 0.6 }" ',
+          'ng-style="{\'background-color\': \'{{::propertyData.sectorColor}}\',  \'opacity\': 0.8 }" ',
           'ui-sref="detail({buildingId: propertyData.cartodbId})">Full Report</button></p>',
           '</div></div></span>'].join('');
 
