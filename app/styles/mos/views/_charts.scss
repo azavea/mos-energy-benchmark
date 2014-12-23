@@ -2,15 +2,37 @@
     margin: -20px 0 10 0!important;
 }
 
-.popup-callout {
+.callout-container{
     position: absolute;
     display: block;
     min-width: 60px;
     bottom: 70px;
     right: 24px;
-    background-color: white;
+}
+
+.popup-callout {
+    position: relative;
+    background-color: rgba(0,0,0,.8);
     border-radius: 6px;
-    border: 1px solid black;
     padding: 10px;
     z-index: 1000;
+    color: $paper;
+}
+
+.tip-container{
+    margin: 0;
+    width: 40px;
+    height: 20px;
+    position: relative;
+    overflow: hidden;
+    float: right;
+}
+
+.tip{
+    background-color: rgba(0,0,0,.8);
+    width: 17px;
+    height: 17px;
+    padding: 1px;
+    margin: -10px auto 0;
+    transform: rotate(45deg);
 }

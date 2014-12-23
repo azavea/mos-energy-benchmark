@@ -28,9 +28,10 @@ div.leaflet-popup-content-wrapper {
 }
 
 .leaflet-container a.leaflet-popup-close-button {
-  color: #ddd!important;
+  color: $paper!important;
   padding: 6px 6px 0 0!important;
   z-index: 999;
+  text-shadow: 0 0 2px $filter-border;
 }
 
 .popupContent{

@@ -29,7 +29,10 @@
             <mos-bubblechart id="bubble-chart-1" data="groupedData"></mos-bubblechart>
         </div>
         <div class="next"><a type="button" class="btn btn-md btn-ghost-dark btn-next" ng-click="calloutClicked()" mos-panel-snap-next><i class="fa fa-angle-down"></i></a></div>
-        <div class="popup-callout" ng-hide="hideCallout">Click me or scroll to see more data!</div>
+        <div class="callout-container" ng-hide="hideCallout">
+            <div class="popup-callout">Click arrow or scroll to next chart</div>
+            <div class="tip-container"><div class="tip"></div></div>
+        </div>
     </section>
 
     <section class="stats-callout">
