@@ -23,10 +23,10 @@
         'Industrial': '#6A3D9A',
         'Worship': '#9C90C4',
         'Supermarket': '#E8AE6C',
-        'Parking': '#C9DBE6',
+        'Parking': '#62afe8',
         'Laboratory': '#3AA3FF',
         'Hospital': '#C6B4FF',
-        'Data Center': '#B8FFA8',
+        'Data Center': '#a3d895',
         'Unknown': '#DDDDDD'
     };
 
