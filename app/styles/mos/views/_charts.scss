@@ -1,3 +1,16 @@
 .controls{
     margin: -20px 0 10 0!important;
 }
+
+.popup-callout {
+    position: absolute;
+    display: block;
+    min-width: 60px;
+    bottom: 70px;
+    right: 24px;
+    background-color: white;
+    border-radius: 6px;
+    border: 1px solid black;
+    padding: 10px;
+    z-index: 1000;
+}
