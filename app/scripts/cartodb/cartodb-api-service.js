@@ -4,7 +4,7 @@
     /**
      * @ngInject
      */
-    function CartoSQLAPI ($http, CartoConfig, Utils) {
+    function CartoSQLAPI ($http, $timeout, CartoConfig, Utils) {
         var module = {};
 
         /*
@@ -62,8 +62,8 @@
          * @return [Array] Merged data
          */
         module.getCombinedData = function (currData, prevData) {
-            var currRows = currData.rows;
-            var prevRows = prevData.rows;
+            var currRows = currData;
+            var prevRows = prevData;
 
             var data = {};
             var dataArr = [];
@@ -99,12 +99,15 @@
             queryParams = queryParams || {};
             var formattedQuery = Utils.strFormat(query, queryParams);
 
-            return $http.get(CartoConfig.data.url, {
-                params: {
-                    q: formattedQuery
-                },
-                cache: true
-            });
+            // simulate delay TODO: remove
+            return $timeout(function() {
+                return $http.get(CartoConfig.data.url, {
+                    params: {
+                        q: formattedQuery
+                    },
+                    cache: true
+                });
+            }, 6000);
         }
 
 
