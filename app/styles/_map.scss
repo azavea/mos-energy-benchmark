@@ -21,6 +21,10 @@ div.leaflet-popup-content {
   margin-top: -20px;
   margin-left: -1px;
   margin-right: -1px;
+
+  .featurePopup p{
+    margin: 0!important;
+  }
 }
 
 div.leaflet-popup-content-wrapper {
