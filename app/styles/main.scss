@@ -520,14 +520,29 @@ hr{
 
 .form-control{
   background-color: $paper;
-  color: $heading;
+  color: $heading!important;
+  opacity: 1;
   border-top-right-radius: 4px!important;
   border-top-left-radius: 4px!important;
   border-bottom-right-radius: 4px!important;
   border-bottom-left-radius: 4px!important;
   border: solid 1px $filter-border;
-  padding: 20px!important;
+  height: 41px;
   box-shadow: 0 0 4px $filter-border!important;
+
+  [placeholder]::-webkit-input-placeholder {
+    color: $heading!important;
+    opacity: 1;
+  }
+  [placeholder]:-moz-placeholder {
+    color: $heading!important;
+    opacity: 1;
+  }
+
+  [placeholder]:-ms-input-placeholder {
+    color: $heading!important;
+    opacity: 1;
+  }
 }
 
 .glyphicon-search{
