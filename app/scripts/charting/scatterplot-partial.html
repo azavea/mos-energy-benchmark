@@ -1,17 +1,5 @@
 <div id="scatterplot" class="controls">
     <br>
-    <div id="filter-scatter-x" class="btn-group" dropdown>
-        <label>X Axis:</label>
-        <button type="button" dropdown-toggle
-            class="btn dropdown-toggle btn-filter"
-            ng-bind-html="axisOptions[selected.x] + '<span class=&quot;caret&quot;></span>'">
-        </button>
-        <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="(key, value) in axisOptions">
-                <a ng-click="changeSelectedOption('x', key)" ng-bind-html="value"></a>
-            </li>
-        </ul>
-    </div>
     <div id="filter-scatter-y" class="btn-group" dropdown>
         <label>Y Axis:</label>
         <button type="button" dropdown-toggle
@@ -21,6 +9,18 @@
         <ul class="dropdown-menu" role="menu">
             <li ng-repeat="(key, value) in axisOptions">
                 <a ng-click="changeSelectedOption('y', key)" ng-bind-html="value"></a>
+            </li>
+        </ul>
+    </div>
+    <div id="filter-scatter-x" class="btn-group" dropdown>
+        <label>X Axis:</label>
+        <button type="button" dropdown-toggle
+            class="btn dropdown-toggle btn-filter"
+            ng-bind-html="axisOptions[selected.x] + '<span class=&quot;caret&quot;></span>'">
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="(key, value) in axisOptions">
+                <a ng-click="changeSelectedOption('x', key)" ng-bind-html="value"></a>
             </li>
         </ul>
     </div>
