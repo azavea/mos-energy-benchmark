@@ -12,6 +12,10 @@
         var TABLE = '#' + CartoConfig.tables.currentYear;
         var SECTOR_DESC = 'Building Type';
 
+        function sectorComparator(a, b) {
+            return a.name.localeCompare(b.name);
+        }
+
         /*
          *  Helper to get the fields available to select for setting color.
          *
@@ -154,7 +158,7 @@
             angular.forEach(MOSColors, function(value, key) {
                 sectors.push({'name': key, 'value': value});
             });
-            return sectors;
+            return sectors.sort(sectorComparator);
         };
 
         /*

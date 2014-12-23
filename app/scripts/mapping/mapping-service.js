@@ -25,7 +25,7 @@
          *  @returns Promise with query results
          */
         module.getBldgCategories = function() {
-            var qry = 'SELECT DISTINCT sector FROM {{tbl}};';
+            var qry = 'SELECT DISTINCT sector FROM {{tbl}} order by sector;';
             var sql = new cartodb.SQL({ user: 'azavea-demo'});
             return sql.execute(qry, {tbl: table});
         };
