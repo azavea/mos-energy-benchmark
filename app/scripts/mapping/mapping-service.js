@@ -106,11 +106,7 @@
         };
 
         /*
-         * Geocode an address.  Docs here:
-         * http://wiki.openstreetmap.org/wiki/Nominatim
-         *
-         * @param {string} address One-line address string to geocode
-         * @returns Promise with Nominatim search results
+         * Geocode an address.
          */
         module.geocode = function(address) {
 

@@ -8,21 +8,7 @@
         $stateProvider.state('charts', {
             url: '/',
             templateUrl: 'scripts/views/charts/charts-partial.html',
-            controller: 'ChartsController',
-            resolve: /*@ngInject*/ {
-                currentData: function (CartoSQLAPI) {
-                    return CartoSQLAPI.getCurrentData();
-                },
-                currentAllData: function (CartoSQLAPI) {
-                    return CartoSQLAPI.getAllCurrentData();
-                },
-                groupedData: function (CartoSQLAPI) {
-                    return CartoSQLAPI.getGroupedData();
-                },
-                previousData: function (CartoSQLAPI) {
-                    return CartoSQLAPI.getPreviousData();
-                }
-            }
+            controller: 'ChartsController'
         });
     }
 
