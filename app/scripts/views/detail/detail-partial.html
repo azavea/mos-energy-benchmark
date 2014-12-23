@@ -6,6 +6,7 @@
                 <h3>{{ ::building.property_name }}</h3>
                 <p><b>{{ ::building.sector }}</b></p>
                 <p ng-show="building.floor_area"><i>{{ ::building.floor_area | number:0}} sq ft</i></p>
+                <p ng-show="building.year_built"><i>Year Built: {{ ::building.year_built }}</i></p>
 
             </div>
             <div class="col-xs-4 pull-right">

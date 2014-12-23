@@ -182,7 +182,7 @@
                 if (config.binType === 'temporal') {
                     labelStart.text('1850');
                     labelEnd.text('2013');
-                    labelMiddle.text('Years');
+                    labelMiddle.text('Year Built');
                 } else if (config.binType === 'area') {
                     labelStart.text(Math.round(data[data.length - 1].minsqft / 1000).toLocaleString() + 'k');
                     labelEnd.text(Math.round(data[0].maxsqft / 1000).toLocaleString() + 'k');
