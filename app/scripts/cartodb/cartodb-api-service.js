@@ -8,12 +8,26 @@
         var module = {};
 
         /*
-         *  Retrieves the current data from CartoDB
-         *
-         *  @return {$httpPromise} object
+         *  Builds subset of renamed data fields from full query, for charts
          */
-        module.getCurrentData = function () {
-            return makeCartoDBRequest(CartoConfig.data.currQuery);
+        module.getCurrentData = function (currentAllData) {
+            var currentData = [];
+            angular.forEach(currentAllData, function (row) {
+                /* jshint camelcase:false */
+                var property = {
+                    id: row.portfolio_bldg_id,
+                    sector: row.sector,
+                    propertyname: row.property_name,
+                    emissions: row.total_ghg,
+                    energystar: row.energy_star,
+                    eui: row.site_eui,
+                    sqfeet: row.floor_area,
+                    yearbuilt: row.year_built
+                };
+                /* jshint camelcase:true */
+                currentData.push(property);
+            });
+            return currentData;
         };
 
         module.getAllCurrentData = function () {
@@ -23,7 +37,7 @@
         /*
          *  Retrieves the previous data from CartoDB
          *
-         *  @return {$httpPromise} object
+         *  @return {$httpPromise} objectk
          */
         module.getPreviousData = function () {
             return makeCartoDBRequest(CartoConfig.data.prevQuery);
