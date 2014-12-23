@@ -257,7 +257,7 @@
             }).error(function(errors) {
                 // returns a list
                 console.error('errors fetching property types: ' + errors);
-                $scope.buildingTypes = [module.FILTER_NONE];
+                $scope.buildingTypes = [MappingService.FILTER_NONE];
             });
 
         // add legends for feature size and color
