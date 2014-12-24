@@ -41,10 +41,12 @@
 
         // This is a helper function for transforming api data into percentiles based on sqft
         function binBySqFt(data, groups) {
-            // exclude properties without sq footage reported, and one outlier
+            // exclude properties without sq footage reported, and one outlier:
+            // the University of Pennsylvania, building ID 3634188
             data = _.reject(data, function(d) {
-                return (!d.sqfeet) || d.propertyname === 'University of Pennsylvania';
+                return (!d.sqfeet) || d.id === '3634188';
             });
+            console.log(data.length);
             _.forEach(data, function(d) {
                 d.log = Math.log(d.sqfeet) / Math.log(10);
             });
