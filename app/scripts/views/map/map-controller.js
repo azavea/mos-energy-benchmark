@@ -129,12 +129,10 @@
                         var row = data.rows[0];
                         setPropertyData(row);
                         var latlng = L.latLng(row.y, row.x);
+                        nativeMap.setView(latlng, 16);
                         $scope.popupLoading = false;
                         $scope.amSearching = false;
-                        nativeMap.panTo(latlng);
                         showPopup(latlng);
-                        nativeMap.setZoom(16);
-
                     }).error(function(errors) {
                         console.error('errors fetching property by building ID: ' + errors);
                         setPropertyData(null);
@@ -153,15 +151,17 @@
                     }
 
                     var result = data[0];
-                    $scope.noResults = false;
-                    $scope.amSearching = false;
 
                     // show popup with found addresss display name
                     var geometry = result.feature.geometry;
                     var latlng = L.latLng(geometry.y, geometry.x);
-                    nativeMap.panTo(latlng, {animate: true});
+
+                    nativeMap.setView(latlng, 16);
+                    $scope.noResults = false;
+                    $scope.amSearching = false;
+
                     var geocodePopupTemplate = [
-                        '<span class="featurePopup"><div class="headerPopup"style="background-color: #666666; height: 50px;"></div>',
+                        '<span class="featurePopup"><div class="headerPopup geocodePopup"></div>',
                         '<div class="popupContent"><p>{{::geocodedDisplayName}}</p></div></span>'
                     ].join('');
                     var attrs = result.feature.attributes;
@@ -176,7 +176,6 @@
                     L.popup({
                         minWidth: 200
                     }).setLatLng(latlng).setContent(popup[0]).openOn(nativeMap);
-                    nativeMap.setZoom(16);
 
                 }, function(err) {
                     console.error(err);
