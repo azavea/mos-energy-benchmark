@@ -46,7 +46,6 @@
             data = _.reject(data, function(d) {
                 return (!d.sqfeet) || d.id === '3634188';
             });
-            console.log(data.length);
             _.forEach(data, function(d) {
                 d.log = Math.log(d.sqfeet) / Math.log(10);
             });
