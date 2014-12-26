@@ -92,7 +92,11 @@
 
         // Helper function for transforming unshaped data into data binned and aggregated over 5 year periods
         function binByYears(data) {
-            var filteredData = _.filter(data, function(d) { return d.yearbuilt > 1849; });
+            // exclude very old buildings, and one outlier:
+            // the University of Pennsylvania, building ID 3634188
+            var filteredData = _.reject(data, function(d) {
+                return (d.yearbuilt <= 1849) || d.id === '3634188';
+            });
             var dateRanges = _.zip(_.range(1849, 2015, 5), _.range(1853, 2019, 5));
             var rolledData =
                 d3.nest()
