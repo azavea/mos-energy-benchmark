@@ -116,17 +116,26 @@
                     .text(function (d) { return d.name; })
                     .style('opacity', 0);
 
+                // Draw another circle to prevent bizarre tooltip behavior
+                nodeEnter.append('circle')
+                    .attr('r', 0)
+                    .attr('class', 'bubble2')
+                    // Set opacity to 0 so text can be seen
+                    .style('opacity', 0);
+
                 // Update
                 node.transition().duration(config.transitionTime)
                     .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; })
                     .selectAll('circle')
                     .attr('r', function (d) { return d.r; });
 
-                node.select('text').transition().duration(config.transitionTime).style('opacity', function (d) {
+                node.select('text').transition().duration(config.transitionTime)
+                    .style('opacity', function (d) {
                         // only show sector labels on bubble if bubble is bigger than text box
                         var bbox = this.getBBox();
                         return bbox.width < ((d.r * 2) - 5) ? 1 : 0;
                     });
+
             };
         };
 
