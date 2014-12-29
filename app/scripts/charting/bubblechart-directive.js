@@ -121,8 +121,7 @@
                     .attr('r', 0)
                     .attr('class', 'bubble2')
                     // Set opacity to 0 so text can be seen
-                    .style('opacity', 0)
-                    .style('fill', function (d) { return MOSColors[d.name] || MOSColors.Unknown; });
+                    .style('opacity', 0);
 
                 // Update
                 node.transition().duration(config.transitionTime)
