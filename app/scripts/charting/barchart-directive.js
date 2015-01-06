@@ -66,8 +66,8 @@
                 var nEnergystar = _.filter(d, function(e) { return !isNaN(e.energystar) && e.energystar > 0; }).length;
                 var nEUI = _.filter(d, function(e) { return !isNaN(e.eui) && e.eui > 0; }).length;
                 // The bin boundaries
-                var lowBound = Math.round(Math.pow(10, (i * binSize))).toLocaleString();
-                var highBound = Math.round(Math.pow(10, (i * binSize) + binSize)).toLocaleString();
+                var lowBound = Math.round(Math.pow(10, (i * binSize)));
+                var highBound = Math.round(Math.pow(10, (i * binSize) + binSize));
                 // Min and max sq ft
                 var minsqft = _.min(d, function(val) { return val.sqfeet; }).sqfeet;
                 var maxsqft = _.max(d, function(val) { return val.sqfeet; }).sqfeet;
@@ -81,9 +81,11 @@
                     totalsqft: _.reduce(d, function(memo, val) { return val.sqfeet + memo; }, 0),
                     totalenergy: _.reduce(d, function(memo, val) { return (val.sqfeet * val.eui) + memo; }, 0),
                     count: kCount,
-                    key: lowBound + ' - ' + highBound,
+                    key: lowBound.toLocaleString() + ' - ' + highBound.toLocaleString(),
                     yearRange: _.min(d, function(d) { return d.yearbuilt; }).yearbuilt +
-                        '-' + _.max(d, function(d) { return d.yearbuilt; }).yearbuilt
+                        '-' + _.max(d, function(d) { return d.yearbuilt; }).yearbuilt,
+                    lowBound: lowBound,
+                    highBound: highBound
                 });
             });
             return _.rest(output, function(d) { return d.count === 0; }).reverse(); // Prune empty head
@@ -160,14 +162,25 @@
                 var x = d3.scale.ordinal()
                     .domain(data.map(function(d) { return d.key; }))
                     .rangeRoundBands([config.plotWidth-config.margin.left-config.margin.right, 0], 0.05);
+                var tickscale;  // Scale to use to draw axis
+                if (config.binType === 'area') {
+                    tickscale = d3.scale.log()
+                        .domain([data[data.length - 1].lowBound, data[0].highBound])
+                        .range([0, config.plotWidth-config.margin.left-config.margin.right]);
+                } else {
+                    tickscale = x;
+                }
                 var y = d3.scale.linear()
                     .domain([0, d3.max(data, function(d) { return d[yAttr]; })])
                     .range([config.plotHeight-config.margin.bottom-config.margin.top, 0]);
                 var bottomAxis = d3.svg.axis()
                     .orient('bottom')
-                    .scale(x)
+                    .scale(tickscale)
                     .tickSize(3,1)
-                    .tickValues([]);
+                    .tickFormat(function () { return ''; });
+                if (config.binType !== 'area') {  // only show ticks on log chart
+                    bottomAxis = bottomAxis.tickValues([]);
+                }
                 chart.append('g')
                     .attr('class', 'x axis')
                     .attr('transform', 'translate(' +config.margin.left + ',' + (config.plotHeight - config.margin.bottom) + ')')
