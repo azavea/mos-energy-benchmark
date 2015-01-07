@@ -52,11 +52,11 @@
             var maxLog = _.max(data, function(d) { return d.log; }).log;
             var binnedBySqFt = {};
             var binSize = maxLog / groups;
-            var getBinSize =  function(d) {
+            var isInBin = function(d) {
                 return binSize * i < d.log && (binSize * i) + binSize >= d.log;
             };
             for (var i = 0; i < groups; i++) {
-                binnedBySqFt[i] = _.filter(data, getBinSize);
+                binnedBySqFt[i] = _.filter(data, isInBin);
             }
             var output = [];
             _.forEach(binnedBySqFt, function(d, i) {
@@ -88,7 +88,7 @@
                     highBound: highBound
                 });
             });
-            return _.rest(output, function(d) { return d.count === 0; }).reverse(); // Prune empty head
+            return _.rest(output, function(d) { return d.lowBound < 800; }).reverse(); // Prune head under 10^3
         }
 
 
@@ -132,9 +132,14 @@
         }
 
         module.link = function ($scope, element, attrs) {
+            // http://bl.ocks.org/mbostock/6738109
+            var superscript = '⁰¹²³⁴⁵⁶⁷⁸⁹',
+                formatPower = function(d) { return (d + '').split('').map(function(c) { return superscript[c]; }).join(''); };
+
             $scope.configure(BarChartDefaults);
             var config = $scope.config;
             config.margin.left = 0;
+            config.margin.bottom = 40;
 
             // D3 margin, sizing, and spacing code
             element.addClass(PLOT_CLASS);
@@ -177,7 +182,7 @@
                     .orient('bottom')
                     .scale(tickscale)
                     .tickSize(3,1)
-                    .tickFormat(function () { return ''; });
+                    .ticks(5, function(d) { return 10 + formatPower(Math.round(Math.log(d) / Math.LN10)); });
                 if (config.binType !== 'area') {  // only show ticks on log chart
                     bottomAxis = bottomAxis.tickValues([]);
                 }
@@ -201,13 +206,12 @@
                     .attr('y', config.plotHeight - config.margin.top);
                 // Depending on bin type, our axis labeling should look rather different
                 if (config.binType === 'temporal') {
-                    labelStart.text('1850');
-                    labelEnd.text('2013');
-                    labelMiddle.text('Year Built');
+                    labelStart.attr('dy', '-10px').text('1850'); // we've adjusted the margin, so move up the text
+                    labelEnd.attr('dy', '-10px').text('2013');
+                    labelMiddle.attr('dy', '-10px').text('Year Built');
                 } else if (config.binType === 'area') {
-                    labelStart.text(Math.round(data[data.length - 1].minsqft / 1000).toLocaleString() + 'k');
-                    labelEnd.text(Math.round(data[0].maxsqft / 1000).toLocaleString() + 'k');
-                    labelMiddle.text('Sq. Feet ')
+                    labelMiddle
+                        .text('Sq. Feet ')
                         .append('tspan')
                         .attr('class', 'faded')
                         .text('(log scale)');
