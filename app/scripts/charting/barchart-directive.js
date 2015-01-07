@@ -207,7 +207,10 @@
                 } else if (config.binType === 'area') {
                     labelStart.text(Math.round(data[data.length - 1].minsqft / 1000).toLocaleString() + 'k');
                     labelEnd.text(Math.round(data[0].maxsqft / 1000).toLocaleString() + 'k');
-                    labelMiddle.text('Sq. Feet');
+                    labelMiddle.text('Sq. Feet ')
+                        .append('tspan')
+                        .attr('class', 'faded')
+                        .text('(log scale)');
                 }
 
                 // Tooltips
