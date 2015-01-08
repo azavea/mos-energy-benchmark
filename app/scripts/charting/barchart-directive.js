@@ -133,8 +133,14 @@
 
         module.link = function ($scope, element, attrs) {
             // http://bl.ocks.org/mbostock/6738109
-            var superscript = '⁰¹²³⁴⁵⁶⁷⁸⁹',
-                formatPower = function(d) { return (d + '').split('').map(function(c) { return superscript[c]; }).join(''); };
+            var superscript = '⁰¹²³⁴⁵⁶⁷⁸⁹';
+            var formatPower = function(d) {
+                return (d + '')
+                    .split('')
+                    .map(function(c) {
+                        return superscript[c];
+                    }).join('');
+            };
 
             $scope.configure(BarChartDefaults);
             var config = $scope.config;
