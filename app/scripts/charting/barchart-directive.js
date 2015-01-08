@@ -52,11 +52,11 @@
             var maxLog = _.max(data, function(d) { return d.log; }).log;
             var binnedBySqFt = {};
             var binSize = maxLog / groups;
-            var getBinSize =  function(d) {
+            var isInBin = function(d) {
                 return binSize * i < d.log && (binSize * i) + binSize >= d.log;
             };
             for (var i = 0; i < groups; i++) {
-                binnedBySqFt[i] = _.filter(data, getBinSize);
+                binnedBySqFt[i] = _.filter(data, isInBin);
             }
             var output = [];
             _.forEach(binnedBySqFt, function(d, i) {
@@ -66,8 +66,8 @@
                 var nEnergystar = _.filter(d, function(e) { return !isNaN(e.energystar) && e.energystar > 0; }).length;
                 var nEUI = _.filter(d, function(e) { return !isNaN(e.eui) && e.eui > 0; }).length;
                 // The bin boundaries
-                var lowBound = Math.round(Math.pow(10, (i * binSize))).toLocaleString();
-                var highBound = Math.round(Math.pow(10, (i * binSize) + binSize)).toLocaleString();
+                var lowBound = Math.round(Math.pow(10, (i * binSize)));
+                var highBound = Math.round(Math.pow(10, (i * binSize) + binSize));
                 // Min and max sq ft
                 var minsqft = _.min(d, function(val) { return val.sqfeet; }).sqfeet;
                 var maxsqft = _.max(d, function(val) { return val.sqfeet; }).sqfeet;
@@ -81,12 +81,14 @@
                     totalsqft: _.reduce(d, function(memo, val) { return val.sqfeet + memo; }, 0),
                     totalenergy: _.reduce(d, function(memo, val) { return (val.sqfeet * val.eui) + memo; }, 0),
                     count: kCount,
-                    key: lowBound + ' - ' + highBound,
+                    key: lowBound.toLocaleString() + ' - ' + highBound.toLocaleString(),
                     yearRange: _.min(d, function(d) { return d.yearbuilt; }).yearbuilt +
-                        '-' + _.max(d, function(d) { return d.yearbuilt; }).yearbuilt
+                        '-' + _.max(d, function(d) { return d.yearbuilt; }).yearbuilt,
+                    lowBound: lowBound,
+                    highBound: highBound
                 });
             });
-            return _.rest(output, function(d) { return d.count === 0; }).reverse(); // Prune empty head
+            return _.rest(output, function(d) { return d.lowBound < 800; }).reverse(); // Prune head under 10^3
         }
 
 
@@ -130,9 +132,20 @@
         }
 
         module.link = function ($scope, element, attrs) {
+            // http://bl.ocks.org/mbostock/6738109
+            var superscript = '⁰¹²³⁴⁵⁶⁷⁸⁹';
+            var formatPower = function(d) {
+                return (d + '')
+                    .split('')
+                    .map(function(c) {
+                        return superscript[c];
+                    }).join('');
+            };
+
             $scope.configure(BarChartDefaults);
             var config = $scope.config;
             config.margin.left = 0;
+            config.margin.bottom = 40;
 
             // D3 margin, sizing, and spacing code
             element.addClass(PLOT_CLASS);
@@ -160,14 +173,25 @@
                 var x = d3.scale.ordinal()
                     .domain(data.map(function(d) { return d.key; }))
                     .rangeRoundBands([config.plotWidth-config.margin.left-config.margin.right, 0], 0.05);
+                var tickscale;  // Scale to use to draw axis
+                if (config.binType === 'area') {
+                    tickscale = d3.scale.log()
+                        .domain([data[data.length - 1].lowBound, data[0].highBound])
+                        .range([0, config.plotWidth-config.margin.left-config.margin.right]);
+                } else {
+                    tickscale = x;
+                }
                 var y = d3.scale.linear()
                     .domain([0, d3.max(data, function(d) { return d[yAttr]; })])
                     .range([config.plotHeight-config.margin.bottom-config.margin.top, 0]);
                 var bottomAxis = d3.svg.axis()
                     .orient('bottom')
-                    .scale(x)
+                    .scale(tickscale)
                     .tickSize(3,1)
-                    .tickValues([]);
+                    .ticks(5, function(d) { return 10 + formatPower(Math.round(Math.log(d) / Math.LN10)); });
+                if (config.binType !== 'area') {  // only show ticks on log chart
+                    bottomAxis = bottomAxis.tickValues([]);
+                }
                 chart.append('g')
                     .attr('class', 'x axis')
                     .attr('transform', 'translate(' +config.margin.left + ',' + (config.plotHeight - config.margin.bottom) + ')')
@@ -188,13 +212,15 @@
                     .attr('y', config.plotHeight - config.margin.top);
                 // Depending on bin type, our axis labeling should look rather different
                 if (config.binType === 'temporal') {
-                    labelStart.text('1850');
-                    labelEnd.text('2013');
-                    labelMiddle.text('Year Built');
+                    labelStart.attr('dy', '-10px').text('1850'); // we've adjusted the margin, so move up the text
+                    labelEnd.attr('dy', '-10px').text('2013');
+                    labelMiddle.attr('dy', '-10px').text('Year Built');
                 } else if (config.binType === 'area') {
-                    labelStart.text(Math.round(data[data.length - 1].minsqft / 1000).toLocaleString() + 'k');
-                    labelEnd.text(Math.round(data[0].maxsqft / 1000).toLocaleString() + 'k');
-                    labelMiddle.text('Sq. Feet');
+                    labelMiddle
+                        .text('Sq. Feet ')
+                        .append('tspan')
+                        .attr('class', 'faded')
+                        .text('(log scale)');
                 }
 
                 // Tooltips
