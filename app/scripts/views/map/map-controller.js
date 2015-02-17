@@ -4,7 +4,7 @@
     /*
      * ngInject
      */
-    function MapController($compile, $q, $scope, $state, $timeout, BuildingCompare, MappingService, ColorService) {
+    function MapController($compile, $q, $scope, $state, $timeout, BuildingCompare, CartoConfig, MappingService, ColorService) {
 
         // indicate that map is loading, hang on..
         $scope.mapLoading = true;
@@ -276,7 +276,7 @@
         });
 
         // load map visualization
-        cartodb.createVis('mymap', 'http://mos-benchmarking.cartodb.com/api/v2/viz/5e5cbbf0-8ac3-11e4-bf05-0e9d821ea90d/viz.json',
+        cartodb.createVis('mymap', 'http://' + CartoConfig.user + '.cartodb.com/api/v2/viz/' + CartoConfig.visualization + '/viz.json',
                           {'infowindow': false, 'legends': false, 'searchControl': false, 'loaderControl': true})
             .done(function(vis, layers) {
                 $scope.mapLoading = false;

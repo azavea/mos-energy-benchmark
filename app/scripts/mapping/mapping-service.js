@@ -26,7 +26,7 @@
          */
         module.getBldgCategories = function() {
             var qry = 'SELECT DISTINCT sector FROM {{tbl}} order by sector;';
-            var sql = new cartodb.SQL({ user: 'azavea-demo'});
+            var sql = new cartodb.SQL({ user: CartoConfig.user });
             return sql.execute(qry, {tbl: table});
         };
 
@@ -39,7 +39,7 @@
         module.featureLookup = function(cartodbId)  {
             var qry = 'SELECT cartodb_id, phl_bldg_id, property_name, address, floor_area, total_ghg, site_eui, ' +
             'energy_star, sector FROM {{tbl}} where cartodb_id = {{id}}';
-            var sql = new cartodb.SQL({ user: 'azavea-demo'});
+            var sql = new cartodb.SQL({ user: CartoConfig.user });
             return sql.execute(qry, { id: cartodbId, tbl: table });
         };
 
@@ -53,7 +53,7 @@
         module.featureLookupByBldgId = function(bldgId)  {
             var qry = 'SELECT cartodb_id, property_name, address, total_ghg, site_eui, ' +
             'energy_star, sector, x, y FROM {{tbl}} where phl_bldg_id = \'{{bldgId}}\';';
-            var sql = new cartodb.SQL({ user: 'azavea-demo'});
+            var sql = new cartodb.SQL({ user: CartoConfig.user });
             return sql.execute(qry, { bldgId: bldgId, tbl: table});
         };
 
@@ -64,7 +64,7 @@
          */
         module.getBuildingIds = function() {
             var qry = 'SELECT DISTINCT phl_bldg_id FROM {{tbl}};';
-            var sql = new cartodb.SQL({ user: 'azavea-demo'});
+            var sql = new cartodb.SQL({ user: CartoConfig.user });
             return sql.execute(qry, {tbl: table});
         };
 
