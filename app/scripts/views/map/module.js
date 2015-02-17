@@ -23,6 +23,7 @@
         'ngSanitize',
         'ui.router',
         'ui.bootstrap',
+        'mos.cartodb',
         'mos.compare',
         'mos.colors',
         'mos.mapping'

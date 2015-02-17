@@ -7,6 +7,9 @@
     function CartoConfig (Utils) {
         var module = {};
 
+        module.user = 'mos-benchmarking';
+        module.visualization = '5e5cbbf0-8ac3-11e4-bf05-0e9d821ea90d';
+
         // The unique column to use to identify records throughout the app
         module.uniqueColumn = 'cartodb_id';
 
@@ -30,7 +33,7 @@
         // it easier to swap in newer sets of data. There are
         // no current plans to support more than two years of data.
         module.data = {
-            url: 'http://azavea-demo.cartodb.com/api/v2/sql',
+            url: 'http://' + module.user + '.cartodb.com/api/v2/sql',
 
 /* jshint laxbreak:true */
             prevQuery: 'SELECT'
