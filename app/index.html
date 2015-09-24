@@ -35,6 +35,9 @@
     <headroom headroom-reset class="header" offset="120">
       <a ui-sref="charts"><div id="logo"></div></a>
       <ul class="nav nav-pills pull-right">
+
+        <mos-year-selector></mos-year-selector>
+
         <li ui-sref-active="active"><a ui-sref="charts"><div class="nav-icon nav-chart"></div>Charts</a></li>
         <!-- TODO: Figure out how to show map highlight when detail/compare is active? -->
         <li ui-sref-active="active"><a ui-sref="map"><div class="nav-icon nav-map"></div>Map</a></li>
@@ -121,6 +124,11 @@
 
     <script src="scripts/colors/module.js"></script>
     <script src="scripts/colors/color-service.js"></script>
+
+    <script src="scripts/years/module.js"></script>
+    <script src="scripts/years/year-service.js"></script>
+    <script src="scripts/years/year-selector-controller.js"></script>
+    <script src="scripts/years/year-selector-directive.js"></script>
 
     <script src="scripts/charting/module.js"></script>
     <script src="scripts/charting/charting-service.js"></script>

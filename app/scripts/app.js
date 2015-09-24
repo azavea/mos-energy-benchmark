@@ -485,6 +485,7 @@
         'mos.views.info',
         'mos.views.detail',
         'mos.views.compare',
+        'mos.years',
         'headroom'
     ]).config(StateConfig);
 

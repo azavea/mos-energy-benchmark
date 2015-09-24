@@ -9,7 +9,7 @@
     function ColorService (MOSColors, MOSCSSValues, CartoConfig) {
         var module = {};
 
-        var TABLE = '#' + CartoConfig.tables.currentYear;
+        var TABLE = '#' + CartoConfig.table;
         var SECTOR_DESC = 'Building Type';
 
         function sectorComparator(a, b) {
