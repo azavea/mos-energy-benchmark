@@ -6,15 +6,9 @@ describe('Factory: mos.colors.ColorService', function () {
 
     var $injector = angular.injector(['mos']);
     var Colors;
-    var CartoConfig;
-    var MosColors;
-    var MosCssValues;
 
     // Initialize the service
     beforeEach(inject(function (_ColorService_) {
-        MosColors = $injector.get('MOSColors');
-        MosCssValues = $injector.get('MOSCSSValues');
-        CartoConfig = $injector.get('CartoConfig');
         Colors = _ColorService_;
     }));
 
