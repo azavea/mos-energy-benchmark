@@ -35,15 +35,6 @@
         };
 
         /*
-         *  Retrieves the previous data from CartoDB
-         *
-         *  @return {$httpPromise} object
-         */
-        module.getPreviousData = function () {
-            return makeCartoDBRequest(CartoConfig.data.prevQuery);
-        };
-
-        /*
          *  Retrieves the grouped data from CartoDB
          *
          *  @return {$httpPromise} object
@@ -65,41 +56,6 @@
             return makeCartoDBRequest(CartoConfig.data.detailQuery, {
                 id: ids
             });
-        };
-
-        /*
-         * Combines the rows, keeps the ones where data exists for both years
-         *
-         * @param {Object} currData Data returned from CartoDB representing current data
-         * @param {Object} prevData Data returned from CartoDB representing previous data
-         *
-         * @return [Array] Merged data
-         */
-        module.getCombinedData = function (currData, prevData) {
-            var currRows = currData;
-            var prevRows = prevData;
-
-            var data = {};
-            var dataArr = [];
-            angular.forEach(prevRows, function (row) {
-                data[row.id] = {
-                    prev: row
-                };
-            });
-            angular.forEach(currRows, function (row) {
-                if (data[row.id]) {
-                    data[row.id].curr = row;
-                }
-            });
-            angular.forEach(prevRows, function (row) {
-                if (!data[row.id].curr) {
-                    delete data[row.id];
-                } else {
-                    dataArr.push(data[row.id]);
-                }
-            });
-
-            return dataArr;
         };
 
         /**

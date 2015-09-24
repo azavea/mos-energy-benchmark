@@ -14,8 +14,7 @@
         module.uniqueColumn = 'cartodb_id';
 
         module.tables = {
-            currentYear: 'mos_beb_2013',
-            previousYear: 'mos_beb_2012'
+            currentYear: 'mos_beb_2013'
         };
 
         // These match up to the columns returned from CartoDB.
@@ -28,22 +27,11 @@
             squarefeet: 'Sq. Ft.'
         };
 
-        // Configuration for obtaining data for multiple years.
-        // 'prevQuery' and 'currQuery' are used in order to make
-        // it easier to swap in newer sets of data. There are
-        // no current plans to support more than two years of data.
+        // Configuration for obtaining data for multiple years
         module.data = {
             url: 'http://' + module.user + '.cartodb.com/api/v2/sql',
 
 /* jshint laxbreak:true */
-            prevQuery: 'SELECT'
-                + ' property_id AS id'
-                + ', property_name AS propertyname'
-                + ', total_ghg AS emissions'
-                + ', energy_star_score AS energystar'
-                + ', site_eui AS eui'
-                + ' FROM ' + module.tables.previousYear,
-
             currAllQuery: 'SELECT * FROM ' + module.tables.currentYear,
 
             detailQuery: Utils.strFormat('SELECT * from mos_beb_2013 where {uniqueColumn} in ({id})', {
