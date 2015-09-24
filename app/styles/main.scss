@@ -11,7 +11,6 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "mos/charts/barChart";
 @import "mos/charts/bubbleChart";
 @import "mos/charts/scatterChart";
-@import "mos/charts/timeScatterChart";
 
 // MOS View Stylings
 @import "mos/views/charts";
@@ -171,7 +170,7 @@ hr{
     }
   }
 
-  .nav-chart, .nav-map, .nav-data, .nav-info{
+  .nav-chart, .nav-map, .nav-data, .nav-info, .nav-year{
     display: none;
   }
 
@@ -180,11 +179,15 @@ hr{
   }
 }
 
+.year-selector {
+  padding-right: 50px;
+}
+
 // headroom-top class is defined below headroom-pinned so that it's styles override the pinned definitions
 .headroom--top {
   height: 80px;
 
-  .nav-chart, .nav-map, .nav-data, .nav-info{
+  .nav-chart, .nav-map, .nav-data, .nav-info, .nav-year{
     display: block;
   }
 
@@ -257,6 +260,14 @@ hr{
   margin-top: 12px;
   background-repeat: no-repeat;
   background-position: center;
+}
+.nav-year{
+  background-image: url('../images/ic_year.png');
+
+  @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
+      background-image: url('../images/ic_year@2x.png');
+      background-size: 26px 20px;
+  }
 }
 .nav-chart{
   background-image: url('../images/ic_chart.png');

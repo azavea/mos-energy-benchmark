@@ -1,0 +1,21 @@
+<li class="dropdown year-selector" dropdown>
+    <a href dropdown-toggle
+        class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+        <div class="nav-icon nav-year"></div>
+        <div id="year">
+          {{ ctl.currentYear }}
+        </div>
+    </a>
+    <ul class="dropdown-menu pull-right" role="menu">
+        <li class="btn">
+            <a ng-click="ctl.updateYear(2013)">
+              2013 Energy Data
+            </a>
+        </li>
+        <li class="btn">
+            <a ng-click="ctl.updateYear(2014)">
+              2014 Energy Data
+            </a>
+        </li>
+    </ul>
+</li>

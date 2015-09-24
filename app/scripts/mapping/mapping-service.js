@@ -11,7 +11,7 @@
         var module = {};
 
         module.FILTER_NONE = 'All types';
-        var table = CartoConfig.tables.currentYear;
+        var table = CartoConfig.table;
 
         var searchBuildingIds = function (buildingId) {
             return _.filter(buildingIds, function (id) {

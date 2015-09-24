@@ -7,24 +7,15 @@ describe('Controller: mos.views.map.MapController', function () {
     var $injector = angular.injector(['mos']);
     var scope;
     var Controller;
-    var BuildingCompare;
-    var MappingService;
-    var ColorService;
 
     // Initialize the controller and a mock scope
     beforeEach(inject(function ($controller, $rootScope, _$compile_, _$state_) {
         scope = $rootScope.$new();
-        MappingService = $injector.get('MappingService');
-        ColorService = $injector.get('ColorService');
-        BuildingCompare = $injector.get('BuildingCompare');
 
         Controller = $controller('MapController', {
             $compile: _$compile_,
             $scope: scope,
-            $state: _$state_,
-            BuildingCompare: BuildingCompare,
-            MappingService: MappingService,
-            ColorService: ColorService
+            $state: _$state_
         });
     }));
 
