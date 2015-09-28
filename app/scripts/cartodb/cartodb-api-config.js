@@ -9,13 +9,20 @@
         var year = YearService.getCurrentYear();
 
         module.user = 'mos-benchmarking';
-        module.visualization = '5e5cbbf0-8ac3-11e4-bf05-0e9d821ea90d';
+        module.visualization = 'aed2ea1e-5bd3-11e5-b15b-0e853d047bba';
+
 
         // The unique column to use to identify records throughout the app
         module.uniqueColumn = 'cartodb_id';
 
         // There is now only a single table, which contains data for all years
         module.table = 'mos_beb_2013_2014';
+
+        // Map vizualization subLayer indexes
+        module.yearIndices = {
+            '2014': 0,
+            '2013': 1
+        };
 
         // These match up to the columns returned from CartoDB.
         // The propery names are all lowercase (as opposed to camel case),

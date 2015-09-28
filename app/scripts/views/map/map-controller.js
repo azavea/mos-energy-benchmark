@@ -4,7 +4,8 @@
     /*
      * ngInject
      */
-    function MapController($compile, $q, $scope, $state, $timeout, BuildingCompare, CartoConfig, MappingService, ColorService) {
+    function MapController($compile, $q, $scope, $state, $timeout, BuildingCompare, CartoConfig,
+                           ColorService, MappingService, Utils, YearService) {
 
         // indicate that map is loading, hang on..
         $scope.mapLoading = true;
@@ -16,6 +17,8 @@
         // initialization
         var vizLayer = null;
         var nativeMap = null;
+
+        $scope.year = YearService.getCurrentYear();
 
         $scope.popupLoading = true;
 
@@ -50,9 +53,9 @@
                     propertyName: row.property_name,
                     floorArea: row.floor_area,
                     address: row.address,
-                    totalGhg: row.total_ghg,
-                    siteEui: row.site_eui,
-                    energyStar: row.energy_star,
+                    totalGhg: row['total_ghg_' + $scope.year],
+                    siteEui: row['site_eui_' + $scope.year],
+                    energyStar: row['energy_star_' + $scope.year],
                     sector: row.sector
                 };
                 /* jshint camelcase:true */
@@ -128,7 +131,7 @@
                         // pan to location found and open its pop-up
                         var row = data.rows[0];
                         setPropertyData(row);
-                        var latlng = L.latLng(row.y, row.x);
+                        var latlng = L.latLng(row.y_coord, row.x_coord);
                         nativeMap.setView(latlng, 16);
                         $scope.popupLoading = false;
                         $scope.amSearching = false;
@@ -276,15 +279,34 @@
         });
 
         // load map visualization
-        cartodb.createVis('mymap', 'http://' + CartoConfig.user + '.cartodb.com/api/v2/viz/' + CartoConfig.visualization + '/viz.json',
-                          {'infowindow': false, 'legends': false, 'searchControl': false, 'loaderControl': true})
+        var vizUrl = Utils.strFormat('http://{user}.cartodb.com/api/v2/viz/{viz}/viz.json', {
+            user: CartoConfig.user,
+            viz: CartoConfig.visualization
+        });
+
+        var vizOptions = {
+            infowindow: false,
+            legends: false,
+            searchControl: false,
+            loaderControl: true,
+            layer_selector: false
+        };
+
+        cartodb.createVis('mymap', vizUrl, vizOptions)
             .done(function(vis, layers) {
+                // Hide all sublayers. The one for the current year will be shown later on.
+                var subLayers = layers[1].getSubLayers();
+                angular.forEach(subLayers, function(subLayer) {
+                    subLayer.hide();
+                });
+
                 $scope.mapLoading = false;
                 nativeMap = vis.getNativeMap();
                 var overlay = layers[1];
 
                 // find the viz layer we want to interact with
-                vizLayer = overlay.getSubLayer(0);
+                vizLayer = overlay.getSubLayer(CartoConfig.yearIndices[$scope.year]);
+                vizLayer.show();
                 vizLayer.setInteraction(true);
 
                 // give user a pointy hand when they hover over a feature
