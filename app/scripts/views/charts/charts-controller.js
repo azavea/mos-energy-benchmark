@@ -13,7 +13,7 @@
         $scope.currentAllData = [];
         $scope.groupedData = [];
 
-		$scope.hideCallout = $cookieStore.get(COOKIE_STRING_SLIDE_CALLOUT) || false;
+        $scope.hideCallout = $cookieStore.get(COOKIE_STRING_SLIDE_CALLOUT) || false;
 
         $scope.calloutClicked = function () {
             var hide = true;
@@ -21,7 +21,7 @@
             $scope.hideCallout = hide;
         };
 
-        var init  = function () {
+        var init = function () {
             var getCurrentAll = CartoSQLAPI.getAllCurrentData().then(function(data) {
                 $scope.currentAllData = data.data.rows;
             });
