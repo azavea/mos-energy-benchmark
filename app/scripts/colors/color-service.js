@@ -194,8 +194,8 @@
             var binSize = bins.length;
             var css = '';
 
-            // Every field except for year_build and floor_area needs a year prefix
-            var fieldWithYear = field === 'year_built' || field === 'floor_area' ? field :
+            // Every field, except for the time independent fields, needs a year suffix
+            var fieldWithYear = CartoConfig.timeIndependentFields.indexOf(field) !== -1 ?  field :
                     field + '_' + year;
 
             for (var i = 0; i < binSize; i++) {

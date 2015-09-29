@@ -21,6 +21,9 @@
         // The naming convention for the table is: mos_beb_{underscore seperated ascending years}
         module.table = 'mos_beb_' + module.years.sort().join('_');
 
+        // Fields which do not use a year suffix
+        module.timeIndependentFields = ['year_built', 'floor_area'];
+
         // These match up to the columns returned from CartoDB.
         // The propery names are all lowercase (as opposed to camel case),
         // because CartoDB can only return them that way.
