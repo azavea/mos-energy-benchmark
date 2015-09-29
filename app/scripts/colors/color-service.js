@@ -195,9 +195,8 @@
             var css = '';
 
             // Every field except for year_build and floor_area needs a year prefix
-            var fieldWithYear = field === 'year_built' || field == 'floor_area'
-                    ? field
-                    : field + '_' + year;
+            var fieldWithYear = field === 'year_built' || field === 'floor_area' ? field :
+                    field + '_' + year;
 
             for (var i = 0; i < binSize; i++) {
                 var thisBin = bins[i];

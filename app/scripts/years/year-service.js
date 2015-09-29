@@ -14,7 +14,7 @@
 
         // Returns the currently-selected year
         function getCurrentYear() {
-            return $location.search().year || DEFAULT_YEAR;
+            return parseInt($location.search().year, 10) || DEFAULT_YEAR;
         }
     }
 

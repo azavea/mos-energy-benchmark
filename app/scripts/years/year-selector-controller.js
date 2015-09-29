@@ -4,9 +4,10 @@
     /*
      * ngInject
      */
-    function YearSelectorController($location, $window, YearService) {
+    function YearSelectorController($location, $window, CartoConfig, YearService) {
         var ctl = this;
         ctl.currentYear = YearService.getCurrentYear();
+        ctl.years = CartoConfig.years;
         ctl.updateYear = updateYear;
 
         // Updates the current year

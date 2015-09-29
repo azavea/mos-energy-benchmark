@@ -19,6 +19,7 @@
         var nativeMap = null;
 
         $scope.year = YearService.getCurrentYear();
+        $scope.years = CartoConfig.years;
 
         $scope.popupLoading = true;
 
@@ -53,11 +54,14 @@
                     propertyName: row.property_name,
                     floorArea: row.floor_area,
                     address: row.address,
-                    totalGhg: row['total_ghg_' + $scope.year],
-                    siteEui: row['site_eui_' + $scope.year],
-                    energyStar: row['energy_star_' + $scope.year],
                     sector: row.sector
                 };
+
+                angular.forEach(CartoConfig.years, function(year) {
+                    $scope.propertyData['totalGhg' + year] = row['total_ghg_' + year];
+                    $scope.propertyData['siteEui' + year] = row['site_eui_' + year];
+                    $scope.propertyData['energyStar' + year] = row['energy_star_' + year];
+                });
                 /* jshint camelcase:true */
 
             // get the color for this location's sector
@@ -221,14 +225,21 @@
           'ng-style="{\'background-color\': \'{{::propertyData.sectorColor}}\' }">',
           '<h4>{{::propertyData.propertyName}}</h4>',
           '<p class="popup-header">OPA Number: {{::propertyData.buildingId}}</p>',
-          '<p class="popup-header" ng-if="propertyData.address !== propertyData.propertyName">{{::propertyData.address}}</p>',
+          '<p class="popup-header" ng-if="propertyData.address !== propertyData.propertyName">',
+          '{{::propertyData.address}}</p>',
           '<p class="popup-header">{{::propertyData.floorArea.toLocaleString()}} sq ft</p></div>',
           '<div class="popupContent">',
-          '<p>Site EUI: <strong>{{::propertyData.siteEui.toLocaleString()}}</strong></p>',
-          '<p>Emissions: <strong>{{::propertyData.totalGhg.toLocaleString()}}</strong></p>',
-          '<p ng-show="propertyData.energyStar">Energy Star: <strong>{{::propertyData.energyStar.toLocaleString()}}</strong></p>',
+          '<div class="row">',
+          '<div class="col-sm-5" ng-repeat="year in years">',
+          '<h4 class="text-center">{{::year}}</h4><hr />',
+          '<p>Site EUI: <strong>{{::propertyData["siteEui" + year].toLocaleString()}}</strong></p>',
+          '<p>Emissions: <strong>{{::propertyData["totalGhg" + year].toLocaleString()}}</strong></p>',
+          '<p>Energy Star: <strong>{{::propertyData["energyStar" + year].toLocaleString()}}</strong></p>',
+          '</div>',
+          '</div>',
           '<br>',
-          '<p><label><input type="checkbox" ng-model="compare.isChecked" ng-disabled="compare.disabled" ',
+          '<p><label><input type="checkbox" ng-model="compare.isChecked" ',
+          'ng-disabled="compare.disabled" ',
           'ng-change="setCompare(propertyData.cartodbId)" /> <em>Compare</em></label>',
           '<button type="button" class="pull-right btn btn-popover" ',
           'ng-style="{\'background-color\': \'{{::propertyData.sectorColor}}\',  \'opacity\': 0.8 }" ',
@@ -245,7 +256,7 @@
             $scope.$apply(); // tell Angular to really, really go compile now
 
             L.popup({
-                minWidth: 220
+                minWidth: 380
             }).setLatLng(coords).setContent(popup[0]).openOn(nativeMap);
         };
 
@@ -305,7 +316,7 @@
                 var overlay = layers[1];
 
                 // find the viz layer we want to interact with
-                vizLayer = overlay.getSubLayer(CartoConfig.yearIndices[$scope.year]);
+                vizLayer = overlay.getSubLayer(CartoConfig.years.indexOf($scope.year));
                 vizLayer.show();
                 vizLayer.setInteraction(true);
 
