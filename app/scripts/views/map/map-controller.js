@@ -4,7 +4,8 @@
     /*
      * ngInject
      */
-    function MapController($compile, $q, $scope, $state, $timeout, BuildingCompare, CartoConfig, MappingService, ColorService) {
+    function MapController($compile, $q, $scope, $state, $timeout, BuildingCompare, CartoConfig,
+                           ColorService, MappingService, Utils, YearService) {
 
         // indicate that map is loading, hang on..
         $scope.mapLoading = true;
@@ -16,6 +17,9 @@
         // initialization
         var vizLayer = null;
         var nativeMap = null;
+
+        $scope.year = YearService.getCurrentYear();
+        $scope.years = CartoConfig.years;
 
         $scope.popupLoading = true;
 
@@ -50,11 +54,14 @@
                     propertyName: row.property_name,
                     floorArea: row.floor_area,
                     address: row.address,
-                    totalGhg: row.total_ghg,
-                    siteEui: row.site_eui,
-                    energyStar: row.energy_star,
                     sector: row.sector
                 };
+
+                angular.forEach(CartoConfig.years, function(year) {
+                    $scope.propertyData['totalGhg' + year] = row['total_ghg_' + year];
+                    $scope.propertyData['siteEui' + year] = row['site_eui_' + year];
+                    $scope.propertyData['energyStar' + year] = row['energy_star_' + year];
+                });
                 /* jshint camelcase:true */
 
             // get the color for this location's sector
@@ -128,7 +135,7 @@
                         // pan to location found and open its pop-up
                         var row = data.rows[0];
                         setPropertyData(row);
-                        var latlng = L.latLng(row.y, row.x);
+                        var latlng = L.latLng(row.y_coord, row.x_coord);
                         nativeMap.setView(latlng, 16);
                         $scope.popupLoading = false;
                         $scope.amSearching = false;
@@ -218,14 +225,21 @@
           'ng-style="{\'background-color\': \'{{::propertyData.sectorColor}}\' }">',
           '<h4>{{::propertyData.propertyName}}</h4>',
           '<p class="popup-header">OPA Number: {{::propertyData.buildingId}}</p>',
-          '<p class="popup-header" ng-if="propertyData.address !== propertyData.propertyName">{{::propertyData.address}}</p>',
+          '<p class="popup-header" ng-if="propertyData.address !== propertyData.propertyName">',
+          '{{::propertyData.address}}</p>',
           '<p class="popup-header">{{::propertyData.floorArea.toLocaleString()}} sq ft</p></div>',
           '<div class="popupContent">',
-          '<p>Site EUI: <strong>{{::propertyData.siteEui.toLocaleString()}}</strong></p>',
-          '<p>Emissions: <strong>{{::propertyData.totalGhg.toLocaleString()}}</strong></p>',
-          '<p ng-show="propertyData.energyStar">Energy Star: <strong>{{::propertyData.energyStar.toLocaleString()}}</strong></p>',
+          '<div class="row">',
+          '<div class="col-sm-5" ng-repeat="year in years">',
+          '<h4 class="text-center">{{::year}}</h4><hr />',
+          '<p>Site EUI: <strong>{{::propertyData["siteEui" + year].toLocaleString()}}</strong></p>',
+          '<p>Emissions: <strong>{{::propertyData["totalGhg" + year].toLocaleString()}}</strong></p>',
+          '<p>Energy Star: <strong>{{::propertyData["energyStar" + year].toLocaleString()}}</strong></p>',
+          '</div>',
+          '</div>',
           '<br>',
-          '<p><label><input type="checkbox" ng-model="compare.isChecked" ng-disabled="compare.disabled" ',
+          '<p><label><input type="checkbox" ng-model="compare.isChecked" ',
+          'ng-disabled="compare.disabled" ',
           'ng-change="setCompare(propertyData.cartodbId)" /> <em>Compare</em></label>',
           '<button type="button" class="pull-right btn btn-popover" ',
           'ng-style="{\'background-color\': \'{{::propertyData.sectorColor}}\',  \'opacity\': 0.8 }" ',
@@ -242,7 +256,7 @@
             $scope.$apply(); // tell Angular to really, really go compile now
 
             L.popup({
-                minWidth: 220
+                minWidth: 380
             }).setLatLng(coords).setContent(popup[0]).openOn(nativeMap);
         };
 
@@ -276,15 +290,34 @@
         });
 
         // load map visualization
-        cartodb.createVis('mymap', 'http://' + CartoConfig.user + '.cartodb.com/api/v2/viz/' + CartoConfig.visualization + '/viz.json',
-                          {'infowindow': false, 'legends': false, 'searchControl': false, 'loaderControl': true})
+        var vizUrl = Utils.strFormat('http://{user}.cartodb.com/api/v2/viz/{viz}/viz.json', {
+            user: CartoConfig.user,
+            viz: CartoConfig.visualization
+        });
+
+        var vizOptions = {
+            infowindow: false,
+            legends: false,
+            searchControl: false,
+            loaderControl: true,
+            layer_selector: false
+        };
+
+        cartodb.createVis('mymap', vizUrl, vizOptions)
             .done(function(vis, layers) {
+                // Hide all sublayers. The one for the current year will be shown later on.
+                var subLayers = layers[1].getSubLayers();
+                angular.forEach(subLayers, function(subLayer) {
+                    subLayer.hide();
+                });
+
                 $scope.mapLoading = false;
                 nativeMap = vis.getNativeMap();
                 var overlay = layers[1];
 
                 // find the viz layer we want to interact with
-                vizLayer = overlay.getSubLayer(0);
+                vizLayer = overlay.getSubLayer(CartoConfig.years.indexOf($scope.year));
+                vizLayer.show();
                 vizLayer.setInteraction(true);
 
                 // give user a pointy hand when they hover over a feature

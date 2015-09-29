@@ -42,10 +42,11 @@
 
         // This is a helper function for transforming api data into percentiles based on sqft
         function binBySqFt(data, groups) {
-            // exclude properties without sq footage reported, and one outlier:
+            // exclude properties without sq footage reported, and outliers:
             // the University of Pennsylvania, building ID 3634188
+            // the Four Seasons, building ID 2436917
             data = _.reject(data, function(d) {
-                return (!d.sqfeet) || d.yearbuilt > year|| d.id === '3634188';
+                return (!d.sqfeet) || d.yearbuilt > year || d.id === '3634188' || d.id === '2436917';
             });
             _.forEach(data, function(d) {
                 d.log = Math.log(d.sqfeet) / Math.log(10);
@@ -95,10 +96,11 @@
 
         // Helper function for transforming unshaped data into data binned and aggregated over 5 year periods
         function binByYears(data) {
-            // exclude very old buildings, and one outlier:
+            // exclude very old buildings, and outliers:
             // the University of Pennsylvania, building ID 3634188
+            // the Four Seasons, building ID 2436917
             var filteredData = _.reject(data, function(d) {
-                return d.yearbuilt <= 1849 || d.yearbuilt > year || d.id === '3634188';
+                return d.yearbuilt <= 1849 || d.yearbuilt > year || d.id === '3634188' || d.id === '2436917';
             });
             var dateRanges = _.zip(_.range(1849, 2015, 5), _.range(1853, 2019, 5));
             var rolledData =

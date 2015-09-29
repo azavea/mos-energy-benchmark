@@ -7,14 +7,9 @@
         </div>
     </a>
     <ul class="dropdown-menu pull-right" role="menu">
-        <li class="btn">
-            <a ng-click="ctl.updateYear(2013)">
-              2013 Energy Data
-            </a>
-        </li>
-        <li class="btn">
-            <a ng-click="ctl.updateYear(2014)">
-              2014 Energy Data
+        <li class="btn" ng-repeat="year in ctl.years">
+            <a ng-click="ctl.updateYear(year)">
+              {{::year}} Energy Data
             </a>
         </li>
     </ul>

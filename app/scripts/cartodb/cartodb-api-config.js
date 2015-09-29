@@ -9,13 +9,20 @@
         var year = YearService.getCurrentYear();
 
         module.user = 'mos-benchmarking';
-        module.visualization = '5e5cbbf0-8ac3-11e4-bf05-0e9d821ea90d';
+        module.visualization = 'aed2ea1e-5bd3-11e5-b15b-0e853d047bba';
 
         // The unique column to use to identify records throughout the app
         module.uniqueColumn = 'cartodb_id';
 
-        // There is now only a single table, which contains data for all years
-        module.table = 'mos_beb_2013_2014';
+        // Available years -- must match up to visualization subLayer order
+        module.years = [2014, 2013];
+
+        // There is now only a single table, which contains data for all years.
+        // The naming convention for the table is: mos_beb_{underscore seperated ascending years}
+        module.table = 'mos_beb_' + module.years.sort().join('_');
+
+        // Fields which do not use a year suffix
+        module.timeIndependentFields = ['year_built', 'floor_area'];
 
         // These match up to the columns returned from CartoDB.
         // The propery names are all lowercase (as opposed to camel case),

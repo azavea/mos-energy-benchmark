@@ -117,7 +117,7 @@
             'description': 'Year Built',
             'bins': [
                 {
-                    'max': '2013',
+                    'max': '2014',
                     'markerVal': '#0C2C84'
                 },
                 {
