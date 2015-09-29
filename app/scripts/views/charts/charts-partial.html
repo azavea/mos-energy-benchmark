@@ -9,9 +9,9 @@
     <section class="hero chart-hero">
         <div class="container space">
             <div class="row text-center">
-                <h1>2014 Building Energy Benchmarking</h1>
+                <h1>{{::reportYear}} Building Energy Benchmarking</h1>
                 <p>
-                    This report describes Philadelphia’s 2013 Energy Benchmarking
+                    This report describes Philadelphia’s {{::dataYear}} Energy Benchmarking
                     results for large commercial facilities.
                 </p>
             </div>
@@ -38,7 +38,7 @@
     <section class="stats-callout">
         <div class="stats-row text-center">
             <div class="jumbo">
-                <span mos-count-up="64" />
+                <span mos-count-up="{{::stats.avgEnergyStar}}" />
             </div>
             <p>Philadelphia’s average ENERGY STAR score.  The national average is 50.</p>
         </div>
@@ -56,9 +56,9 @@
     <section class="stats-callout">
         <div class="stats-row text-center">
             <div class="jumbo">
-                <span mos-count-up="62" />%
+                <span mos-count-up="{{::stats.ghgBuildings}}" />%
             </div>
-            <p>Buildings account for almost 62% of all greenhouse gas emissions in Philadelphia</p>
+            <p>Buildings account for almost {{::stats.ghgBuildings}}% of all greenhouse gas emissions in Philadelphia</p>
         </div>
         <div class="next"><a type="button" class="btn btn-md btn-ghost-dark btn-next" mos-panel-snap-next><i class="fa fa-angle-down"></i></a></div>
     </section>
@@ -74,9 +74,9 @@
     <section class="stats-callout">
         <div class="stats-row text-center">
             <div class="jumbo">
-                <span mos-count-up="1880" />
+                <span mos-count-up="{{::stats.numBuildings}}" />
             </div>
-            <p>The number of buildings listed in the 2013 energy benchmarking report.</p>
+            <p>The number of buildings listed in the {{::reportYear}} energy benchmarking report.</p>
         </div>
         <div class="next"><a type="button" class="btn btn-md btn-ghost-dark btn-next" mos-panel-snap-next><i class="fa fa-angle-down"></i></a></div>
     </section>
