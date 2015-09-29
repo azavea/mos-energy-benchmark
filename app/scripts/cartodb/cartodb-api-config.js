@@ -17,6 +17,21 @@
         // Available years -- must match up to visualization subLayer order
         module.years = [2014, 2013];
 
+        // Statistics displayed on chart view, these change each year
+        module.stats = {
+            2013: {
+                avgEnergyStar: 64,
+                ghgBuildings: 62,
+                numBuildings: 1880
+            },
+            // TODO: fill in 2014 values when they are delivered
+            2014: {
+                avgEnergyStar: 99,
+                ghgBuildings: 99,
+                numBuildings: 9999
+            }
+        };
+
         // There is now only a single table, which contains data for all years.
         // The naming convention for the table is: mos_beb_{underscore seperated ascending years}
         module.table = 'mos_beb_' + module.years.sort().join('_');
