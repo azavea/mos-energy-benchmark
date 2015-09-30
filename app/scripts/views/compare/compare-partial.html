@@ -31,7 +31,7 @@
                     <!-- Tried ng-class="bld-{{$index+1}}", didn't seem to work? -->
                     <td class="compare"
                         ng-class="{'bld-1': $index === 0, 'bld-2': $index === 1, 'bld-3': $index === 2}"
-                        ng-repeat="building in buildings">{{ ::building[key] | cartodbNumber:0 }}</td>
+                        ng-repeat="building in buildings">{{ ::building[key + '_' + year] | cartodbNumber:0 }}</td>
                     <td>
                         <mos-histogram plot-height="80"
                                        plot-width="300"

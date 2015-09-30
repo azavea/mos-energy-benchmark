@@ -33,8 +33,9 @@
         };
 
         // There is now only a single table, which contains data for all years.
-        // The naming convention for the table is: mos_beb_{underscore seperated ascending years}
-        module.table = 'mos_beb_' + module.years.sort().join('_');
+        // The naming convention for the table is: mos_beb_{underscore seperated ascending years}.
+        // The `slice` is here to make the sort non-destructive.
+        module.table = 'mos_beb_' + module.years.slice().sort().join('_');
 
         // Fields which do not use a year suffix
         module.timeIndependentFields = ['year_built', 'floor_area'];

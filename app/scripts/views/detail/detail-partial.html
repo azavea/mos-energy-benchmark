@@ -11,7 +11,7 @@
             </div>
             <div class="col-xs-4 pull-right">
                 <div class="energy-star center-block text-center">
-                    <h4>{{ ::building.energy_star | cartodbNumber:0 }}</h4>
+                    <h4>{{ ::building['energy_star_' + years[0]] | cartodbNumber:0 }}</h4>
                     <label>Energy Star Score</label>
                 </div>
             </div>
@@ -21,11 +21,20 @@
 
 <div class="container space">
     <div class="row detail-header">
-        <div class="col-xs-6 pad-top">
-            <h4>Building Stats</h4>
-            <hr>
+        <div class="col-xs-7">
+            <div class="row">
+                <div class="col-xs-6">
+                    <h4>Building Stats</h4>
+                </div>
+                <div class="col-xs-3" ng-repeat="year in years">
+                    <h4 class="text-center">{{::year}}</h4>
+                </div>
+                <div class="col-xs-12">
+                    <hr>
+                </div>
+            </div>
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-5">
             <div class="row">
                 <div class="col-xs-9">
                     <h4>Compared To</h4>
@@ -41,24 +50,26 @@
                         </ul>
                     </div>
                 </div>
+                <div class="col-xs-12">
+                  <hr>
+                </div>
             </div>
-            <hr>
         </div>
     </div>
 
-    <div ng-repeat="key in fields"class="row stats" ng-if="building[key]">
+    <div ng-repeat="key in fields" class="row stats" ng-if="building[key + '_' + years[0]]">
         <div class="col-xs-3">
             <p ng-bind-html="cssValues[key].description"></p>
         </div>
-        <div class="col-xs-3">
-            <h3 class="pull-right"><strong>{{ ::building[key] | cartodbNumber:0 }}</strong></h3>
+        <div class="col-xs-2" ng-repeat="year in years">
+            <h3 class="pull-right"><strong>{{ ::building[key + '_' + year] | cartodbNumber:0 }}</strong></h3>
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-5" ng-init="calloutValues = getCalloutValues(key)">
             <mos-histogram plot-height="100"
                            plot-width="400"
                            data="currentData"
                            value-field="'{{key}}'"
-                           callout-values="[building[key]]"
+                           callout-values="calloutValues"
                            callout-colors="calloutColors"
                            allow-redraw="true">
             </mos-histogram>
