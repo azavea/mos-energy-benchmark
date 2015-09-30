@@ -36,6 +36,9 @@
         // Begin directive module definition
         var module = {};
 
+        // Default color to use when a color isn't provided
+        var defaultColor = 'DarkGray';
+
         module.restrict = 'EA';
         module.template = '<svg class="chart"></svg>';
         module.controller = 'ChartingController';
@@ -130,7 +133,7 @@
                             .attr('y', 0)
                             .attr('height', height)
                             .attr('width', '2px')
-                            .attr('fill', calloutColors[i]);
+                            .attr('fill', calloutColors[i] || defaultColor);
                     }
                 }
 
