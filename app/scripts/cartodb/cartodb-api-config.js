@@ -14,8 +14,7 @@
         // The unique column to use to identify records throughout the app
         module.uniqueColumn = 'cartodb_id';
 
-        // Available years -- must match up to visualization subLayer order
-        module.years = [2014, 2013];
+        module.years = YearService.years;
 
         // Statistics displayed on chart view, these change each year
         module.stats = {
