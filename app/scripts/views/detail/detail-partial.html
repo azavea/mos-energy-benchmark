@@ -26,7 +26,7 @@
                 <div class="col-xs-6">
                     <h4>Building Stats</h4>
                 </div>
-                <div class="col-xs-3" ng-repeat="year in years">
+                <div class="col-xs-3" ng-repeat="year in yearsAscending">
                     <h4 class="text-center">{{::year}}</h4>
                 </div>
                 <div class="col-xs-12">
@@ -61,7 +61,7 @@
         <div class="col-xs-3">
             <p ng-bind-html="cssValues[key].description"></p>
         </div>
-        <div class="col-xs-2" ng-repeat="year in years">
+        <div class="col-xs-2" ng-repeat="year in yearsAscending">
             <h3 class="pull-right"><strong>{{ ::building[key + '_' + year] | cartodbNumber:0 }}</strong></h3>
         </div>
         <div class="col-xs-5" ng-init="calloutValues = getCalloutValues(key)">

@@ -23,11 +23,10 @@
                 ghgBuildings: 62,
                 numBuildings: 1880
             },
-            // TODO: fill in 2014 values when they are delivered
             2014: {
-                avgEnergyStar: 99,
-                ghgBuildings: 99,
-                numBuildings: 9999
+                avgEnergyStar: 59,
+                ghgBuildings: 60,
+                numBuildings: 1879
             }
         };
 

@@ -35,6 +35,7 @@
 
         // Note: this page is intentionally not affected by the year toggle
         $scope.years = CartoConfig.years;
+        $scope.yearsAscending = CartoConfig.years.slice().sort();
         $scope.building = building;
         $scope.fields = DetailConfig.fields;
         $scope.currentData = rows;

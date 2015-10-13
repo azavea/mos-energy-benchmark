@@ -19,7 +19,7 @@
         var nativeMap = null;
 
         $scope.year = YearService.getCurrentYear();
-        $scope.years = CartoConfig.years;
+        $scope.years = CartoConfig.years.slice().sort();
 
         $scope.popupLoading = true;
 
