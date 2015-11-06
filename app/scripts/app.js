@@ -117,7 +117,7 @@
             'description': 'Year Built',
             'bins': [
                 {
-                    'max': '2013',
+                    'max': '2014',
                     'markerVal': '#0C2C84'
                 },
                 {
@@ -485,6 +485,7 @@
         'mos.views.info',
         'mos.views.detail',
         'mos.views.compare',
+        'mos.years',
         'headroom'
     ]).config(StateConfig);
 

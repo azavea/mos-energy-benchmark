@@ -17,20 +17,24 @@
     /*
      * ngInject
      */
-    function CompareController($scope, BuildingCompare, CompareConfig, MOSCSSValues, buildingData, currentData) {
+    function CompareController($scope, BuildingCompare, CompareConfig, MOSCSSValues, YearService,
+                               buildingData, currentData) {
+
+        var year = YearService.getCurrentYear();
 
         var setCalloutValues = function (data, fields) {
             var calloutValues = {};
             angular.forEach(fields, function (key) {
                 calloutValues[key] = [];
                 for (var i = 0; i < data.length; i++) {
-                    calloutValues[key].push(data[i][key]);
+                    calloutValues[key].push(data[i][key + '_' + year]);
                 }
             });
 
             return calloutValues;
         };
 
+        $scope.year = year;
         $scope.buildings = buildingData.data.rows;
         $scope.fields = CompareConfig.fields;
         $scope.currentData = currentData.data.rows;

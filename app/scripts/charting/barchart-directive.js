@@ -13,12 +13,13 @@
     /**
      * ngInject
      */
-    function barChart (CartoConfig, BarChartDefaults) {
+    function barChart (CartoConfig, BarChartDefaults, YearService) {
 
         var PLOT_CLASS = 'mos-barchart';
 
         // Begin directive module definition
         var module = {};
+        var year = YearService.getCurrentYear();
 
         module.restrict = 'EA';
         module.templateUrl = 'scripts/charting/barchart-partial.html';
@@ -41,10 +42,11 @@
 
         // This is a helper function for transforming api data into percentiles based on sqft
         function binBySqFt(data, groups) {
-            // exclude properties without sq footage reported, and one outlier:
+            // exclude properties without sq footage reported, and outliers:
             // the University of Pennsylvania, building ID 3634188
+            // the Four Seasons, building ID 2436917
             data = _.reject(data, function(d) {
-                return (!d.sqfeet) || d.id === '3634188';
+                return (!d.sqfeet) || d.yearbuilt > year || d.id === '3634188' || d.id === '2436917';
             });
             _.forEach(data, function(d) {
                 d.log = Math.log(d.sqfeet) / Math.log(10);
@@ -94,10 +96,11 @@
 
         // Helper function for transforming unshaped data into data binned and aggregated over 5 year periods
         function binByYears(data) {
-            // exclude very old buildings, and one outlier:
+            // exclude very old buildings, and outliers:
             // the University of Pennsylvania, building ID 3634188
+            // the Four Seasons, building ID 2436917
             var filteredData = _.reject(data, function(d) {
-                return (d.yearbuilt <= 1849) || d.id === '3634188';
+                return d.yearbuilt <= 1849 || d.yearbuilt > year || d.id === '3634188' || d.id === '2436917';
             });
             var dateRanges = _.zip(_.range(1849, 2015, 5), _.range(1853, 2019, 5));
             var rolledData =
@@ -213,7 +216,7 @@
                 // Depending on bin type, our axis labeling should look rather different
                 if (config.binType === 'temporal') {
                     labelStart.attr('dy', '-10px').text('1850'); // we've adjusted the margin, so move up the text
-                    labelEnd.attr('dy', '-10px').text('2013');
+                    labelEnd.attr('dy', '-10px').text(year);
                     labelMiddle.attr('dy', '-10px').text('Year Built');
                 } else if (config.binType === 'area') {
                     labelMiddle

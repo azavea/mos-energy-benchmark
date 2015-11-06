@@ -23,7 +23,8 @@
     /*
      * ngInject
      */
-    function DetailController($scope, DetailConfig, MOSColors, MOSCSSValues, buildingData, currentData) {
+    function DetailController($scope, CartoConfig, DetailConfig, MOSColors, MOSCSSValues,
+                              buildingData, currentData) {
 
 /* jshint laxbreak:true */
         var building = buildingData.data && buildingData.data.rows && buildingData.data.rows.length > 0
@@ -32,6 +33,9 @@
         var sectorColor = MOSColors[building.sector] || MOSColors['Unknown'];
         var rows = currentData.data.rows;
 
+        // Note: this page is intentionally not affected by the year toggle
+        $scope.years = CartoConfig.years;
+        $scope.yearsAscending = CartoConfig.years.slice().sort();
         $scope.building = building;
         $scope.fields = DetailConfig.fields;
         $scope.currentData = rows;
@@ -58,6 +62,13 @@
                 $scope.currentData = rows;
             }
             $scope.filterButtonText = $scope.dropdownText[filter];
+        };
+
+        // Returns an array of callout values for the given key
+        $scope.getCalloutValues = function (key) {
+            return _.map($scope.years, function(year) {
+                return building[key + '_' + year];
+            });
         };
     }
 

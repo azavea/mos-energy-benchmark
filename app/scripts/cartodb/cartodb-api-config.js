@@ -4,19 +4,39 @@
     /**
      * @ngInject
      */
-    function CartoConfig (Utils) {
+    function CartoConfig (Utils, YearService) {
         var module = {};
+        var year = YearService.getCurrentYear();
 
         module.user = 'mos-benchmarking';
-        module.visualization = '5e5cbbf0-8ac3-11e4-bf05-0e9d821ea90d';
+        module.visualization = 'aed2ea1e-5bd3-11e5-b15b-0e853d047bba';
 
         // The unique column to use to identify records throughout the app
         module.uniqueColumn = 'cartodb_id';
 
-        module.tables = {
-            currentYear: 'mos_beb_2013',
-            previousYear: 'mos_beb_2012'
+        module.years = YearService.years;
+
+        // Statistics displayed on chart view, these change each year
+        module.stats = {
+            2013: {
+                avgEnergyStar: 64,
+                ghgBuildings: 62,
+                numBuildings: 1880
+            },
+            2014: {
+                avgEnergyStar: 59,
+                ghgBuildings: 60,
+                numBuildings: 1879
+            }
         };
+
+        // There is now only a single table, which contains data for all years.
+        // The naming convention for the table is: mos_beb_{underscore seperated ascending years}.
+        // The `slice` is here to make the sort non-destructive.
+        module.table = 'mos_beb_' + module.years.slice().sort().join('_');
+
+        // Fields which do not use a year suffix
+        module.timeIndependentFields = ['year_built', 'floor_area'];
 
         // These match up to the columns returned from CartoDB.
         // The propery names are all lowercase (as opposed to camel case),
@@ -28,37 +48,47 @@
             squarefeet: 'Sq. Ft.'
         };
 
-        // Configuration for obtaining data for multiple years.
-        // 'prevQuery' and 'currQuery' are used in order to make
-        // it easier to swap in newer sets of data. There are
-        // no current plans to support more than two years of data.
+        // Configuration for obtaining data for multiple years
         module.data = {
             url: 'http://' + module.user + '.cartodb.com/api/v2/sql',
 
 /* jshint laxbreak:true */
-            prevQuery: 'SELECT'
-                + ' property_id AS id'
-                + ', property_name AS propertyname'
-                + ', total_ghg AS emissions'
-                + ', energy_star_score AS energystar'
-                + ', site_eui AS eui'
-                + ' FROM ' + module.tables.previousYear,
+            currAllQuery: Utils.strFormat('SELECT'
+                + '  address, cartodb_id, number_of_buildings, phl_bldg_id'
+                + ', postal_code, primary_property_type, floor_area'
+                + ', sector, year_built, portfolio_bldg_id, property_name'
+                + ', electricity_{year} as electricity'
+                + ', energy_star_{year} as energy_star'
+                + ', fuel_oil_{year} as fuel_oil'
+                + ', natural_gas_{year} as natural_gas'
+                + ', site_eui_{year} as site_eui'
+                + ', source_eui_{year} as source_eui'
+                + ', steam_{year} as steam'
+                + ', total_ghg_{year} as total_ghg'
+                + ', water_use_{year} as water_use'
+                + ' FROM {table}', {
+                    table: module.table,
+                    year: year
+                }),
 
-            currAllQuery: 'SELECT * FROM ' + module.tables.currentYear,
-
-            detailQuery: Utils.strFormat('SELECT * from mos_beb_2013 where {uniqueColumn} in ({id})', {
+            detailQuery: Utils.strFormat('SELECT * from {table} where {uniqueColumn} in ({id})', {
+                table: module.table,
                 uniqueColumn: module.uniqueColumn
             }),
 
-            groupedQuery: 'SELECT'
+            groupedQuery: Utils.strFormat('SELECT'
                 + '  sector as name'
                 + ', count(*) as count'
-                + ', sum(site_eui) as eui'
-                + ', avg(energy_star) as energystar'
-                + ', sum(total_ghg) as emissions'
-                + ', sum(site_eui * floor_area) as totalenergy'
-                + ' FROM ' + module.tables.currentYear
-                + ' GROUP BY sector'
+                + ', sum(site_eui_{year}) as eui'
+                + ', avg(energy_star_{year}) as energystar'
+                + ', sum(total_ghg_{year}) as emissions'
+                + ', sum(site_eui_{year} * floor_area) as totalenergy'
+                + ' FROM {table}'
+                + ' GROUP BY sector', {
+                    table: module.table,
+                    year: year
+                })
+
 /* jshint laxbreak:false */
         };
 

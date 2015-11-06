@@ -11,7 +11,7 @@
         var module = {};
 
         module.FILTER_NONE = 'All types';
-        var table = CartoConfig.tables.currentYear;
+        var table = CartoConfig.table;
 
         var searchBuildingIds = function (buildingId) {
             return _.filter(buildingIds, function (id) {
@@ -37,8 +37,7 @@
          *  @returns Promise with results in data.rows
          */
         module.featureLookup = function(cartodbId)  {
-            var qry = 'SELECT cartodb_id, phl_bldg_id, property_name, address, floor_area, total_ghg, site_eui, ' +
-            'energy_star, sector FROM {{tbl}} where cartodb_id = {{id}}';
+            var qry = 'SELECT * FROM {{tbl}} where cartodb_id = {{id}}';
             var sql = new cartodb.SQL({ user: CartoConfig.user });
             return sql.execute(qry, { id: cartodbId, tbl: table });
         };
@@ -51,8 +50,7 @@
          *  @returns Promise with results in data.rows
          */
         module.featureLookupByBldgId = function(bldgId)  {
-            var qry = 'SELECT cartodb_id, property_name, address, total_ghg, site_eui, ' +
-            'energy_star, sector, x, y FROM {{tbl}} where phl_bldg_id = \'{{bldgId}}\';';
+            var qry = 'SELECT * FROM {{tbl}} where phl_bldg_id = \'{{bldgId}}\';';
             var sql = new cartodb.SQL({ user: CartoConfig.user });
             return sql.execute(qry, { bldgId: bldgId, tbl: table});
         };

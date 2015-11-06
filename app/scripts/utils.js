@@ -10,7 +10,9 @@
         module.strFormat = function (str, formatObject) {
             var formattedStr = str;
             angular.forEach(formatObject, function (value, key) {
-                formattedStr = formattedStr.replace('{' + key + '}', value);
+                // Replace all instances of this object
+                var regexp = new RegExp('{' + key + '}', 'g');
+                formattedStr = formattedStr.replace(regexp, value);
             });
             return formattedStr;
         };

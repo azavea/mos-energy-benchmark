@@ -6,10 +6,11 @@
      *
      * @ngInject
      */
-    function ColorService (MOSColors, MOSCSSValues, CartoConfig) {
+    function ColorService (CartoConfig, MOSColors, MOSCSSValues, YearService) {
         var module = {};
+        var year = YearService.getCurrentYear();
 
-        var TABLE = '#' + CartoConfig.tables.currentYear;
+        var TABLE = '#' + CartoConfig.table;
         var SECTOR_DESC = 'Building Type';
 
         function sectorComparator(a, b) {
@@ -193,16 +194,20 @@
             var binSize = bins.length;
             var css = '';
 
+            // Every field, except for the time independent fields, needs a year suffix
+            var fieldWithYear = CartoConfig.timeIndependentFields.indexOf(field) !== -1 ?  field :
+                    field + '_' + year;
+
             for (var i = 0; i < binSize; i++) {
                 var thisBin = bins[i];
-                css += TABLE + ' [' + field + ' <= ' + thisBin.max +
+                css += TABLE + ' [' + fieldWithYear + ' <= ' + thisBin.max +
                        '] {' + cssVal + ': ' + thisBin.markerVal + ';}\n';
             }
 
             // for feature size, add bins with zero size to hide null/zero values
             if (cssVal === 'marker-width') {
-                css += TABLE + ' [' + field + ' = null] {marker-width: 0;}\n' +
-                       TABLE + ' [' + field + ' = 0] {marker-width: 0;}\n';
+                css += TABLE + ' [' + fieldWithYear + ' = null] {marker-width: 0;}\n' +
+                       TABLE + ' [' + fieldWithYear + ' = 0] {marker-width: 0;}\n';
             }
 
             return css;
