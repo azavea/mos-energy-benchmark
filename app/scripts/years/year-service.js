@@ -8,7 +8,7 @@
         var module = {};
 
         // Available years -- must match up to visualization subLayer order
-        module.years = [2014, 2013];
+        module.years = [2015, 2014, 2013];
         module.getCurrentYear = getCurrentYear;
 
         return module;

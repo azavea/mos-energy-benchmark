@@ -9,7 +9,7 @@
         var year = YearService.getCurrentYear();
 
         module.user = 'mos-benchmarking';
-        module.visualization = 'aed2ea1e-5bd3-11e5-b15b-0e853d047bba';
+        module.visualization = '3b378ea5-1631-4dee-b0d0-a271c107aefc';
 
         // The unique column to use to identify records throughout the app
         module.uniqueColumn = 'cartodb_id';
@@ -27,6 +27,11 @@
                 avgEnergyStar: 59,
                 ghgBuildings: 60,
                 numBuildings: 1879
+            },
+            2015: {
+                avgEnergyStar: 0,
+                ghgBuildings: 0,
+                numBuildings: 0
             }
         };
 
