@@ -138,26 +138,22 @@
          * @returns Array of string suggestions
          */
         module.suggest = function (address) {
-            var dfd = $q.defer();
-
             var suggestUrl = 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest';
-            $http.get(suggestUrl, {
+            return $http.get(suggestUrl, {
                 params: {
                     text: address,
                     searchExtent: viewbox,
                     category: 'Address,Postal',
                     f: 'pjson'
                 }
-            }).success(function (data) {
+            }).then(function (data) {
                 var buildings = searchBuildingIds(address).slice(0, 5);
-                var suggestions = buildings.concat(_.map(data.suggestions, 'text'));
-                dfd.resolve(suggestions);
+                var suggestions = buildings.concat(_.map(data.data.suggestions, 'text'));
+                return suggestions;
 
-            }).error(function () {
-                dfd.resolve(searchBuildingIds(address).slice(0, 5));
+            }, function () {
+                return searchBuildingIds(address).slice(0, 5);
             });
-
-            return dfd.promise;
         };
 
         // Call building ids to initialize
