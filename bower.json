@@ -1,6 +1,7 @@
 {
   "name": "mos-energy-benchmark",
   "version": "0.1.0",
+  "license": "MIT",
   "dependencies": {
     "panelsnap": "0.15.1",
     "angular": "~1.6.4",
