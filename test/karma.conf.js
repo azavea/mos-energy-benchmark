@@ -71,7 +71,7 @@ module.exports = function(config) {
       'app/scripts/views/compare/compare-controller.js',
       'app/scripts/app.js',
       'app/scripts/headroom-reset-directive.js',
-      'http://libs.cartocdn.com/cartodb.js/v3/3.11/cartodb.js',
+      'https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js',
 
       'test/spec/**/*.js'
     ],

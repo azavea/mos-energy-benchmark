@@ -290,7 +290,7 @@
         });
 
         // load map visualization
-        var vizUrl = Utils.strFormat('http://{user}.cartodb.com/api/v2/viz/{viz}/viz.json', {
+        var vizUrl = Utils.strFormat('https://{user}.carto.com/api/v2/viz/{viz}/viz.json', {
             user: CartoConfig.user,
             viz: CartoConfig.visualization
         });
