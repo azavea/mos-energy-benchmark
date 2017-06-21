@@ -150,7 +150,7 @@
                 }
             }).success(function (data) {
                 var buildings = searchBuildingIds(address).slice(0, 5);
-                var suggestions = buildings.concat(_.pluck(data.suggestions, 'text'));
+                var suggestions = buildings.concat(_.map(data.suggestions, 'text'));
                 dfd.resolve(suggestions);
 
             }).error(function () {
@@ -163,7 +163,7 @@
         // Call building ids to initialize
         // This is a bit nasty, but making a separate service for this seems like overkill?
         module.getBuildingIds().done(function (data) {
-            buildingIds = _.pluck(data.rows, 'phl_bldg_id');
+            buildingIds = _.map(data.rows, 'phl_bldg_id');
         });
 
         return module;

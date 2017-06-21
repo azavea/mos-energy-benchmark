@@ -169,7 +169,7 @@ module.exports = function (grunt) {
         ignorePath:  /\.\.\//,
         exclude: [
             'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/',
-            'bower_components/headroom.js/dist/jQuery.headroom.js'
+            'node_modules/headroom.js/dist/jQuery.headroom.js'
         ]
       },
       sass: {
