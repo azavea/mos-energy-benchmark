@@ -13,7 +13,7 @@ Dependencies:
 # TODO: Add vagrant vm
 sudo apt-get install ruby1.9.1-dev
 sudo gem install sass compass
-sudo npm install -g grunt-cli
+sudo npm install -g grunt-cli bower
 npm install
 bower install
 ```
