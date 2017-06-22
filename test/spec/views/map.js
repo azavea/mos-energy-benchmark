@@ -4,7 +4,6 @@ describe('Controller: mos.views.map.MapController', function () {
     // load the controller's module
     beforeEach(module('mos'));
 
-    var $injector = angular.injector(['mos']);
     var scope;
     var Controller;
 

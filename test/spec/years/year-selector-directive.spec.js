@@ -25,6 +25,6 @@ describe('Directive: mos.years.YearSelector', function () {
         $httpBackend.flush();
         $httpBackend.verifyNoOutstandingRequest();
 
-        expect(element.html()).toEqual('2014');
+        expect(element.html()).toEqual('2015');
     });
 });

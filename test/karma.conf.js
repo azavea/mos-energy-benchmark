@@ -18,6 +18,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js',
+
       'bower_components/angular/angular.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'bower_components/angular-mocks/angular-mocks.js',
@@ -71,7 +73,6 @@ module.exports = function(config) {
       'app/scripts/views/compare/compare-controller.js',
       'app/scripts/app.js',
       'app/scripts/headroom-reset-directive.js',
-      'https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js',
 
       'test/spec/**/*.js'
     ],
@@ -91,12 +92,12 @@ module.exports = function(config) {
     // - PhantomJS
     // - IE (only Windows)
     browsers: [
-      'PhantomJS'
+      'ChromeHeadless'
     ],
 
     // Which plugins to enable
     plugins: [
-      'karma-phantomjs-launcher',
+      'karma-chrome-launcher',
       'karma-jasmine'
     ],
 
