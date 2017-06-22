@@ -1,8 +1,13 @@
+dist: trusty
+sudo: false
 language: node_js
 node_js:
-  - '0.10'
+  - '6'
+addons:
+  chrome: stable
+before install:
+    - rvm install 2.2
 before_script:
-  - sudo apt-get install -qq ruby1.9.1-dev
   - gem install sass compass
   - npm install -g bower grunt-cli
   - npm install
