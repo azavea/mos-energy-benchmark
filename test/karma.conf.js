@@ -28,9 +28,10 @@ module.exports = function(config) {
       'bower_components/angular-ui-router/release/angular-ui-router.min.js',
       'bower_components/d3/d3.js',
       'bower_components/d3-tip/index.js',
-      'bower_components/lodash/dist/lodash.compat.js',
-      'bower_components/headroom.js/dist/headroom.js',
-      'bower_components/headroom.js/dist/angular.headroom.js',
+      'bower_components/lodash/dist/lodash.js',
+
+      'node_modules/headroom.js/dist/headroom.js',
+      'node_modules/headroom.js/dist/angular.headroom.js',
 
       // Karma has problems with this file, but it's not needed for tests, commenting out
       //'bower_components/panelsnap/jquery.panelSnap.js',
@@ -70,9 +71,8 @@ module.exports = function(config) {
       'app/scripts/views/compare/compare-controller.js',
       'app/scripts/app.js',
       'app/scripts/headroom-reset-directive.js',
-      'http://libs.cartocdn.com/cartodb.js/v3/3.11/cartodb.js',
+      'https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js',
 
-      'test/mock/**/*.js',
       'test/spec/**/*.js'
     ],
 

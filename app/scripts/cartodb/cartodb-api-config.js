@@ -55,7 +55,7 @@
 
         // Configuration for obtaining data for multiple years
         module.data = {
-            url: 'http://' + module.user + '.cartodb.com/api/v2/sql',
+            url: 'https://' + module.user + '.carto.com/api/v2/sql',
 
 /* jshint laxbreak:true */
             currAllQuery: Utils.strFormat('SELECT'
