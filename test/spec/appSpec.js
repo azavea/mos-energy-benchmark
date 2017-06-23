@@ -6,15 +6,16 @@ describe('Midway: MOS Modules', function() {
   var MosCssValues;
 
   beforeEach(module('mos'));
-  var $injector = angular.injector(['mos']);
 
   beforeEach(function () {
     mymodule = angular.module('mos');
   });
 
+  var $injector = angular.injector(['ng', 'ngMock', 'mos']);
+
   beforeEach(inject(function () {
-      MosColors = $injector.get('MOSColors');
-      MosCssValues = $injector.get('MOSCSSValues');
+    MosColors = $injector.get('MOSColors');
+    MosCssValues = $injector.get('MOSCSSValues');
   }));
 
   it('should be registered', function() {

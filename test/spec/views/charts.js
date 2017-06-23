@@ -1,10 +1,11 @@
 describe('Controller: mos.views.charts.ChartsController', function () {
     'use strict';
 
+    beforeEach(module('ui.router'));
     // load the controller's module
     beforeEach(module('mos'));
 
-    var $injector = angular.injector(['mos']);
+    var $injector = angular.injector(['ng', 'ngMock', 'mos']);
     var Controller;
     var scope;
     var ChartingUtils;

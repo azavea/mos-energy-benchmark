@@ -3,7 +3,6 @@ describe('Factory: mos.years.YearService', function () {
 
     beforeEach(module('mos'));
 
-    var $injector = angular.injector(['mos']);
     var YearService;
 
     beforeEach(inject(function (_YearService_) {
@@ -11,7 +10,7 @@ describe('Factory: mos.years.YearService', function () {
     }));
 
     it('should use default year', function () {
-        expect(YearService.getCurrentYear()).toBe(2014);
+        expect(YearService.getCurrentYear()).toBe(2015);
     });
 
 });
