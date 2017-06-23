@@ -29,9 +29,9 @@
                 numBuildings: 1879
             },
             2015: {
-                avgEnergyStar: 0,
-                ghgBuildings: 0,
-                numBuildings: 0
+                avgEnergyStar: 63,
+                ghgBuildings: 60,
+                numBuildings: 1832
             }
         };
 
