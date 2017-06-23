@@ -34,3 +34,10 @@ The app will auto refresh after saving js/css/html
 3. `export MOS_S3_ID=ENTER_S3_ID_HERE MOS_S3_SECRET=ENTER_S3_SECRET_HERE`
 4. `s3_website push`
 
+
+###Testing
+
+`npm test` will run the test suite.
+
+Note that tests require Chrome 59+, for the headless browser support.
+
