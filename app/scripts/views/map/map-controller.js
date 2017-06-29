@@ -160,8 +160,8 @@
                     var result = data[0];
 
                     // show popup with found addresss display name
-                    var geometry = result.feature.geometry;
-                    var latlng = L.latLng(geometry.y, geometry.x);
+                    var location = result.location;
+                    var latlng = L.latLng(location.y, location.x);
 
                     nativeMap.setView(latlng, 16);
                     $scope.noResults = false;
@@ -171,7 +171,7 @@
                         '<span class="featurePopup"><div class="headerPopup geocodePopup"></div>',
                         '<div class="popupContent"><p>{{::geocodedDisplayName}}</p></div></span>'
                     ].join('');
-                    var attrs = result.feature.attributes;
+                    var attrs = result.attributes;
                     /* jshint camelcase:false */
                     $scope.geocodedDisplayName = [
                         attrs.StAddr,
