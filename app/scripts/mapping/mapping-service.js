@@ -109,20 +109,20 @@
         module.geocode = function(address) {
 
             var dfd = $q.defer();
-            var url = 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find';
+            var url = 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates';
             // limit search to greater Philadelphia region
 
             $http.get(url, {
                 params: {
-                    'text': address,
-                    'bbox': viewbox,
+                    'singleLine': address,
+                    'searchExtent': viewbox,
                     'category': 'Address,Postal',
                     'outFields': 'StAddr,City,Postal',
                     'maxLocations': 1,
                     'f': 'pjson'
                 }
             }).then(function (data) {
-                dfd.resolve(data.data.locations);
+                dfd.resolve(data.data.candidates);
             }, function () {
                 dfd.resolve([]);
             });
