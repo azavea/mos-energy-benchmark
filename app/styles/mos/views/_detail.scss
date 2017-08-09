@@ -31,16 +31,14 @@
 
 .stats{
     margin-bottom: 12px;
+    background-color: #F0F1F2;
 
-    p{
-        line-height: 100px!important;
-        margin: 0!important;
-        vertical-align: baseline;
+    p, h3 {
+        line-height: 1.2;
+        margin: 0;
     }
-    h3{
-        line-height: 100px!important;
-        margin: 0!important;
-        vertical-align: baseline;
+    .col-xs-7 {
+        padding-top: 35px;
     }
 }
 
@@ -55,6 +53,10 @@
 .detail-header button.btn {
     color: $paper;
     font-weight: bold;
+}
+
+.detail-header .spacer {
+    margin-bottom: 29px;
 }
 
 .chart-placeholder{
