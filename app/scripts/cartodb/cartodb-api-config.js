@@ -9,7 +9,7 @@
         var year = YearService.getCurrentYear();
 
         module.user = 'mos-benchmarking';
-        module.visualization = '3b378ea5-1631-4dee-b0d0-a271c107aefc';
+        module.visualization = '41298fb7-e6c7-4c49-8131-3383a7ac5fe1';
 
         // The unique column to use to identify records throughout the app
         module.uniqueColumn = 'cartodb_id';
