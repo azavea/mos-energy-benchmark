@@ -12,3 +12,9 @@ before_script:
   - npm install -g bower grunt-cli
   - npm install
   - bower install
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
+  on:
+    branch: feature/kak/create-staging-site#233 # TODO: change to develop
