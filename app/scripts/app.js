@@ -10,7 +10,7 @@
 
     // color ramp for sectors
     var sectorColors = {
-        'School  (K-12)': '#A6CEE3',
+        'School (K-12)': '#A6CEE3',
         'Office': '#1F78B4',
         'Medical Office': '#52A634',
         'Warehouse': '#B2DF8A',
