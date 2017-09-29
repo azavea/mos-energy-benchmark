@@ -23,7 +23,7 @@
     /*
      * ngInject
      */
-    function DetailController($scope, CartoConfig, DetailConfig, MOSColors, MOSCSSValues,
+    function DetailController($scope, CartoSQLAPI, DetailConfig, MOSColors, MOSCSSValues,
                               buildingData, currentData) {
 
 /* jshint laxbreak:true */
@@ -34,8 +34,8 @@
         var rows = currentData.data.rows;
 
         // Note: this page is intentionally not affected by the year toggle
-        $scope.years = CartoConfig.years;
-        $scope.yearsAscending = CartoConfig.years.slice().sort();
+        $scope.years = CartoSQLAPI.years;
+        $scope.yearsAscending = CartoSQLAPI.years.slice().sort();
         $scope.building = building;
         $scope.fields = DetailConfig.fields;
         $scope.currentData = rows;

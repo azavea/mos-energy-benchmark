@@ -4,7 +4,7 @@
     /**
      * @ngInject
      */
-    function CartoConfig ($location, Utils) {
+    function CartoConfig (Utils) {
         var module = {};
 
         module.user = 'mos-benchmarking';
@@ -12,14 +12,6 @@
 
         // The unique column to use to identify records throughout the app
         module.uniqueColumn = 'cartodb_id';
-
-        // TODO: query for these
-        module.years = [2015, 2014, 2013];
-        // default to last year, until years can be queried from Carto
-        //module.years = [(new Date()).getFullYear() - 1];
-        module.getCurrentYear = getCurrentYear;
-
-        var year = getCurrentYear();
 
         // TODO: get these from the yearsTable data
         // Statistics displayed on chart view, these change each year
@@ -40,12 +32,6 @@
                 numBuildings: 1832
             }
         };
-
-        // TODO: get this name async after querying for years
-        // There is now only a single table, which contains data for all years.
-        // The naming convention for the table is: mos_beb_{underscore seperated ascending years}.
-        // The `slice` is here to make the sort non-destructive.
-        module.table = 'mos_beb_' + module.years.slice().sort().join('_');
 
         module.yearsTable = 'mos_years';
 
@@ -80,13 +66,9 @@
                 + ', steam_{year} as steam'
                 + ', total_ghg_{year} as total_ghg'
                 + ', water_use_{year} as water_use'
-                + ' FROM {table}', {
-                    table: module.table,
-                    year: year
-                }),
+                + ' FROM {table}', {}),
 
             detailQuery: Utils.strFormat('SELECT * from {table} where {uniqueColumn} in ({id})', {
-                table: module.table,
                 uniqueColumn: module.uniqueColumn
             }),
 
@@ -98,10 +80,7 @@
                 + ', sum(total_ghg_{year}) as emissions'
                 + ', sum(site_eui_{year} * floor_area) as totalenergy'
                 + ' FROM {table}'
-                + ' GROUP BY sector', {
-                    table: module.table,
-                    year: year
-                }),
+                + ' GROUP BY sector', {}),
 
             yearsQuery: Utils.strFormat('SELECT * from {table}', {
                 table: module.yearsTable
@@ -111,12 +90,6 @@
         };
 
         return module;
-
-        // Returns the currently-selected year
-        function getCurrentYear() {
-            var selected = parseInt($location.search().year, 10);
-            return module.years.indexOf(selected) >= 0 ? selected : module.years[0];
-        }
     }
 
     angular.module('mos.cartodb', ['mos.utils'])

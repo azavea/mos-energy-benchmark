@@ -6,11 +6,11 @@
      *
      * @ngInject
      */
-    function ColorService (CartoConfig, MOSColors, MOSCSSValues) {
+    function ColorService (CartoConfig, CartoSQLAPI, MOSColors, MOSCSSValues) {
         var module = {};
-        var year = CartoConfig.getCurrentYear();
+        var year = CartoSQLAPI.getCurrentYear();
 
-        var TABLE = '#' + CartoConfig.table;
+        var TABLE = '#' + CartoSQLAPI.getTableName();
         var SECTOR_DESC = 'Building Type';
 
         function sectorComparator(a, b) {

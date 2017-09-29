@@ -4,14 +4,14 @@
     /**
      * @ngInject
      */
-    function MappingService ($http, $q, ColorService, CartoConfig) {
+    function MappingService ($http, $q, ColorService, CartoConfig, CartoSQLAPI) {
 
         var viewbox = '-75.699037,40.195219,-74.886736,39.774326';
         var buildingIds = [];
         var module = {};
 
         module.FILTER_NONE = 'All types';
-        var table = CartoConfig.table;
+        var table = CartoSQLAPI.getTableName();
 
         var searchBuildingIds = function (buildingId) {
             return _.filter(buildingIds, function (id) {

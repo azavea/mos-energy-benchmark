@@ -4,10 +4,10 @@
     /*
      * ngInject
      */
-    function DataDownloadController($location, $window, CartoConfig) {
+    function DataDownloadController($location, $window, CartoSQLAPI) {
         var ctl = this;
-        ctl.currentYear = CartoConfig.getCurrentYear();
-        ctl.years = CartoConfig.years;
+        ctl.currentYear = CartoSQLAPI.getCurrentYear();
+        ctl.years = CartoSQLAPI.years;
         ctl.updateYear = updateYear;
 
         // Updates the current year

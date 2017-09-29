@@ -13,13 +13,13 @@
     /**
      * ngInject
      */
-    function barChart (CartoConfig, BarChartDefaults) {
+    function barChart (CartoSQLAPI, BarChartDefaults) {
 
         var PLOT_CLASS = 'mos-barchart';
 
         // Begin directive module definition
         var module = {};
-        var year = CartoConfig.getCurrentYear();
+        var year = CartoSQLAPI.getCurrentYear();
 
         module.restrict = 'EA';
         module.templateUrl = 'scripts/charting/barchart-partial.html';

@@ -14,7 +14,7 @@
         $scope.groupedData = [];
 
         // The chart view displays both the data year and the report year (there is a 1-year lag)
-        $scope.dataYear = CartoConfig.getCurrentYear();
+        $scope.dataYear = CartoSQLAPI.getCurrentYear();
         $scope.reportYear = $scope.dataYear + 1;
         $scope.stats = CartoConfig.stats[$scope.dataYear];
 

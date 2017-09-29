@@ -17,10 +17,10 @@
     /*
      * ngInject
      */
-    function CompareController($scope, BuildingCompare, CartoConfig, CompareConfig, MOSCSSValues,
+    function CompareController($scope, BuildingCompare, CartoSQLAPI, CompareConfig, MOSCSSValues,
                                buildingData, currentData) {
 
-        var year = CartoConfig.getCurrentYear();
+        var year = CartoSQLAPI.getCurrentYear();
 
         var setCalloutValues = function (data, fields) {
             var calloutValues = {};

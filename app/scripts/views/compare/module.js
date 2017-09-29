@@ -30,6 +30,7 @@
     angular
       .module('mos.views.compare', [
         'ui.router',
+        'mos.cartodb',
         'mos.compare',
         'mos.charting'
       ]).config(StateConfig);

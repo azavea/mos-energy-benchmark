@@ -4,8 +4,20 @@
     /**
      * @ngInject
      */
-    function CartoSQLAPI ($http, CartoConfig, Utils) {
+    function CartoSQLAPI ($http, $location, CartoConfig, Utils) {
         var module = {};
+
+        // TODO: query for these
+        module.years = [2015, 2014, 2013];
+        // default to last year, until years can be queried from Carto
+        //module.years = [(new Date()).getFullYear() - 1];
+        module.getCurrentYear = getCurrentYear;
+
+        // TODO: get this name async after querying for years
+        // There is now only a single table, which contains data for all years.
+        // The naming convention for the table is: mos_beb_{underscore seperated ascending years}.
+        // The `slice` is here to make the sort non-destructive.
+        module.getTableName = getTableName;
 
         /*
          *  Builds subset of renamed data fields from full query, for charts
@@ -31,7 +43,10 @@
         };
 
         module.getAllCurrentData = function () {
-            return makeCartoDBRequest(CartoConfig.data.currAllQuery);
+            return makeCartoDBRequest(CartoConfig.data.currAllQuery, {
+                year: getCurrentYear(),
+                table: getTableName()
+            });
         };
 
         /*
@@ -40,7 +55,10 @@
          *  @return {$httpPromise} object
          */
         module.getGroupedData = function () {
-            return makeCartoDBRequest(CartoConfig.data.groupedQuery);
+            return makeCartoDBRequest(CartoConfig.data.groupedQuery, {
+                year: getCurrentYear(),
+                table: getTableName()
+            });
         };
 
         /**
@@ -54,7 +72,8 @@
                 ids = buildingId.join(',');
             }
             return makeCartoDBRequest(CartoConfig.data.detailQuery, {
-                id: ids
+                id: ids,
+                table: getTableName()
             });
         };
 
@@ -73,7 +92,6 @@
          * @return {$httpPromise} The $httpPromise object for the query
          */
         function makeCartoDBRequest(query, queryParams) {
-
             queryParams = queryParams || {};
             var formattedQuery = Utils.strFormat(query, queryParams);
             return $http.get(CartoConfig.data.url, {
@@ -85,10 +103,21 @@
         }
 
         module.getYearsData().then(function(data) {
+            console.log('got years data:');
             console.log(data);
         });
 
         return module;
+
+        // Returns the currently-selected year
+        function getCurrentYear() {
+            var selected = parseInt($location.search().year, 10);
+            return module.years.indexOf(selected) >= 0 ? selected : module.years[0];
+        }
+
+        function getTableName() {
+            return 'mos_beb_' + module.years.slice().sort().join('_');
+        }
     }
 
     angular.module('mos.cartodb')

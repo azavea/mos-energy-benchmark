@@ -29,6 +29,7 @@
     angular
       .module('mos.views.detail', [
         'ui.router',
+        'mos.cartodb',
         'mos.charting'
       ]).config(StateConfig);
 
