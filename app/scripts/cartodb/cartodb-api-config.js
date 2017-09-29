@@ -4,9 +4,8 @@
     /**
      * @ngInject
      */
-    function CartoConfig (Utils, YearService) {
+    function CartoConfig ($location, Utils) {
         var module = {};
-        var year = YearService.getCurrentYear();
 
         module.user = 'mos-benchmarking';
         module.visualization = '41298fb7-e6c7-4c49-8131-3383a7ac5fe1';
@@ -14,7 +13,13 @@
         // The unique column to use to identify records throughout the app
         module.uniqueColumn = 'cartodb_id';
 
-        module.years = YearService.years;
+        // TODO: query for these
+        module.years = [2015, 2014, 2013];
+        // default to last year, until years can be queried from Carto
+        //module.years = [(new Date()).getFullYear() - 1];
+        module.getCurrentYear = getCurrentYear;
+
+        var year = getCurrentYear();
 
         // Statistics displayed on chart view, these change each year
         module.stats = {
@@ -98,6 +103,12 @@
         };
 
         return module;
+
+        // Returns the currently-selected year
+        function getCurrentYear() {
+            var selected = parseInt($location.search().year, 10);
+            return module.years.indexOf(selected) >= 0 ? selected : module.years[0];
+        }
     }
 
     angular.module('mos.cartodb', ['mos.utils'])
