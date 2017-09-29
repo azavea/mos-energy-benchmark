@@ -21,6 +21,7 @@
 
         var year = getCurrentYear();
 
+        // TODO: get these from the yearsTable data
         // Statistics displayed on chart view, these change each year
         module.stats = {
             2013: {
@@ -40,10 +41,13 @@
             }
         };
 
+        // TODO: get this name async after querying for years
         // There is now only a single table, which contains data for all years.
         // The naming convention for the table is: mos_beb_{underscore seperated ascending years}.
         // The `slice` is here to make the sort non-destructive.
         module.table = 'mos_beb_' + module.years.slice().sort().join('_');
+
+        module.yearsTable = 'mos_years';
 
         // Fields which do not use a year suffix
         module.timeIndependentFields = ['year_built', 'floor_area'];
@@ -97,7 +101,11 @@
                 + ' GROUP BY sector', {
                     table: module.table,
                     year: year
-                })
+                }),
+
+            yearsQuery: Utils.strFormat('SELECT * from {table}', {
+                table: module.yearsTable
+            })
 
 /* jshint laxbreak:false */
         };

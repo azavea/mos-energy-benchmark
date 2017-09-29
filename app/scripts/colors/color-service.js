@@ -6,9 +6,9 @@
      *
      * @ngInject
      */
-    function ColorService (CartoConfig, MOSColors, MOSCSSValues, YearService) {
+    function ColorService (CartoConfig, MOSColors, MOSCSSValues) {
         var module = {};
-        var year = YearService.getCurrentYear();
+        var year = CartoConfig.getCurrentYear();
 
         var TABLE = '#' + CartoConfig.table;
         var SECTOR_DESC = 'Building Type';

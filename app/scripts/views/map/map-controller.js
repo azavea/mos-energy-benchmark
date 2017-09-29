@@ -5,7 +5,7 @@
      * ngInject
      */
     function MapController($compile, $q, $scope, $state, $timeout, BuildingCompare, CartoConfig,
-                           ColorService, MappingService, Utils, YearService) {
+                           ColorService, MappingService, Utils) {
 
         // indicate that map is loading, hang on..
         $scope.mapLoading = true;
@@ -18,7 +18,7 @@
         var vizLayer = null;
         var nativeMap = null;
 
-        $scope.year = YearService.getCurrentYear();
+        $scope.year = CartoConfig.getCurrentYear();
         $scope.years = CartoConfig.years.slice().sort();
 
         $scope.popupLoading = true;

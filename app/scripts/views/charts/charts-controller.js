@@ -6,7 +6,7 @@
     /*
      * ngInject
      */
-    function ChartsController($scope, $cookieStore, $q, CartoConfig, CartoSQLAPI, YearService) {
+    function ChartsController($scope, $cookieStore, $q, CartoConfig, CartoSQLAPI) {
         // Initialize
         $scope.loadingView = true;
         $scope.currentData = [];
@@ -14,7 +14,7 @@
         $scope.groupedData = [];
 
         // The chart view displays both the data year and the report year (there is a 1-year lag)
-        $scope.dataYear = YearService.getCurrentYear();
+        $scope.dataYear = CartoConfig.getCurrentYear();
         $scope.reportYear = $scope.dataYear + 1;
         $scope.stats = CartoConfig.stats[$scope.dataYear];
 

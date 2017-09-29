@@ -59,6 +59,14 @@
         };
 
         /**
+         * Get the table of years and their associated values
+         * @return {$httpPromise}
+         */
+        module.getYearsData = function () {
+            return makeCartoDBRequest(CartoConfig.data.yearsQuery);
+        };
+
+        /**
          * Helper function to make a request to the CartoDBAPI
          * @param  {String} query The sql query to make
          * @param  {Object(Optional)} queryParams Object See Utils.strFormat params
@@ -76,6 +84,9 @@
             });
         }
 
+        module.getYearsData().then(function(data) {
+            console.log(data);
+        });
 
         return module;
     }
