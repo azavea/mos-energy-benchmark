@@ -8,9 +8,7 @@
      */
     function ColorService (CartoConfig, CartoSQLAPI, MOSColors, MOSCSSValues) {
         var module = {};
-        var year = CartoSQLAPI.getCurrentYear();
 
-        var TABLE = '#' + CartoSQLAPI.getTableName();
         var SECTOR_DESC = 'Building Type';
 
         function sectorComparator(a, b) {
@@ -193,10 +191,11 @@
             var cssVal = MOSCSSValues[field].cssVal;
             var binSize = bins.length;
             var css = '';
+            var TABLE = '#' + CartoSQLAPI.getTableName();
 
             // Every field, except for the time independent fields, needs a year suffix
             var fieldWithYear = CartoConfig.timeIndependentFields.indexOf(field) !== -1 ?  field :
-                    field + '_' + year;
+                    field + '_' + CartoSQLAPI.getCurrentYear();
 
             for (var i = 0; i < binSize; i++) {
                 var thisBin = bins[i];
@@ -216,6 +215,7 @@
         // build CartoCSS for coloring features by their sector
         var getSectorColorCartoCSS = function() {
             var css = '';
+            var TABLE = '#' + CartoSQLAPI.getTableName();
             angular.forEach(MOSColors, function(value, key) {
                 if (key === 'Unknown') {
                     css += '\n' + TABLE + ' {marker-fill: ' + value + ';}';
@@ -227,7 +227,7 @@
         };
 
         module.baseCartoCSS = [
-            TABLE + '{',
+            '#' + CartoSQLAPI.getTableName() + '{',
             'marker-fill-opacity: 0.8;',
             'marker-line-color: #FFF;',
             'marker-line-width: 0.5;',
