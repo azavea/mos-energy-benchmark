@@ -82,7 +82,7 @@
                 + ' FROM {table}'
                 + ' GROUP BY sector', {}),
 
-            yearsQuery: Utils.strFormat('SELECT * from {table}', {
+            yearsQuery: Utils.strFormat('SELECT * from {table} ORDER BY year DESC', {
                 table: module.yearsTable
             })
 

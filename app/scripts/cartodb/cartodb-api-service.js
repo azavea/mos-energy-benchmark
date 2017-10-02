@@ -8,9 +8,9 @@
         var module = {};
 
         // TODO: query for these
-        module.years = [2015, 2014, 2013];
+        //module.years = [2015, 2014, 2013];
         // default to last year, until years can be queried from Carto
-        //module.years = [(new Date()).getFullYear() - 1];
+        module.years = [(new Date()).getFullYear() - 1];
         module.getCurrentYear = getCurrentYear;
 
         // TODO: get this name async after querying for years
@@ -22,9 +22,9 @@
         /*
          *  Builds subset of renamed data fields from full query, for charts
          */
-        module.getCurrentData = function (currentAllData) {
+        module.getCurrentData = function(currentAllData) {
             var currentData = [];
-            angular.forEach(currentAllData, function (row) {
+            angular.forEach(currentAllData, function(row) {
                 /* jshint camelcase:false */
                 var property = {
                     id: row.portfolio_bldg_id,
@@ -42,7 +42,7 @@
             return currentData;
         };
 
-        module.getAllCurrentData = function () {
+        module.getAllCurrentData = function() {
             return makeCartoDBRequest(CartoConfig.data.currAllQuery, {
                 year: getCurrentYear(),
                 table: getTableName()
@@ -54,7 +54,7 @@
          *
          *  @return {$httpPromise} object
          */
-        module.getGroupedData = function () {
+        module.getGroupedData = function() {
             return makeCartoDBRequest(CartoConfig.data.groupedQuery, {
                 year: getCurrentYear(),
                 table: getTableName()
@@ -66,7 +66,7 @@
          * @param  {String|Array} buildingId Building ids queried against CartoConfig.uniqueColumn column
          * @return {$httpPromise}
          */
-        module.getBuildingData = function (buildingId) {
+        module.getBuildingData = function(buildingId) {
             var ids = buildingId;
             if (_.isArray(buildingId)) {
                 ids = buildingId.join(',');
@@ -81,8 +81,30 @@
          * Get the table of years and their associated values
          * @return {$httpPromise}
          */
-        module.getYearsData = function () {
+        module.getYearsData = function() {
             return makeCartoDBRequest(CartoConfig.data.yearsQuery);
+        };
+
+        /**
+         * Process the result of the `getYearsData` query and set the data on the service
+         */
+        module.setYears = function(yearsData) {
+            console.log('got years data:');
+            console.log(yearsData);
+
+            var queryiedYears = [];
+
+            angular.forEach(yearsData.data.rows, function(row) {
+                queryiedYears.push(row.year);
+            });
+
+            // use the most recent three years
+            if (queryiedYears.length >= 3) {
+                module.years = queryiedYears.slice(0, 3);
+            }
+
+            console.log('set cartodb api service years:');
+            console.log(module.years);
         };
 
         /**
@@ -102,10 +124,8 @@
             });
         }
 
-        module.getYearsData().then(function(data) {
-            console.log('got years data:');
-            console.log(data);
-        });
+        console.log('starting with years on cartodb-api-service initialization:');
+        console.log(module.years);
 
         return module;
 
