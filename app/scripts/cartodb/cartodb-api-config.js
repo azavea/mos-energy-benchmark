@@ -13,26 +13,6 @@
         // The unique column to use to identify records throughout the app
         module.uniqueColumn = 'cartodb_id';
 
-        // TODO: get these from the yearsTable data
-        // Statistics displayed on chart view, these change each year
-        module.stats = {
-            2013: {
-                avgEnergyStar: 64,
-                ghgBuildings: 62,
-                numBuildings: 1880
-            },
-            2014: {
-                avgEnergyStar: 59,
-                ghgBuildings: 60,
-                numBuildings: 1879
-            },
-            2015: {
-                avgEnergyStar: 63,
-                ghgBuildings: 60,
-                numBuildings: 1832
-            }
-        };
-
         module.yearsTable = 'mos_years';
 
         // Fields which do not use a year suffix

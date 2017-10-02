@@ -6,7 +6,7 @@
     /*
      * ngInject
      */
-    function ChartsController($scope, $cookieStore, $q, CartoConfig, CartoSQLAPI) {
+    function ChartsController($scope, $cookieStore, $q, CartoSQLAPI) {
 
         // Initialize
         $scope.loadingView = true;
@@ -14,12 +14,12 @@
         $scope.currentAllData = [];
         $scope.groupedData = [];
 
+        $scope.hideCallout = $cookieStore.get(COOKIE_STRING_SLIDE_CALLOUT) || false;
+
         // The chart view displays both the data year and the report year (there is a 1-year lag)
         $scope.dataYear = CartoSQLAPI.getCurrentYear();
         $scope.reportYear = $scope.dataYear + 1;
-        $scope.stats = CartoConfig.stats[$scope.dataYear];
-
-        $scope.hideCallout = $cookieStore.get(COOKIE_STRING_SLIDE_CALLOUT) || false;
+        $scope.stats = CartoSQLAPI.yearsData[$scope.dataYear];
 
         $scope.calloutClicked = function () {
             var hide = true;
