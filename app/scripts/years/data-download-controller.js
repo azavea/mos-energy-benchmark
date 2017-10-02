@@ -4,17 +4,17 @@
     /*
      * ngInject
      */
-    function DataDownloadController($location, $window, CartoSQLAPI) {
+    function DataDownloadController($scope, CartoSQLAPI) {
         var ctl = this;
-        ctl.currentYear = CartoSQLAPI.getCurrentYear();
-        ctl.years = CartoSQLAPI.years;
-        ctl.updateYear = updateYear;
+        ctl.years = CartoSQLAPI.allYears;
+        ctl.yearsData = CartoSQLAPI.yearsData;
 
-        // Updates the current year
-        function updateYear(year) {
-            $location.search('year', year);
-            $window.location.reload();
-        }
+        // Update years values and download links after they have been loaded from Carto
+        $scope.$on('mos.cartodb:years', function() {
+            ctl.years = CartoSQLAPI.allYears;
+            ctl.yearsData = CartoSQLAPI.yearsData;
+        });
+
     }
 
     angular.module('mos.years')

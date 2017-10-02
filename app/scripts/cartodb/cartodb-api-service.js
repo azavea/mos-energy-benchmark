@@ -7,7 +7,12 @@
     function CartoSQLAPI ($http, $location, $rootScope, CartoConfig, Utils) {
         var module = {};
 
-        module.years = [];  // years will be queried from Carto
+        // years will be queried from Carto
+        // app displays the most recent three years' worth of data
+        // download links for all available years are available in the dropdown
+        module.years = [];
+        module.allYears = [];
+        module.yearsData = {};
         module.getCurrentYear = getCurrentYear;
 
         // There is now only a single table, which contains data for all years.
@@ -85,17 +90,26 @@
          * Process the result of the `getYearsData` query and set the data on the service
          */
         module.setYears = function(yearsData) {
-            // TODO: remove
-            console.log('got years data:');
-            console.log(yearsData);
 
             var queryiedYears = [];
 
             angular.forEach(yearsData.data.rows, function(row) {
                 queryiedYears.push(row.year);
+
+                /* jshint camelcase:false */
+                module.yearsData[row.year] = {
+                    downloadUrl: row.download_url,
+                    avgEnergyStar: row.avg_energy_star,
+                    ghgBuildings: row.ghg_buildings,
+                    numBuildings: row.num_buildings
+                };
+                /* jshint camelcase:true */
             });
 
-            // use the most recent three years
+            // all available years
+            module.allYears = queryiedYears;
+
+            // use the most recent three years for display
             if (queryiedYears.length >= 3) {
                 module.years = queryiedYears.slice(0, 3);
             }

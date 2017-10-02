@@ -4,25 +4,11 @@
       Data
     </a>
     <ul class="dropdown-menu pull-right" role="menu">
-        <li>
-            <a href="https://data.phila.gov/api/views/rxi8-wx2m/rows.csv?accessType=DOWNLOAD"
-             download="BenchmarkingCompliance2014.csv">
+        <li ng-repeat="year in ctl.years" ng-if="ctl.yearsData[year].downloadUrl">
+            <a ng-href="{{ ::ctl.yearsData[year].downloadUrl }}"
+             download="BenchmarkingCompliance{{ ::year }}.csv">
                  <i class="fa fa-download"></i>
-                 Download 2014 Data
-            </a>
-        </li>
-        <li>
-            <a href="https://data.phila.gov/api/views/m6ph-jdm5/rows.csv?accessType=DOWNLOAD"
-             download="BenchmarkingCompliance2013.csv">
-                 <i class="fa fa-download"></i>
-                 Download 2013 Data
-            </a>
-        </li>
-        <li>
-            <a href="https://data.phila.gov/api/views/d4zn-gjfu/rows.csv?accessType=DOWNLOAD"
-             download="BenchmarkingCompliance2012.csv">
-                 <i class="fa fa-download"></i>
-                 Download 2012 Data
+                 Download {{ ::year }} Data
             </a>
         </li>
         <li class="divider"></li>
