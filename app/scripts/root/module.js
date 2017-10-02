@@ -12,7 +12,7 @@
             abstract: true,
             controller: 'RootController',
             template:'<ui-view/>',
-            resolve : {
+            resolve: {
                 yearData: function (CartoSQLAPI) {
                     return CartoSQLAPI.getYearsData();
                 }
