@@ -4,16 +4,12 @@
     /**
      * @ngInject
      */
-    function CartoSQLAPI ($http, $location, CartoConfig, Utils) {
+    function CartoSQLAPI ($http, $location, $rootScope, CartoConfig, Utils) {
         var module = {};
 
-        // TODO: query for these
-        //module.years = [2015, 2014, 2013];
-        // default to last year, until years can be queried from Carto
-        module.years = [(new Date()).getFullYear() - 1];
+        module.years = [];  // years will be queried from Carto
         module.getCurrentYear = getCurrentYear;
 
-        // TODO: get this name async after querying for years
         // There is now only a single table, which contains data for all years.
         // The naming convention for the table is: mos_beb_{underscore seperated ascending years}.
         // The `slice` is here to make the sort non-destructive.
@@ -89,6 +85,7 @@
          * Process the result of the `getYearsData` query and set the data on the service
          */
         module.setYears = function(yearsData) {
+            // TODO: remove
             console.log('got years data:');
             console.log(yearsData);
 
@@ -103,8 +100,7 @@
                 module.years = queryiedYears.slice(0, 3);
             }
 
-            console.log('set cartodb api service years:');
-            console.log(module.years);
+            $rootScope.$broadcast('mos.cartodb:years', module.years);
         };
 
         /**
@@ -123,9 +119,6 @@
                 cache: true
             });
         }
-
-        console.log('starting with years on cartodb-api-service initialization:');
-        console.log(module.years);
 
         return module;
 

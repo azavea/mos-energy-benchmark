@@ -4,7 +4,7 @@
     /*
      * ngInject
      */
-    function YearSelectorController($location, $window, CartoSQLAPI) {
+    function YearSelectorController($location, $scope, $window, CartoSQLAPI) {
         var ctl = this;
         ctl.currentYear = CartoSQLAPI.getCurrentYear();
         ctl.years = CartoSQLAPI.years;
@@ -15,6 +15,12 @@
             $location.search('year', year);
             $window.location.reload();
         }
+
+        // Update years values after they have been loaded from Carto
+        $scope.$on('mos.cartodb:years', function(event, data) {
+            ctl.years = data;
+            ctl.currentYear = CartoSQLAPI.getCurrentYear();
+        });
     }
 
     angular.module('mos.years')

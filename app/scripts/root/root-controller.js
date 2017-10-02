@@ -2,12 +2,11 @@
     'use strict';
 
     /*
+     * Controller for abstract app root to load years data from Carto.
+     *
      * ngInject
      */
     function RootController(CartoSQLAPI, yearData) {
-
-        console.log('in root controller with yearData:');
-        console.log(yearData);
 
         CartoSQLAPI.setYears(yearData);
 
