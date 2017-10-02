@@ -18,7 +18,7 @@ describe('Directive: mos.years.YearSelector', function () {
         var scope = $rootScope.$new();
         var element = $compile('<mos-year-selector></mos-year-selector>')(scope);
 
-        var testHtml = '<div>{{ ctl.currentYear }}</div>'
+        var testHtml = '<div>{{ ctl.currentYear }}</div>';
         $httpBackend.expectGET('scripts/years/year-selector-partial.html').respond(200, testHtml);
         $rootScope.$apply();
 

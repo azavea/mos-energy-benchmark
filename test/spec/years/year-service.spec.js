@@ -5,6 +5,9 @@ describe('Factory: mos.years.YearService', function () {
 
     var YearService;
 
+    var yearsData = readJSON('test/spec/mock/years-data.json');
+    console.log(yearsData);
+
     beforeEach(inject(function (_YearService_) {
         YearService = _YearService_;
     }));

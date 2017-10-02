@@ -31,6 +31,7 @@ module.exports = function(config) {
       'bower_components/d3/d3.js',
       'bower_components/d3-tip/index.js',
       'bower_components/lodash/dist/lodash.js',
+      'bower_components/karma-read-json/karma-read-json.js',
 
       'node_modules/headroom.js/dist/headroom.js',
       'node_modules/headroom.js/dist/angular.headroom.js',
@@ -77,7 +78,14 @@ module.exports = function(config) {
       'app/scripts/app.js',
       'app/scripts/headroom-reset-directive.js',
 
-      'test/spec/**/*.js'
+      'test/spec/**/*.js',
+
+      { // JSON fixtures
+        pattern: 'test/spec/mock/**/*.json',
+        watched: true,
+        served: true,
+        included: false
+      }
     ],
 
     // list of files / patterns to exclude
