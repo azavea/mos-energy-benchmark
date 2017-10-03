@@ -4,9 +4,8 @@
     /**
      * @ngInject
      */
-    function CartoConfig (Utils, YearService) {
+    function CartoConfig (Utils) {
         var module = {};
-        var year = YearService.getCurrentYear();
 
         module.user = 'mos-benchmarking';
         module.visualization = '41298fb7-e6c7-4c49-8131-3383a7ac5fe1';
@@ -14,31 +13,7 @@
         // The unique column to use to identify records throughout the app
         module.uniqueColumn = 'cartodb_id';
 
-        module.years = YearService.years;
-
-        // Statistics displayed on chart view, these change each year
-        module.stats = {
-            2013: {
-                avgEnergyStar: 64,
-                ghgBuildings: 62,
-                numBuildings: 1880
-            },
-            2014: {
-                avgEnergyStar: 59,
-                ghgBuildings: 60,
-                numBuildings: 1879
-            },
-            2015: {
-                avgEnergyStar: 63,
-                ghgBuildings: 60,
-                numBuildings: 1832
-            }
-        };
-
-        // There is now only a single table, which contains data for all years.
-        // The naming convention for the table is: mos_beb_{underscore seperated ascending years}.
-        // The `slice` is here to make the sort non-destructive.
-        module.table = 'mos_beb_' + module.years.slice().sort().join('_');
+        module.yearsTable = 'mos_years';
 
         // Fields which do not use a year suffix
         module.timeIndependentFields = ['year_built', 'floor_area'];
@@ -71,13 +46,9 @@
                 + ', steam_{year} as steam'
                 + ', total_ghg_{year} as total_ghg'
                 + ', water_use_{year} as water_use'
-                + ' FROM {table}', {
-                    table: module.table,
-                    year: year
-                }),
+                + ' FROM {table}', {}),
 
             detailQuery: Utils.strFormat('SELECT * from {table} where {uniqueColumn} in ({id})', {
-                table: module.table,
                 uniqueColumn: module.uniqueColumn
             }),
 
@@ -89,10 +60,11 @@
                 + ', sum(total_ghg_{year}) as emissions'
                 + ', sum(site_eui_{year} * floor_area) as totalenergy'
                 + ' FROM {table}'
-                + ' GROUP BY sector', {
-                    table: module.table,
-                    year: year
-                })
+                + ' GROUP BY sector', {}),
+
+            yearsQuery: Utils.strFormat('SELECT * from {table} ORDER BY year DESC', {
+                table: module.yearsTable
+            })
 
 /* jshint laxbreak:false */
         };

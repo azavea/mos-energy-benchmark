@@ -17,10 +17,10 @@
     /*
      * ngInject
      */
-    function CompareController($scope, BuildingCompare, CompareConfig, MOSCSSValues, YearService,
+    function CompareController($scope, BuildingCompare, CartoSQLAPI, CompareConfig, MOSCSSValues,
                                buildingData, currentData) {
 
-        var year = YearService.getCurrentYear();
+        var year = CartoSQLAPI.getCurrentYear();
 
         var setCalloutValues = function (data, fields) {
             var calloutValues = {};
@@ -47,7 +47,9 @@
         $scope.calloutValues = setCalloutValues($scope.buildings, CompareConfig.fields);
 
         $scope.close = function (index) {
+            /*jshint camelcase: false */
             var cartodbId = $scope.buildings[index].cartodb_id;
+            /*jshint camelcase: true */
             BuildingCompare.remove(cartodbId.toString());
             $scope.buildings.splice(index, 1);
             $scope.calloutValues = setCalloutValues($scope.buildings, CompareConfig.fields);

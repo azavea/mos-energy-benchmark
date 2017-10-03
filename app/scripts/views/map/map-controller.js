@@ -5,7 +5,7 @@
      * ngInject
      */
     function MapController($compile, $q, $scope, $state, $timeout, BuildingCompare, CartoConfig,
-                           ColorService, MappingService, Utils, YearService) {
+                           CartoSQLAPI, ColorService, MappingService, Utils) {
 
         // indicate that map is loading, hang on..
         $scope.mapLoading = true;
@@ -18,8 +18,8 @@
         var vizLayer = null;
         var nativeMap = null;
 
-        $scope.year = YearService.getCurrentYear();
-        $scope.years = CartoConfig.years.slice().sort();
+        $scope.year = CartoSQLAPI.getCurrentYear();
+        $scope.years = CartoSQLAPI.years.slice().sort();
 
         $scope.popupLoading = true;
 
@@ -57,7 +57,7 @@
                     sector: row.sector
                 };
 
-                angular.forEach(CartoConfig.years, function(year) {
+                angular.forEach(CartoSQLAPI.years, function(year) {
                     $scope.propertyData['totalGhg' + year] = row['total_ghg_' + year];
                     $scope.propertyData['siteEui' + year] = row['site_eui_' + year];
                     $scope.propertyData['energyStar' + year] = row['energy_star_' + year];
@@ -295,6 +295,7 @@
             viz: CartoConfig.visualization
         });
 
+        /* jshint camelcase:false */
         var vizOptions = {
             infowindow: false,
             legends: false,
@@ -302,6 +303,7 @@
             loaderControl: true,
             layer_selector: false
         };
+        /* jshint camelcase:true */
 
         cartodb.createVis('mymap', vizUrl, vizOptions)
             .done(function(vis, layers) {
@@ -316,7 +318,7 @@
                 var overlay = layers[1];
 
                 // find the viz layer we want to interact with
-                vizLayer = overlay.getSubLayer(CartoConfig.years.indexOf($scope.year));
+                vizLayer = overlay.getSubLayer(CartoSQLAPI.years.indexOf($scope.year));
                 vizLayer.show();
                 vizLayer.setInteraction(true);
 

@@ -6,6 +6,7 @@
      */
     function StateConfig($stateProvider) {
         $stateProvider.state('info', {
+            parent: 'root',
             url: '/info',
             templateUrl: 'scripts/views/info/info-partial.html',
             controller: 'InfoController'
@@ -20,7 +21,9 @@
      */
     angular
       .module('mos.views.info', [
-        'ui.router'
+        'ui.router',
+        'mos.cartodb',
+        'mos.root'
       ]).config(StateConfig);
 
 })();

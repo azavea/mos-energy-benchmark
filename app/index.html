@@ -41,43 +41,9 @@
         <li ui-sref-active="active"><a ui-sref="charts"><div class="nav-icon nav-chart"></div>Charts</a></li>
         <!-- TODO: Figure out how to show map highlight when detail/compare is active? -->
         <li ui-sref-active="active"><a ui-sref="map"><div class="nav-icon nav-map"></div>Map</a></li>
-        <li class="dropdown" dropdown>
 
-            <a href dropdown-toggle
-               class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><div class="nav-icon nav-data"></div>
-              Data
-            </a>
-            <ul class="dropdown-menu pull-right" role="menu">
-                <li>
-                    <a href="https://data.phila.gov/api/views/rxi8-wx2m/rows.csv?accessType=DOWNLOAD"
-                     download="BenchmarkingCompliance2014.csv">
-                         <i class="fa fa-download"></i>
-                         Download 2014 Data
-                    </a>
-                </li>
-                <li>
-                    <a href="https://data.phila.gov/api/views/m6ph-jdm5/rows.csv?accessType=DOWNLOAD"
-                     download="BenchmarkingCompliance2013.csv">
-                         <i class="fa fa-download"></i>
-                         Download 2013 Data
-                    </a>
-                </li>
-                <li>
-                    <a href="https://data.phila.gov/api/views/d4zn-gjfu/rows.csv?accessType=DOWNLOAD"
-                     download="BenchmarkingCompliance2012.csv">
-                         <i class="fa fa-download"></i>
-                         Download 2012 Data
-                    </a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="https://www.opendataphilly.org/dataset/large-commercial-building-energy-benchmarking" target="_blank">
-                        <i class="fa fa-code-fork"></i>
-                        Source Data
-                    </a>
-                </li>
-            </ul>
-        </li>
+        <mos-data-download></mos-data-download>
+
         <li ui-sref-active="active"><a ui-sref="info"><div class="nav-icon nav-info"></div>Info</a></li>
       </ul>
     </headroom>
@@ -114,8 +80,8 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.3/headroom.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.3/angular.headroom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/angular.headroom.min.js"></script>
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <!-- IMPORTANT: When you add a file here, add it in the same order in karma.conf.js -->
@@ -125,13 +91,17 @@
     <script src="scripts/cartodb/cartodb-api-service.js"></script>
     <script src="scripts/cartodb/cartodb-filters.js"></script>
 
+    <script src="scripts/root/module.js"></script>
+    <script src="scripts/root/root-controller.js"></script>
+
     <script src="scripts/colors/module.js"></script>
     <script src="scripts/colors/color-service.js"></script>
 
     <script src="scripts/years/module.js"></script>
-    <script src="scripts/years/year-service.js"></script>
     <script src="scripts/years/year-selector-controller.js"></script>
     <script src="scripts/years/year-selector-directive.js"></script>
+    <script src="scripts/years/data-download-controller.js"></script>
+    <script src="scripts/years/data-download-directive.js"></script>
 
     <script src="scripts/charting/module.js"></script>
     <script src="scripts/charting/charting-service.js"></script>

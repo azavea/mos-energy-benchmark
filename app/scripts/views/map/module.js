@@ -6,6 +6,7 @@
      */
     function StateConfig($stateProvider) {
         $stateProvider.state('map', {
+            parent: 'root',
             url: '/map',
             templateUrl: 'scripts/views/map/map-partial.html',
             controller: 'MapController'
@@ -24,6 +25,7 @@
         'ui.router',
         'ui.bootstrap',
         'mos.cartodb',
+        'mos.root',
         'mos.compare',
         'mos.colors',
         'mos.mapping'

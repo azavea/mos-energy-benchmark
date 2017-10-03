@@ -480,6 +480,7 @@
      */
     angular
     .module('mos', [
+        'mos.root',
         'mos.views.charts',
         'mos.views.map',
         'mos.views.info',

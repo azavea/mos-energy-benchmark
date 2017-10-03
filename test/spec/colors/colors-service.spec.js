@@ -5,6 +5,17 @@ describe('Factory: mos.colors.ColorService', function () {
     beforeEach(module('mos'));
 
     var Colors;
+    var CartoSQLAPI;
+
+    // mock year and data table name
+    beforeEach(module('mos.colors', function ($provide) {
+        CartoSQLAPI = jasmine.createSpyObj('CartoSQLAPI', ['getCurrentYear', 'getTableName']);
+
+        CartoSQLAPI.getCurrentYear.and.returnValue(2015);
+        CartoSQLAPI.getTableName.and.returnValue('mos_beb_2013_2014_2015');
+
+        $provide.value('CartoSQLAPI', CartoSQLAPI);
+    }));
 
     // Initialize the service
     beforeEach(inject(function (_ColorService_) {
@@ -21,7 +32,10 @@ describe('Factory: mos.colors.ColorService', function () {
     });
 
     it('should build CartoCSS for sector', function () {
+
         var sectorCSS = Colors.getFieldCartoCSS('sector');
+
+        expect(CartoSQLAPI.getTableName).toHaveBeenCalled();
 
         var cssVal = '#mos_beb_2013_2014_2015[sector="School (K-12)"] {marker-fill: #A6CEE3;} #mos_beb_2013_2014_2015[sector="Office"] {marker-fill: #1F78B4;} #mos_beb_2013_2014_2015[sector="Medical Office"] {marker-fill: #52A634;} #mos_beb_2013_2014_2015[sector="Warehouse"] {marker-fill: #B2DF8A;} #mos_beb_2013_2014_2015[sector="College/ University"] {marker-fill: #33A02C;} #mos_beb_2013_2014_2015[sector="Other"] {marker-fill: #FB9A99;} #mos_beb_2013_2014_2015[sector="Retail"] {marker-fill: #E31A1C;} #mos_beb_2013_2014_2015[sector="Municipal"] {marker-fill: #FDBF6F;} #mos_beb_2013_2014_2015[sector="Multifamily"] {marker-fill: #FF7F00;} #mos_beb_2013_2014_2015[sector="Hotel"] {marker-fill: #CAB2D6;} #mos_beb_2013_2014_2015[sector="Industrial"] {marker-fill: #6A3D9A;} #mos_beb_2013_2014_2015[sector="Worship"] {marker-fill: #9C90C4;} #mos_beb_2013_2014_2015[sector="Supermarket"] {marker-fill: #E8AE6C;} #mos_beb_2013_2014_2015[sector="Parking"] {marker-fill: #62afe8;} #mos_beb_2013_2014_2015[sector="Laboratory"] {marker-fill: #3AA3FF;} #mos_beb_2013_2014_2015[sector="Hospital"] {marker-fill: #C6B4FF;} #mos_beb_2013_2014_2015[sector="Data Center"] {marker-fill: #a3d895;} \n#mos_beb_2013_2014_2015 {marker-fill: #DDDDDD;}';
 
