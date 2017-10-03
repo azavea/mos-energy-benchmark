@@ -11,7 +11,7 @@
         $stateProvider.state('root', {
             abstract: true,
             controller: 'RootController',
-            template:'<ui-view/>',
+            templateUrl: 'scripts/root/root-partial.html',
             resolve: {
                 yearData: function (CartoSQLAPI) {
                     return CartoSQLAPI.getYearsData();
@@ -30,6 +30,7 @@
       .module('mos.root', [
         'ui.router',
         'mos.cartodb',
+        'mos.headerbar',
         'mos.utils'
       ]).config(StateConfig);
 
