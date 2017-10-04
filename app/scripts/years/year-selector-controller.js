@@ -13,7 +13,7 @@
         // Updates the current year
         function updateYear(year) {
             $location.search('year', year);
-            $window.location.reload();
+            ctl.currentYear = CartoSQLAPI.getCurrentYear();
         }
 
         // Update years values after they have been loaded from Carto
