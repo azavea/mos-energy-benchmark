@@ -8,7 +8,7 @@
 
         var ctl = this;
 
-        ctl.year = CartoSQLAPI.getCurrentYear();
+        ctl.getYear = CartoSQLAPI.getCurrentYear;
 
     }
 

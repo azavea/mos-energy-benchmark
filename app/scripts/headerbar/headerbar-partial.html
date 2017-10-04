@@ -4,9 +4,9 @@
 
         <mos-year-selector></mos-year-selector>
 
-        <li ui-sref-active="active"><a ui-sref="charts({year: ctl.year})"><div class="nav-icon nav-chart"></div>Charts</a></li>
+        <li ui-sref-active="active"><a ui-sref="charts({year: ctl.getYear()})"><div class="nav-icon nav-chart"></div>Charts</a></li>
         <!-- TODO: Figure out how to show map highlight when detail/compare is active? -->
-        <li ui-sref-active="active"><a ui-sref="map({year: ctl.year})">
+        <li ui-sref-active="active"><a ui-sref="map({year: ctl.getYear()})">
             <div class="nav-icon nav-map">
             </div>Map</a>
         </li>
