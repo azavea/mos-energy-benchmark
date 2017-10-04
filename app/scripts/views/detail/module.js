@@ -7,7 +7,7 @@
     function StateConfig($stateProvider) {
         $stateProvider.state('detail', {
             parent: 'root',
-            url: '/detail/:buildingId',
+            url: '/detail/:buildingId?year',
             templateUrl: 'scripts/views/detail/detail-partial.html',
             controller: 'DetailController',
             resolve: /* ngInject */ {

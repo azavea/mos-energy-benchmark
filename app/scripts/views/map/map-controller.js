@@ -215,7 +215,7 @@
         };
 
         $scope.gotoCompare = function () {
-            $state.go('compare', {ids: BuildingCompare.list().join(',')});
+            $state.go('compare', {ids: BuildingCompare.list().join(','), year: $scope.years});
         };
 
         var popupTemplate = ['<span class="featurePopup">',
@@ -243,7 +243,7 @@
           'ng-change="setCompare(propertyData.cartodbId)" /> <em>Compare</em></label>',
           '<button type="button" class="pull-right btn btn-popover" ',
           'ng-style="{\'background-color\': \'{{::propertyData.sectorColor}}\',  \'opacity\': 0.8 }" ',
-          'ui-sref="detail({buildingId: propertyData.cartodbId})">Full Report</button></p>',
+          'ui-sref="detail({buildingId: propertyData.cartodbId, year: year})">Full Report</button></p>',
           '</div></div></span>'].join('');
 
         var showPopup = function(coords) {
