@@ -7,7 +7,7 @@
     function StateConfig($stateProvider) {
         $stateProvider.state('info', {
             parent: 'root',
-            url: '/info',
+            url: '/info?year',
             templateUrl: 'scripts/views/info/info-partial.html',
             controller: 'InfoController'
         });
