@@ -1,17 +1,16 @@
 <div class="snapshot" ng-style="headerColor">
     <div class="container">
         <div class="row">
-            <div class="close"><a ui-sref="map"><i class="fa fa-times-circle"></i></a></div>
+            <div class="close"><a ui-sref="map({year: selectedYear})"><i class="fa fa-times-circle"></i></a></div>
             <div class="col-xs-8">
                 <h3>{{ ::building.property_name }}</h3>
                 <p><b>{{ ::building.sector }}</b></p>
                 <p ng-show="building.floor_area"><i>{{ ::building.floor_area | number:0}} sq ft</i></p>
                 <p ng-show="building.year_built"><i>Year Built: {{ ::building.year_built }}</i></p>
-
             </div>
             <div class="col-xs-4 pull-right">
                 <div class="energy-star center-block text-center">
-                    <h4>{{ ::building['energy_star_' + years[0]] | cartodbNumber:0 }}</h4>
+                    <h4>{{ ::building['energy_star_' + selectedYear] | cartodbNumber:0 }}</h4>
                     <label>Energy Star Score</label>
                 </div>
             </div>
@@ -58,7 +57,7 @@
         </div>
     </div>
 
-    <div ng-repeat="key in fields" class="row stats" ng-if="building[key + '_' + years[0]]">
+    <div ng-repeat="key in fields" class="row stats">
         <div class="col-xs-7">
             <div class="row">
                 <div class="col-xs-3">

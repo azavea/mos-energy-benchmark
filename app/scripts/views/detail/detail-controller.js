@@ -33,8 +33,8 @@
         var sectorColor = MOSColors[building.sector] || MOSColors.Unknown;
         var rows = currentData.data.rows;
 
-        // Note: this page is intentionally not affected by the year toggle
         $scope.years = CartoSQLAPI.years;
+        $scope.selectedYear = CartoSQLAPI.getCurrentYear();
         $scope.yearsAscending = CartoSQLAPI.years.slice().sort();
         $scope.building = building;
         $scope.fields = DetailConfig.fields;
@@ -67,7 +67,7 @@
         // Returns an array of callout values for the given key
         $scope.getCalloutValues = function (key) {
             return _.map($scope.years, function(year) {
-                return building[key + '_' + year];
+                return building[key + '_' + year] ? building[key + '_' + year] : 'N/A';
             });
         };
     }
