@@ -7,7 +7,7 @@
     function StateConfig($stateProvider) {
         $stateProvider.state('charts', {
             parent: 'root',
-            url: '/',
+            url: '/?year',
             templateUrl: 'scripts/views/charts/charts-partial.html',
             controller: 'ChartsController'
         });

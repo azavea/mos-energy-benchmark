@@ -18,7 +18,7 @@
         var vizLayer = null;
         var nativeMap = null;
 
-        $scope.year = CartoSQLAPI.getCurrentYear();
+        $scope.getYear = CartoSQLAPI.getCurrentYear;
         $scope.years = CartoSQLAPI.years.slice().sort();
 
         $scope.popupLoading = true;
@@ -215,7 +215,7 @@
         };
 
         $scope.gotoCompare = function () {
-            $state.go('compare', {ids: BuildingCompare.list().join(',')});
+            $state.go('compare', { ids: BuildingCompare.list().join(','), year: $scope.getYear() });
         };
 
         var popupTemplate = ['<span class="featurePopup">',
@@ -243,7 +243,7 @@
           'ng-change="setCompare(propertyData.cartodbId)" /> <em>Compare</em></label>',
           '<button type="button" class="pull-right btn btn-popover" ',
           'ng-style="{\'background-color\': \'{{::propertyData.sectorColor}}\',  \'opacity\': 0.8 }" ',
-          'ui-sref="detail({buildingId: propertyData.cartodbId})">Full Report</button></p>',
+          'ui-sref="detail({buildingId: propertyData.cartodbId, year: getYear() })">Full Report</button></p>',
           '</div></div></span>'].join('');
 
         var showPopup = function(coords) {
@@ -318,7 +318,7 @@
                 var overlay = layers[1];
 
                 // find the viz layer we want to interact with
-                vizLayer = overlay.getSubLayer(CartoSQLAPI.years.indexOf($scope.year));
+                vizLayer = overlay.getSubLayer(CartoSQLAPI.years.indexOf($scope.getYear()));
                 vizLayer.show();
                 vizLayer.setInteraction(true);
 

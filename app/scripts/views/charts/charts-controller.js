@@ -16,11 +16,6 @@
 
         $scope.hideCallout = $cookieStore.get(COOKIE_STRING_SLIDE_CALLOUT) || false;
 
-        // The chart view displays both the data year and the report year (there is a 1-year lag)
-        $scope.dataYear = CartoSQLAPI.getCurrentYear();
-        $scope.reportYear = $scope.dataYear + 1;
-        $scope.stats = CartoSQLAPI.yearsData[$scope.dataYear];
-
         $scope.calloutClicked = function () {
             var hide = true;
             $cookieStore.put(COOKIE_STRING_SLIDE_CALLOUT, hide);
@@ -28,6 +23,11 @@
         };
 
         var init = function () {
+            // The chart view displays both the data year and the report year (there is a 1-year lag)
+            $scope.dataYear = CartoSQLAPI.getCurrentYear();
+            $scope.reportYear = $scope.dataYear + 1;
+            $scope.stats = CartoSQLAPI.yearsData[$scope.dataYear];
+
             var getCurrentAll = CartoSQLAPI.getAllCurrentData().then(function(data) {
                 $scope.currentAllData = data.data.rows;
             });

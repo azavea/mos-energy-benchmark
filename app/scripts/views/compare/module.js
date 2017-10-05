@@ -7,7 +7,7 @@
     function StateConfig($stateProvider) {
         $stateProvider.state('compare', {
             parent: 'root',
-            url: '/compare?ids',
+            url: '/compare?ids?year',
             templateUrl: 'scripts/views/compare/compare-partial.html',
             controller: 'CompareController',
 

@@ -7,7 +7,7 @@
     function StateConfig($stateProvider) {
         $stateProvider.state('map', {
             parent: 'root',
-            url: '/map',
+            url: '/map?year',
             templateUrl: 'scripts/views/map/map-partial.html',
             controller: 'MapController'
         });

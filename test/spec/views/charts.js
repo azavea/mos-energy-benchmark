@@ -30,6 +30,7 @@ describe('Controller: mos.views.charts.ChartsController', function () {
     }));
 
     it('should stub a sample test', function () {
+        // TODO: #243 fix transition rejection
         expect(true).toBe(true);
     });
 });
