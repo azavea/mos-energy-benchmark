@@ -6,10 +6,16 @@
      */
     function InfoController($scope, CartoSQLAPI, infoData) {
 
-        console.log(infoData);
+        $scope.info = infoData;
 
         $scope.yearsString = '';
         setYearsString(CartoSQLAPI.years);
+
+        // Strip the scheme from a url, for presentation as link text
+        $scope.getPrettyUrl = function(url) {
+           var [, two] = _.split(url, '//');
+           return two || url;
+        };
 
         // Update years values and download links after they have been loaded from Carto
         $scope.$on('mos.cartodb:years', function(event, data) {
