@@ -14,6 +14,7 @@
         module.uniqueColumn = 'cartodb_id';
 
         module.yearsTable = 'mos_years';
+        module.infoTable = 'mos_info';
 
         // Fields which do not use a year suffix
         module.timeIndependentFields = ['year_built', 'floor_area'];
@@ -64,6 +65,10 @@
 
             yearsQuery: Utils.strFormat('SELECT * from {table} ORDER BY year DESC', {
                 table: module.yearsTable
+            }),
+
+            infoQuery: Utils.strFormat('SELECT * from {table}', {
+                table: module.infoTable
             })
 
 /* jshint laxbreak:false */

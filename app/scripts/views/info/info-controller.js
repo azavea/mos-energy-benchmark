@@ -4,7 +4,9 @@
     /*
      * ngInject
      */
-    function InfoController($scope, CartoSQLAPI) {
+    function InfoController($scope, CartoSQLAPI, infoData) {
+
+        console.log(infoData);
 
         $scope.yearsString = '';
         setYearsString(CartoSQLAPI.years);
