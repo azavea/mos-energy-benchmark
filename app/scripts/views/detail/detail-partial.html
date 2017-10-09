@@ -9,9 +9,15 @@
                 <p ng-show="building.year_built"><i>Year Built: {{ ::building.year_built }}</i></p>
             </div>
             <div class="col-xs-4 pull-right">
-                <div class="energy-star center-block text-center">
+                <div class="energy-star center-block text-center"
+                    ng-if="(building['energy_star_' + selectedYear] | cartodbNumber:0) !== 'N/A'">
                     <h4>{{ ::building['energy_star_' + selectedYear] | cartodbNumber:0 }}</h4>
                     <label>Energy Star Score</label>
+                </div>
+                <div class="energy-star center-block text-center"
+                    ng-if="(building['energy_star_' + selectedYear] | cartodbNumber:0) === 'N/A'">
+                    <h4>{{ ::building['site_eui_' + selectedYear] | cartodbNumber:0 }}</h4>
+                    <label>Site EUI</label>
                 </div>
             </div>
         </div>
