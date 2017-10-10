@@ -13,8 +13,11 @@
 
         // Strip the scheme from a url, for presentation as link text
         $scope.getPrettyUrl = function(url) {
-           var [, two] = _.split(url, '//');
-           return two || url;
+           var splits = _.split(url, '//');
+           if (splits && splits.length > 1) {
+            return splits[1];
+           }
+           return url;
         };
 
         // Update years values and download links after they have been loaded from Carto
