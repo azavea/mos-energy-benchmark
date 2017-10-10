@@ -19,7 +19,8 @@
         var nativeMap = null;
 
         $scope.getYear = CartoSQLAPI.getCurrentYear;
-        $scope.years = CartoSQLAPI.years.slice().sort();
+        // only display the two most recent years in the map popup
+        $scope.years = CartoSQLAPI.years.slice(0, 2).sort();
 
         $scope.popupLoading = true;
 
@@ -57,7 +58,7 @@
                     sector: row.sector
                 };
 
-                angular.forEach(CartoSQLAPI.years, function(year) {
+                angular.forEach($scope.years, function(year) {
                     $scope.propertyData['totalGhg' + year] = row['total_ghg_' + year];
                     $scope.propertyData['siteEui' + year] = row['site_eui_' + year];
                     $scope.propertyData['energyStar' + year] = row['energy_star_' + year];
@@ -135,7 +136,9 @@
                         // pan to location found and open its pop-up
                         var row = data.rows[0];
                         setPropertyData(row);
+                        /* jshint camelcase:false */
                         var latlng = L.latLng(row.y_coord, row.x_coord);
+                        /* jshint camelcase:true */
                         nativeMap.setView(latlng, 16);
                         $scope.popupLoading = false;
                         $scope.amSearching = false;
