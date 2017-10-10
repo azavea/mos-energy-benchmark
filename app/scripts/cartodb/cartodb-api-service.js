@@ -43,6 +43,17 @@
             return currentData;
         };
 
+        /*
+         *  Converts info page table data to object with key-value pairs
+         */
+        module.getInfo = function(infoData) {
+            var info = {};
+            angular.forEach(infoData, function(row) {
+                info[row.key] = row.value;
+            });
+            return info;
+        };
+
         module.getAllCurrentData = function() {
             return makeCartoDBRequest(CartoConfig.data.currAllQuery, {
                 year: getCurrentYear(),
@@ -76,6 +87,14 @@
                 id: ids,
                 table: getTableName()
             });
+        };
+
+        /**
+         * Get the table of parameterized data for the info page
+         * @return {$httpPromise}
+         */
+        module.getInfoData = function() {
+            return makeCartoDBRequest(CartoConfig.data.infoQuery);
         };
 
         /**

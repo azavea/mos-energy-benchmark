@@ -9,7 +9,17 @@
             parent: 'root',
             url: '/info?year',
             templateUrl: 'scripts/views/info/info-partial.html',
-            controller: 'InfoController'
+            controller: 'InfoController',
+            resolve: /* ngInject */ {
+                infoData: ['yearData', '$stateParams', 'CartoSQLAPI',
+                    function (yearData, $stateParams, CartoSQLAPI) {
+
+                    CartoSQLAPI.setYears(yearData);
+                    return CartoSQLAPI.getInfoData().then(function(data) {
+                        return CartoSQLAPI.getInfo(data.data.rows);
+                    });
+                }]
+            }
         });
     }
 
