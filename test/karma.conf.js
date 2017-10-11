@@ -40,6 +40,7 @@ module.exports = function(config) {
       //'bower_components/panelsnap/jquery.panelSnap.js',
 
       // Add app scripts here, same order as in index.html
+      'app/scripts/config.js',
       'app/scripts/utils.js',
       'app/scripts/cartodb/cartodb-api-config.js',
       'app/scripts/cartodb/cartodb-api-service.js',

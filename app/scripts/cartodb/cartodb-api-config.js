@@ -7,9 +7,6 @@
     function CartoConfig (Utils, MOSTablePrefix) {
         var module = {};
 
-        console.log('table prefix:');
-        console.log(MOSTablePrefix);
-
         module.user = 'mos-benchmarking';
         module.visualization = '41298fb7-e6c7-4c49-8131-3383a7ac5fe1';
 

@@ -7,9 +7,6 @@
     function CartoSQLAPI ($http, $location, $rootScope, CartoConfig, MOSTablePrefix, Utils) {
         var module = {};
 
-        console.log('table prefix:');
-        console.log(MOSTablePrefix);
-
         // years will be queried from Carto
         // app displays the most recent three years' worth of data
         // download links for all available years are available in the dropdown
