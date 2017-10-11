@@ -4,8 +4,11 @@
     /**
      * @ngInject
      */
-    function CartoConfig (Utils) {
+    function CartoConfig (Utils, MOSTablePrefix) {
         var module = {};
+
+        console.log('table prefix:');
+        console.log(MOSTablePrefix);
 
         module.user = 'mos-benchmarking';
         module.visualization = '41298fb7-e6c7-4c49-8131-3383a7ac5fe1';
@@ -13,8 +16,8 @@
         // The unique column to use to identify records throughout the app
         module.uniqueColumn = 'cartodb_id';
 
-        module.yearsTable = 'mos_years';
-        module.infoTable = 'mos_info';
+        module.yearsTable = MOSTablePrefix + 'years';
+        module.infoTable = MOSTablePrefix + 'info';
 
         // Fields which do not use a year suffix
         module.timeIndependentFields = ['year_built', 'floor_area'];
@@ -77,7 +80,7 @@
         return module;
     }
 
-    angular.module('mos.cartodb', ['mos.utils'])
+    angular.module('mos.cartodb', ['mos.utils', 'mos.config'])
 
       .factory('CartoConfig', CartoConfig);
 

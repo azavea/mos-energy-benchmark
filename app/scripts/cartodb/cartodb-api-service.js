@@ -4,8 +4,11 @@
     /**
      * @ngInject
      */
-    function CartoSQLAPI ($http, $location, $rootScope, CartoConfig, Utils) {
+    function CartoSQLAPI ($http, $location, $rootScope, CartoConfig, MOSTablePrefix, Utils) {
         var module = {};
+
+        console.log('table prefix:');
+        console.log(MOSTablePrefix);
 
         // years will be queried from Carto
         // app displays the most recent three years' worth of data
@@ -162,7 +165,7 @@
         }
 
         function getTableName() {
-            return 'mos_beb_' + module.years.slice().sort().join('_');
+            return MOSTablePrefix + 'beb_' + module.years.slice().sort().join('_');
         }
     }
 
