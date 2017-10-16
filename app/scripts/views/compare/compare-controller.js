@@ -36,6 +36,7 @@
 
         $scope.year = year;
         $scope.buildings = buildingData.data.rows;
+        $scope.buildingNames = _.map($scope.buildings, 'property_name');
         $scope.fields = CompareConfig.fields;
         $scope.currentData = currentData.data.rows;
         $scope.cssValues = MOSCSSValues;
@@ -52,6 +53,7 @@
             /*jshint camelcase: true */
             BuildingCompare.remove(cartodbId.toString());
             $scope.buildings.splice(index, 1);
+            $scope.buildingNames.splice(index, 1);
             $scope.calloutValues = setCalloutValues($scope.buildings, CompareConfig.fields);
         };
     }

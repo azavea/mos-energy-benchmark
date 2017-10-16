@@ -29,7 +29,7 @@
     /**
      * ngInject
      */
-    function histogram (CartoConfig, HistogramDefaults) {
+    function histogram (CartoConfig, HistogramDefaults, $filter) {
 
         var PLOT_CLASS = 'mos-histogram';
 
@@ -54,6 +54,7 @@
             margin: '&',
             calloutValues: '=',
             calloutColors: '=',
+            labels: '=',
             transitionMillis: '@',
             allowRedraw: '@',
             lazyLoad: '@'
@@ -67,6 +68,7 @@
             var margin = config.margin;
             var calloutValues = $scope.calloutValues;
             var calloutColors = $scope.calloutColors;
+            var labels = $scope.labels;
 
             // D3 margin, sizing, and spacing code
             element.addClass(PLOT_CLASS);
@@ -126,16 +128,50 @@
                     .datum(estimate)
                     .attr('class', 'kde plot')
                     .attr('d', plotArea);
+
+                // Add tooltips
+                var tip = d3.tip()
+                        .attr('class', 'd3-tip')
+                        .offset([-10, 0])
+                        .html(function(d) {
+                            var popup = '<span>';
+                            for (var i = 0; i < calloutValues.length; i++) {
+                                var val = calloutValues[i];
+                                var style = calloutColors[i] ?
+                                    'color:' + calloutColors[i] + ';' : '';
+                                style += val === d ? 'font-weight=bolder' : '';
+                                popup += ['<p style="',
+                                          style,
+                                          '">',
+                                          labels[i],
+                                          ': ',
+                                          $filter('cartodbNumber')(val, 0),
+                                          '</p>'].join('');
+                            }
+                            popup += '</span>';
+                            return popup;
+                        });
+                chart.call(tip);
+
+                // add callouts
                 for (var i = 0; i < calloutValues.length; i++) {
                     if (calloutValues[i] !== null) { // Don't plot null vals - null is not 0
-                        chart.append('rect') // Callouts - minValue is used for cases below 1 to avoid negInfinity on log10
-                            .attr('x', xKDE(calloutValues[i] >= 1 ? Math.log(calloutValues[i]) / Math.log(10) : minValue))
+                        // Callouts - minValue is used for cases below 1 to avoid negInfinity on log10
+                        var xVal = xKDE(calloutValues[i] >= 1 ?
+                                        Math.log(calloutValues[i]) / Math.log(10) : minValue);
+                        chart.append('rect')
+                            .attr('x', xVal)
                             .attr('y', 0)
                             .attr('height', height)
                             .attr('width', '2px')
                             .attr('fill', calloutColors[i] || defaultColor);
                     }
                 }
+
+                chart.selectAll('rect')
+                    .data(calloutValues)
+                    .on('mouseover', tip.show)
+                    .on('mouseout', tip.hide);
 
 
                 /* Debugging logs
