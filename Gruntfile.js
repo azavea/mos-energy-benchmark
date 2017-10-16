@@ -426,6 +426,14 @@ module.exports = function (grunt) {
     }
   });
 
+  grunt.registerTask('log:environment', 'Display build environment', function () {
+    if (grunt.config.get(['tablePrefix']) === 'mos_') {
+      grunt.log.ok('Using PRODUCTION Carto tables');
+    } else {
+      grunt.log.ok('Using STAGING Carto tables');
+    }
+  });
+
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
@@ -433,6 +441,7 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
+      'log:environment',
       'clean:server',
       'ngconstant:serve',
       'wiredep',
@@ -458,6 +467,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'log:environment',
     'clean:dist',
     'ngconstant:build',
     'wiredep',
