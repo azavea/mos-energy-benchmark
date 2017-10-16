@@ -4,7 +4,7 @@
     /**
      * @ngInject
      */
-    function CartoSQLAPI ($http, $location, $rootScope, CartoConfig, Utils) {
+    function CartoSQLAPI ($http, $location, $rootScope, CartoConfig, MOSTablePrefix, Utils) {
         var module = {};
 
         // years will be queried from Carto
@@ -162,7 +162,7 @@
         }
 
         function getTableName() {
-            return 'mos_beb_' + module.years.slice().sort().join('_');
+            return MOSTablePrefix + 'beb_' + module.years.slice().sort().join('_');
         }
     }
 
