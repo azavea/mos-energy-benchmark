@@ -76,7 +76,8 @@
         </div>
         <div class="col-xs-5">
             <div class="row">
-                <div class="col-xs-12" ng-init="calloutValues = getCalloutValues(key)">
+                <div class="col-xs-12" ng-init="calloutValues = getCalloutValues(key);
+                    calloutColors = getCalloutColors()">
                     <mos-histogram plot-height="100"
                                    plot-width="400"
                                    data="currentData"

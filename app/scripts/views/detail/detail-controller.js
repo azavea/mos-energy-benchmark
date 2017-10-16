@@ -41,7 +41,6 @@
         $scope.currentData = rows;
         $scope.cssValues = MOSCSSValues;
         $scope.filterField = 'sector';
-        $scope.calloutColors = [sectorColor];
         $scope.FILTER = DetailConfig.FILTER;
         $scope.dropdownText = {};
         $scope.dropdownText[DetailConfig.FILTER.NONE] = 'All Buildings';
@@ -67,7 +66,14 @@
         // Returns an array of callout values for the given key
         $scope.getCalloutValues = function (key) {
             return _.map($scope.years, function(year) {
-                return building[key + '_' + year] ? building[key + '_' + year] : 'N/A';
+                var vals = building[key + '_' + year] ? building[key + '_' + year] : 'N/A';
+                return vals;
+            });
+        };
+
+        $scope.getCalloutColors = function () {
+            return _.map($scope.years, function(year) {
+                return year === $scope.selectedYear ? sectorColor : '';
             });
         };
     }
