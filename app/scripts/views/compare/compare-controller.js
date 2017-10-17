@@ -17,8 +17,8 @@
     /*
      * ngInject
      */
-    function CompareController($scope, BuildingCompare, CartoSQLAPI, CompareConfig, MOSCSSValues,
-                               buildingData, currentData) {
+    function CompareController($location, $scope, BuildingCompare, CartoSQLAPI, CompareConfig,
+                               MOSCSSValues, buildingData, currentData) {
 
         var year = CartoSQLAPI.getCurrentYear();
 
@@ -36,7 +36,9 @@
 
         $scope.year = year;
         $scope.buildings = buildingData.data.rows;
+        /*jshint camelcase: false */
         $scope.buildingNames = _.map($scope.buildings, 'property_name');
+        /*jshint camelcase: true */
         $scope.fields = CompareConfig.fields;
         $scope.currentData = currentData.data.rows;
         $scope.cssValues = MOSCSSValues;
@@ -49,12 +51,23 @@
 
         $scope.close = function (index) {
             /*jshint camelcase: false */
-            var cartodbId = $scope.buildings[index].cartodb_id;
+            var cartodbId = $scope.buildings[index].cartodb_id.toString();
             /*jshint camelcase: true */
-            BuildingCompare.remove(cartodbId.toString());
+            BuildingCompare.remove(cartodbId);
             $scope.buildings.splice(index, 1);
             $scope.buildingNames.splice(index, 1);
             $scope.calloutValues = setCalloutValues($scope.buildings, CompareConfig.fields);
+
+            // update URL to remove building ID
+            var urlIds = $location.search().ids;
+            if (urlIds) {
+                urlIds = urlIds.split(',');
+                var idx = _.indexOf(urlIds, cartodbId);
+                if (idx > -1) {
+                    urlIds.splice(idx, 1);
+                    $location.search('ids', urlIds.join(','));
+                }
+            }
         };
     }
 
