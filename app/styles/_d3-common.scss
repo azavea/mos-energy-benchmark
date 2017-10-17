@@ -5,6 +5,10 @@
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
   border-radius: 2px;
+
+  .underline {
+    text-decoration: underline;
+  }
 }
 
 .d3-tip:after {

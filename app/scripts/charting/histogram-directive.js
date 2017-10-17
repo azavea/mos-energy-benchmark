@@ -137,12 +137,13 @@
                             var popup = '<span>';
                             for (var i = 0; i < calloutValues.length; i++) {
                                 var val = calloutValues[i];
-                                var style = calloutColors[i] ?
-                                    'color:' + calloutColors[i] + ';' : '';
-                                style += val === d ? 'font-weight=bolder' : '';
-                                popup += ['<p style="',
+                                var style =  calloutColors[i] ?
+                                    'style="color:' + calloutColors[i] + ';"' : '"';
+                                var cls = val === d ? ' class="underline"' : '';
+                                popup += ['<p ',
                                           style,
-                                          '">',
+                                          cls,
+                                          '>',
                                           labels[i],
                                           ': ',
                                           $filter('cartodbNumber')(val, 0),
