@@ -1,7 +1,6 @@
 describe('Controller: mos.views.charts.ChartsController', function () {
     'use strict';
 
-    beforeEach(module('ui.router'));
     // load the controller's module
     beforeEach(module('mos'));
 
@@ -30,7 +29,6 @@ describe('Controller: mos.views.charts.ChartsController', function () {
     }));
 
     it('should stub a sample test', function () {
-        // TODO: #243 fix transition rejection
         expect(true).toBe(true);
     });
 });

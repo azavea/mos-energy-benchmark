@@ -41,6 +41,8 @@ describe('Directive: mos.years.YearSelector', function () {
 
         $httpBackend.expectGET(/*mos_beb*/).respond(200, {});
 
+        $httpBackend.expectGET(/*charts/charts-partial.html*/).respond(200, '<h1>hi</h1>');
+
         $rootScope.$apply();
 
         $httpBackend.flush();
