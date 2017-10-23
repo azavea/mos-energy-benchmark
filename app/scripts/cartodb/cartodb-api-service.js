@@ -6,19 +6,23 @@
      */
     function CartoSQLAPI ($http, $location, $rootScope, CartoConfig, MOSTablePrefix, Utils) {
         var module = {};
+        var yearsData = {};
 
         // years will be queried from Carto
         // app displays the most recent three years' worth of data
         // download links for all available years are available in the dropdown
         module.years = [];
         module.allYears = [];
-        module.yearsData = {};
         module.getCurrentYear = getCurrentYear;
 
         // There is now only a single table, which contains data for all years.
         // The naming convention for the table is: mos_beb_{underscore seperated ascending years}.
         // The `slice` is here to make the sort non-destructive.
         module.getTableName = getTableName;
+
+        module.yearsData = function() {
+            return yearsData;
+        };
 
         /*
          *  Builds subset of renamed data fields from full query, for charts
@@ -108,15 +112,15 @@
         /**
          * Process the result of the `getYearsData` query and set the data on the service
          */
-        module.setYears = function(yearsData) {
+        module.setYears = function(data) {
 
             var queryiedYears = [];
 
-            angular.forEach(yearsData.data.rows, function(row) {
+            angular.forEach(data.data.rows, function(row) {
                 queryiedYears.push(row.year);
 
                 /* jshint camelcase:false */
-                module.yearsData[row.year] = {
+                yearsData[row.year] = {
                     downloadUrl: row.download_url,
                     avgEnergyStar: row.avg_energy_star,
                     ghgBuildings: row.ghg_buildings,
