@@ -5,7 +5,7 @@
      * ngInject
      */
     function MapController($compile, $q, $scope, $state, $timeout, BuildingCompare, CartoConfig,
-                           CartoSQLAPI, ColorService, MappingService, Utils) {
+                           CartoSQLAPI, ColorService, MappingService, Utils, infoData) {
 
         // indicate that map is loading, hang on..
         $scope.mapLoading = true;
@@ -295,7 +295,7 @@
         // load map visualization
         var vizUrl = Utils.strFormat('https://{user}.carto.com/api/v2/viz/{viz}/viz.json', {
             user: CartoConfig.user,
-            viz: CartoConfig.visualization
+            viz: infoData.visualization
         });
 
         /* jshint camelcase:false */

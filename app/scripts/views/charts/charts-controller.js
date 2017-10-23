@@ -26,7 +26,7 @@
             // The chart view displays both the data year and the report year (there is a 1-year lag)
             $scope.dataYear = CartoSQLAPI.getCurrentYear();
             $scope.reportYear = $scope.dataYear + 1;
-            $scope.stats = CartoSQLAPI.yearsData[$scope.dataYear];
+            $scope.stats = CartoSQLAPI.yearsData()[$scope.dataYear];
 
             var getCurrentAll = CartoSQLAPI.getAllCurrentData().then(function(data) {
                 $scope.currentAllData = data.data.rows;

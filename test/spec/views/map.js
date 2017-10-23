@@ -6,6 +6,11 @@ describe('Controller: mos.views.map.MapController', function () {
 
     var scope;
     var Controller;
+    var currentData = {
+        data: {
+            rows: []
+        }
+    };
 
     // Initialize the controller and a mock scope
     beforeEach(inject(function ($controller, $rootScope, _$compile_, _$state_) {
@@ -14,6 +19,7 @@ describe('Controller: mos.views.map.MapController', function () {
         Controller = $controller('MapController', {
             $compile: _$compile_,
             $scope: scope,
+            infoData: currentData,
             $state: _$state_
         });
     }));
