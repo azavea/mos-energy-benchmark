@@ -12,15 +12,15 @@
     <div class="row">
         <div class="col-md-offset-2 col-md-8">
             <h4>About this tool</h4>
-            <p>This visualization tool provides building-level energy performance data for the {{ ::yearsString }} calendar years for the {{ ::info.reporting_properties }} properties required to report utility information as part of Philadelphia’s energy benchmarking law. You can learn more about energy benchmarking and read the benchmarking reports at <a href="{{ ::info.benchmarking_url }}" target="_blank">{{ ::getPrettyUrl(info.benchmarking_url) }}</a>.</p>
+            <p>This visualization tool provides building-level energy performance data for the {{ ::yearsString }} calendar years for Philadelphia’s largest commercial and multifamily buildings, including {{ ::info.reporting_properties }} buildings required to report annual energy and water usage as part of Philadelphia’s energy benchmarking law. You can learn more about energy benchmarking at <a href="{{ ::info.benchmarking_url }}" target="_blank">{{ ::getPrettyUrl(info.benchmarking_url) }}</a>.</p>
             <br>
 
             <h4>Building Energy Performance</h4>
-            <p>Building energy performance is a critical metric for cities dedicated to reducing greenhouse gas emissions. In Philadelphia, {{ ::info.greenhouse_emissions }} of citywide greenhouse gas emissions stem from building energy use. As part of the City’s <a href="{{ ::info.greenworks_plan_url }}" target="_blank">Greenworks sustainability plan</a>, Philadelphia set a goal to {{ ::info.sustainability_plan_goal }}. Improving building performance will help Philadelphia reach that goal, and benchmarking provides building owners with the information they need to begin making informed decisions about upgrading and investing in energy efficiency (see <a href="{{ ::info.investing_in_efficiency_url }}" target="_blank">this page</a> for existing resources to invest in your facility).</p>
+            <p>Building energy performance is a critical metric for cities dedicated to reducing greenhouse gas emissions. In Philadelphia, {{ ::info.greenhouse_gas_emissions }} of citywide greenhouse gas emissions stem from building energy use. As part of <a href="{{ ::info.greenworks_plan_url }}" target="_blank">Greenworks: A Vision for a Sustainable Philadelphia</a>, Philadelphia's sustainability framework, Mayor Kenney set a goal of {{ ::info.sustainability_plan_goal }}. Improving building performance will help Philadelphia reach that goal, and benchmarking provides building owners with the information they need to begin making informed decisions about upgrading and investing in energy efficiency (see <a href="{{ ::info.investing_in_efficiency_url }}" target="_blank">this page</a> for existing resources to invest in your facility).</p>
             <br>
 
             <h4>Credits</h4>
-            <p>This tool was developed for the Mayor’s Office of Sustainability (MOS) by <a href="http://www.azavea.com/" target="_blank">Azavea Inc.</a>  Questions about the tool, the data, or the energy benchmarking program can be directed to MOS at <a href="mailto:{{ ::info.contact_email }}">{{ ::info.contact_email }}</a>.</p>
+            <p>This tool was developed for the Office of Sustainability (OOS) by <a href="http://www.azavea.com/" target="_blank">Azavea Inc.</a>  Questions about the tool, the data, or the energy benchmarking program can be directed to OOS at <a href="mailto:{{ ::info.contact_email }}">{{ ::info.contact_email }}</a>.</p>
         </div>
     </div>
 </div>
