@@ -59,8 +59,8 @@
                     if (value in MOSColors) {
                         return MOSColors[value];
                     } else {
-                        // if color not found, use 'Unknown' color
-                        return MOSColors.Unknown;
+                        // if color not found, use 'Other' color
+                        return MOSColors.Other;
                     }
                 } else {
                     console.error('Have no CSS defined for field: ' + field);
@@ -170,8 +170,8 @@
             if (sector in MOSColors) {
                 return MOSColors[sector];
             } else {
-                // if color not found, use 'Unknown' color
-                return MOSColors.Unknown;
+                // if color not found, use 'Other' color
+                return MOSColors.Other;
             }
         };
 
@@ -217,11 +217,7 @@
             var css = '';
             var TABLE = '#' + CartoSQLAPI.getTableName();
             angular.forEach(MOSColors, function(value, key) {
-                if (key === 'Unknown') {
-                    css += '\n' + TABLE + ' {marker-fill: ' + value + ';}';
-                } else {
-                    css += TABLE + '[sector="' + key + '"] {marker-fill: ' + value + ';} ';
-                }
+                css += TABLE + '[sector="' + key + '"] {marker-fill: ' + value + ';} ';
             });
             return css;
         };

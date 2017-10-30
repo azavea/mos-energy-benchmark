@@ -30,7 +30,7 @@
         var building = buildingData.data && buildingData.data.rows && buildingData.data.rows.length > 0
                         ? buildingData.data.rows[0] : {};
 /* jshint laxbreak:false */
-        var sectorColor = MOSColors[building.sector] || MOSColors.Unknown;
+        var sectorColor = MOSColors[building.sector] || MOSColors.Other;
         var rows = currentData.data.rows;
 
         $scope.years = CartoSQLAPI.years;

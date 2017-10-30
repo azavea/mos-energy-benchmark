@@ -26,8 +26,7 @@
         'Parking': '#62afe8',
         'Laboratory': '#3AA3FF',
         'Hospital': '#C6B4FF',
-        'Data Center': '#a3d895',
-        'Unknown': '#DDDDDD'
+        'Data Center': '#a3d895'
     };
 
     // min. values and corresponding CSS values for each bucket
