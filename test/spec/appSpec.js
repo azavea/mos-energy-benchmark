@@ -42,7 +42,7 @@ describe('Midway: MOS Modules', function() {
 
     it('should have MOSColors constant defined', function() {
       expect(MosColors).toBeDefined();
-      expect(MosColors.Unknown).toBeDefined();
+      expect(MosColors.Other).toBeDefined();
     });
 
     it('should have MOSCSSValues constant defined', function() {
