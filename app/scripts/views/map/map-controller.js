@@ -4,8 +4,9 @@
     /*
      * ngInject
      */
-    function MapController($compile, $q, $scope, $state, $timeout, BuildingCompare, CartoConfig,
-                           CartoSQLAPI, ColorService, MappingService, Utils, infoData) {
+    function MapController($compile, $q, $scope, $state, $timeout, $transitions, BuildingCompare,
+                           CartoConfig, CartoSQLAPI, ColorService, MappingService, Utils,
+                           infoData) {
 
         // indicate that map is loading, hang on..
         $scope.mapLoading = true;
@@ -286,7 +287,7 @@
             $('#mymap').append(ColorService.getLegend($scope.selections.colorType));
         };
 
-        $scope.$on('$stateChangeStart', function () {
+        $transitions.onStart({}, function() {
             $timeout(function () {
                 $scope.loadingView = true;
             }, overlayTriggerMillis);
