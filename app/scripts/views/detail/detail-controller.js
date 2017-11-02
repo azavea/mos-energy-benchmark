@@ -6,6 +6,7 @@
      */
     var DetailConfig = {
         fields: [
+            'energy_star',
             'site_eui',
             'total_ghg',
             'electricity',
