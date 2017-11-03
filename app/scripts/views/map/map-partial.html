@@ -18,6 +18,7 @@
                     typeahead-loading="loadingSuggestions"
                     typeahead-wait-ms="400"
                     typeahead-min-length="3"
+                    typeahead-on-select="searchMap()"
                     ng-submit="searchMap()"
                     ng-change="clearErrorMsg()"
                     ng-keyup="$event.keyCode === 13 ? searchMap() : null"
