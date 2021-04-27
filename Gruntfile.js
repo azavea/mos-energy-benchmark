@@ -19,6 +19,9 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-ng-constant');
 
+  // Ignore all warnings
+  grunt.option('force', true);
+
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
