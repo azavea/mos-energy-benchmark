@@ -8,22 +8,18 @@ http://visualization.phillybuildingbenchmarking.com/#/
 
 ### Developing
 
-Dependencies:
-```
-# TODO: Add vagrant vm
-sudo apt-get install ruby1.9.1-dev
-sudo gem install sass compass
-sudo npm install -g grunt-cli bower
-npm install
-bower install
-```
+#### Dependencies
+Docker
 
-Then to serve the dev server:
-```
-grunt serve
-```
+#### Setup
+This project is containerized via Docker.
 
-The dev app will be served at localhost:9000 and automatically opened in a new tab in your default browser.
+Run `docker build .` from directory root
+
+#### Run
+Then run `docker run -p 9000:9000 <image_id>`
+
+The dev app will be served at http://localhost:9000 and automatically opened in a new tab in your default browser.
 
 The app will auto refresh after saving js/css/html
 
