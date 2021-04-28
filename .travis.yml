@@ -1,12 +1,12 @@
-dist: trusty
+dist: xenial
 sudo: false
 language: node_js
 node_js:
-  - '8'
+  - '10'
 addons:
   chrome: stable
 before install:
-    - rvm install 2.2
+  - rvm install 2.3
 before_script:
   - gem install sass compass
   - npm install -g bower grunt-cli
