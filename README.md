@@ -17,7 +17,7 @@ This project is containerized via Docker.
 Run `docker build .` from directory root
 
 #### Run
-Then run `docker run -p 9000:9000 <image_id>`
+Then run `docker run --rm -p 9000:9000 <image_id> grunt serve`
 
 The dev app will be served at http://localhost:9000 and automatically opened in a new tab in your default browser.
 
@@ -36,4 +36,3 @@ The app will auto refresh after saving js/css/html
 `npm test` will run the test suite.
 
 Note that tests require Chrome 59+, for the headless browser support.
-
