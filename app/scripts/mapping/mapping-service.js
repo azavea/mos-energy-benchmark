@@ -15,7 +15,7 @@
 
         var searchBuildingIds = function (buildingId) {
             return _.filter(buildingIds, function (id) {
-                return id.indexOf(buildingId) !== -1;
+                return id && typeof id.indexOf === "function" && id.indexOf(buildingId) !== -1;
             });
         };
 
@@ -109,7 +109,7 @@
         module.geocode = function(address) {
 
             var dfd = $q.defer();
-            var url = 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates';
+            var url = 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates';
             // limit search to greater Philadelphia region
 
             $http.get(url, {
@@ -138,7 +138,7 @@
          * @returns Array of string suggestions
          */
         module.suggest = function (address) {
-            var suggestUrl = 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest';
+            var suggestUrl = 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest';
             return $http.get(suggestUrl, {
                 params: {
                     text: address,
