@@ -25,5 +25,3 @@ RUN npm install
 RUN bower --allow-root install
 
 EXPOSE 9000
-
-CMD ["grunt", "serve"]
