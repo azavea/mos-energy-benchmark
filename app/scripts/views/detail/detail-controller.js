@@ -6,6 +6,7 @@
      */
     var DetailConfig = {
         fields: [
+            'energy_star',
             'site_eui',
             'total_ghg',
             'electricity',
@@ -23,25 +24,24 @@
     /*
      * ngInject
      */
-    function DetailController($scope, CartoConfig, DetailConfig, MOSColors, MOSCSSValues,
+    function DetailController($scope, CartoSQLAPI, DetailConfig, MOSColors, MOSCSSValues,
                               buildingData, currentData) {
 
 /* jshint laxbreak:true */
         var building = buildingData.data && buildingData.data.rows && buildingData.data.rows.length > 0
                         ? buildingData.data.rows[0] : {};
 /* jshint laxbreak:false */
-        var sectorColor = MOSColors[building.sector] || MOSColors['Unknown'];
+        var sectorColor = MOSColors[building.sector] || MOSColors.Other;
         var rows = currentData.data.rows;
 
-        // Note: this page is intentionally not affected by the year toggle
-        $scope.years = CartoConfig.years;
-        $scope.yearsAscending = CartoConfig.years.slice().sort();
+        $scope.years = CartoSQLAPI.years;
+        $scope.selectedYear = CartoSQLAPI.getCurrentYear();
+        $scope.yearsAscending = CartoSQLAPI.years.slice().sort();
         $scope.building = building;
         $scope.fields = DetailConfig.fields;
         $scope.currentData = rows;
         $scope.cssValues = MOSCSSValues;
         $scope.filterField = 'sector';
-        $scope.calloutColors = [sectorColor];
         $scope.FILTER = DetailConfig.FILTER;
         $scope.dropdownText = {};
         $scope.dropdownText[DetailConfig.FILTER.NONE] = 'All Buildings';
@@ -67,7 +67,14 @@
         // Returns an array of callout values for the given key
         $scope.getCalloutValues = function (key) {
             return _.map($scope.years, function(year) {
-                return building[key + '_' + year];
+                var vals = building[key + '_' + year] ? building[key + '_' + year] : 'N/A';
+                return vals;
+            });
+        };
+
+        $scope.getCalloutColors = function () {
+            return _.map($scope.years, function(year) {
+                return year === $scope.selectedYear ? sectorColor : '';
             });
         };
     }

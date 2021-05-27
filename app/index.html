@@ -2,12 +2,12 @@
 <html class="no-js">
   <head>
     <meta charset="utf-8">
-    <title>MOS - Energy Benchmarking</title>
+    <title>Philadelphia Energy Benchmarking</title>
     <link rel="icon" type="image/xicon" href="images/favicon.ico">
     <meta name="description" content="">
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic|Roboto+Slab:700">
-    <link rel="stylesheet" type="text/css" href="http://libs.cartocdn.com/cartodb.js/v3/3.11/themes/css/cartodb.css" />
-    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato:300,400,400italic|Roboto+Slab:700">
+    <link rel="stylesheet" type="text/css" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
@@ -21,7 +21,7 @@
     <script async src='//www.google-analytics.com/analytics.js'></script>
     <script>
     window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-    ga('create', 'UA-31328913-2', 'auto');
+    ga('create', 'UA-109159063-1', 'auto');
     ga('send', 'pageview');
     </script>
     <!-- End Google Analytics -->
@@ -32,58 +32,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <headroom headroom-reset class="header" offset="120">
-      <a ui-sref="charts"><div id="logo"></div></a>
-      <ul class="nav nav-pills pull-right">
-
-        <mos-year-selector></mos-year-selector>
-
-        <li ui-sref-active="active"><a ui-sref="charts"><div class="nav-icon nav-chart"></div>Charts</a></li>
-        <!-- TODO: Figure out how to show map highlight when detail/compare is active? -->
-        <li ui-sref-active="active"><a ui-sref="map"><div class="nav-icon nav-map"></div>Map</a></li>
-        <li class="dropdown" dropdown>
-
-            <a href dropdown-toggle
-               class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><div class="nav-icon nav-data"></div>
-              Data
-            </a>
-            <ul class="dropdown-menu pull-right" role="menu">
-                <li>
-                    <a href="https://data.phila.gov/api/views/rxi8-wx2m/rows.csv?accessType=DOWNLOAD"
-                     download="BenchmarkingCompliance2014.csv">
-                         <i class="fa fa-download"></i>
-                         Download 2014 Data
-                    </a>
-                </li>
-                <li>
-                    <a href="https://data.phila.gov/api/views/m6ph-jdm5/rows.csv?accessType=DOWNLOAD"
-                     download="BenchmarkingCompliance2013.csv">
-                         <i class="fa fa-download"></i>
-                         Download 2013 Data
-                    </a>
-                </li>
-                <li>
-                    <a href="https://data.phila.gov/api/views/d4zn-gjfu/rows.csv?accessType=DOWNLOAD"
-                     download="BenchmarkingCompliance2012.csv">
-                         <i class="fa fa-download"></i>
-                         Download 2012 Data
-                    </a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="https://www.opendataphilly.org/dataset/large-commercial-building-energy-benchmarking" target="_blank">
-                        <i class="fa fa-code-fork"></i>
-                        Source Data
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li ui-sref-active="active"><a ui-sref="info"><div class="nav-icon nav-info"></div>Info</a></li>
-      </ul>
-    </headroom>
-
-    <div ui-view class="content">
-    </div>
+    <div ui-view></div>
 
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
@@ -92,42 +41,55 @@
     <![endif]-->
     <!-- endbuild -->
 
-    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.11/cartodb.js"></script>
+    <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/panelsnap/jquery.panelSnap.js"></script>
     <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-messages/angular-messages.js"></script>
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/d3/d3.js"></script>
     <script src="bower_components/d3-tip/index.js"></script>
-    <script src="bower_components/lodash/dist/lodash.compat.js"></script>
-    <script src="bower_components/headroom.js/dist/headroom.js"></script>
-    <script src="bower_components/headroom.js/dist/angular.headroom.js"></script>
+    <script src="bower_components/lodash/lodash.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/angular.headroom.min.js"></script>
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <!-- IMPORTANT: When you add a file here, add it in the same order in karma.conf.js -->
     <script src="scripts/utils.js"></script>
+    <script src="scripts/config.js"></script>
 
     <script src="scripts/cartodb/cartodb-api-config.js"></script>
     <script src="scripts/cartodb/cartodb-api-service.js"></script>
     <script src="scripts/cartodb/cartodb-filters.js"></script>
 
+    <script src="scripts/root/module.js"></script>
+    <script src="scripts/root/root-controller.js"></script>
+
+    <script src="scripts/headerbar/module.js"></script>
+    <script src="scripts/headerbar/headerbar-controller.js"></script>
+    <script src="scripts/headerbar/headerbar-directive.js"></script>
+
     <script src="scripts/colors/module.js"></script>
     <script src="scripts/colors/color-service.js"></script>
 
     <script src="scripts/years/module.js"></script>
-    <script src="scripts/years/year-service.js"></script>
     <script src="scripts/years/year-selector-controller.js"></script>
     <script src="scripts/years/year-selector-directive.js"></script>
+    <script src="scripts/years/data-download-controller.js"></script>
+    <script src="scripts/years/data-download-directive.js"></script>
 
     <script src="scripts/charting/module.js"></script>
     <script src="scripts/charting/charting-service.js"></script>

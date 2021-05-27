@@ -18,6 +18,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js',
+
       'bower_components/angular/angular.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'bower_components/angular-mocks/angular-mocks.js',
@@ -28,24 +30,33 @@ module.exports = function(config) {
       'bower_components/angular-ui-router/release/angular-ui-router.min.js',
       'bower_components/d3/d3.js',
       'bower_components/d3-tip/index.js',
-      'bower_components/lodash/dist/lodash.compat.js',
-      'bower_components/headroom.js/dist/headroom.js',
-      'bower_components/headroom.js/dist/angular.headroom.js',
+      'bower_components/lodash/dist/lodash.js',
+      'bower_components/karma-read-json/karma-read-json.js',
+
+      'node_modules/headroom.js/dist/headroom.js',
+      'node_modules/headroom.js/dist/angular.headroom.js',
 
       // Karma has problems with this file, but it's not needed for tests, commenting out
       //'bower_components/panelsnap/jquery.panelSnap.js',
 
       // Add app scripts here, same order as in index.html
+      'app/scripts/config.js',
       'app/scripts/utils.js',
       'app/scripts/cartodb/cartodb-api-config.js',
       'app/scripts/cartodb/cartodb-api-service.js',
       'app/scripts/cartodb/cartodb-filters.js',
+      'app/scripts/root/module.js',
+      'app/scripts/root/root-controller.js',
+      'app/scripts/headerbar/module.js',
+      'app/scripts/headerbar/headerbar-controller.js',
+      'app/scripts/headerbar/headerbar-directive.js',
       'app/scripts/colors/module.js',
       'app/scripts/colors/color-service.js',
       'app/scripts/years/module.js',
-      'app/scripts/years/year-service.js',
       'app/scripts/years/year-selector-controller.js',
       'app/scripts/years/year-selector-directive.js',
+      'app/scripts/years/data-download-controller.js',
+      'app/scripts/years/data-download-directive.js',
       'app/scripts/charting/module.js',
       'app/scripts/charting/charting-service.js',
       'app/scripts/charting/charting-controller.js',
@@ -70,10 +81,15 @@ module.exports = function(config) {
       'app/scripts/views/compare/compare-controller.js',
       'app/scripts/app.js',
       'app/scripts/headroom-reset-directive.js',
-      'http://libs.cartocdn.com/cartodb.js/v3/3.11/cartodb.js',
 
-      'test/mock/**/*.js',
-      'test/spec/**/*.js'
+      'test/spec/**/*.js',
+
+      { // JSON fixtures
+        pattern: 'test/spec/mock/**/*.json',
+        watched: true,
+        served: true,
+        included: false
+      }
     ],
 
     // list of files / patterns to exclude
@@ -91,12 +107,12 @@ module.exports = function(config) {
     // - PhantomJS
     // - IE (only Windows)
     browsers: [
-      'PhantomJS'
+      'ChromeHeadless'
     ],
 
     // Which plugins to enable
     plugins: [
-      'karma-phantomjs-launcher',
+      'karma-chrome-launcher',
       'karma-jasmine'
     ],
 

@@ -4,18 +4,18 @@
     /**
      * @ngInject
      */
-    function MappingService ($http, $q, ColorService, CartoConfig) {
+    function MappingService ($http, $q, ColorService, CartoConfig, CartoSQLAPI) {
 
         var viewbox = '-75.699037,40.195219,-74.886736,39.774326';
         var buildingIds = [];
         var module = {};
 
         module.FILTER_NONE = 'All types';
-        var table = CartoConfig.table;
+        var table = CartoSQLAPI.getTableName();
 
         var searchBuildingIds = function (buildingId) {
             return _.filter(buildingIds, function (id) {
-                return id.indexOf(buildingId) !== -1;
+                return id && typeof id.indexOf === "function" && id.indexOf(buildingId) !== -1;
             });
         };
 
@@ -109,20 +109,20 @@
         module.geocode = function(address) {
 
             var dfd = $q.defer();
-            var url = 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find';
+            var url = 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates';
             // limit search to greater Philadelphia region
 
             $http.get(url, {
                 params: {
-                    'text': address,
-                    'bbox': viewbox,
+                    'singleLine': address,
+                    'searchExtent': viewbox,
                     'category': 'Address,Postal',
                     'outFields': 'StAddr,City,Postal',
                     'maxLocations': 1,
                     'f': 'pjson'
                 }
             }).then(function (data) {
-                dfd.resolve(data.data.locations);
+                dfd.resolve(data.data.candidates);
             }, function () {
                 dfd.resolve([]);
             });
@@ -138,32 +138,28 @@
          * @returns Array of string suggestions
          */
         module.suggest = function (address) {
-            var dfd = $q.defer();
-
-            var suggestUrl = 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest';
-            $http.get(suggestUrl, {
+            var suggestUrl = 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest';
+            return $http.get(suggestUrl, {
                 params: {
                     text: address,
                     searchExtent: viewbox,
                     category: 'Address,Postal',
                     f: 'pjson'
                 }
-            }).success(function (data) {
+            }).then(function (data) {
                 var buildings = searchBuildingIds(address).slice(0, 5);
-                var suggestions = buildings.concat(_.pluck(data.suggestions, 'text'));
-                dfd.resolve(suggestions);
+                var suggestions = buildings.concat(_.map(data.data.suggestions, 'text'));
+                return suggestions;
 
-            }).error(function () {
-                dfd.resolve(searchBuildingIds(address).slice(0, 5));
+            }, function () {
+                return searchBuildingIds(address).slice(0, 5);
             });
-
-            return dfd.promise;
         };
 
         // Call building ids to initialize
         // This is a bit nasty, but making a separate service for this seems like overkill?
         module.getBuildingIds().done(function (data) {
-            buildingIds = _.pluck(data.rows, 'phl_bldg_id');
+            buildingIds = _.map(data.rows, 'phl_bldg_id');
         });
 
         return module;

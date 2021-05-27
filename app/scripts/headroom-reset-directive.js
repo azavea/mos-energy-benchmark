@@ -2,13 +2,13 @@
     'use strict';
 
     /* ngInject */
-    function HeadroomReset() {
+    function HeadroomReset($transitions) {
         var module = {};
 
         module.restrict = 'A';
 
         module.link = function ($scope, element) {
-            $scope.$on('$stateChangeStart', function () {
+            $transitions.onStart({}, function() {
                 element.addClass('headroom headroom--top');
                 element.removeClass('headroom--not-top headroom--unpinned headroom--pinned');
             });

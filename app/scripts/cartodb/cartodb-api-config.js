@@ -4,36 +4,16 @@
     /**
      * @ngInject
      */
-    function CartoConfig (Utils, YearService) {
+    function CartoConfig (Utils, MOSTablePrefix) {
         var module = {};
-        var year = YearService.getCurrentYear();
 
         module.user = 'mos-benchmarking';
-        module.visualization = 'aed2ea1e-5bd3-11e5-b15b-0e853d047bba';
 
         // The unique column to use to identify records throughout the app
         module.uniqueColumn = 'cartodb_id';
 
-        module.years = YearService.years;
-
-        // Statistics displayed on chart view, these change each year
-        module.stats = {
-            2013: {
-                avgEnergyStar: 64,
-                ghgBuildings: 62,
-                numBuildings: 1880
-            },
-            2014: {
-                avgEnergyStar: 59,
-                ghgBuildings: 60,
-                numBuildings: 1879
-            }
-        };
-
-        // There is now only a single table, which contains data for all years.
-        // The naming convention for the table is: mos_beb_{underscore seperated ascending years}.
-        // The `slice` is here to make the sort non-destructive.
-        module.table = 'mos_beb_' + module.years.slice().sort().join('_');
+        module.yearsTable = MOSTablePrefix + 'years';
+        module.infoTable = MOSTablePrefix + 'info';
 
         // Fields which do not use a year suffix
         module.timeIndependentFields = ['year_built', 'floor_area'];
@@ -50,7 +30,7 @@
 
         // Configuration for obtaining data for multiple years
         module.data = {
-            url: 'http://' + module.user + '.cartodb.com/api/v2/sql',
+            url: 'https://' + module.user + '.carto.com/api/v2/sql',
 
 /* jshint laxbreak:true */
             currAllQuery: Utils.strFormat('SELECT'
@@ -66,13 +46,9 @@
                 + ', steam_{year} as steam'
                 + ', total_ghg_{year} as total_ghg'
                 + ', water_use_{year} as water_use'
-                + ' FROM {table}', {
-                    table: module.table,
-                    year: year
-                }),
+                + ' FROM {table}', {}),
 
             detailQuery: Utils.strFormat('SELECT * from {table} where {uniqueColumn} in ({id})', {
-                table: module.table,
                 uniqueColumn: module.uniqueColumn
             }),
 
@@ -84,10 +60,15 @@
                 + ', sum(total_ghg_{year}) as emissions'
                 + ', sum(site_eui_{year} * floor_area) as totalenergy'
                 + ' FROM {table}'
-                + ' GROUP BY sector', {
-                    table: module.table,
-                    year: year
-                })
+                + ' GROUP BY sector', {}),
+
+            yearsQuery: Utils.strFormat('SELECT * from {table} ORDER BY year DESC', {
+                table: module.yearsTable
+            }),
+
+            infoQuery: Utils.strFormat('SELECT * from {table}', {
+                table: module.infoTable
+            })
 
 /* jshint laxbreak:false */
         };
@@ -95,7 +76,7 @@
         return module;
     }
 
-    angular.module('mos.cartodb', ['mos.utils'])
+    angular.module('mos.cartodb', ['mos.utils', 'mos.config'])
 
       .factory('CartoConfig', CartoConfig);
 

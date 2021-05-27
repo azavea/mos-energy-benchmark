@@ -6,11 +6,9 @@
      *
      * @ngInject
      */
-    function ColorService (CartoConfig, MOSColors, MOSCSSValues, YearService) {
+    function ColorService (CartoConfig, CartoSQLAPI, MOSColors, MOSCSSValues) {
         var module = {};
-        var year = YearService.getCurrentYear();
 
-        var TABLE = '#' + CartoConfig.table;
         var SECTOR_DESC = 'Building Type';
 
         function sectorComparator(a, b) {
@@ -61,8 +59,8 @@
                     if (value in MOSColors) {
                         return MOSColors[value];
                     } else {
-                        // if color not found, use 'Unknown' color
-                        return MOSColors.Unknown;
+                        // if color not found, use 'Other' color
+                        return MOSColors.Other;
                     }
                 } else {
                     console.error('Have no CSS defined for field: ' + field);
@@ -172,8 +170,8 @@
             if (sector in MOSColors) {
                 return MOSColors[sector];
             } else {
-                // if color not found, use 'Unknown' color
-                return MOSColors.Unknown;
+                // if color not found, use 'Other' color
+                return MOSColors.Other;
             }
         };
 
@@ -193,10 +191,11 @@
             var cssVal = MOSCSSValues[field].cssVal;
             var binSize = bins.length;
             var css = '';
+            var TABLE = '#' + CartoSQLAPI.getTableName();
 
             // Every field, except for the time independent fields, needs a year suffix
             var fieldWithYear = CartoConfig.timeIndependentFields.indexOf(field) !== -1 ?  field :
-                    field + '_' + year;
+                    field + '_' + CartoSQLAPI.getCurrentYear();
 
             for (var i = 0; i < binSize; i++) {
                 var thisBin = bins[i];
@@ -216,18 +215,15 @@
         // build CartoCSS for coloring features by their sector
         var getSectorColorCartoCSS = function() {
             var css = '';
+            var TABLE = '#' + CartoSQLAPI.getTableName();
             angular.forEach(MOSColors, function(value, key) {
-                if (key === 'Unknown') {
-                    css += '\n' + TABLE + ' {marker-fill: ' + value + ';}';
-                } else {
-                    css += TABLE + '[sector="' + key + '"] {marker-fill: ' + value + ';} ';
-                }
+                css += TABLE + '[sector="' + key + '"] {marker-fill: ' + value + ';} ';
             });
             return css;
         };
 
         module.baseCartoCSS = [
-            TABLE + '{',
+            '#' + CartoSQLAPI.getTableName() + '{',
             'marker-fill-opacity: 0.8;',
             'marker-line-color: #FFF;',
             'marker-line-width: 0.5;',

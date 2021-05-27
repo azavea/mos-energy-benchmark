@@ -4,15 +4,32 @@
     /**
      * @ngInject
      */
-    function CartoSQLAPI ($http, CartoConfig, Utils) {
+    function CartoSQLAPI ($http, $location, $rootScope, CartoConfig, MOSTablePrefix, Utils) {
         var module = {};
+        var yearsData = {};
+
+        // years will be queried from Carto
+        // app displays the most recent three years' worth of data
+        // download links for all available years are available in the dropdown
+        module.years = [];
+        module.allYears = [];
+        module.getCurrentYear = getCurrentYear;
+
+        // There is now only a single table, which contains data for all years.
+        // The naming convention for the table is: mos_beb_{underscore seperated ascending years}.
+        // The `slice` is here to make the sort non-destructive.
+        module.getTableName = getTableName;
+
+        module.yearsData = function() {
+            return yearsData;
+        };
 
         /*
          *  Builds subset of renamed data fields from full query, for charts
          */
-        module.getCurrentData = function (currentAllData) {
+        module.getCurrentData = function(currentAllData) {
             var currentData = [];
-            angular.forEach(currentAllData, function (row) {
+            angular.forEach(currentAllData, function(row) {
                 /* jshint camelcase:false */
                 var property = {
                     id: row.portfolio_bldg_id,
@@ -30,8 +47,22 @@
             return currentData;
         };
 
-        module.getAllCurrentData = function () {
-            return makeCartoDBRequest(CartoConfig.data.currAllQuery);
+        /*
+         *  Converts info page table data to object with key-value pairs
+         */
+        module.getInfo = function(infoData) {
+            var info = {};
+            angular.forEach(infoData, function(row) {
+                info[row.key] = row.value;
+            });
+            return info;
+        };
+
+        module.getAllCurrentData = function() {
+            return makeCartoDBRequest(CartoConfig.data.currAllQuery, {
+                year: getCurrentYear(),
+                table: getTableName()
+            });
         };
 
         /*
@@ -39,8 +70,11 @@
          *
          *  @return {$httpPromise} object
          */
-        module.getGroupedData = function () {
-            return makeCartoDBRequest(CartoConfig.data.groupedQuery);
+        module.getGroupedData = function() {
+            return makeCartoDBRequest(CartoConfig.data.groupedQuery, {
+                year: getCurrentYear(),
+                table: getTableName()
+            });
         };
 
         /**
@@ -48,14 +82,62 @@
          * @param  {String|Array} buildingId Building ids queried against CartoConfig.uniqueColumn column
          * @return {$httpPromise}
          */
-        module.getBuildingData = function (buildingId) {
+        module.getBuildingData = function(buildingId) {
             var ids = buildingId;
             if (_.isArray(buildingId)) {
                 ids = buildingId.join(',');
             }
             return makeCartoDBRequest(CartoConfig.data.detailQuery, {
-                id: ids
+                id: ids,
+                table: getTableName()
             });
+        };
+
+        /**
+         * Get the table of parameterized data for the info page
+         * @return {$httpPromise}
+         */
+        module.getInfoData = function() {
+            return makeCartoDBRequest(CartoConfig.data.infoQuery);
+        };
+
+        /**
+         * Get the table of years and their associated values
+         * @return {$httpPromise}
+         */
+        module.getYearsData = function() {
+            return makeCartoDBRequest(CartoConfig.data.yearsQuery);
+        };
+
+        /**
+         * Process the result of the `getYearsData` query and set the data on the service
+         */
+        module.setYears = function(data) {
+
+            var queryiedYears = [];
+
+            angular.forEach(data.data.rows, function(row) {
+                queryiedYears.push(row.year);
+
+                /* jshint camelcase:false */
+                yearsData[row.year] = {
+                    downloadUrl: row.download_url,
+                    avgEnergyStar: row.avg_energy_star,
+                    ghgBuildings: row.ghg_buildings,
+                    numBuildings: row.num_buildings
+                };
+                /* jshint camelcase:true */
+            });
+
+            // all available years
+            module.allYears = queryiedYears;
+
+            // use the most recent three years for display
+            if (queryiedYears.length >= 3) {
+                module.years = queryiedYears.slice(0, 3);
+            }
+
+            $rootScope.$broadcast('mos.cartodb:years', module.years);
         };
 
         /**
@@ -65,7 +147,6 @@
          * @return {$httpPromise} The $httpPromise object for the query
          */
         function makeCartoDBRequest(query, queryParams) {
-
             queryParams = queryParams || {};
             var formattedQuery = Utils.strFormat(query, queryParams);
             return $http.get(CartoConfig.data.url, {
@@ -76,8 +157,17 @@
             });
         }
 
-
         return module;
+
+        // Returns the currently-selected year
+        function getCurrentYear() {
+            var selected = parseInt($location.search().year, 10);
+            return module.years.indexOf(selected) >= 0 ? selected : module.years[0];
+        }
+
+        function getTableName() {
+            return MOSTablePrefix + 'beb_' + module.years.slice().sort().join('_');
+        }
     }
 
     angular.module('mos.cartodb')

@@ -10,7 +10,7 @@
 
     // color ramp for sectors
     var sectorColors = {
-        'School  (K-12)': '#A6CEE3',
+        'School (K-12)': '#A6CEE3',
         'Office': '#1F78B4',
         'Medical Office': '#52A634',
         'Warehouse': '#B2DF8A',
@@ -26,8 +26,7 @@
         'Parking': '#62afe8',
         'Laboratory': '#3AA3FF',
         'Hospital': '#C6B4FF',
-        'Data Center': '#a3d895',
-        'Unknown': '#DDDDDD'
+        'Data Center': '#a3d895'
     };
 
     // min. values and corresponding CSS values for each bucket
@@ -480,6 +479,8 @@
      */
     angular
     .module('mos', [
+        'mos.root',
+        'mos.headerbar',
         'mos.views.charts',
         'mos.views.map',
         'mos.views.info',

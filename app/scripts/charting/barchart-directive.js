@@ -13,13 +13,13 @@
     /**
      * ngInject
      */
-    function barChart (CartoConfig, BarChartDefaults, YearService) {
+    function barChart (CartoSQLAPI, BarChartDefaults) {
 
         var PLOT_CLASS = 'mos-barchart';
 
         // Begin directive module definition
         var module = {};
-        var year = YearService.getCurrentYear();
+        var year = CartoSQLAPI.getCurrentYear();
 
         module.restrict = 'EA';
         module.templateUrl = 'scripts/charting/barchart-partial.html';
@@ -60,6 +60,7 @@
             for (var i = 0; i < groups; i++) {
                 binnedBySqFt[i] = _.filter(data, isInBin);
             }
+
             var output = [];
             _.forEach(binnedBySqFt, function(d, i) {
                 // Naive count
@@ -70,27 +71,30 @@
                 // The bin boundaries
                 var lowBound = Math.round(Math.pow(10, (i * binSize)));
                 var highBound = Math.round(Math.pow(10, (i * binSize) + binSize));
-                // Min and max sq ft
-                var minsqft = _.min(d, function(val) { return val.sqfeet; }).sqfeet;
-                var maxsqft = _.max(d, function(val) { return val.sqfeet; }).sqfeet;
-                output = output.concat({
-                    totalemissions: _.reduce(d, function(memo, val) { return val.emissions + memo; }, 0),
-                    avgenergystar: nEnergystar > 0 ? _.reduce(d, function(memo, val) { return val.energystar + memo; }, 0) / nEnergystar : 0,
-                    avgeui: nEUI > 0 ? _.reduce(d, function(memo, val) { return val.eui + memo; }, 0) / nEUI : 0,
-                    minsqft: minsqft ? minsqft : 0,
-                    maxsqft: maxsqft ? maxsqft : 0,
-                    avgsqft: _.reduce(d, function(memo, val) { return val.sqfeet + memo; }, 0) / kCount,
-                    totalsqft: _.reduce(d, function(memo, val) { return val.sqfeet + memo; }, 0),
-                    totalenergy: _.reduce(d, function(memo, val) { return (val.sqfeet * val.eui) + memo; }, 0),
-                    count: kCount,
-                    key: lowBound.toLocaleString() + ' - ' + highBound.toLocaleString(),
-                    yearRange: _.min(d, function(d) { return d.yearbuilt; }).yearbuilt +
-                        '-' + _.max(d, function(d) { return d.yearbuilt; }).yearbuilt,
-                    lowBound: lowBound,
-                    highBound: highBound
-                });
+
+                if (d && d.length > 0) {
+                    // Min and max sq ft
+                    var minsqft = _.minBy(d, function(val) { return val.sqfeet; }).sqfeet;
+                    var maxsqft = _.maxBy(d, function(val) { return val.sqfeet; }).sqfeet;
+                    output = output.concat({
+                        totalemissions: _.reduce(d, function(memo, val) { return val.emissions + memo; }, 0),
+                        avgenergystar: nEnergystar > 0 ? _.reduce(d, function(memo, val) { return val.energystar + memo; }, 0) / nEnergystar : 0,
+                        avgeui: nEUI > 0 ? _.reduce(d, function(memo, val) { return val.eui + memo; }, 0) / nEUI : 0,
+                        minsqft: minsqft ? minsqft : 0,
+                        maxsqft: maxsqft ? maxsqft : 0,
+                        avgsqft: _.reduce(d, function(memo, val) { return val.sqfeet + memo; }, 0) / kCount,
+                        totalsqft: _.reduce(d, function(memo, val) { return val.sqfeet + memo; }, 0),
+                        totalenergy: _.reduce(d, function(memo, val) { return (val.sqfeet * val.eui) + memo; }, 0),
+                        count: kCount,
+                        key: lowBound.toLocaleString() + ' - ' + highBound.toLocaleString(),
+                        yearRange: _.minBy(d, function(d) { return d.yearbuilt; }).yearbuilt +
+                            '-' + _.maxBy(d, function(d) { return d.yearbuilt; }).yearbuilt,
+                        lowBound: lowBound,
+                        highBound: highBound
+                    });
+                }
             });
-            return _.rest(output, function(d) { return d.lowBound < 800; }).reverse(); // Prune head under 10^3
+            return _.tail(output, function(d) { return d.lowBound < 800; }).reverse(); // Prune head under 10^3
         }
 
 

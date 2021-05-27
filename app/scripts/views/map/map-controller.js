@@ -4,8 +4,9 @@
     /*
      * ngInject
      */
-    function MapController($compile, $q, $scope, $state, $timeout, BuildingCompare, CartoConfig,
-                           ColorService, MappingService, Utils, YearService) {
+    function MapController($compile, $q, $scope, $state, $timeout, $transitions, BuildingCompare,
+                           CartoConfig, CartoSQLAPI, ColorService, MappingService, Utils,
+                           infoData) {
 
         // indicate that map is loading, hang on..
         $scope.mapLoading = true;
@@ -18,8 +19,9 @@
         var vizLayer = null;
         var nativeMap = null;
 
-        $scope.year = YearService.getCurrentYear();
-        $scope.years = CartoConfig.years.slice().sort();
+        $scope.getYear = CartoSQLAPI.getCurrentYear;
+        // only display the two most recent years in the map popup
+        $scope.years = CartoSQLAPI.years.slice(0, 2).sort();
 
         $scope.popupLoading = true;
 
@@ -57,7 +59,7 @@
                     sector: row.sector
                 };
 
-                angular.forEach(CartoConfig.years, function(year) {
+                angular.forEach($scope.years, function(year) {
                     $scope.propertyData['totalGhg' + year] = row['total_ghg_' + year];
                     $scope.propertyData['siteEui' + year] = row['site_eui_' + year];
                     $scope.propertyData['energyStar' + year] = row['energy_star_' + year];
@@ -135,7 +137,9 @@
                         // pan to location found and open its pop-up
                         var row = data.rows[0];
                         setPropertyData(row);
+                        /* jshint camelcase:false */
                         var latlng = L.latLng(row.y_coord, row.x_coord);
+                        /* jshint camelcase:true */
                         nativeMap.setView(latlng, 16);
                         $scope.popupLoading = false;
                         $scope.amSearching = false;
@@ -160,8 +164,8 @@
                     var result = data[0];
 
                     // show popup with found addresss display name
-                    var geometry = result.feature.geometry;
-                    var latlng = L.latLng(geometry.y, geometry.x);
+                    var location = result.location;
+                    var latlng = L.latLng(location.y, location.x);
 
                     nativeMap.setView(latlng, 16);
                     $scope.noResults = false;
@@ -171,7 +175,7 @@
                         '<span class="featurePopup"><div class="headerPopup geocodePopup"></div>',
                         '<div class="popupContent"><p>{{::geocodedDisplayName}}</p></div></span>'
                     ].join('');
-                    var attrs = result.feature.attributes;
+                    var attrs = result.attributes;
                     /* jshint camelcase:false */
                     $scope.geocodedDisplayName = [
                         attrs.StAddr,
@@ -215,7 +219,7 @@
         };
 
         $scope.gotoCompare = function () {
-            $state.go('compare', {ids: BuildingCompare.list().join(',')});
+            $state.go('compare', { ids: BuildingCompare.list().join(','), year: $scope.getYear() });
         };
 
         var popupTemplate = ['<span class="featurePopup">',
@@ -243,7 +247,7 @@
           'ng-change="setCompare(propertyData.cartodbId)" /> <em>Compare</em></label>',
           '<button type="button" class="pull-right btn btn-popover" ',
           'ng-style="{\'background-color\': \'{{::propertyData.sectorColor}}\',  \'opacity\': 0.8 }" ',
-          'ui-sref="detail({buildingId: propertyData.cartodbId})">Full Report</button></p>',
+          'ui-sref="detail({buildingId: propertyData.cartodbId, year: getYear() })">Full Report</button></p>',
           '</div></div></span>'].join('');
 
         var showPopup = function(coords) {
@@ -283,18 +287,19 @@
             $('#mymap').append(ColorService.getLegend($scope.selections.colorType));
         };
 
-        $scope.$on('$stateChangeStart', function () {
+        $transitions.onStart({}, function() {
             $timeout(function () {
                 $scope.loadingView = true;
             }, overlayTriggerMillis);
         });
 
         // load map visualization
-        var vizUrl = Utils.strFormat('http://{user}.cartodb.com/api/v2/viz/{viz}/viz.json', {
+        var vizUrl = Utils.strFormat('https://{user}.carto.com/api/v2/viz/{viz}/viz.json', {
             user: CartoConfig.user,
-            viz: CartoConfig.visualization
+            viz: infoData.visualization
         });
 
+        /* jshint camelcase:false */
         var vizOptions = {
             infowindow: false,
             legends: false,
@@ -302,6 +307,7 @@
             loaderControl: true,
             layer_selector: false
         };
+        /* jshint camelcase:true */
 
         cartodb.createVis('mymap', vizUrl, vizOptions)
             .done(function(vis, layers) {
@@ -316,7 +322,7 @@
                 var overlay = layers[1];
 
                 // find the viz layer we want to interact with
-                vizLayer = overlay.getSubLayer(CartoConfig.years.indexOf($scope.year));
+                vizLayer = overlay.getSubLayer(CartoSQLAPI.years.indexOf($scope.getYear()));
                 vizLayer.show();
                 vizLayer.setInteraction(true);
 

@@ -108,7 +108,7 @@
                     // Radius of zero initially so it can be animated on load
                     .attr('r', 0)
                     .attr('class', 'bubble')
-                    .style('fill', function (d) { return MOSColors[d.name] || MOSColors.Unknown; });
+                    .style('fill', function (d) { return MOSColors[d.name] || MOSColors.Other; });
 
                 nodeEnter.append('text')
                     .attr('dy', '.35em')
