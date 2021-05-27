@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -e
+
+if [[ -n "${MOS_DEBUG}" ]]; then
+    set -x
+fi
+
+function usage() {
+    echo -n \
+        "Usage: $(basename "$0")
+Attempts to setup the project's development environment.
+"
+}
+
+if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
+    if [ "${1:-}" = "--help" ]; then
+        usage
+    else
+        docker-compose build
+        # The following two steps should more correctly be in a ./scripts/update,
+        # but were put here to save time. If we do sustained development on this
+        # project they should be moved. https://github.com/azavea/mos-energy-benchmark/issues/284
+        docker-compose run app npm install
+        docker-compose run app bower --allow-root install
+    fi
+fi

@@ -1,0 +1,9 @@
+version: "3.7"
+services:
+  app:
+    build: .
+    command: grunt serve
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "9000:9000"
