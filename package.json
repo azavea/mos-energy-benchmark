@@ -5,7 +5,7 @@
   "repository": "https://github.com/azavea/mos-energy-benchmark",
   "dependencies": {},
   "devDependencies": {
-    "grunt": "^1.0.1",
+    "grunt": "^1.5.3",
     "grunt-autoprefixer": "^3.0.4",
     "grunt-concurrent": "^2.3.1",
     "grunt-contrib-clean": "^1.1.0",
